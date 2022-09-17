@@ -1,24 +1,21 @@
 {
   "name": "objector",
   "version": "1.0.0",
-  "description": "A dangerously convienient utility that injects usfull functions into the Object prototype to sugar for many common use cases working with Javascript objects.",
-  "main": "index.js",
+  "description": "A dangerously convienient 2kb utility that injects usfull functions into the Object prototype to sugar for many common use cases working with Javascript objects.",
+  "main": "objector.js",
   "scripts": {
     "test": "node ./test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mattaylor/projector.git"
+    "url": "git+https://github.com/mattaylor/objector.git"ls -lt
   },
   "author": "Mat Taylor",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mattaylor/projector/issues"
+    "url": "https://github.com/mattaylor/objector/issues"
   },
-  "homepage": "https://github.com/mattaylor/projector#readme",
-  "dependencies": {
-    "axios": "^0.27.2"
-  },
+  "homepage": "https://github.com/mattaylor/objector#readme",
   "keywords": [
     "object",
     "prototype",

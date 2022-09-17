@@ -1,4 +1,4 @@
-require('./index.js')
+require('./objector.js')
 
 const o1 = { a: 1 }
 const o2 = { a: 1, b: 2 }
