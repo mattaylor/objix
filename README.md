@@ -33,7 +33,7 @@ o // { a: 2 }
 ### Object.prototype.flatMap
 
 ```javascript
-{ a: 1 }.flatMap((k,v) => [[k+1, v+1],[k+2, v+2]]) // { 1: 2, a2: 3 }
+{ a: 1 }.flatMap((k,v) => [[k+1, v+1],[k+2, v+2]]) // { a1: 2, a2: 3 }
 { a: 1, b: 0 }.flatMap((k,v) => v ? [[k, v+1]] : []) // { a: 2 }
 ```
 
