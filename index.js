@@ -36,7 +36,7 @@ Object.prototype.assign = function(...obs) {
 }
 
 Object.prototype.merge = function(...obs) {
-  return Object.assign(...obs, this)
+  return Object.assign({}, ...obs, this)
 }
 
 Object.prototype.patch = function(...obs) {

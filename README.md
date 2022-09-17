@@ -1,12 +1,12 @@
 ## Objector
 
-A dangerously convienient utility that injects useful functions into the Object prototype, for provide syntax sugar for many common use cases when working with notive Java script objects.
+A dangerously convienient utility that injects usfull functions into the Object prototype to sugar for many common use cases working with Javascript objects.
 
 The functions are primarily copies of Object class methods as well as Array prototype methods that are applied to the values of the object.
 
-Some usefull ones for delteing keys and comparing, spliting and joining objects from values are thrown in for good measure.
+Some usefull ones for deleting keys and comparing, spliting and joining objects from values are thrown in for good measure.
 
-**NOTE:** Messing with Object prototypes is rarely a good idea and using this library may unintended consequences in larger application, however there are many situations where the enhanced readability and reducing on code size could make it worth it.
+**NOTE:** Messing with Object prototypes is rarely a good idea and using this library may unintended consequences in larger applications, however think of all the key strokes you could save...
 
 ```
 npm i -save objector
@@ -26,15 +26,15 @@ Create a new object with function applied to each value of this.
 
 ```javascript
 let o = { a: 1 }
-o.apply(v => v + 1) // { a: 2 }
+o.apply(v => v + 1) // {a: 2}
 o // {a: 2}
 ```
 
 ### Object.prototype.flatMap
 
 ```javascript
-{a: 1}.flatMap([k,v] => [[k+1, v+1,[k+2, v+2]]) // { a1: 2, a2: 3 }
-{a: 1, b: 0}.flatMap([k,v] => v ? [k, v+1 : []) // { a: 2 }
+{a: 1}.flatMap((k,v) => [[k+1, v+1],[k+2, v+2]]) // {a1: 2, a2: 3}
+{a: 1, b: 0}.flatMap((k,v) => v ? [[k, v+1]] : []) // {a: 2}
 ```
 
 ### Object.prototype.values
@@ -56,7 +56,7 @@ Object.keys
 ### Object.prototype.entries
 
 ```javascript
-{a: 1}.entries // [[a,1]]
+{a: 1}.entries // [[a, 1]]
 ```
 
 ### Object.prototype.filter
@@ -78,28 +78,34 @@ Object.keys
 ### Object.prototype.assign
 
 ```javascript
-{ a: 1 }.assign({ a: 2, b: 2 }, { c: 3 }) // { a: 1, b: 2, c: 3}
+{a: 1}.assign({a: 2, b: 2}, {c: 3}) // {a: 1, b: 2, c: 3}
 ```
 
 ### Object.prototype.merge
 
 ```javascript
 let o = { a: 1 }
-o.merge({ a: 2, b: 2 }, { c: 3 }) // { a: 1, b: 2, c: 3}
-o // { a: 1, b: 2, c: 3}
+o.merge({ a: 2, b: 2 }, { c: 3 }) // {a: 1, b: 2, c: 3}
+o // {a: 1, b: 2, c: 3}
+```
+
+### Object.prototype.common
+
+```javascript
+{a: 1, b: 2}.common({a: 2, b: 2}) // {b: 2}
 ```
 
 ### Object.prototype.patch
 
 ```javascript
 let o = { a: 1, b: 2 }
-o.patch({ a: 2 }) // { a: 2}, b: 2 }
+o.patch({ a: 2 }) // {a: 2, b: 2}
 ```
 
 ### Object.prototype.delete
 
 ```javascript
-{ a: 1, b: 2, c: 3}.delete('a','b') // {c: 3}
+{a: 1, b: 2, c: 3}.delete('a','b') // {c: 3}
 ```
 
 ### Object.prototype.some
@@ -119,13 +125,13 @@ o.patch({ a: 2 }) // { a: 2}, b: 2 }
 ### Object.prototype.toString
 
 ```javascript
-{a:1}.toString() // '{"a":1}'
+{a: 1}.toString() // '{"a": 1}'
 ```
 
 ### Object.prototype.json
 
 ```javascript
-{a:1}.json() // '{"a":1}'
+{a: 1}.json() // '{"a": 1}'
 ```
 
 ### Object.prototype.clone
@@ -134,7 +140,7 @@ o.patch({ a: 2 }) // { a: 2}, b: 2 }
 let o1 = { a: 1 }
 let o2 = o1.clone() // {a: 1}
 o1.a = 2
-o2 // { a: a }
+o2 // {a: a}
 ```
 
 ### Object.prototype.join
@@ -142,8 +148,7 @@ o2 // { a: a }
 Return new Object with values concatenated from Array of objects for each value in values array
 
 ```javascript
-let o = { a: 1 }
-o.join({ a: 2 }, { a: 3 }) // { a: [1,2,3]}
+{a: 1}.join({a: 2 }, { a: 3}) // {a: [1, 2, 3]}
 ```
 
 ### Object.prototype.split
@@ -151,7 +156,7 @@ o.join({ a: 2 }, { a: 3 }) // { a: [1,2,3]}
 Return Array of objects for each value in values array
 
 ```javascript
-{a: [1,2]}.split() // [{ a: 1}, {a:2}]
+{a: [1,2]}.split() // [{a: 1}, {a: 2}]
 ```
 
 ### Object.prototype.contains
