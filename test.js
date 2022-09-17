@@ -10,7 +10,6 @@ console.assert(!o1.equals({a: 2}), '!Equals')
 
 console.assert(o1.within(o2), 'Within')
 console.assert(!o1.within({c:4}), '!Within')
-require('./index.js')
 
 console.assert(o2.contains(o1), 'Contains')
 console.assert(!o1.contains(o2), '!Contains')
@@ -46,4 +45,10 @@ console.assert({a: [1,2]}.split(), 'Split')
 
 let r = {a: 1}.flatMap((k,v) => [[k+1, v+1],[k+2, v+2]])
 console.assert(r.equals({a1: 2, a2: 3}), 'FlatMap', r)
+
+console.assert({a: 0, b: 2, c: null}.clean().equals({b:2}), 'Clean')
+console.assert([].isArray(), 'isArray')
+console.assert(!{}.isArray(), '!isArray')
+
+
 //console.assert({a: 1, b: 0}.flatMap(([k,v]) => v ? [[k, v+1]] : []).equals({a: 2}))

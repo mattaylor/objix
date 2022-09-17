@@ -1,12 +1,12 @@
 ## Objector
 
-A dangerously convienient utility that injects usfull functions into the Object prototype to sugar for many common use cases working with Javascript objects.
+A dangerously convienient lightweight (2kb -> 1.9kb) utility that injects usfull functions into the Object prototype to sugar many common use cases when working with Javascript objects.
 
-The functions are primarily copies of Object class methods as well as Array prototype methods that are applied to the values of the object.
+The functions are primarily copies of Object class methods and Array prototype methods that are applied to the values of the object.
 
-Some usefull ones for deleting keys and comparing, spliting and joining objects from values are thrown in for good measure.
+Some usefull ones for deleting keys, cleaning,printing, comparing, spliting and joining objects are also available.
 
-**NOTE:** Messing with Object prototypes is rarely a good idea and using this library may unintended consequences in larger applications, however think of all the key strokes you could save...
+**NOTE:** Messing with Object prototypes is rarely a good idea and using this library may have unintended consequences in larger applications, however just think of all the key strokes you could save, by writing
 
 ```
 npm i -save objector
@@ -57,6 +57,19 @@ Object.keys
 
 ```javascript
 {a: 1}.entries // [[a, 1]]
+```
+
+### Object.prototype.isArray
+
+```javascript
+{}.isArray)) // false
+[].isArray() // true
+```
+
+### Object.prototype.clean
+
+```javascript
+{a: 1, b: null, c: false, d: 0}.clean() // {a: 1}
 ```
 
 ### Object.prototype.filter

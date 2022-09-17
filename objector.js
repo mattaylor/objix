@@ -28,6 +28,14 @@ P.flatMap = function(fn) {
   return Object.fromEntries(Object.entries(this).flatMap(([k,v]) => fn(k,v)))
 }
 
+P.clean = function() {
+  return Object.fromEntries(Object.entries(this).flatMap(([k,v]) => v ? [[k,v]] : []))
+}
+
+P.isArray = function() {
+  return this instanceof Array
+}
+
 P.find = function(fn) {
   for (const [k,v] of Object.entries(this)) if (fn(v,k)) return k
 }
