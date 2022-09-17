@@ -1,9 +1,10 @@
-const P = Object.prototype
-const E = Object.entries
-const V = Object.values
-const F = Object.fromEntries
-const K = Object.keys
-const A = Object.assign
+const 
+  P = Object.prototype,
+  E = Object.entries,
+  V = Object.values,
+  F = Object.fromEntries,
+  K = Object.keys,
+  A = Object.assign
 
 P.map = function(fn) {
   return F(E(this).map(([k,v]) => [k,fn(v,k)])) 
