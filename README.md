@@ -1,6 +1,6 @@
 ## Objector
 
-A dangerously convienient lightweight (2kb -> 1.9kb) utility that injects usfull functions into the Object prototype to sugar many common use cases when working with Javascript objects.
+A dangerously convienient lightweight (2.2kb -> 1.7kb) utility that injects usfull functions into the Object prototype to sugar many common use cases when working with Javascript objects.
 
 The functions are primarily copies of Object class methods and Array prototype methods that are applied to the values of the object.
 
