@@ -9,7 +9,7 @@ Some usefull ones for deleting keys, cleaning,printing, comparing, spliting and 
 **NOTE:** Messing with Object prototypes is rarely a good idea and using this library may have unintended consequences in larger applications, however just think of all the key strokes you could save...
 
 ```
-npm i -save objex
+npm i -save ojex
 ```
 
 ## API
