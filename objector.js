@@ -1,10 +1,13 @@
 const P = Object.prototype
+const E = Object.entries
+const F = Object.fromEntries
+
 P.map = function(fn) { 
-  return Object.fromEntries(Object.entries(this).map(([k,v]) => [k,fn(v,k)])) 
+  return F(E(this).map(([k,v]) => [k,fn(v,k)])) 
 }
 
 P.apply = function(fn) {
-  Object.entries(this).map(([k,v]) => this[k] = fn(v,k))
+  E(this).map(([k,v]) => this[k] = fn(v,k))
   return this
 }
 
@@ -17,19 +20,19 @@ P.keys = function() {
 }
 
 P.entries = function() {
-  return Object.entries(this)
+  return E(this)
 }
 
 P.filter = function(fn) {
-  return Object.fromEntries(Object.entries(this).flatMap(([k,v]) => fn(v,k) ? [[k,v]] : []))
+  return F(E(this).flatMap(([k,v]) => fn(v,k) ? [[k,v]] : []))
 }
 
 P.flatMap = function(fn) {
-  return Object.fromEntries(Object.entries(this).flatMap(([k,v]) => fn(k,v)))
+  return F(E(this).flatMap(([k,v]) => fn(k,v)))
 }
 
 P.clean = function() {
-  return Object.fromEntries(Object.entries(this).flatMap(([k,v]) => v ? [[k,v]] : []))
+  return F(E(this).flatMap(([k,v]) => v ? [[k,v]] : []))
 }
 
 P.isArray = function() {
@@ -37,7 +40,7 @@ P.isArray = function() {
 }
 
 P.find = function(fn) {
-  for (const [k,v] of Object.entries(this)) if (fn(v,k)) return k
+  for (const [k,v] of E(this)) if (fn(v,k)) return k
 }
 
 P.assign = function(...obs) {
@@ -79,37 +82,37 @@ P.clone = function() {
 
 P.join = function(...obs) {
   const res = Object.assign({}, this)
-  for(const o of obs) Object.entries(o).forEach(([k,v]) => res[k] &&= [].concat(res[k], v))
+  for(const o of obs) E(o).forEach(([k,v]) => res[k] &&= [].concat(res[k], v))
   return res
 }
 
 P.split = function() {
   const res = []
-  for (const [k,v] of Object.entries(this)) v.forEach((v,i) => res[i] ? res[i][k] = v : res[i] = {[k] : v})
+  for (const [k,v] of E(this)) v.forEach((v,i) => res[i] ? res[i][k] = v : res[i] = {[k] : v})
   return res
 }
 
 P.common = function(ob) {
-  return Object.fromEntries(Object.entries(this).flatMap(([k,v]) => (ob[k] == v) ? [[k,v]] : []))
+  return F(E(this).flatMap(([k,v]) => (ob[k] == v) ? [[k,v]] : []))
 }
 
 P.contains = function(ob) {
-  for (const [k,v] of Object.entries(ob)) if (this[k] != v) return false
+  for (const [k,v] of E(ob)) if (this[k] != v) return false
   return true
 }
 
 P.within = function(ob) {
-  for (const [k,v] of Object.entries(this)) if (ob[k] != v) return false
+  for (const [k,v] of E(this)) if (ob[k] != v) return false
   return true
 }
 
 P.equals = function(ob) {
-  const entries = Object.entries(this)
+  const entries = E(this)
   if (entries.length != Object.keys(ob).length) return false
   for (const [k,v] of entries) if (ob[k] != v) return false
   return true
 }
 
 P.size = function() {
-  return Object.keys(this).length
+  return E(this).length
 }
