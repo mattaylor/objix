@@ -1,4 +1,4 @@
-## Objector
+## Ojex
 
 A dangerously convienient utility (2.2kb -> 1.7kb) that injects usfull functions into the Object prototype to sugar many common use cases when working with native Javascript objects.
 
@@ -9,7 +9,7 @@ Some usefull ones for deleting keys, cleaning,printing, comparing, spliting and 
 **NOTE:** Messing with Object prototypes is rarely a good idea and using this library may have unintended consequences in larger applications, however just think of all the key strokes you could save...
 
 ```
-npm i -save objector
+npm i -save objex
 ```
 
 ## API

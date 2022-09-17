@@ -1,21 +1,21 @@
 {
-  "name": "objector",
+  "name": "ojex",
   "version": "1.0.0",
   "description": "A dangerously convienient 2kb utility that injects usfull functions into the Object prototype to sugar for many common use cases working with Javascript objects.",
-  "main": "objector.js",
+  "main": "ojex.js",
   "scripts": {
     "test": "node ./test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mattaylor/objector.git"
+    "url": "git+https://github.com/mattaylor/ojex.git"
   },
   "author": "Mat Taylor",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mattaylor/objector/issues"
+    "url": "https://github.com/mattaylor/ojex/issues"
   },
-  "homepage": "https://github.com/mattaylor/objector#readme",
+  "homepage": "https://github.com/mattaylor/ojex#readme",
   "keywords": [
     "object",
     "prototype",
