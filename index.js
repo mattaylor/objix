@@ -24,7 +24,7 @@ Object.prototype.filter = function(fn) {
 }
 
 Object.prototype.flatMap = function(fn) {
-  return Object.fromEntries(Object.entries(this).flatMap(([k,v]) => [fn(v,k)]))
+  return Object.fromEntries(Object.entries(this).flatMap(([k,v]) => fn(k,v)))
 }
 
 Object.prototype.find = function(fn) {
@@ -78,6 +78,10 @@ Object.prototype.split = function() {
   const res = []
   for (const [k,v] of Object.entries(this)) v.forEach((v,i) => res[i] ? res[i][k] = v : res[i] = {[k] : v})
   return res
+}
+
+Object.prototype.common = function(ob) {
+  return Object.fromEntries(Object.entries(this).flatMap(([k,v]) => (ob[k] == v) ? [[k,v]] : []))
 }
 
 Object.prototype.contains = function(ob) {

@@ -1,16 +1,16 @@
 {
-  "name": "projector",
+  "name": "objector",
   "version": "1.0.0",
-  "description": "",
+  "description": "A dangerously convienient utility that injects usfull functions into the Object prototype to sugar for many common use cases working with Javascript objects.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mattaylor/projector.git"
   },
-  "author": "",
+  "author": "Mat Taylor",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mattaylor/projector/issues"
@@ -18,5 +18,19 @@
   "homepage": "https://github.com/mattaylor/projector#readme",
   "dependencies": {
     "axios": "^0.27.2"
-  }
+  },
+  "keywords": [
+    "object",
+    "prototype",
+    "sugar",
+    "delete",
+    "flatMap",
+    "find",
+    "filter",
+    "map",
+    "assign",
+    "merge",
+    "patch",
+    "apply"
+  ]
 }

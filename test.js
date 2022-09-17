@@ -26,6 +26,9 @@ console.assert(!o2.find(_ => _ > 3), '!Find')
 console.assert(o3.filter(_ => _ < 3).equals({ a: 2, b: 2 }), 'Filter')
 console.assert(o3.filter(_ => _ < 0).equals({}), '!Filter')
 
+console.assert({a:1,b:2}.common({b:2,c:3}).equals({b:2}), 'Common')
+console.assert({a:1,b:2}.common({b:3}).equals({}), '!Common')
+
 console.assert({a:1}.size() == 1, 'Size')
 console.assert(!{}.size(), '!Size')
 
@@ -41,3 +44,6 @@ console.assert(o4.clone() !== o4, '!Clone')
 console.assert({a:1}.join({a:2}).a[1] == 2, 'Join')
 console.assert({a: [1,2]}.split(), 'Split')
 
+let r = {a: 1}.flatMap((k,v) => [[k+1, v+1],[k+2, v+2]])
+console.assert(r.equals({a1: 2, a2: 3}), 'FlatMap', r)
+//console.assert({a: 1, b: 0}.flatMap(([k,v]) => v ? [[k, v+1]] : []).equals({a: 2}))
