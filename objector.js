@@ -1,8 +1,11 @@
 const P = Object.prototype
 const E = Object.entries
+const V = Object.values
 const F = Object.fromEntries
+const K = Object.keys
+const A = Object.assign
 
-P.map = function(fn) { 
+P.map = function(fn) {
   return F(E(this).map(([k,v]) => [k,fn(v,k)])) 
 }
 
@@ -12,11 +15,11 @@ P.apply = function(fn) {
 }
 
 P.values = function(fn) {
-  return Object.values(this)
+  return V(this)
 }
 
 P.keys = function() {
-  return Object.keys(this)
+  return K(this)
 }
 
 P.entries = function() {
@@ -44,15 +47,15 @@ P.find = function(fn) {
 }
 
 P.assign = function(...obs) {
-  return Object.assign({}, this, ...obs)
+  return A({}, this, ...obs)
 }
 
 P.merge = function(...obs) {
-  return Object.assign({}, ...obs, this)
+  return A({}, ...obs, this)
 }
 
 P.patch = function(...obs) {
-  return Object.assign(this, ...obs)
+  return A(this, ...obs)
 }
 
 P.delete = function(...keys) {
@@ -61,11 +64,11 @@ P.delete = function(...keys) {
 }
 
 P.some = function(fn) {
-  return Object.values(this).some(fn)
+  return V(this).some(fn)
 }
 
 P.every = function(fn) {
-  return Object.values(this).every(fn)
+  return V(this).every(fn)
 }
 
 P.toString = function(fn) {
@@ -77,11 +80,11 @@ P.json = function(fn) {
 }
 
 P.clone = function() { 
-  return Object.assign({},this)
+  return A({},this)
 }
 
 P.join = function(...obs) {
-  const res = Object.assign({}, this)
+  const res = A({}, this)
   for(const o of obs) E(o).forEach(([k,v]) => res[k] &&= [].concat(res[k], v))
   return res
 }
@@ -108,11 +111,11 @@ P.within = function(ob) {
 
 P.equals = function(ob) {
   const entries = E(this)
-  if (entries.length != Object.keys(ob).length) return false
+  if (entries.length != K(ob).length) return false
   for (const [k,v] of entries) if (ob[k] != v) return false
   return true
 }
 
 P.size = function() {
-  return E(this).length
+  return K(this).length
 }
