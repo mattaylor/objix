@@ -78,21 +78,13 @@ Object.keys
 ### Object.prototype.assign
 
 ```javascript
-{a: 1}.assign({a: 2, b: 2}, {c: 3}) // {a: 1, b: 2, c: 3}
+{a: 1}.assign({a: 2, b: 2}, {c: 3}) // {a: 2, b: 2, c: 3}
 ```
 
 ### Object.prototype.merge
 
 ```javascript
-let o = { a: 1 }
-o.merge({ a: 2, b: 2 }, { c: 3 }) // {a: 1, b: 2, c: 3}
-o // {a: 1, b: 2, c: 3}
-```
-
-### Object.prototype.common
-
-```javascript
-{a: 1, b: 2}.common({a: 2, b: 2}) // {b: 2}
+{a: 1}.merge({a: 2, b: 2}, {c: 3}) // {a: 1, b: 2, c: 3}
 ```
 
 ### Object.prototype.patch
@@ -100,6 +92,13 @@ o // {a: 1, b: 2, c: 3}
 ```javascript
 let o = { a: 1, b: 2 }
 o.patch({ a: 2 }) // {a: 2, b: 2}
+o // {a: 2, b: 2}
+```
+
+### Object.prototype.common
+
+```javascript
+{a: 1, b: 2}.common({a: 2, b: 2}) // {b: 2}
 ```
 
 ### Object.prototype.delete
