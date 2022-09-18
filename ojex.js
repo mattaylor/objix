@@ -1,7 +1,7 @@
-const 
+const
   P = Object.prototype,
   E = Object.entries,
-  V = Object.values,
+  xV = Object.values,
   F = Object.fromEntries,
   K = Object.keys,
   A = Object.assign
@@ -44,7 +44,7 @@ P.isArray = function() {
 }
 
 P.find = function(fn) {
-  for (const [k,v] of E(this)) if (fn(v,k)) return k
+  for (let [k,v] of E(this)) if (fn(v,k)) return k
 }
 
 P.assign = function(...obs) {
@@ -60,7 +60,7 @@ P.patch = function(...obs) {
 }
 
 P.delete = function(...keys) {
-  for (const k of keys) delete this[k]
+  for (let k of keys) delete this[k]
   return this
 }
 
@@ -81,14 +81,14 @@ P.clone = function() {
 }
 
 P.join = function(...obs) {
-  const res = A({}, this)
-  for(const o of obs) E(o).forEach(([k,v]) => res[k] &&= [].concat(res[k], v))
+  let res = A({}, this)
+  for(let o of obs) E(o).forEach(([k,v]) => res[k] &&= [].concat(res[k], v))
   return res
 }
 
 P.split = function() {
-  const res = []
-  for (const [k,v] of E(this)) v.forEach((v,i) => res[i] ? res[i][k] = v : res[i] = {[k] : v})
+  let res = []
+  for (let [k,v] of E(this)) v.forEach((v,i) => res[i] ? res[i][k] = v : res[i] = {[k] : v})
   return res
 }
 
@@ -97,19 +97,19 @@ P.common = function(ob) {
 }
 
 P.contains = function(ob) {
-  for (const [k,v] of E(ob)) if (this[k] != v) return false
+  for (let [k,v] of E(ob)) if (this[k] != v) return false
   return true
 }
 
 P.within = function(ob) {
-  for (const [k,v] of E(this)) if (ob[k] != v) return false
+  for (let [k,v] of E(this)) if (ob[k] != v) return false
   return true
 }
 
 P.equals = function(ob) {
-  const ents = E(this)
+  let ents = E(this)
   if (ents.length != K(ob).length) return false
-  for (const [k,v] of ents) if (ob[k] != v) return false
+  for (let [k,v] of ents) if (ob[k] != v) return false
   return true
 }
 
