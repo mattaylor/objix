@@ -2,9 +2,9 @@
 
 A dangerously convienient utility (2kb) that injects usfull functions into the Object prototype to sugar many common use cases when working with native Javascript objects.
 
-The functions are primarily copies of Object class methods and Array prototype methods that are applied to the values of the object.x
+The functions are primarily copies of Object class methods and Array prototype methods that are applied to the values of the object.
 
-Some usefull ones for deleting keys, cleaning,printing, comparing, spliting and joining objects are also available.
+There are also some usefull methds for deleting keys, cleaning, printing, comparing, spliting and joining object togther.
 
 **NOTE:** Messing with Object prototypes is rarely a good idea and using this library may have unintended consequences in larger applications, however just think of all the key strokes you could save...
 
@@ -214,15 +214,6 @@ True if all entries of argument are also in this
 ```javascript
 { a: 1, b: 2 }.contains({ a: 1 }) // true
 { a: 1 }.contains({ a: 1, b: 2 }) // false
-```
-
-### Object.prototype.within
-
-True if all entries of this are also in the argument
-
-```javascript
-{ a: 1 }.within({ a: 1, b: 2 }) // true
-{ a: 1, b: 2 }.within({ a: 1 }) // false
 ```
 
 ### Object.prototype.equals
