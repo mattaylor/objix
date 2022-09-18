@@ -1,8 +1,8 @@
 ## Ojex
 
-A dangerously convienient utility (2.2kb -> 1.7kb) that injects usfull functions into the Object prototype to sugar many common use cases when working with native Javascript objects.
+A dangerously convienient utility (2kb) that injects usfull functions into the Object prototype to sugar many common use cases when working with native Javascript objects.
 
-The functions are primarily copies of Object class methods and Array prototype methods that are applied to the values of the object.
+The functions are primarily copies of Object class methods and Array prototype methods that are applied to the values of the object.x
 
 Some usefull ones for deleting keys, cleaning,printing, comparing, spliting and joining objects are also available.
 
