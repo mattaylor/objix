@@ -1,7 +1,7 @@
 const
   P = Object.prototype,
   E = Object.entries,
-  xV = Object.values,
+  V = Object.values,
   F = Object.fromEntries,
   K = Object.keys,
   A = Object.assign
