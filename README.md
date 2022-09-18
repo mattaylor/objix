@@ -89,8 +89,8 @@ Return new object with falsy entry values removed
 Return new object with only values that pass function.
 
 ```javascript
-{ a: 1, b: 2 }.filter(v => v > 1) // {b: 2 }
-{ a: 1, b: 2 }.filter((v,k) => k == 'b') // {b: 2 }
+{ a: 1, b: 2 }.filter(v => v > 1) // { b: 2 }
+{ a: 1, b: 2 }.filter((v,k) => k == 'b') // { b: 2 }
 { a: 1, b: 2 }.filter(v => v > 2) // {}
 ```
 
@@ -169,7 +169,7 @@ True of all entries pass function
 JSON.stringfy(this)
 
 ```javascript
-{ a: 1 }.toString() // '{"a": 1 }'
+{ a: 1 }.toString() // '{ "a": 1 }'
 ```
 
 ### Object.prototype.json
@@ -177,7 +177,7 @@ JSON.stringfy(this)
 JSON.stringfy(this)
 
 ```javascript
-{ a: 1 }.json() // '{"a": 1 }'
+{ a: 1 }.json() // '{ "a": 1 }'
 ```
 
 ### Object.prototype.clone
@@ -216,9 +216,9 @@ True if all entries of argument are also in this
 { a: 1 }.contains({ a: 1, b: 2 }) // false
 ```
 
-True if all entries of this are also in the argument
-
 ### Object.prototype.within
+
+True if all entries of this are also in the argument
 
 ```javascript
 { a: 1 }.within({ a: 1, b: 2 }) // true

@@ -15,7 +15,7 @@ P.apply = function(fn) {
   return this
 }
 
-P.values = function(fn) {
+P.values = function() {
   return V(this)
 }
 
@@ -72,10 +72,6 @@ P.every = function(fn) {
   return V(this).every(fn)
 }
 
-P.toString = function(fn) {
-  return JSON.stringify(this)
-}
-
 P.json = function(fn) {
   return JSON.stringify(this)
 }
@@ -111,9 +107,9 @@ P.within = function(ob) {
 }
 
 P.equals = function(ob) {
-  const entries = E(this)
-  if (entries.length != K(ob).length) return false
-  for (const [k,v] of entries) if (ob[k] != v) return false
+  const ents = E(this)
+  if (ents.length != K(ob).length) return false
+  for (const [k,v] of ents) if (ob[k] != v) return false
   return true
 }
 
