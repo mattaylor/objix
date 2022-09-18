@@ -101,11 +101,6 @@ P.contains = function(ob) {
   return true
 }
 
-P.within = function(ob) {
-  for (let [k,v] of E(this)) if (ob[k] != v) return false
-  return true
-}
-
 P.equals = function(ob) {
   let ents = E(this)
   if (ents.length != K(ob).length) return false
