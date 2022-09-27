@@ -70,13 +70,13 @@ P.clone = function() {
 
 P.join = function(...obs) {
   let res = A({}, this)
-  for(let o of obs) E(o).forEach(([k,v]) => res[k] &&= [].concat(res[k], v))
+  for(let o of obs) E(o).map(([k,v]) => res[k] &&= [].concat(res[k], v))
   return res
 }
 
 P.split = function() {
   let res = []
-  for (let [k,v] of E(this)) v.forEach((v,i) => res[i] ? res[i][k] = v : res[i] = {[k]: v})
+  for (let [k,v] of E(this)) v.map((v,i) => res[i] ? res[i][k] = v : res[i] = {[k]: v})
   return res
 }
 
@@ -100,6 +100,6 @@ P.size = function() {
 }
 
 P.index = function(k, ar) { 
-  ar.forEach(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
+  ar.map(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
   return this
 }
