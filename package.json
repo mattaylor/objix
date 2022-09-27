@@ -1,6 +1,6 @@
 {
   "name": "objix",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A dangerously convienient 2kb utility that injects usfull functions into the Object prototype to sugar for many common use cases working with Javascript objects.",
   "main": "ojex.js",
   "scripts": {
