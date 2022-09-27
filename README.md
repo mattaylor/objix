@@ -236,6 +236,6 @@ Index an array of objects into this using the given key
 
 ```javascript
 o = {}
-o.from('a', [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }])
+o.index('a', [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }])
 o // { o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]
 ```
