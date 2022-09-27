@@ -112,7 +112,7 @@ P.size = function() {
   return K(this).length
 }
 
-P.from = function(ar,k) { 
+P.index = function(ar,k) { 
   ar.forEach(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
   return this 
 }
