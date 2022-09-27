@@ -6,16 +6,16 @@ const
   K = Object.keys,
   A = Object.assign
 
-for (let f of ['keys', 'values', 'entries']) P[f] = function() { 
+for (let f of ['keys', 'values', 'entries']) P[f] = function() {
   return Object[f](this) 
 }
 
-for (let f of ['some', 'every']) P[f] = function(fn) { 
+for (let f of ['some', 'every']) P[f] = function(fn) {
   return V(this)[f](fn)
 }
 
 P.map = function(fn) {
-  return F(E(this).map(([k,v]) => [k,fn(v,k)])) 
+  return F(E(this).map(([k,v]) => [k,fn(v,k)]))
 }
 
 P.apply = function(fn) {
@@ -64,7 +64,7 @@ P.json = function(fn) {
   return JSON.stringify(this)
 }
 
-P.clone = function() { 
+P.clone = function() {
   return A({},this)
 }
 
@@ -99,7 +99,7 @@ P.size = function() {
   return K(this).length
 }
 
-P.index = function(k, ar) { 
+P.index = function(k, ar) {
   ar.map(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
   return this
 }
