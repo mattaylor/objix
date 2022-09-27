@@ -6,6 +6,11 @@ const
   K = Object.keys,
   A = Object.assign
 
+
+for (let f of ['keys', 'values', 'entries']) P[f] = function() { 
+  return Object[f](this) 
+}
+
 P.map = function(fn) {
   return F(E(this).map(([k,v]) => [k,fn(v,k)])) 
 }
@@ -13,18 +18,6 @@ P.map = function(fn) {
 P.apply = function(fn) {
   E(this).map(([k,v]) => this[k] = fn(v,k))
   return this
-}
-
-P.values = function() {
-  return V(this)
-}
-
-P.keys = function() {
-  return K(this)
-}
-
-P.entries = function() {
-  return E(this)
 }
 
 P.filter = function(fn) {
