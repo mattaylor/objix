@@ -1,5 +1,5 @@
 {
-  "name": "ojex",
+  "name": "objix",
   "version": "1.0.2",
   "description": "A dangerously convienient 2kb utility that injects usfull functions into the Object prototype to sugar for many common use cases working with Javascript objects.",
   "main": "ojex.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mattaylor/ojex.git"
+    "url": "git+https://github.com/mattaylor/objix.git"
   },
   "author": "Mat Taylor",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mattaylor/ojex/issues"
+    "url": "https://github.com/mattaylor/objix/issues"
   },
-  "homepage": "https://github.com/mattaylor/ojex#readme",
+  "homepage": "https://github.com/mattaylor/objix#readme",
   "keywords": [
     "object",
     "prototype",

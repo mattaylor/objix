@@ -1,4 +1,4 @@
-## Ojex
+## Objix
 
 A dangerously convienient utility (2kb) that injects usfull functions into the Object prototype to sugar many common use cases when working with native Javascript objects.
 
@@ -9,12 +9,12 @@ There are also some usefull methds for deleting keys, cleaning, printing, compar
 **NOTE:** Messing with Object prototypes is rarely a good idea and using this library may have unintended consequences in larger applications, however just think of all the key strokes you could save...
 
 ```
-npm i -save ojex
+npm i -save objix
 ```
 
 ## API
 
-### Object.prototype.map
+### Object.prototype.map(function)
 
 Create a clone of this with function applied to each value.
 
@@ -24,7 +24,7 @@ Create a clone of this with function applied to each value.
 
 ```
 
-### Object.prototype.apply
+### Object.prototype.apply(function)
 
 Apply function to values of this and return this
 
@@ -34,7 +34,7 @@ o.apply(v => v + 1) // { a: 2 }
 o // { a: 2 }
 ```
 
-### Object.prototype.flatMap
+### Object.prototype.flatMap(functoin)
 
 Return new object with function applied to each entry return 0 or more new entry pairs
 
@@ -43,7 +43,7 @@ Return new object with function applied to each entry return 0 or more new entry
 { a: 1, b: 0 }.flatMap((k,v) => v ? [[k, v+1]] : []) // { a: 2 }
 ```
 
-### Object.prototype.values
+### Object.prototype.values()
 
 Object.values(this)
 
@@ -51,7 +51,7 @@ Object.values(this)
 { a: 1 }.values // [1]
 ```
 
-### Object.prototype.keys
+### Object.prototype.keys()
 
 Object.keys(this)
 
@@ -59,7 +59,7 @@ Object.keys(this)
 { a: 1 }.keys // ['a']
 ```
 
-### Object.prototype.entries
+### Object.prototype.entries()
 
 Object.entries(this)
 
@@ -67,7 +67,7 @@ Object.entries(this)
 { a: 1 }.entries // [[a, 1]]
 ```
 
-### Object.prototype.isArray
+### Object.prototype.isArray()
 
 True if this is an array
 
@@ -76,15 +76,15 @@ True if this is an array
 [].isArray() // true
 ```
 
-### Object.prototype.clean
+### Object.prototype.clean()
 
 Return new object with falsy entry values removed
 
 ```javascript
-{ a: 1, b: null, c: false, d: 0 }.clean() // { a: 1 }
+{ a: 1, b: null, c: false, d: 0, e: '' }.clean() // { a: 1 }
 ```
 
-### Object.prototype.filter
+### Object.prototype.filter(function)
 
 Return new object with only values that pass function.
 
@@ -94,7 +94,7 @@ Return new object with only values that pass function.
 { a: 1, b: 2 }.filter(v => v > 2) // {}
 ```
 
-### Object.prototype.find
+### Object.prototype.find(function)
 
 Return first key where value passes function
 
@@ -104,7 +104,7 @@ Return first key where value passes function
 
 ```
 
-### Object.prototype.assign
+### Object.prototype.assign(...objects)
 
 Return new object with keys assiged from arguments overwriting this
 
@@ -112,7 +112,7 @@ Return new object with keys assiged from arguments overwriting this
 { a: 1 }.assign({ a: 2, b: 2 }, {c: 3 }) // { a: 2, b: 2, c: 3 }
 ```
 
-### Object.prototype.merge
+### Object.prototype.merge(...objects)
 
 Return new object with keys assiged from arguments pritotising this
 
@@ -120,7 +120,7 @@ Return new object with keys assiged from arguments pritotising this
 { a: 1 }.merge({ a: 2, b: 2 }, {c: 3 }) // { a: 1, b: 2, c: 3 }
 ```
 
-### Object.prototype.patch
+### Object.prototype.patch(...objects)
 
 Assign entries from arguments to this and return this
 
@@ -130,7 +130,7 @@ o.patch({ a: 2 }) // { a: 2, b: 2 }
 o // { a: 2, b: 2 }
 ```
 
-### Object.prototype.common
+### Object.prototype.common(object)
 
 Return new object with common entries intersecting with supplied object
 
@@ -138,7 +138,7 @@ Return new object with common entries intersecting with supplied object
 { a: 1, b: 2 }.common({ a: 2, b: 2 }) // { b: 2 }
 ```
 
-### Object.prototype.delete
+### Object.prototype.delete(...keys)
 
 Return new object with keys in arguments removed
 
@@ -146,7 +146,7 @@ Return new object with keys in arguments removed
 { a: 1, b: 2, c: 3 }.delete('a','b') // { c: 3 }
 ```
 
-### Object.prototype.some
+### Object.prototype.some(function)
 
 True is any entry passes function
 
@@ -155,7 +155,7 @@ True is any entry passes function
 { a: 1, b: 2 }.find(v => v > 2) // false
 ```
 
-### Object.prototype.every
+### Object.prototype.every(function)
 
 True of all entries pass function
 
@@ -164,15 +164,7 @@ True of all entries pass function
 { a: 1, b: 2 }.find(v => v > 1) // false
 ```
 
-### Object.prototype.toString
-
-JSON.stringfy(this)
-
-```javascript
-{ a: 1 }.toString() // '{ "a": 1 }'
-```
-
-### Object.prototype.json
+### Object.prototype.json()
 
 JSON.stringfy(this)
 
@@ -180,7 +172,7 @@ JSON.stringfy(this)
 { a: 1 }.json() // '{ "a": 1 }'
 ```
 
-### Object.prototype.clone
+### Object.prototype.clone()
 
 Return new object with entries copied from this
 
@@ -191,7 +183,7 @@ o1.a = 2
 o2 // { a: a}
 ```
 
-### Object.prototype.join
+### Object.prototype.join(...objects)
 
 Return new Object with values concatenated from arguments having the common keys
 
@@ -199,7 +191,7 @@ Return new Object with values concatenated from arguments having the common keys
 { a: 1 }.join({ a: 2 }, { a: 3 }) // { a: [1, 2, 3] }
 ```
 
-### Object.prototype.split
+### Object.prototype.split()
 
 Return Array of new objects for each value in each entry of this with a value array
 
@@ -207,7 +199,7 @@ Return Array of new objects for each value in each entry of this with a value ar
 { a: [1,2] }.split() // [ { a: 1 }, { a: 2 } ]
 ```
 
-### Object.prototype.contains
+### Object.prototype.contains(object)
 
 True if all entries of argument are also in this
 
@@ -216,9 +208,10 @@ True if all entries of argument are also in this
 { a: 1 }.contains({ a: 1, b: 2 }) // false
 ```
 
-### Object.prototype.equals
+### Object.prototype.equals(object, depth=-1)
 
 True if all entries of this equal the argument and argument has no other entries
+May recurse to a given depth (-1 for any depth)
 
 ```javascript
 { a: 1 }.equals({ a: 1 }) // true
@@ -226,11 +219,21 @@ True if all entries of this equal the argument and argument has no other entries
 
 ```
 
-### Object.prototype.size
+### Object.prototype.size()
 
 Return number of entries of this.
 
 ```javascript
 {}.size() // 0
 { a: 1, b: 2 }.size() // 2
+```
+
+### Object.prototype.from(objectArray, key)
+
+Index an array of objects into this using the given key
+
+```javascript
+o = {}
+o.from([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
+o // { o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]
 ```

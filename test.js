@@ -1,4 +1,4 @@
-require('./objector.js')
+require('./objix')
 
 const o1 = { a: 1 }
 const o2 = { a: 1, b: 2 }
@@ -7,9 +7,6 @@ const o4 = { a: 2, b: 2, c: 3, d: 4}
 
 console.assert(o1.equals({a: 1}), 'Equals')
 console.assert(!o1.equals({a: 2}), '!Equals')
-
-console.assert(o1.within(o2), 'Within')
-console.assert(!o1.within({c:4}), '!Within')
 
 console.assert(o2.contains(o1), 'Contains')
 console.assert(!o1.contains(o2), '!Contains')
@@ -50,5 +47,14 @@ console.assert({a: 0, b: 2, c: null}.clean().equals({b:2}), 'Clean')
 console.assert([].isArray(), 'isArray')
 console.assert(!{}.isArray(), '!isArray')
 
+console.assert({a:1, b:1}.equals({a:1, b:[1]}), 'Equals Array')
+console.assert(!{a:1, b:[1,2]}.equals({a:1, b:[1,2]}), '!Equals Array')
+console.assert({a:1, b:[1,2]}.equals({a:1, b:[1,2]}, true), 'Deep Equals Array')
+console.assert(!{a:1, b:{c:1}}.equals({a:1, b:{c:2}}, true), '!Deep Equals Object')
+console.assert({a:1, b:{c:1}}.equals({a:1, b:{c:1}}, true), 'Deep Equals Object')
+console.assert({a:1, b:[{c:1}, {c:2}]}.equals({a:1, b:[{c:1}, {c:2}]}, -1), 'Deep Equals Mixed')
 
-//console.assert({a: 1, b: 0}.flatMap(([k,v]) => v ? [[k, v+1]] : []).equals({a: 2}))
+
+let x = {}.from([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
+// console.log(o)
+console.assert(x.equals({ o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]}, -1), 'From')
