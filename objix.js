@@ -6,7 +6,6 @@ const
   K = Object.keys,
   A = Object.assign
 
-
 for (let f of ['keys', 'values', 'entries']) P[f] = function() { 
   return Object[f](this) 
 }
