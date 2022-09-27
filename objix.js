@@ -102,9 +102,8 @@ P.contains = function(ob) {
 }
 
 P.equals = function(ob, d) {
-  let ents = E(this)
-  if (ents.length != K(ob).length) return false
-  for (let [k,v] of ents) if ((v != ob[k] && !(d && v.equals(ob[k],d-1)))) return false
+  if (K(this).length != K(ob).length) return false
+  for (let [k,v] of E(this)) if ((v != ob[k] && !(d && v.equals(ob[k],d-1)))) return false
   return true
 }
 
