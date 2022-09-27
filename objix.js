@@ -92,7 +92,7 @@ P.contains = function(ob) {
 
 P.equals = function(ob, d) {
   if (K(this).length != K(ob).length) return false
-  for (let [k,v] of E(this)) if (!(v == ob[k] || (d && v.equals(ob[k],d-1)))) return false
+  for (let [k,v] of E(this)) if (v != ob[k] && !(d && v.equals(ob[k],d-1))) return false
   return true
 }
 
@@ -102,5 +102,5 @@ P.size = function() {
 
 P.index = function(k, ar) { 
   ar.forEach(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
-  return this 
+  return this
 }
