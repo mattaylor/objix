@@ -208,7 +208,7 @@ True if all entries of argument are also in this
 { a: 1 }.contains({ a: 1, b: 2 }) // false
 ```
 
-### Object.prototype.equals(object, depth=-1)
+### Object.prototype.equals(object, depth)
 
 True if all entries of this equal the argument and argument has no other entries
 May recurse to a given depth (-1 for any depth)
@@ -216,6 +216,8 @@ May recurse to a given depth (-1 for any depth)
 ```javascript
 { a: 1 }.equals({ a: 1 }) // true
 { a: 1 }.equals({ a: 2 }) // false
+{ a: 1, b: {c: 1 }}.equals({ a: 1, b: {c: 1 }}) // false
+{ a: 1, b: {c: 1 }}.equals({ a: 1, b: {c: 1 }}, 1) // true
 
 ```
 
