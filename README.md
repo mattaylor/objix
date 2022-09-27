@@ -216,8 +216,8 @@ May recurse to a given depth (-1 for any depth)
 ```javascript
 { a: 1 }.equals({ a: 1 }) // true
 { a: 1 }.equals({ a: 2 }) // false
-{ a: 1, b: {c: 1 }}.equals({ a: 1, b: {c: 1 }}) // false
-{ a: 1, b: {c: 1 }}.equals({ a: 1, b: {c: 1 }}, 1) // true
+{ a: 1, b: { c: 1 }}.equals({ a: 1, b: { c: 1 }}) // false
+{ a: 1, b: { c: 1 }}.equals({ a: 1, b: { c: 1 }}, 1) // true
 
 ```
 
