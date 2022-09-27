@@ -77,7 +77,7 @@ P.join = function(...obs) {
 
 P.split = function() {
   let res = []
-  for (let [k,v] of E(this)) v.forEach((v,i) => res[i] ? res[i][k] = v : res[i] = {[k] : v})
+  for (let [k,v] of E(this)) v.forEach((v,i) => res[i] ? res[i][k] = v : res[i] = {[k]: v})
   return res
 }
 
