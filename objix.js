@@ -11,6 +11,10 @@ for (let f of ['keys', 'values', 'entries']) P[f] = function() {
   return Object[f](this) 
 }
 
+for (let f of ['some', 'every']) P[f] = function(fn) { 
+  return V(this)[f](fn)
+}
+
 P.map = function(fn) {
   return F(E(this).map(([k,v]) => [k,fn(v,k)])) 
 }
@@ -55,14 +59,6 @@ P.patch = function(...obs) {
 P.delete = function(...keys) {
   for (let k of keys) delete this[k]
   return this
-}
-
-P.some = function(fn) {
-  return V(this).some(fn)
-}
-
-P.every = function(fn) {
-  return V(this).every(fn)
 }
 
 P.json = function(fn) {
