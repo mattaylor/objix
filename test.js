@@ -29,7 +29,7 @@ console.assert({a:1}.size() == 1, 'Size')
 console.assert(!{}.size(), '!Size')
 
 console.assert(o3.assign({d:4}).equals(o4) && !o3.equals(o4), 'Assign')
-console.assert(o3.patch({d:4}) && o3.equals(o4), 'PAtch')
+console.assert(o3.patch({d:4}) && o3.equals(o4), 'Patch')
 
 console.assert(o3.delete('d','c','b') && o3.equals({a:2}), 'Delete')
 console.assert(o3.delete('d','c','b') && !o3.equals({d:2}), '!Delete')
@@ -38,6 +38,7 @@ console.assert(o4.clone().equals(o4), 'Clone')
 console.assert(o4.clone() !== o4, '!Clone')
 
 console.assert({a:1}.join({a:2}).a[1] == 2, 'Join')
+
 console.assert({a: [1,2]}.split(), 'Split')
 
 let r = {a: 1}.flatMap((k,v) => [[k+1, v+1],[k+2, v+2]])

@@ -1,6 +1,5 @@
 const
   P = Object.prototype,
-  E = Object.entries,
   V = Object.values,
   F = Object.fromEntries,
   K = Object.keys,
@@ -16,20 +15,20 @@ for (let f of ['some', 'every']) P[f] = function(fn) {
 
 P.map = function(fn) {
   let r = {}
-  E(this).map(([k,v]) => r[k] = fn(v,k))
+  K(this).map(k => r[k] = fn(this[k],k))
   return r
 }
 
 P.filter = function(fn) {
-  return F(E(this).flatMap(([k,v]) => fn(v,k) ? [[k,v]] : []))
+  return F(K(this).flatMap(k => fn(this[k],k) ? [[k,this[k]]] : []))
 }
 
 P.flatMap = function(fn) {
-  return F(E(this).flatMap(([k,v]) => fn(k,v)))
+  return F(K(this).flatMap(k => fn(k,this[k])))
 }
 
 P.clean = function() {
-  return F(E(this).flatMap(([k,v]) => v ? [[k,v]] : []))
+  return F(K(this).flatMap(k => this[k] ? [[k,this[k]]] : []))
 }
 
 P.isArray = function() {
@@ -37,7 +36,7 @@ P.isArray = function() {
 }
 
 P.find = function(fn) {
-  for (let [k,v] of E(this)) if (fn(v,k)) return k
+  for (let k of K(this)) if (fn(this[k],k)) return k
 }
 
 P.assign = function(...obs) {
@@ -67,28 +66,28 @@ P.clone = function() {
 
 P.join = function(...obs) {
   let res = A({}, this)
-  for(let o of obs) E(o).map(([k,v]) => res[k] &&= [].concat(res[k], v))
+  for(let o of obs) K(o).map(k => res[k] &&= [].concat(res[k], o[k]))
   return res
 }
 
 P.split = function() {
   let res = []
-  for (let [k,v] of E(this)) v.map((v,i) => res[i] ? res[i][k] = v : res[i] = {[k]: v})
+  for (let k of K(this)) this[k].map((v,i) => res[i] ? res[i][k] = v : res[i] = {[k]: v})
   return res
 }
 
 P.common = function(ob) {
-  return F(E(this).flatMap(([k,v]) => (ob[k] == v) ? [[k,v]] : []))
+  return F(K(this).flatMap(k => (ob[k] == this[k]) ? [[k,this[k]]] : []))
 }
 
 P.contains = function(ob) {
-  for (let [k,v] of E(ob)) if (this[k] != v) return false
+  for (let k of K(ob)) if (this[k] != ob[k]) return false
   return true
 }
 
 P.equals = function(ob, d) {
   if (K(this).length != K(ob).length) return false
-  for (let [k,v] of E(this)) if (v != ob[k] && !(d && v.equals(ob[k],d-1))) return false
+  for (let k of K(this)) if (this[k] != ob[k] && !(d && this[k].equals(ob[k],d-1))) return false
   return true
 }
 

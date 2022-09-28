@@ -1,18 +1,21 @@
 require('./objix')
 const _ =  require('lodash')
 
-const o1 = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, h: 7, h: 9 }
+const small = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, h: 7, h: 9 }
+const large = { }
+for (let i=0; i < 1000; i++) large['k'+i] = i
+
 const iters = 100000
 const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
 function benchMark(loFn, obFn, max=iters) {
-  for (let i = 0; i < max; i++) loFn() // warm up
-  for (let i = 0; i < max; i++) obFn() // warm up
   let res = { }
-  let start = performance.now()
   console.assert('Results equal', loFn().equals(obFn()))
+  for (let i = 0; i < max; i++) loFn() // warm up
+  let start = performance.now()
   for (let i = 0; i < max; i++) loFn()
   res.lodash = round(performance.now() - start)
+  for (let i = 0; i < max; i++) obFn() // warm up
   start = performance.now()
   for (let i = 0; i < max; i++) obFn()
   res.objix = round(performance.now() - start)
@@ -20,19 +23,23 @@ function benchMark(loFn, obFn, max=iters) {
   return res
 }
 
-let report = {
-  map: benchMark(
-    () => _.mapValues(o1, v => v+1),
-    () => o1.map(v => v+1),
-  ),
-  filter: benchMark(
-    () => _.pickBy(o1, v => v == 1),
-    () => o1.filter(v => v == 1),
-  ),
-  find: benchMark(
-    () => _.findKey(o1, v => v == 1),
-    () => o1.find(v => v == 1),
-  )
+function report(name, ob) {
+  console.log(name)
+  console.table({ 
+    map: benchMark(
+      () => _.mapValues(ob, v => v+1),
+      () => ob.map(v => v+1),
+    ),
+    filter: benchMark(
+      () => _.pickBy(ob, v => v == 1),
+      () => ob.filter(v => v == 1),
+    ),
+    find: benchMark(
+      () => _.findKey(ob, v => v == 1),
+      () => ob.find(v => v == 1),
+    )
+  })
 }
 
-console.table(report)
+report('Small Object Test', small)
+report('Large Object Test', large)
