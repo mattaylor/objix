@@ -1,10 +1,10 @@
 ## Objix
 
-A dangerously convienient utility (< 2kb!) that injects usfull functions into the Object prototype to sugar many common use cases when working with native Javascript objects.
+A dangerously convienient utility (< 2kb!) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects.
 
-The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well some usefull methds inspireced by lodash for deleting keys, cleaning, printing, comparing, spliting and joining object togther.
+The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, printing, comparing, spliting and joining object togther.
 
-The methods are highly optimised with zero copy operations in most cases. There is however very limited type checking to guard against unwanted side effects. Performance as a result is in many cases signifantly faster than lodash equivalents. (eg `ob.map(fn)` is about 20% faster than `_.mapValues(ob, fn)` according to simple [benchmarks](bench.js)
+The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. As a result performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` is about 20% faster than `_.mapValues(ob, fn)` according to simple [benchmarks](bench.js)
 
 | Function | lodash | objix | % Diff |
 | -------- | ------ | ----- | ------ |
