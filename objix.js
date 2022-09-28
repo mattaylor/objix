@@ -15,7 +15,7 @@ for (let f of ['some', 'every']) P[f] = function(fn) {
 
 P.map = function(fn) {
   let r = {}
-  K(this).map(k => r[k] = fn(this[k],k))
+  for (let k of K(this)) r[k] = fn(this[k],k)
   return r
 }
 
