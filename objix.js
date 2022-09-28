@@ -35,6 +35,10 @@ P.isArray = function() {
   return this instanceof Array
 }
 
+P.isString = function() {
+  return typeof this == 'string'
+}
+
 P.find = function(fn) {
   for (let k of K(this)) if (fn(this[k],k)) return k
 }
