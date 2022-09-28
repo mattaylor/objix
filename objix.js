@@ -15,12 +15,9 @@ for (let f of ['some', 'every']) P[f] = function(fn) {
 }
 
 P.map = function(fn) {
-  return F(E(this).map(([k,v]) => [k,fn(v,k)]))
-}
-
-P.apply = function(fn) {
-  E(this).map(([k,v]) => this[k] = fn(v,k))
-  return this
+  let r = {}
+  E(this).map(([k,v]) => r[k] = fn(v,k))
+  return r
 }
 
 P.filter = function(fn) {
@@ -99,7 +96,7 @@ P.size = function() {
   return K(this).length
 }
 
-P.index = function(k, ar) {
+P.keyBy = function(ar, k) {
   ar.map(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
   return this
 }

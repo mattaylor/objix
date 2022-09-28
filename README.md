@@ -24,16 +24,6 @@ Create a clone of this with function applied to each value.
 
 ```
 
-### Object.prototype.apply(function)
-
-Apply function to values of this and return this
-
-```javascript
-let o = { a: 1 }
-o.apply(v => v + 1) // { a: 2 }
-o // { a: 2 }
-```
-
 ### Object.prototype.flatMap(functoin)
 
 Return new object with function applied to each entry return 0 or more new entry pairs
@@ -230,9 +220,9 @@ Return number of entries of this.
 { a: 1, b: 2 }.size() // 2
 ```
 
-### Object.prototype.index(key, array)
+### Object.prototype.keyBy(array, key)
 
-Index an array of objects into this using the given key
+Index an array of objects into this using the given key, and return this.
 
 ```javascript
 o = {}

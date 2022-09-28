@@ -14,7 +14,7 @@ console.assert(!o1.contains(o2), '!Contains')
 console.assert(o1.map(_ => _+1).a === 2, 'Map')
 console.assert(o1.map(_ => _+1).a != o1.a, '!Map')
 
-console.assert(o1.apply(_ => _-1) && o1.a === 0, 'Apply')
+//console.assert(o1.apply(_ => _-1) && o1.a === 0, 'Apply')
 
 console.assert(o2.find(_ => _ > 1) === 'b', 'Find')
 console.assert(!o2.find(_ => _ > 3), '!Find')
@@ -55,6 +55,6 @@ console.assert({a:1, b:{c:1}}.equals({a:1, b:{c:1}}, true), 'Deep Equals Object'
 console.assert({a:1, b:[{c:1}, {c:2}]}.equals({a:1, b:[{c:1}, {c:2}]}, -1), 'Deep Equals Mixed')
 
 
-let x = {}.index('a',[{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }])
+let x = {}.keyBy('a',[{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }])
 // console.log(o)
 console.assert(x.equals({ o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]}, -1), 'From')
