@@ -69,15 +69,15 @@ P.clone = function() {
 }
 
 P.join = function(...obs) {
-  let res = A({}, this)
-  for(let o of obs) K(o).map(k => res[k] &&= [].concat(res[k], o[k]))
-  return res
+  let r = A({}, this)
+  for(let o of obs) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
+  return r
 }
 
 P.split = function() {
-  let res = []
-  for (let k of K(this)) this[k].map((v,i) => res[i] ? res[i][k] = v : res[i] = {[k]: v})
-  return res
+  let r = []
+  for (let k of K(this)) this[k].map((v,i) => r[i] ? r[i][k] = v : r[i] = {[k]: v})
+  return r
 }
 
 P.common = function(ob) {

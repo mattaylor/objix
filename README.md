@@ -67,8 +67,17 @@ Object.entries(this)
 True if this is an array
 
 ```javascript
-{}.isArray() // false
 [].isArray() // true
+{}.isArray() // false
+```
+
+### Object.prototype.isString()
+
+True if this is a string
+
+```javascript
+''.isString() // true
+{}.isString() // false
 ```
 
 ### Object.prototype.clean()
