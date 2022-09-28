@@ -55,6 +55,6 @@ console.assert({a:1, b:{c:1}}.equals({a:1, b:{c:1}}, true), 'Deep Equals Object'
 console.assert({a:1, b:[{c:1}, {c:2}]}.equals({a:1, b:[{c:1}, {c:2}]}, -1), 'Deep Equals Mixed')
 
 
-let x = {}.keyBy('a',[{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }])
+let x = {}.keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
 // console.log(o)
 console.assert(x.equals({ o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]}, -1), 'From')
