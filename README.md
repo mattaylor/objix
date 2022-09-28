@@ -21,7 +21,6 @@ Create a clone of this with function applied to each value.
 ```javascript
 { a: 1 }.map(v => v+1) // { a: 2 }
 { a: 1, b: 2 }.map((v,k) => (k == 'b') ? v+1 : v) // { a: 1, b:3 }
-
 ```
 
 ### Object.prototype.flatMap(functoin)
@@ -226,6 +225,6 @@ Index an array of objects into this using the given key, and return this.
 
 ```javascript
 o = {}
-o.index('a', [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }])
+o.keyBy('a', [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }])
 o // { o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]
 ```
