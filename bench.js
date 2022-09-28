@@ -1,17 +1,15 @@
 require('./objix')
 const _ =  require('lodash')
 
-const iters = 50000
+const iters = 100000
 const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
-function benchTest(loFn, obFn, max=iters) {
-  let res = { }
-  console.assert('Results equal', loFn().equals(obFn()))
-  for (let i = 0; i < max; i++) loFn() // warm up
-  let start = performance.now()
+function compare(loFn, obFn, max=iters) {
+  let res = { }, start
+  for (let i = 0; i < 100; i++) console.assert('Check equal', loFn().equals(obFn()))
+  start = performance.now()
   for (let i = 0; i < max; i++) loFn()
   res.lodash = round(performance.now() - start)
-  for (let i = 0; i < max; i++) obFn() // warm up
   start = performance.now()
   for (let i = 0; i < max; i++) obFn()
   res.objix = round(performance.now() - start)
@@ -21,16 +19,16 @@ function benchTest(loFn, obFn, max=iters) {
 
 function report(name, ob) {
   console.log(name)
-  console.table({ 
-    map: benchTest(
+  console.table({
+    map: compare(
       () => _.mapValues(ob, v => v+1),
       () => ob.map(v => v+1),
     ),
-    filter: benchTest(
+    filter: compare(
       () => _.pickBy(ob, v => v == 1),
       () => ob.filter(v => v == 1),
     ),
-    find: benchTest(
+    find: compare(
       () => _.findKey(ob, v => v == 1),
       () => ob.find(v => v == 1),
     )
@@ -44,5 +42,5 @@ for (let i=0; i < 500; i++) large['k'+i] = i
 
 report('Small Object Test', small)
 report('Large Object Test', large)
-report('Deep  Object Test', deep)
+//report('Deep  Object Test', deep)
 
