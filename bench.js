@@ -1,7 +1,7 @@
 require('./objix')
 const _ =  require('lodash')
 
-const iters = 100000
+const iters = process.argv[2] || 50000
 const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
 function compare(loFn, obFn, max=iters) {
