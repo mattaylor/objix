@@ -29,7 +29,7 @@ Create a clone of this with function applied to each value.
 { a: 1, b: 2 }.map((v,k) => (k == 'b') ? v+1 : v) // { a: 1, b:3 }
 ```
 
-### Object.prototype.flatMap(functoin)
+### Object.prototype.flatMap(function)
 
 Return new object with function applied to each entry return 0 or more new entry pairs
 
