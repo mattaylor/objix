@@ -1,6 +1,5 @@
 const
   P = Object.prototype,
-  V = Object.values,
   F = Object.fromEntries,
   K = Object.keys,
   A = Object.assign
