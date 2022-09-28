@@ -4,7 +4,7 @@ A dangerously convienient utility (< 2kb!) that injects usfull functions into th
 
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well some usefull methds inspireced by lodash for deleting keys, cleaning, printing, comparing, spliting and joining object togther.
 
-The methods are highly optimised with zero copy operations in most cases. There is however very limited type checking to guard against unwanted side effects. Performance as a result is in many cases signifantly faster than lodash equivalents. (eg `ob.map(fn)` is about 25-30% faster than `_.mapValues(ob, fn)` according to simple [benchmarks](bench.js)
+The methods are highly optimised with zero copy operations in most cases. There is however very limited type checking to guard against unwanted side effects. Performance as a result is in many cases signifantly faster than lodash equivalents. (eg `ob.map(fn)` is about 20% faster than `_.mapValues(ob, fn)` according to simple [benchmarks](bench.js)
 
 **NOTE:** Messing with Object prototypes is rarely a good idea and using this library may have unintended consequences in larger applications, however just think of all the key strokes you could save...
 
