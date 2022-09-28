@@ -1,42 +1,38 @@
 require('./objix')
 const _ =  require('lodash')
 
+const o1 = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, h: 7, h: 9 }
+const iters = 100000
+const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
-let o1 = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, h: 7, h: 9 }
-
-let max = 100000
-
-let res = {}
-
-let round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
-
-
-function benchMark(name, loFn, obFn, iters=max) {
-  for (let i = 0; i < iters; i++) loFn() // warm up
-  for (let i = 0; i < iters; i++) obFn() // warm up
-  let res = { function: name }
+function benchMark(loFn, obFn, max=iters) {
+  for (let i = 0; i < max; i++) loFn() // warm up
+  for (let i = 0; i < max; i++) obFn() // warm up
+  let res = { }
   let start = performance.now()
-  console.assert(name + ' results equal', loFn().equals(obFn()))
-  for (let i = 0; i < iters; i++) loFn()
+  console.assert('Results equal', loFn().equals(obFn()))
+  for (let i = 0; i < max; i++) loFn()
   res.lodash = round(performance.now() - start)
   start = performance.now()
-  for (let i = 0; i < iters; i++) obFn()
+  for (let i = 0; i < max; i++) obFn()
   res.objix = round(performance.now() - start)
   res['% Diff'] = round(100*(res.lodash - res.objix)/res.lodash)
-  console.table(res)
+  return res
 }
 
-benchMark('Map', 
-  () => _.mapValues(o1, v => v+1),
-  () => o1.map(v => v+1),
-)
+let report = {
+  map: benchMark(
+    () => _.mapValues(o1, v => v+1),
+    () => o1.map(v => v+1),
+  ),
+  filter: benchMark(
+    () => _.pickBy(o1, v => v == 1),
+    () => o1.filter(v => v == 1),
+  ),
+  find: benchMark(
+    () => _.findKey(o1, v => v == 1),
+    () => o1.find(v => v == 1),
+  )
+}
 
-benchMark('Filter', 
-  () => _.pickBy(o1, (v,k) => v == 1),
-  () => o1.filter((v,k) => v == 1),
-)
-
-benchMark('Find', 
-  () => _.findKey(o1, (v,k) => v == 1),
-  () => o1.find((v,k) => v == 1),
-)
+console.table(report)

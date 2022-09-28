@@ -6,6 +6,12 @@ The functions include copies of Object class methods and Array prototype methods
 
 The methods are highly optimised with zero copy operations in most cases. There is however very limited type checking to guard against unwanted side effects. Performance as a result is in many cases signifantly faster than lodash equivalents. (eg `ob.map(fn)` is about 20% faster than `_.mapValues(ob, fn)` according to simple [benchmarks](bench.js)
 
+| Function | lodash | objix | % Diff |
+| -------- | ------ | ----- | ------ |
+| map      | 22.52  | 18.15 | 19.4   |
+| filter   | 513.82 | 62.24 | 87.89  |
+| find     | 8.05   | 5.9   | 26.71  |
+
 **NOTE:** Messing with Object prototypes is rarely a good idea and using this library may have unintended consequences in larger applications, however just think of all the key strokes you could save...
 
 ```
