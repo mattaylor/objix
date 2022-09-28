@@ -3,9 +3,9 @@ const _ =  require('lodash')
 
 const small = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, h: 7, h: 9 }
 const large = { }
-for (let i=0; i < 1000; i++) large['k'+i] = i
+for (let i=0; i < 500; i++) large['k'+i] = i
 
-const iters = 100000
+const iters = 50000
 const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
 function benchMark(loFn, obFn, max=iters) {
