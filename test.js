@@ -55,6 +55,11 @@ console.assert(!{a:1, b:{c:1}}.equals({a:1, b:{c:2}}, true), '!Deep Equals Objec
 console.assert({a:1, b:{c:1}}.equals({a:1, b:{c:1}}, true), 'Deep Equals Object')
 console.assert({a:1, b:[{c:1}, {c:2}]}.equals({a:1, b:[{c:1}, {c:2}]}, -1), 'Deep Equals Mixed')
 
+console.assert({a:1, b:2}.some(v => v > 1), 'Some')
+console.assert(!{a:1, b:2}.some(v => v > 2),'!Some')
+
+console.assert({a:1, b:2}.every(v => v > 0), 'Every')
+console.assert(!{a:1, b:2}.every(v => v > 1),'!Every')
 
 let x = {}.keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
 // console.log(o)
