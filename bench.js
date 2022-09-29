@@ -7,7 +7,7 @@ const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
 function compare(loFn, obFn, max=iters) {
   let res = { }, start
-  for (let i = 0; i < 100; i++) assert.deepEqual(obFn(), loFn(), loFn, obFn)
+  for (let i = 0; i < 100; i++) assert.deepEqual(obFn(), loFn(), loFn)
   start = performance.now()
   for (let i = 0; i < max; i++) loFn()
   res.lodash = round(performance.now() - start)
