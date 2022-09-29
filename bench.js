@@ -18,7 +18,8 @@ function compare(funcs) {
 }
 
 function report(name, ob) {
-  let funcs = {
+  console.log(name)
+  console.table({
     Map: {
       lodash: () => _.mapValues(ob, v => v+1),
       objix : () => ob.map(v => v+1),
@@ -64,9 +65,7 @@ function report(name, ob) {
       lodash:  () => _.every(_.values(ob), v => v),
       objix: () => ob.every(v => v),
     }
-  }
-  console.log(name)
-  console.table(funcs.map(compare))
+  }.map(compare))
 }
 
 const deep =  { a: 1, b: { b: 1 }, c: { c: { c: 1 }}, d: { d: [1,2,3,4]}}
