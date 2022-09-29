@@ -37,7 +37,14 @@ function report(name, ob) {
       objix:  () => ({}.keyBy([{a:1},{a:2},{a:3}], 'a')),
     },
     Equals: {
-      //vanilla: () => assert.deepEqual(ob, ob.clone()),
+      vanilla: () => {
+        try { 
+          assert.deepEqual(ob, ob.clone())
+          return true 
+        } catch (e) { 
+          return false
+        }
+      },
       lodash: () => _.isEqual(ob, ob.clone()),
       objix: () => ob.equals(ob.clone()),
     },
