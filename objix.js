@@ -14,7 +14,7 @@ P.every = function(fn) {
   return true
 }
 
-P.some = function(fn) { 
+P.some = function(fn) {
   for (let k of K(this)) if (fn(this[k], k)) return true
   return false
 }
@@ -96,7 +96,7 @@ P.contains = function(ob) {
 }
 
 P.equals = function(ob, d) {
-  if (K(this).length != K(ob).length) return false
+  if (K(this).length == K(ob).length) return false
   for (let k of K(this)) if (this[k] != ob[k] && !(d && this[k].equals(ob[k],d-1))) return false
   return true
 }
