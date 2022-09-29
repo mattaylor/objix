@@ -7,7 +7,7 @@ const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
 function compare(loFn, obFn, max=iters) {
   let res = { }, start
-  for (let i = 0; i < 100; i++) assert.deepEqual(obFn(), loFn())
+  for (let i = 0; i < 100; i++) assert.deepEqual(obFn(), loFn(), loFn, obFn)
   start = performance.now()
   for (let i = 0; i < max; i++) loFn()
   res.lodash = round(performance.now() - start)
@@ -56,17 +56,18 @@ function report(name, ob) {
   })
 }
 /*
-let k1 = _.keyBy([{a:1},{a:2},{a:5}], 'a')
-let k2 = {}.keyBy([{a:1},{a:2},{a:4}], 'a')
-console.log(k1,k2,k1.equals(k2))
+let x1 = { a: { b: 1}}
+let x2 = x1.clone()
+x2.a.b = 2
+x1.c = 3
+console.log(x1, x2)
 */
 
 const deep =  { a: 1, b: { b: 1 }, c: { c: { c: 1 }}, d: { d: [1,2,3,4]}}
 const small = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, h: 7, h: 9 }
 const large = { }
-for (let i=0; i < 1000; i++) large['k'+i] = i
+for (let i=1; i < 1000; i++) large['k'+i] = i
 
 report('Small Object Test', small)
 report('Large Object Test', large)
 //report('Deep  Object Test', deep)
-

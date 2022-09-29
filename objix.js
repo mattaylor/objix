@@ -8,6 +8,11 @@ const
 for (let f of ['keys', 'values', 'entries']) P[f] = function() {
   return Object[f](this)
 }
+/*
+for (let f of ['some', 'every']) P[f] = function(fn) {
+  return V(this)[f](fn)
+}
+*/
 
 P.every = function(fn) {
   for (let k of K(this)) if (!fn(this[k], k)) return false
@@ -71,7 +76,7 @@ P.json = function(fn) {
 }
 
 P.clone = function() {
-  return A({},this)
+  return F(K(this).map(k => [k,this[k]]))
 }
 
 P.join = function(...obs) {
@@ -96,7 +101,7 @@ P.contains = function(ob) {
 }
 
 P.equals = function(ob, d) {
-  if (K(this).length == K(ob).length) return false
+  if (K(this).length != K(ob).length) return false
   for (let k of K(this)) if (this[k] != ob[k] && !(d && this[k].equals(ob[k],d-1))) return false
   return true
 }
