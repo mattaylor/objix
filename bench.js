@@ -4,14 +4,13 @@ const assert = require('assert')
 
 const iters = process.argv[2] || 10000
 const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
-
 function compare(funcs) {
   let res = { }, start
-  for (let [key,fun] of funcs.entries()) {
-    for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
+  for (let r = 0; r < 10; r++) for (let [key,fun] of _.shuffle(funcs.entries())) {
+      for (let i = 0; i < 10; i++) assert.deepEqual(funcs.objix(), fun(), fun)
     start = performance.now()
     for (let i = 0; i < iters; i++) fun()
-    res[key] = round(performance.now() - start)
+    res[key] = round((res[key] || 0) + performance.now() - start)
   }
   res['% Diff'] = round(100*(res.lodash - res.objix)/res.lodash)
   return res
