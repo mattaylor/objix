@@ -2,7 +2,7 @@ require('./objix')
 const _ =  require('lodash')
 const assert = require('assert')
 
-const iters = process.argv[2] || 10000
+const iters = process.argv[2] || 1000
 const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 function compare(funcs) {
   let res = { }, start
