@@ -7,10 +7,10 @@ const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
 function compare(funcs) {
   let res = { }, start
-  for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), funcs.lodash(), funcs.objix)
-  for (let key of funcs.keys()) {
+  for (let [key,fun] of funcs.entries()) {
+    for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
     start = performance.now()
-    for (let i = 0; i < iters; i++) funcs[key]()
+    for (let i = 0; i < iters; i++) fun()
     res[key] = round(performance.now() - start)
   }
   res['% Diff'] = round(100*(res.lodash - res.objix)/res.lodash)
@@ -28,6 +28,7 @@ function report(name, ob) {
       objix:  () => ob.filter(v => v == 1),
     },
     Find: {
+      //vanilla: () => Object.values(ob).some(v => v == 1),
       lodash: () => _.findKey(ob, v => v == 1),
       objix: () => ob.find(v => v == 1),
     },
@@ -36,18 +37,22 @@ function report(name, ob) {
       objix:  () => ({}.keyBy([{a:1},{a:2},{a:3}], 'a')),
     },
     Equals: {
+      //vanilla: () => assert.deepEqual(ob, ob.clone()),
       lodash: () => _.isEqual(ob, ob.clone()),
       objix: () => ob.equals(ob.clone()),
     },
     Clone: {
+      vanilla: () => Object.assign({}, ob),
       lodash: () => _.clone(ob),
       objix:  () => ob.clone(),
     },
     Some: {
+      vanilla: () => Object.values(ob).some(v => v == 'x'),
       lodash: () => _.some(_.values(ob), v => v == 'x'),
       objix: () => ob.some(v => v == 'x'),
     },
     Every: {
+      vanilla: () => Object.values(ob).every(v => v),
       lodash:  () => _.every(_.values(ob), v => v),
       objix: () => ob.every(v => v),
     }
