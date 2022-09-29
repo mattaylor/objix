@@ -4,11 +4,11 @@ A dangerously convienient utility (< 2kb!) that injects usefull functions into t
 
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, printing, comparing, spliting and joining object togther.
 
-The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. As a result performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` can be upto 50% faster than `_.mapValues(ob, fn)` when working with small objects according to simple [benchmarks](bench.js)
+The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. As a result performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` can be upto 75% faster than `_.mapValues(ob, fn)` when working with small objects according to simple [benchmarks](bench.js)
 
 | Function | lodash | objix | % Diff |
 | -------- | ------ | ----- | ------ |
-| Map      | 9.27   | 4.23  | 54.37  |
+| Map      | 15.16  | 3.97  | 73.81  |
 | Filter   | 108.03 | 8.15  | 92.46  |
 | Find     | 3.96   | 2.54  | 35.86  |
 | KeyBy    | 6.14   | 4.18  | 31.92  |
