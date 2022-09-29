@@ -89,3 +89,11 @@ console.assert(x.equals({ o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } 
 
 let _x = {}._keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
 console.assert(x.equals({ o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]}, -1), '_KeyBy')
+
+
+let a = { a: 1}
+a.update(v => v+1)
+console.assert(a.equals({a: 2}, 'Update'))
+let _a = { a: 1}
+_a._update(v => v+1)
+console.assert(_a.equals({a: 2}, '_Update'))

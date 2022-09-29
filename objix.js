@@ -25,6 +25,11 @@ P.map = function(fn) {
   return r
 }
 
+P.update = function(fn) {
+  for (let k of K(this)) this[k] = fn(this[k],k)
+  return this
+}
+
 P.filter = function(fn) {
   return F(K(this).flatMap(k => fn(this[k],k) ? [[k,this[k]]] : []))
 }

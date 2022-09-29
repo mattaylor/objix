@@ -36,15 +36,28 @@ This can help ensure that the function is availble and not overwritten by other 
 ### Object.prototype.map(function)
 
 Create a clone of this with function applied to each value.
+Function takes value and key as arguments.
 
 ```javascript
 { a: 1 }.map(v => v+1) // { a: 2 }
 { a: 1, b: 2 }.map((v,k) => (k == 'b') ? v+1 : v) // { a: 1, b:3 }
 ```
 
+### Object.prototype.update(function)
+
+Update values of this using supplied function and return this
+Function takes value and key as arguments.
+
+```javascript
+let o = { a: 1 }
+o.update((v, k) => (k == 'b' ? v + 1 : v)) // { a: 1, b:3 }
+o // // { a: 1, b:3 }
+```
+
 ### Object.prototype.flatMap(function)
 
 Return new object with function applied to each entry return 0 or more new entry pairs
+Function takes value and key as arguments.
 
 ```javascript
 { a: 1 }.flatMap((k,v) => [[k+1, v+1],[k+2, v+2]]) // { a1: 2, a2: 3 }
@@ -104,6 +117,7 @@ Return new object with falsy entry values removed
 ### Object.prototype.filter(function)
 
 Return new object with only values that pass function.
+Function takes value and key as arguments.
 
 ```javascript
 { a: 1, b: 2 }.filter(v => v > 1) // { b: 2 }
@@ -114,6 +128,7 @@ Return new object with only values that pass function.
 ### Object.prototype.find(function)
 
 Return first key where value passes function
+Function takes value and key as arguments.
 
 ```javascript
 { a: 1, b: 2 }.find(v => v > 1) // 'b'
@@ -175,6 +190,7 @@ True is any entry passes function
 ### Object.prototype.every(function)
 
 True of all entries pass function
+Function takes value and key as arguments.
 
 ```javascript
 { a: 1, b: 2 }.find(v => v > 0) // true
