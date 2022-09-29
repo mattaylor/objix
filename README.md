@@ -176,15 +176,20 @@ JSON.stringfy(this)
 { a: 1 }.json() // '{ "a": 1 }'
 ```
 
-### Object.prototype.clone()
+### Object.prototype.clone(depth)
 
-Return new object with entries copied from this
+Return new object with entries cloned from this.
+Nested objects are also cloned to specified depth (-1 = any depth)
 
 ```javascript
-let o1 = { a: 1 }
-let o2 = o1.clone() // { a: 1 }
+let o1 = { a: 1, b: { c: 1 } }
+let o2 = o1.clone()
+let o3 = o1.clone(1)
+o1.b.c = 2
 o1.a = 2
-o2 // { a: a}
+o1 // { a: 2, b: { c: 2 } }
+o2 // { a: 1, b: { c: 2 } }
+o3 // { a: 1, b: { c: 1 } }
 ```
 
 ### Object.prototype.join(...objects)
