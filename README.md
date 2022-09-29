@@ -25,6 +25,14 @@ npm i -save objix
 
 ## API
 
+All functions documented below are also callable with a '\_' prefix to the function name.
+This can help ensure that the function is availble and not overwritten by other object property assignments.
+
+```javascript
+{}.size() == {}._size() //true
+{a: 1}.find(v => v) == {}._find(v => v) //true
+```
+
 ### Object.prototype.map(function)
 
 Create a clone of this with function applied to each value.

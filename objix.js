@@ -45,7 +45,7 @@ P.isString = function() {
   return typeof this == 'string'
 }
 
-P.find = function(fn) {
+P.find = P.find = function(fn) {
   for (let k of K(this)) if (fn(this[k],k)) return k
 }
 
@@ -109,3 +109,6 @@ P.keyBy = function(ar, k) {
   ar.map(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
   return this
 }
+
+for (let fn of P.keys()) if (fn[0] != '_') P['_'+fn] = P[fn]
+
