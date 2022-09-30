@@ -1,6 +1,6 @@
 ## Objix
 
-A dangerously convienient utility (< 2kb!) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects.
+A dangerously convienient utility, hight performance, lightweight utility (~2kb) that injects usefull functions into the Object prototype to sugar many common use cases for working with native Javascript objects.
 
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, printing, comparing, spliting and joining object togther.
 
@@ -17,18 +17,41 @@ The methods are highly optimised with zero copy operations where possible. There
 | Some     | 6.61   | 3.81  | 42.36  |
 | Every    | 3.68   | 2.73  | 25.82  |
 
-**NOTE:** Messing with Object prototypes is rarely a good idea and using this library may have unintended consequences in larger applications, however just think of all the key strokes you could save...
+**NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save by typing
+`ob.update(fun)` instead of `for (let key in Object.keys(ob) ob[key] = fun(ob[key], key))`
+
+## Usage
+
+### Node
+
+Install
 
 ```
 npm i -save objix
 ```
 
-## API
+Require:
+
+```
+require('objix')
+
+console.log({a:1}.map(v => v+1 ))
+```
+
+### Browser:
+
+```
+<script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.js"/>
+
+<script>
+console.log({a:1}.map(v => v+1 ))
+</script>
+```
+
+### Function Aliases
 
 All functions documented below are also callable with a '\_' prefix to the function name.
 This can help ensure that the function is availble and not overwritten by other object property assignments.
-
-### `_` Aliasing
 
 ```javascript
 {}.size() == {}._size() //true
@@ -40,11 +63,13 @@ This can help ensure that the function is availble and not overwritten by other 
 All functions listed below are also availble using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object prototype
 
 ```javascript
-const = _ = require('obix')
+const = _ = require('objix')
 
 _.size({}) == {}.size() // true
 _.find({a: 1}, v => v) == {}.find(v => v) //true
 ```
+
+## API
 
 ### Object.prototype.map(function)
 
@@ -185,7 +210,7 @@ Return new object with common entries intersecting with supplied object
 
 ### Object.prototype.delete(...keys)
 
-Return new object with keys in arguments removed
+Return this with keys in arguments removed
 
 ```javascript
 { a: 1, b: 2, c: 3 }.delete('a','b') // { c: 3 }
