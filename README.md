@@ -1,6 +1,6 @@
 ## Objix
 
-A dangerously convienient utility, hight performance, lightweight utility (~2kb) that injects usefull functions into the Object prototype to sugar many common use cases for working with native Javascript objects.
+A dangerously convienient utility, hight performance, lightweight utility (2.4kb) that injects usefull functions into the Object prototype to sugar many common use cases for working with native Javascript objects.
 
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, printing, comparing, spliting and joining object togther.
 
@@ -17,8 +17,8 @@ The methods are highly optimised with zero copy operations where possible. There
 | Some     | 6.61   | 3.81  | 42.36  |
 | Every    | 3.68   | 2.73  | 25.82  |
 
-**NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save by typing
-`ob.update(fun)` instead of `for (let key in Object.keys(ob) ob[key] = fun(ob[key], key))`
+**NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save by typing something like
+`ob.map(fun)` instead of `for (let key in Object.keys(ob) ob[key] = fun(ob[key], key))`
 
 ## Usage
 
