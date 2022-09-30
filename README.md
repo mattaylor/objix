@@ -4,7 +4,7 @@ A dangerously convienient utility (< 2kb!) that injects usefull functions into t
 
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, printing, comparing, spliting and joining object togther.
 
-The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. As a result performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` can be upto 75% faster than `_.mapValues(ob, fn)` when working with small objects according to simple [benchmarks](bench.js)
+The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. As a result performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` is typically 50% faster than `_.mapValues(ob, fn)` when working with small objects but can be as high as 75% faster according to simple [benchmarks](bench.js)
 
 | Function | lodash | objix | % Diff |
 | -------- | ------ | ----- | ------ |
@@ -28,9 +28,22 @@ npm i -save objix
 All functions documented below are also callable with a '\_' prefix to the function name.
 This can help ensure that the function is availble and not overwritten by other object property assignments.
 
+### `_` Aliasing
+
 ```javascript
 {}.size() == {}._size() //true
-{a: 1}.find(v => v) == {}._find(v => v) //true
+{a: 1}.find(v => v) == {a: 1}._find(v => v) //true
+```
+
+### Exported Functions
+
+All functions listed below are also availble using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object prototype
+
+```javascript
+const = _ = require('obix')
+
+_.size({}) == {}.size() // true
+_.find({a: 1}, v => v) == {}.find(v => v) //true
 ```
 
 ### Object.prototype.map(function)

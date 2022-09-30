@@ -115,5 +115,7 @@ P.keyBy = function(ar, k) {
   return this
 }
 
-for (let fn of P.keys()) if (fn[0] != '_') P['_'+fn] = P[fn]
-
+for (let fn of P.keys()) {
+  if (fn[0] != '_') P['_'+fn] = P[fn]
+  if (typeof module != 'undefined') module.exports[fn] = function(ob, ...args) { return ob['_'+fn](...args) }
+}
