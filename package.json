@@ -1,7 +1,7 @@
 {
   "name": "objix",
-  "version": "1.2.5",
-  "description": "A dangerously convienient, high performance and low overhead (~2.4kb) utility that injects methods into the Object prototype to sugar for many common use cases working with Javascript objects.",
+  "version": "1.2.6",
+  "description": "A dangerously convienient, high performance and low overhead (~2kb) utility that injects methods into the Object prototype to sugar for many common use cases working with Javascript objects.",
   "main": "objix.js",
   "scripts": {
     "test": "node ./test",
