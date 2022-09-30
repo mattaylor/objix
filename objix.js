@@ -2,7 +2,6 @@ const
   P = Object.prototype,
   F = Object.fromEntries,
   K = Object.keys,
-  V = Object.values,
   A = Object.assign
 
 for (let f of ['keys', 'values', 'entries']) P[f] = function() {
