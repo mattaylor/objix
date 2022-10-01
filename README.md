@@ -48,6 +48,14 @@ console.log({a:1}.map(v => v+1 ))
 </script>
 ```
 
+### Chaining
+
+Most of these function return objects including those modifying thid and so can be easily chained together.
+
+```javascript
+{a: 0, b: 1, c: 2}.clean().map(v => v+1) // {b: 2, c: 3}
+```
+
 ### Function Aliases
 
 All functions documented below are also callable with a '\_' prefix to the function name.
