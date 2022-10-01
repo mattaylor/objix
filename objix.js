@@ -24,11 +24,6 @@ P.map = function(fn) {
   return r
 }
 
-P.update = function(fn) {
-  for (let k of K(this)) this[k] = fn(this[k],k)
-  return this
-}
-
 P.filter = function(fn) {
   return F(K(this).flatMap(k => fn(this[k],k) ? [[k,this[k]]] : []))
 }
@@ -54,15 +49,11 @@ P.find = P.find = function(fn) {
 }
 
 P.assign = function(...obs) {
-  return A({}, this, ...obs)
+  return A(this, ...obs)
 }
 
 P.merge = function(...obs) {
   return A({}, ...obs, this)
-}
-
-P.patch = function(...obs) {
-  return A(this, ...obs)
 }
 
 P.delete = function(...keys) {
