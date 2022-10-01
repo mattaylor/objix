@@ -35,11 +35,11 @@ console.assert({a:1}.size() == 1, 'Size')
 console.assert({a:1}._size() == 1, '_Size')
 console.assert(!{}.size(), '!Size')
 
-console.assert(o3.assign({d:4}).equals(o4) && !o3.equals(o4), 'Assign')
-console.assert(o3._assign({d:4}).equals(o4) && !o3.equals(o4), '_Assign')
+console.assert(o3.assign({d:4}).equals(o4) && o3.equals(o4), 'Assign')
+console.assert(o3._assign({d:4}).equals(o4) && o3.equals(o4), '_Assign')
 
-console.assert(o3.patch({d:4}) && o3.equals(o4), 'Patch')
-console.assert(o3._patch({d:4}) && o3.equals(o4), '_Patch')
+//console.assert(o3.patch({d:4}) && o3.equals(o4), 'Patch')
+//console.assert(o3._patch({d:4}) && o3.equals(o4), '_Patch')
 
 console.assert(o3.delete('d','c','b') && o3.equals({a:2}), 'Delete')
 console.assert(o3._delete('d','c','b') && o3.equals({a:2}), '_Delete')
@@ -91,9 +91,9 @@ let _x = {}._keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
 console.assert(x.equals({ o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]}, -1), '_KeyBy')
 
 
-let a = { a: 1}
-a.update(v => v+1)
-console.assert(a.equals({a: 2}, 'Update'))
-let _a = { a: 1}
-_a._update(v => v+1)
-console.assert(_a.equals({a: 2}, '_Update'))
+//let a = { a: 1}
+//a.update(v => v+1)
+//console.assert(a.equals({a: 2}, 'Update'))
+//let _a = { a: 1}
+//_a._update(v => v+1)
+//console.assert(_a.equals({a: 2}, '_Update'))

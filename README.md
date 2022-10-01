@@ -81,17 +81,6 @@ Function takes value and key as arguments.
 { a: 1, b: 2 }.map((v,k) => (k == 'b') ? v+1 : v) // { a: 1, b:3 }
 ```
 
-### Object.prototype.update(function)
-
-Update values of this using supplied function and return this
-Function takes value and key as arguments.
-
-```javascript
-let o = { a: 1 }
-o.update((v, k) => (k == 'b' ? v + 1 : v)) // { a: 1, b:3 }
-o // // { a: 1, b:3 }
-```
-
 ### Object.prototype.flatMap(function)
 
 Return new object with function applied to each entry return 0 or more new entry pairs
@@ -176,7 +165,7 @@ Function takes value and key as arguments.
 
 ### Object.prototype.assign(...objects)
 
-Return new object with keys assiged from arguments overwriting this
+Assign entries from arguments into this and return this.
 
 ```javascript
 { a: 1 }.assign({ a: 2, b: 2 }, {c: 3 }) // { a: 2, b: 2, c: 3 }
@@ -184,7 +173,7 @@ Return new object with keys assiged from arguments overwriting this
 
 ### Object.prototype.merge(...objects)
 
-Return new object with keys assiged from arguments pritotising this
+Return new object with keys assiged from this and the arguments without everwriting.
 
 ```javascript
 { a: 1 }.merge({ a: 2, b: 2 }, {c: 3 }) // { a: 1, b: 2, c: 3 }
