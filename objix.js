@@ -53,7 +53,7 @@ P.assign = function(...obs) {
 }
 
 P.merge = function(...obs) {
-  return A({}, ...obs, this)
+  return A(this, ...obs, this)
 }
 
 P.delete = function(...keys) {

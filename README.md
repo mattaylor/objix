@@ -165,28 +165,18 @@ Function takes value and key as arguments.
 
 ### Object.prototype.assign(...objects)
 
-Assign entries from arguments into this and return this.
+Assign and overwrite entries from arguments into this and return this.
 
 ```javascript
-{ a: 1 }.assign({ a: 2, b: 2 }, {c: 3 }) // { a: 2, b: 2, c: 3 }
+{ a: 1, b: 1 }.assign({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 2, c: 3 }
 ```
 
 ### Object.prototype.merge(...objects)
 
-Return new object with keys assiged from this and the arguments without everwriting.
+Assign without overwriting entries from arguments into this and return this.
 
 ```javascript
-{ a: 1 }.merge({ a: 2, b: 2 }, {c: 3 }) // { a: 1, b: 2, c: 3 }
-```
-
-### Object.prototype.patch(...objects)
-
-Assign entries from arguments to this and return this
-
-```javascript
-let o = { a: 1, b: 2 }
-o.patch({ a: 2 }) // { a: 2, b: 2 }
-o // { a: 2, b: 2 }
+{ a: 1, b: 1 }.merge({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 1, c: 3 }
 ```
 
 ### Object.prototype.common(object)
