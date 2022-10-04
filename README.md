@@ -4,18 +4,19 @@ A dangerously convienient utility, high performance, lightweight utility (2kb mi
 
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, printing, comparing, spliting and joining object togther.
 
-The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. As a result performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` can be up to 50% faster than `_.mapValues(ob, fn)` when working with small objects accortding to simple ops/sec [benchmarks](bench.js)
+The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. As a result, combined with the faster startup times for using prototypes, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` can be up to 100% faster than `_.mapValues(ob, fn)` when working with small objects accortding to simple ops/sec [benchmarks](bench.js)
+`node bench 1000 10 10`
 
-| Function | lodash   | objix    | % Diff  |
-| -------- | -------- | -------- | ------- |
-| Map      | 3246.46  | 4688.6   | 44.42   |
-| Filter   | 100.4    | 1409.48  | 1303.86 |
-| Find     | 10616.18 | 24600.26 | 131.72  |
-| KeyBy    | 4049.26  | 6451.44  | 59.32   |
-| Equals   | 672.02   | 1098.28  | 63.43   |
-| Clone    | 1416.79  | 1361.71  | -3.89   |
-| Some     | 3226.23  | 4541.02  | 40.75   |
-| Every    | 5905.66  | 8881.59  | 50.39   |
+| Function | Objix   | Lodash  | % Imp  |
+| -------- | ------- | ------- | ------ |
+| Map      | 2134.02 | 1083.66 | 96.93  |
+| Filter   | 992.06  | 95.16   | 942.52 |
+| Find     | 7045.56 | 2940.56 | 139.6  |
+| KeyBy    | 2941.39 | 1744.72 | 68.59  |
+| Equals   | 745.86  | 424.24  | 75.81  |
+| Clone    | 1028.14 | 840.28  | 22.36  |
+| Some     | 2507.86 | 1366.36 | 83.54  |
+| Every    | 3352.14 | 2721.61 | 23.17  |
 
 **NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save by typing something like
 `ob.map(fun)` instead of `for (let key in Object.keys(ob) ob[key] = fun(ob[key], key))`
@@ -24,7 +25,7 @@ The methods are highly optimised with zero copy operations where possible. There
 
 ### Node
 
-Install
+Install:
 
 ```
 npm i -save objix
