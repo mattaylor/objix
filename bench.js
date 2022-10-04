@@ -106,6 +106,6 @@ const large = { }
 for (let i=1; i < 1000; i++) large['k'+i] = i
 
 report('Small Object Ops/msec   (10)', small)
-//report('Medium Object Ops/msec (100)', large)
+report('Medium Object Ops/msec (100)', large)
 //report('Large Object Ops/mSec (1000)', large)
 ////report('Deep  Object Test', deep)

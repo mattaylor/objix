@@ -4,18 +4,18 @@ A dangerously convienient utility, high performance, lightweight utility (2kb mi
 
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, printing, comparing, spliting and joining object togther.
 
-The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. As a result performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` is typically around 20% faster than `_.mapValues(ob, fn)` when working with small objects accortding to simple ops/sec [benchmarks](bench.js)
+The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. As a result performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` can be up to 50% faster than `_.mapValues(ob, fn)` when working with small objects accortding to simple ops/sec [benchmarks](bench.js)
 
-| Function | lodash  | objix    | % Diff |
-| -------- | ------- | -------- | ------ |
-| Map      | 4796.63 | 3951.29  | 21.39  |
-| Filter   | 1502.55 | 105.65   | 1322.2 |
-| Find     | 25545.8 | 10426.21 | 145.02 |
-| KeyBy    | 6933.27 | 4311.82  | 60.8   |
-| Equals   | 1151.48 | 698.81   | 64.78  |
-| Clone    | 1435.98 | 1453.35  | -1.2   |
-| Some     | 4857.18 | 3521.05  | 37.95  |
-| Every    | 9035.33 | 6320.01  | 42.96  |
+| Function | lodash   | objix    | % Diff  |
+| -------- | -------- | -------- | ------- |
+| Map      | 3246.46  | 4688.6   | 44.42   |
+| Filter   | 100.4    | 1409.48  | 1303.86 |
+| Find     | 10616.18 | 24600.26 | 131.72  |
+| KeyBy    | 4049.26  | 6451.44  | 59.32   |
+| Equals   | 672.02   | 1098.28  | 63.43   |
+| Clone    | 1416.79  | 1361.71  | -3.89   |
+| Some     | 3226.23  | 4541.02  | 40.75   |
+| Every    | 5905.66  | 8881.59  | 50.39   |
 
 **NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save by typing something like
 `ob.map(fun)` instead of `for (let key in Object.keys(ob) ob[key] = fun(ob[key], key))`
