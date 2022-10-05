@@ -46,8 +46,8 @@ function _compare(funcs) {
   return res
 }
 
-function report(name, ob) {
-  console.log(name)
+function report(title, ob) {
+  console.log(title)
   console.table({
     Map: {
       vanilla: () => Object.fromEntries(Object.entries(ob).map(([k,v]) => [k, v+1])),
