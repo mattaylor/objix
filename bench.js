@@ -28,8 +28,8 @@ function compare(funcs) {
   let res = hist.map(v => v.mean)
   res['% Imp'] = round(100*(hist.objix.mean - hist.lodash.mean)/hist.lodash.mean)
   res['% Err'] = round(100*(hist.objix.stddev + hist.lodash.stddev)/(hist.objix.mean + hist.lodash.mean))
-  res['% Err (Lo)'] = round(100*hist.lodash.stddev/hist.lodash.mean)
-  res['% Err (Ob)'] = round(100*hist.objix.stddev/hist.objix.mean)
+  //res['% Err (Lo)'] = round(100*hist.lodash.stddev/hist.lodash.mean)
+  //res['% Err (Ob)'] = round(100*hist.objix.stddev/hist.objix.mean)
    
   return res
 }
