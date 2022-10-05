@@ -303,3 +303,13 @@ o = {}
 o.keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
 o // { o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]
 ```
+
+### Object.prototype.bind(key, function)
+
+Binds a function to this object using the given key and applies this as its first argument.
+
+```javascript
+o = { a: 1, b: 2, c: 3 }
+o.bind('max', m => m.entries().sort((a, b) => b[1] - a[1])[1])
+o.max() // 3
+```
