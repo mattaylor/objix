@@ -23,15 +23,13 @@ function compare(funcs) {
     if (!hist[key]) hist[key] = ph.createHistogram()
     start = performance.now()
     for (let i = 0; i < iters; i++) fun()
-   //res[key].record(Math.round(1000000*(performance.now() - start)))
     hist[key].record(Math.round(iters/(performance.now() - start)))
   }
-  //console.log(res)
-  //res = res.map(v => round((1000000*iters)/v.mean))
-  let res = hist.map(v => v.mean) // + ' ('+ round(100*v.stddev/v.mean) +'%)')
-  //res = res.map(v => round((1000000*iters)/v.percentiles.get(75)))
+  let res = hist.map(v => v.mean)
   res['% Imp'] = round(100*(hist.objix.mean - hist.lodash.mean)/hist.lodash.mean)
   res['% Err'] = round(100*(hist.objix.stddev + hist.lodash.stddev)/(hist.objix.mean + hist.lodash.mean))
+  res['% Err (Lo)'] = round(100*hist.lodash.stddev/hist.lodash.mean)
+  res['% Err (Ob)'] = round(100*hist.objix.stddev/hist.objix.mean)
    
   return res
 }
