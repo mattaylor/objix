@@ -46,7 +46,9 @@ console.assert(o3._delete('d','c','b') && o3.equals({a:2}), '_Delete')
 console.assert(o3.delete('d','c','b') && !o3.equals({d:2}), '!Delete')
 
 console.assert(o4.clone().equals(o4), 'Clone')
+console.assert({a:1, b:{c:{d:1}}}.clone(-1).equals({a:1,b:{c:{ d:1}}}, -1), 'Clone')
 console.assert(o4._clone().equals(o4), '_Clone')
+
 console.assert(o4.clone() !== o4, '!Clone')
 
 console.assert({a:1}.join({a:2}).a[1] == 2, 'Join')

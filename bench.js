@@ -52,16 +52,17 @@ function report(name, ob) {
   console.log(name)
   console.table({
     Map: {
+      vanilla: () => Object.fromEntries(Object.entries(ob).map(([k,v]) => [k, v+1])),
       lodash: () => _.mapValues(ob, v => v+1),
       objix : () => ob.map(v => v+1),
     },
     Filter: {
-      //vanilla: () => Object.fromEntries(Object.entries(ob).flatMap(([k,v]) => v == 1 ? [[k,v]] : [])),
+      vanilla: () => Object.fromEntries(Object.entries(ob).flatMap(([k,v]) => v == 1 ? [[k,v]] : [])),
       lodash: () => _.pickBy(ob, v => v == 1),
       objix:  () => ob.filter(v => v == 1),
     },
     Find: {
-      //vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
+      vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
       lodash: () => _.findKey(ob, v => v == 1),
       objix: () => ob.find(v => v == 1),
     },
@@ -70,22 +71,22 @@ function report(name, ob) {
       objix:  () => ({}.keyBy([{a:1},{a:2},{a:3}], 'a')),
     },
     Equals: {
-      //vanilla: () => { try { return assert.deepEqual({a:1},{a:1}) || true } catch { return false }},
+      vanilla: () => { try { return assert.deepEqual({a:1},{a:1}) || true } catch { return false }},
       lodash: () => _.isEqual(ob, ob.clone()),
       objix: () => ob.equals(ob.clone(), -1),
     },
     Clone: {
-      //vanilla: () => Object.assign({}, ob),
+      vanilla: () => Object.assign({}, ob),
       lodash: () => _.clone(ob),
       objix:  () => ob.clone(),
     },
     Some: {
-      //vanilla: () => Object.values(ob).some(v => v == 'x'),
+      vanilla: () => Object.values(ob).some(v => v == 'x'),
       lodash: () => _.some(_.values(ob), v => v == 'x'),
       objix: () => ob.some(v => v == 'x'),
     },
     Every: {
-      //vanilla: () => Object.values(ob).every(v => v),
+      vanilla: () => Object.values(ob).every(v => v),
       lodash:  () => _.every(_.values(ob), v => v),
       objix: () => ob.every(v => v),
     }
