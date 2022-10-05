@@ -72,10 +72,10 @@ This can help ensure that the function is availble and not overwritten by other 
 All functions listed below are also availble using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object prototype
 
 ```javascript
-const = _ = require('objix')
+const _ = require('objix')
 
-_.size({a: 1}) == {a: 1}.size() // true
-_.find({a: 1}, v => v) == {a: 1}.find(v => v) //true
+_.size({ a: 1 }) == { a: 1 }.size() // true
+_.find({ a: 1 }, v => v) == { a: 1 }.find(v => v) //true
 ```
 
 ## API
