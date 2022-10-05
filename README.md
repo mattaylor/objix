@@ -311,5 +311,6 @@ Binds a function to this object using the given key and applies this as its firs
 ```javascript
 o = { a: 1, b: 2, c: 3 }
 o.bind('max', m => m.values().sort((a, b) => b - a)[0])
+// o.max = function() { return this.values().sort((a, b) => b - a)[0]) }
 o.max() // 3
 ```

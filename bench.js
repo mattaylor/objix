@@ -99,4 +99,4 @@ function report(name, ob) {
 
 const testOb = { }
 for (let i=1; i <= oSize; i++) testOb['k'+i] = i
-report(`Ops/msec (${oSize})`, testOb)
+report(`Ops/sec (iters: ${iters}, heats: ${heats} size: ${oSize})`, testOb)
