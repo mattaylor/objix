@@ -66,7 +66,10 @@ P.json = function(fn) {
 }
 
 P.clone = function(d) {
-  return F(K(this).map(k => [k, (d && d.size()) ? this[k].clone(d-1) : this[k]]))
+  //return F(K(this).map(k => [k, (d && d.size()) ? this[k].clone(d-1) : this[k]]))
+  let r = {}
+  K(this).map(k => r[k] = (d && d.size()) ? this[k].clone(d-1) : this[k])
+  return r
 }
 
 P.join = function(...obs) {
