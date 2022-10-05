@@ -70,18 +70,9 @@ function report(name, ob) {
       objix:  () => ({}.keyBy([{a:1},{a:2},{a:3}], 'a')),
     },
     Equals: {
-      /*
-      vanilla: () => {
-        try {
-          assert.deepEqual(ob, ob.clone())
-          return true
-        } catch (e) {
-          return false
-        }
-      },
-      */
+      //vanilla: () => { try { return assert.deepEqual({a:1},{a:1}) || true } catch { return false }},
       lodash: () => _.isEqual(ob, ob.clone()),
-      objix: () => ob.equals(ob.clone()),
+      objix: () => ob.equals(ob.clone(), -1),
     },
     Clone: {
       //vanilla: () => Object.assign({}, ob),
