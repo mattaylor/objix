@@ -13,8 +13,6 @@ const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 Calculate run time for *heats* batches of *iters* executions of each function, with a randomised execution order for each batch. 
 Each batch run also includes a 100 iteration warmup verifying the results of the function against objix
 */
-
-
 function compare(funcs) {
   let hist = { }, start
   //for (let r = 0; r < heats; r++) for (let [key,fun] of funcs.entries()) {
