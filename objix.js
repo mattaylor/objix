@@ -107,6 +107,7 @@ P.keyBy = function(ar, k) {
 
 P.bind = function(key, fn) {
   this[key] = function(...args) { return fn(this, ...args) }
+  return this
 }
 
 for (let fn of P.keys()) {
