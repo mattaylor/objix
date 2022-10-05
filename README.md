@@ -5,18 +5,19 @@ A dangerously convienient utility, high performance, lightweight utility (2kb mi
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, printing, comparing, spliting and joining object togther.
 
 The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. As a result, combined with the faster startup times for using prototypes, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` can be up to 100% faster than `_.mapValues(ob, fn)` when working with small objects accortding to simple ops/sec [benchmarks](bench.js)
-`node bench 1000 10 10`
 
-| Function | Objix   | Lodash  | % Imp  |
-| -------- | ------- | ------- | ------ |
-| Map      | 2134.02 | 1083.66 | 96.93  |
-| Filter   | 992.06  | 95.16   | 942.52 |
-| Find     | 7045.56 | 2940.56 | 139.6  |
-| KeyBy    | 2941.39 | 1744.72 | 68.59  |
-| Equals   | 745.86  | 424.24  | 75.81  |
-| Clone    | 1028.14 | 840.28  | 22.36  |
-| Some     | 2507.86 | 1366.36 | 83.54  |
-| Every    | 3352.14 | 2721.61 | 23.17  |
+### Ops/sec (iters: 1000, heats: 10 size: 10)
+
+| Function | Objix   | Lodash | % Imp   | % Err |
+| -------- | ------- | ------ | ------- | ----- |
+| Map      | 2495.9  | 1702.7 | 46.58   | 42.64 |
+| Filter   | 1096.4  | 94     | 1066.38 | 13.69 |
+| Find     | 13985.6 | 3564.7 | 292.34  | 72.58 |
+| KeyBy    | 5492.2  | 2762.3 | 98.83   | 57.02 |
+| Equals   | 784.4   | 475.3  | 65.03   | 18.98 |
+| Clone    | 997.5   | 941.3  | 5.97    | 15.83 |
+| Some     | 2920.1  | 2024.6 | 44.23   | 37.38 |
+| Every    | 5084.8  | 3236.8 | 57.09   | 41.47 |
 
 **NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save by typing something like
 `ob.map(fun)` instead of `for (let key in Object.keys(ob) ob[key] = fun(ob[key], key))`
