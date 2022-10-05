@@ -1,6 +1,6 @@
 ## Objix
 
-A dangerously convienient utility, high performance, lightweight utility (2kb min) that injects usefull functions into the Object prototype to sugar many common use cases for working with native Javascript objects.
+A dangerously convienient, high performance, lightweight utility (2kb min) that injects usefull functions into the Object prototype to sugar many common use cases for working with native Javascript objects.
 
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, printing, comparing, spliting and joining object togther.
 
