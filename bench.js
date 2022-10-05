@@ -16,22 +16,27 @@ Each batch run also includes a 100 iteration warmup verifying the results of the
 
 
 function compare(funcs) {
-  let res = { }, start
+  let hist = { }, start
+  //for (let r = 0; r < heats; r++) for (let [key,fun] of funcs.entries()) {
   for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) {
     for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
-    if (!res[key]) res[key] = ph.createHistogram()
+    if (!hist[key]) hist[key] = ph.createHistogram()
     start = performance.now()
     for (let i = 0; i < iters; i++) fun()
-    res[key].record(Math.round(1000000*(performance.now() - start)))
+   //res[key].record(Math.round(1000000*(performance.now() - start)))
+    hist[key].record(Math.round(iters/(performance.now() - start)))
   }
   //console.log(res)
-  res = res.map(v => round((1000000*iters)/v.mean))
+  //res = res.map(v => round((1000000*iters)/v.mean))
+  let res = hist.map(v => v.mean) // + ' ('+ round(100*v.stddev/v.mean) +'%)')
   //res = res.map(v => round((1000000*iters)/v.percentiles.get(75)))
-  res['% Imp'] = round(100*(res.objix - res.lodash)/res.lodash)
+  res['% Imp'] = round(100*(hist.objix.mean - hist.lodash.mean)/hist.lodash.mean)
+  res['% Err'] = round(100*(hist.objix.stddev + hist.lodash.stddev)/(hist.objix.mean + hist.lodash.mean))
+   
   return res
 }
 
-function compare(funcs) {
+function _compare(funcs) {
   let res = { }, start
   for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) {
     for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
@@ -40,6 +45,7 @@ function compare(funcs) {
     res[key] = (res[key] || 0) + performance.now() - start
   }
   res = res.map(v => round((heats*iters)/v))
+
   res['% Imp'] = round(100*(res.objix - res.lodash)/res.lodash)
   return res
 }
