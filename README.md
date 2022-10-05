@@ -78,6 +78,20 @@ _.size({ a: 1 }) == { a: 1 }.size() // true
 _.find({ a: 1 }, v => v) == { a: 1 }.find(v => v) //true
 ```
 
+### Simple Classes
+
+```javascript
+let P = {
+  firstName: 'john',
+  lastName: 'doe',
+  fullName () {
+    return this.firstName + ' ' + this.lastName
+  }
+}
+let p1 = { firstName: 'mat' }.extend(P)
+p1.fullName() // 'mat doe'
+```
+
 ## API
 
 ### Object.prototype.map(function)
@@ -180,12 +194,12 @@ Assign and overwrite entries from arguments into this and return this.
 { a: 1, b: 1 }.assign({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 2, c: 3 }
 ```
 
-### Object.prototype.merge(...objects)
+### Object.prototype.extend(...objects)
 
-Assign without overwriting entries from arguments into this and return this.
+Return a new object with new entries assigned from arguments without overwriting this.
 
 ```javascript
-{ a: 1, b: 1 }.merge({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 1, c: 3 }
+{ a: 1, b: 1 }.extend({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 1, c: 3 }
 ```
 
 ### Object.prototype.common(object)

@@ -52,8 +52,8 @@ P.assign = function(...obs) {
   return A(this, ...obs)
 }
 
-P.merge = function(...obs) {
-  return A(this, ...obs, this)
+P.extend = function(...obs) {
+  return A({}, ...obs, this)
 }
 
 P.delete = function(...keys) {
