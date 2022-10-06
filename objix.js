@@ -119,5 +119,5 @@ P.log = function(msg='', con='log') {
 
 for (let fn of P.keys()) {
   if (fn[0] != '_') P['_'+fn] = P[fn]
-  if (typeof module != 'undefined') module.exports[fn] = (ob, ...args) => ob['_'+fn](...args)
+  try { module.exports[fn] = (ob, ...args) => ob['_'+fn](...args) } catch {}
 }
