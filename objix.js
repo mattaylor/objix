@@ -93,9 +93,7 @@ P.contains = function(ob, d) {
 }
 
 P.equals = function(ob, d) {
-  if (this.size() != ob.size()) return false
-  for (let k of K(this)) if (this[k] != ob[k] && !(d && this[k].equals(ob[k],d-1))) return false
-  return true
+  return !(this.size() == ob.size() && this.some((v,k) => v != ob[k] && !(d && v.equals(ob[k],d-1) )))
 }
 
 P.size = function() {
@@ -113,7 +111,8 @@ P.bind = function(key, fn) {
 }
 
 P.log = function(msg='', c='log') {
-  console[c](new Date().toLocaleString(), msg, this)
+  console[c](new Date().toISOString().slice(0,-8), msg, this)
+  //console[c](new Date().toLocaleString(), msg, this)
   return this
 }
 
