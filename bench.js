@@ -23,12 +23,17 @@ function compare(funcs) {
     for (let i = 0; i < iters; i++) fun()
     hist[key].record(Math.round(iters/(performance.now() - start)))
   }
+  /*
+  return hist.flatMap((k,v) => [
+    [k + ' 75%', v.percentiles.get(75)],
+    [k + ' avg', v.mean], 
+    [k + ' Err', round(100*v.stddev/v.mean)],
+    [k + ' Inc', round((100*v.mean/hist.lodash.mean)-100)],
+  ])
+  */
   let res = hist.map(v => v.mean)
-  res['% Imp'] = round(100*(hist.objix.mean - hist.lodash.mean)/hist.lodash.mean)
+  res['% Inc'] = round(100*(hist.objix.mean - hist.lodash.mean)/hist.lodash.mean)
   res['% Err'] = round(100*(hist.objix.stddev + hist.lodash.stddev)/(hist.objix.mean + hist.lodash.mean))
-  //res['% Err (Lo)'] = round(100*hist.lodash.stddev/hist.lodash.mean)
-  //res['% Err (Ob)'] = round(100*hist.objix.stddev/hist.objix.mean)
-   
   return res
 }
 
