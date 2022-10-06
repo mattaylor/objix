@@ -93,7 +93,7 @@ P.contains = function(ob, d) {
 }
 
 P.equals = function(ob, d) {
-  if (K(this).length != K(ob).length) return false
+  if (this.size() != ob.size()) return false
   for (let k of K(this)) if (this[k] != ob[k] && !(d && this[k].equals(ob[k],d-1))) return false
   return true
 }
