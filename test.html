@@ -1,0 +1,19 @@
+
+<h1> hello </h1>
+I am a page
+
+
+<head>
+<script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.js"></script>
+</head>
+
+<script>
+  let o = {a:0, b: 1, c: 2}
+    .clean()
+    .log('CLEAN')
+    .map(v => v+1)
+    .log('MAP')
+    .filter(v => v > 2)
+    .log('FILTER')
+     
+</script>
