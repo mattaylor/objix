@@ -112,8 +112,8 @@ P.bind = function(key, fn) {
   return this
 }
 
-P.log = function(msg='', con='log') {
-  console[con](new Date(), msg, this)
+P.log = function(msg='', c='log') {
+  console[c](new Date(), msg, this)
   return this
 }
 
