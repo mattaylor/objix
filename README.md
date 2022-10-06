@@ -224,8 +224,8 @@ Return this with keys in arguments removed
 True is any entry passes function
 
 ```javascript
-{ a: 1, b: 2 }.find(v => v > 1) // true
-{ a: 1, b: 2 }.find(v => v > 2) // false
+{ a: 1, b: 2 }.some(v => v > 1) // true
+{ a: 1, b: 2 }.some(v => v > 2) // false
 ```
 
 ### Object.prototype.every(function)
@@ -234,8 +234,8 @@ True of all entries pass function
 Function takes value and key as arguments.
 
 ```javascript
-{ a: 1, b: 2 }.find(v => v > 0) // true
-{ a: 1, b: 2 }.find(v => v > 1) // false
+{ a: 1, b: 2 }.every(v => v > 0) // true
+{ a: 1, b: 2 }.every(v => v > 1) // false
 ```
 
 ### Object.prototype.json()
@@ -278,13 +278,16 @@ Return Array of new objects for each value in each entry of this with a value ar
 { a: [1,2] }.split() // [ { a: 1 }, { a: 2 } ]
 ```
 
-### Object.prototype.contains(object)
+### Object.prototype.contains(object, depth)
 
-True if all entries of argument are also in this
+True if all entries of argument are also in this. May recurse to a given depth (-1 = any depth)
 
 ```javascript
-{ a: 1, b: 2 }.contains({ a: 1 }) // true
 { a: 1 }.contains({ a: 1, b: 2 }) // false
+{ a: 1, b: 2 }.contains({ a: 1 }) // true
+{a: 1, b: { c: 1 }}.contains({ c: 1 }) // false
+{a: 1, b: { c: 1 }}.contains({ c: 1 }, 1) // true
+
 ```
 
 ### Object.prototype.equals(object, depth)

@@ -87,8 +87,8 @@ P.common = function(ob) {
   return F(K(this).flatMap(k => (ob[k] == this[k]) ? [[k,this[k]]] : []))
 }
 
-P.contains = function(ob) {
-  for (let k of K(ob)) if (this[k] != ob[k]) return false
+P.contains = function(ob, d) {
+  for (let k of K(ob)) if (this[k] != ob[k] && !(d && this.some(v => v.contains(ob, d-1)))) return false
   return true
 }
 

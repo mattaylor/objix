@@ -98,6 +98,12 @@ _y.bind('max', o => o.entries().sort((a,b) => b[1] - a[1])[0][0])
 
 console.assert(_y.max() == 'b', 'Bind', _y.max())
 
+console.assert({a:1, b:[{c:1}]}.contains({c:1},-1), 'Contains Deep')
+console.assert({a:1, b:{c:1}}.contains({c:1},1), 'Contains Once')
+console.assert(!{a:1, b:[{c:1}]}.contains({c:2},-1), '!Contains Deep')
+console.assert(!{a:1, b:[{c:1}]}.contains({c:1},1), '!Contains Once')
+
+
 
 //let a = { a: 1}
 //a.update(v => v+1)
