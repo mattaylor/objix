@@ -285,8 +285,8 @@ True if all entries of argument are also in this. May recurse to a given depth (
 ```javascript
 { a: 1 }.contains({ a: 1, b: 2 }) // false
 { a: 1, b: 2 }.contains({ a: 1 }) // true
-{a: 1, b: { c: 1 }}.contains({ c: 1 }) // false
-{a: 1, b: { c: 1 }}.contains({ c: 1 }, 1) // true
+{ a: 1, b: { c: 1 }}.contains({ c: 1 }) // false
+{ a: 1, b: { c: 1 }}.contains({ c: 1 }, 1) // true
 
 ```
 
