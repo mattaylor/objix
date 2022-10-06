@@ -112,8 +112,8 @@ P.bind = function(key, fn) {
   return this
 }
 
-P.log = function(tag, con='log') {
-  console[con](new Date().toISOString().slice(0,-8), tag || '', this)
+P.log = function(msg='', con='log') {
+  console[con](new Date(), msg, this)
   return this
 }
 

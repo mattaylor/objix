@@ -335,7 +335,7 @@ o.max() // 3
 
 ### Object.prototype.log(msg, type='log')
 
-Prints this to the console together with a minute time stamp and an optional msg.
+Prints this to the console together with a time stamp and an optional msg.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns this.
 
 ```javascript
