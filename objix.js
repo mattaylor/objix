@@ -112,6 +112,11 @@ P.bind = function(key, fn) {
   return this
 }
 
+P.log = function(tag, con='log') {
+  console[con](new Date().toISOString().slice(0,-8), tag || '', this)
+  return this
+}
+
 for (let fn of P.keys()) {
   if (fn[0] != '_') P['_'+fn] = P[fn]
   if (typeof module != 'undefined') module.exports[fn] = (ob, ...args) => ob['_'+fn](...args)

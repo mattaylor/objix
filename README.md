@@ -332,3 +332,18 @@ o.bind('max', m => m.values().sort((a, b) => b - a)[0])
 // o.max = function() { return this.values().sort((a, b) => b - a)[0]) }
 o.max() // 3
 ```
+
+### Object.prototype.log(msg, type='log')
+
+Prints this to the console together with a minute time stamp and an optional msg.
+Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns this.
+
+```javascript
+{ a: 1, b: 2 }.log('NOTE') // 2022-10-06T20:46 NOTE { a: 1, b: 1 }
+{ a: 1, b: 2 }.log('NOTE', 'trace')
+/*
+Trace: 2022-10-06T21:21 INFO { a: 1 }
+  at Object.P.log (/Users/mat/extra/objix/objix.js:116:15)
+  ...
+*/
+```
