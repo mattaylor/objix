@@ -52,7 +52,7 @@ console.log({a:1}.map(v => v+1 ))
 
 ### Chaining
 
-Most of these function return objects including those modifying thid and so can be easily chained together.
+Most of these function return objects including those modifying this and so can be easily chained together.
 
 ```javascript
 {a: 0, b: 1, c: 2}.clean().map(v => v+1) // {b: 2, c: 3}
@@ -70,7 +70,7 @@ This can help ensure that the function is availble and not overwritten by other 
 
 ### Exported Functions
 
-All functions listed below are also availble using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object prototype
+All functions listed below are also available using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object prototype
 
 ```javascript
 const _ = require('objix')
