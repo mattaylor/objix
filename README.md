@@ -357,11 +357,12 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
 Returns a proxy of this which traps all property assignments using the supplied function. The function takes `key`, `val` and `this` as arguments. If the function returns false and an error message is supplied then an exception will be thrown. If no error message is provided then the function just acts as an observer.
 
 ```javascript
-let o = { a: 1 }
+let o = { sum: 1, a: 1 }
   .trap(console.log)
   .trap((k, v) => v > 0, 'Values must be positive')
+  .trap((k, v, t) => k != 'sum' && (t.sum += v - (t[k] || 0)))
 
 o.b = 2 //  b 2 { a: 1 }
 o.c = 0 //  Uncaught [ 'Values must be positive', 'c', 0 ]
-o // { a: 1, b: 2}
+o // { a: 1, b: 2, sum: 3 }
 ```
