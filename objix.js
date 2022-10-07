@@ -115,7 +115,7 @@ P.log = function(msg='', c='log') {
   return this
 }
 
-for (let fn of P.keys()) {
+for (let fn of K(P)) {
   if (fn[0] != '_') P['_'+fn] = P[fn]
   try { module.exports[fn] = (ob, ...args) => ob['_'+fn](...args) } catch {}
 }
