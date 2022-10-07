@@ -104,7 +104,11 @@ console.assert(!{a:1, b:[{c:1}]}.contains({c:2},-1), '!Contains Deep')
 console.assert(!{a:1, b:[{c:1}]}.contains({c:1},1), '!Contains Once')
 
 
-
+let op = {sum:0}.trap((k,v,t) => (k != 'sum') && (t.sum += (v - (t[k] || 0))))
+op.a = 1
+op.b = 4
+op.a = 2
+console.assert(op.sum == 6, 'Trap')
 //let a = { a: 1}
 //a.update(v => v+1)
 //console.assert(a.equals({a: 2}, 'Update'))
