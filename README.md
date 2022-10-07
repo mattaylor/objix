@@ -52,7 +52,7 @@ console.log({a:1}.map(v => v+1 ))
 
 ### Chaining
 
-Most of these function return objects including those modifying this and so can be easily chained together.
+Most of these function return objects including those modifying `this` and so can be easily chained together.
 
 ```javascript
 {a: 0, b: 1, c: 2}.clean().map(v => v+1) // {b: 2, c: 3}
@@ -86,7 +86,7 @@ let P = {
   firstName: 'john',
   lastName: 'doe',
   fullName () {
-    return this.firstName + ' ' + this.lastName
+    return `this`.firstName + ' ' + `this`.lastName
   }
 }
 let p1 = { firstName: 'mat' }.extend(P)
@@ -97,7 +97,7 @@ p1.fullName() // 'mat doe'
 
 ### Object.prototype.map(function)
 
-Create a clone of this with function applied to each value.
+Create a clone of `this` with function applied to each value.
 Function takes value and key as arguments.
 
 ```javascript
@@ -117,7 +117,7 @@ Function takes value and key as arguments.
 
 ### Object.prototype.values()
 
-Object.values(this)
+Object.values(`this`)
 
 ```javascript
 { a: 1 }.values // [1]
@@ -125,7 +125,7 @@ Object.values(this)
 
 ### Object.prototype.keys()
 
-Object.keys(this)
+Object.keys(`this`)
 
 ```javascript
 { a: 1 }.keys // ['a']
@@ -133,7 +133,7 @@ Object.keys(this)
 
 ### Object.prototype.entries()
 
-Object.entries(this)
+Object.entries(`this`)
 
 ```javascript
 { a: 1 }.entries // [[a, 1]]
@@ -141,7 +141,7 @@ Object.entries(this)
 
 ### Object.prototype.isArray()
 
-True if this is an array
+True if `this` is an array
 
 ```javascript
 [].isArray() // true
@@ -150,7 +150,7 @@ True if this is an array
 
 ### Object.prototype.isString()
 
-True if this is a string
+True if `this` is a string
 
 ```javascript
 ''.isString() // true
@@ -189,7 +189,7 @@ Function takes value and key as arguments.
 
 ### Object.prototype.assign(...objects)
 
-Assign and overwrite entries from arguments into this and return this.
+Assign and overwrite entries from arguments into `this` and return `this`.
 
 ```javascript
 { a: 1, b: 1 }.assign({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 2, c: 3 }
@@ -197,7 +197,7 @@ Assign and overwrite entries from arguments into this and return this.
 
 ### Object.prototype.extend(...objects)
 
-Return a new object with new entries assigned from arguments without overwriting this.
+Return a new object with new entries assigned from arguments without overwriting `this`.
 
 ```javascript
 { a: 1, b: 1 }.extend({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 1, c: 3 }
@@ -213,7 +213,7 @@ Return new object with common entries intersecting with supplied object
 
 ### Object.prototype.delete(...keys)
 
-Return this with keys in arguments removed
+Return `this` with keys in arguments removed
 
 ```javascript
 { a: 1, b: 2, c: 3 }.delete('a','b') // { c: 3 }
@@ -240,7 +240,7 @@ Function takes value and key as arguments.
 
 ### Object.prototype.json()
 
-JSON.stringfy(this)
+JSON.stringfy(`this`)
 
 ```javascript
 { a: 1 }.json() // '{ "a": 1 }'
@@ -248,7 +248,7 @@ JSON.stringfy(this)
 
 ### Object.prototype.clone(depth)
 
-Return new object with entries cloned from this.
+Return new object with entries cloned from `this`.
 Nested objects are also cloned to specified depth (-1 = any depth)
 
 ```javascript
@@ -272,7 +272,7 @@ Return new Object with values concatenated from arguments having the common keys
 
 ### Object.prototype.split()
 
-Return Array of new objects for each value in each entry of this with a value array
+Return Array of new objects for each value in each entry of `this` with a value array
 
 ```javascript
 { a: [1,2] }.split() // [ { a: 1 }, { a: 2 } ]
@@ -280,7 +280,7 @@ Return Array of new objects for each value in each entry of this with a value ar
 
 ### Object.prototype.contains(object, depth)
 
-True if all entries of argument are also in this. May recurse to a given depth (-1 = any depth)
+True if all entries of argument are also in `this`. May recurse to a given depth (-1 = any depth)
 
 ```javascript
 { a: 1 }.contains({ a: 1, b: 2 }) // false
@@ -292,7 +292,7 @@ True if all entries of argument are also in this. May recurse to a given depth (
 
 ### Object.prototype.equals(object, depth)
 
-True if all entries of this equal the argument and argument has no other entries
+True if all entries of `this` equal the argument and argument has no other entries
 May recurse to a given depth (-1 for any depth)
 
 ```javascript
@@ -305,7 +305,7 @@ May recurse to a given depth (-1 for any depth)
 
 ### Object.prototype.size()
 
-Return number of entries of this.
+Return number of entries of `this`.
 
 ```javascript
 {}.size() // 0
@@ -314,7 +314,7 @@ Return number of entries of this.
 
 ### Object.prototype.keyBy(array, key)
 
-Index an array of objects into this using the given key, and return this.
+Index an array of objects into `this` using the given key, and return `this`.
 
 ```javascript
 o = {}
@@ -324,19 +324,19 @@ o // { o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]
 
 ### Object.prototype.bind(key, function)
 
-Binds a function to this object using the given key and applies this as its first argument. Returns this.
+Binds a function to `this` object using the given key and applies `this` as its first argument. Returns `this`.
 
 ```javascript
 o = { a: 1, b: 2, c: 3 }
 o.bind('max', m => m.values().sort((a, b) => b - a)[0])
-// o.max = function() { return this.values().sort((a, b) => b - a)[0]) }
+// o.max = function() { return `this`.values().sort((a, b) => b - a)[0]) }
 o.max() // 3
 ```
 
 ### Object.prototype.log(msg, type='log')
 
-Prints a deep clone of this to the console together with a time stamp and an optional msg.
-Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns this.
+Prints a deep clone of `this` to the console together with a time stamp and an optional msg.
+Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 
 ```javascript
 let o = { a: 0, b: 1 }
@@ -354,15 +354,17 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
 
 ### Object.prototype.trap(function, error)
 
-Returns a proxy of this which traps all property assignments using the supplied function. The function takes `key`, `val` and `this` as arguments. If the function returns false and an error message is supplied then an exception will be thrown. If no error message is provided then the function just acts as an observer.
+Returns a proxy of `this` which traps all property assignments using the supplied function. The function takes `key`, `val` and `this` as arguments. If the function returns truthy and an error message is supplied then an exception will be thrown. If no error message is provided the function just acts as an observer, although updates to `this` are still possible.
 
 ```javascript
-let o = { sum: 1, a: 1 }
+let o = { a: 1, sum: 1 }
   .trap(console.log)
-  .trap((k, v) => v > 0, 'Values must be positive')
+  .trap((k, v) => v < 0, 'Values must be positive')
   .trap((k, v, t) => k != 'sum' && (t.sum += v - (t[k] || 0)))
+  .trap((k, v) => k == 'sum', 'Sum is read only')
 
-o.b = 2 //  b 2 { a: 1 }
+o.b = 2 //  b 2 { a: 1, sum: 1 }
 o.c = 0 //  Uncaught [ 'Values must be positive', 'c', 0 ]
+o.sum = 1 // Uncaught [ 'Sum is read only', 'sum', 1 ]
 o // { a: 1, b: 2, sum: 3 }
 ```
