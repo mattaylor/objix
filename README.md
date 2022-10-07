@@ -359,7 +359,7 @@ Returns a proxy of `this` which traps all property assignments using the supplie
 ```javascript
 let o = { a: 1, sum: 1 }
   .trap(console.log)
-  .trap((k, v) => v < 0, 'Values must be positive')
+  .trap((k, v) => v <= 0, 'Values must be positive')
   .trap((k, v, t) => k != 'sum' && (t.sum += v - (t[k] || 0)))
   .trap((k, v) => k == 'sum', 'Sum is read only')
 
