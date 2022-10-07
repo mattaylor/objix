@@ -1,6 +1,6 @@
 {
   "name": "objix",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "description": "A dangerously convienient, high performance and low overhead (2kb) utility that injects methods into the Object prototype to sugar for many common use cases working with Javascript objects.",
   "main": "objix.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/mattaylor/objix.git"
   },
   "author": "Mat Taylor",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mattaylor/objix/issues"
   },
