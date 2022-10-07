@@ -359,8 +359,9 @@ Returns a proxy of this which traps all property assignments using the supplied 
 ```javascript
 let o = { a: 1 }
   .trap(console.log)
-  .trap((k, v) => v > 0, 'Values must be poistive')
+  .trap((k, v) => v > 0, 'Values must be positive')
 
 o.b = 2 //  b 2 { a: 1 }
 o.c = 0 //  Uncaught [ 'Values must be positive', 'c', 0 ]
+o // { a: 1, b: 2}
 ```
