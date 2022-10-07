@@ -339,10 +339,14 @@ Prints this to the console together with a time stamp and an optional msg.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns this.
 
 ```javascript
-{ a: 1, b: 2 }.log('NOTE') // 2022-10-06T20:46 NOTE { a: 1, b: 1 }
-{ a: 1, b: 2 }.log('NOTE', 'trace')
+let o = { a: 0, b: 1 }
+  .clean()
+  .log('CLEAN') // 2022-10-07T00:00 CLEAN { b: 1 }
+  .map(v => v + 1)
+  .log('MAP') // 2022-10-07T00:00 MAP { b: 2 }
+  .log('STACK', 'trace')
 /*
-Trace: 2022-10-06T21:21 INFO { a: 1 }
+Trace: 2022-10-06T21:21 STACK { b: 2 }
   at Object.P.log (/Users/mat/extra/objix/objix.js:116:15)
   ...
 */
