@@ -111,7 +111,7 @@ P.bind = function(key, fn) {
 }
 
 P.log = function(msg='', c='log') {
-  console[c](new Date().toISOString().slice(0,-8), msg, this)
+  console[c](new Date().toISOString().slice(0,-8), msg, this.clone(-1))
   return this
 }
 
