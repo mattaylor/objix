@@ -2,7 +2,7 @@
 
 A dangerously convienient, high performance, zero dependency, lightweight utility (2kb min) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects.
 
-The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, stringify, compare, split and join objects togther.
+The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, stringify, compare, split and join objects as well as logging, trapping and observing changes.
 
 The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. When combined with the faster startup times for using prototypes, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` can be up to 50% faster than `_.mapValues(ob, fn)` when working with small objects according to simple ops/sec [benchmarks](bench.js)
 
@@ -350,4 +350,17 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
   at Object.P.log (/Users/mat/extra/objix/objix.js:116:15)
   ...
 */
+```
+
+### Object.prototype.trap(function, error)
+
+Returns a proxy of this which traps all property assignments using the supplied function. The function takes `key`, `val` and `this` as arguments. If the function returns false and an error message is supplied then an exception will be thrown. If no error message is provided then the function just acts as an observer.
+
+```javascript
+let o = { a: 1 }
+  .trap(console.log)
+  .trap((k, v) => v > 0, 'Values must be poistive')
+
+o.b = 2 //  b 2 { a: 1 }
+o.c = 0 //  Uncaught [ 'Values must be positive', 'c', 0 ]
 ```

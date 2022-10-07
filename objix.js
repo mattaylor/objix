@@ -115,6 +115,15 @@ P.log = function(msg='', c='log') {
   return this
 }
 
+P.trap = function(fn, e) {
+  return new Proxy(this, { 
+    set(t,k,v,r) { 
+      if (!fn(k,v,r) && e) throw([e,k,v])
+      return Reflect.set(t,k,v,r)
+    }
+  })
+}
+
 for (let fn of K(P)) {
   if (fn[0] != '_') P['_'+fn] = P[fn]
   try { module.exports[fn] = (ob, ...args) => ob['_'+fn](...args) } catch {}
