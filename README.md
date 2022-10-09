@@ -352,16 +352,19 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
 */
 ```
 
-### Object.prototype.trap(function, error)
+### Object.prototype.trap(function, error, key)
 
-Returns a proxy of `this` which traps all property assignments using the supplied function. The function takes `key`, `val` and `this` as arguments. If the function returns truthy and an error message is supplied then an exception will be thrown. If no error message is provided the function just acts as an observer, although updates to `this` are still possible.
+Returns a proxy of `this` which traps all property assignments using the supplied function. The function takes `key`, `val` and `this` as arguments.
+If the function returns truthy and an error message is supplied then an exception will be thrown.
+If no error message is provided the function just acts as an observer, although updates to `this` are still possible.
+If `key` is defined then the trap function will only be called for assignments on that property.
 
 ```javascript
 let o = { a: 1, sum: 1 }
   .trap(console.log)
   .trap((k, v) => v <= 0, 'Values must be positive')
   .trap((k, v, t) => k != 'sum' && (t.sum += v - (t[k] || 0)))
-  .trap((k, v) => k == 'sum', 'Sum is read only')
+  .trap(() => true, 'Sum is read only', 'sum')
 
 o.b = 2 //  b 2 { a: 1, sum: 1 }
 o.c = 0 //  Uncaught [ 'Values must be positive', 'c', 0 ]
