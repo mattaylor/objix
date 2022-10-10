@@ -4,7 +4,7 @@ const
   K = Object.keys,
   A = Object.assign
 
-for (let f of ['keys', 'values', 'entries']) P[f] = function() {
+for (let f of ['keys', 'values', 'entries', 'create']) P[f] = function() {
   return Object[f](this)
 }
 
@@ -115,8 +115,21 @@ P.log = function(msg='', c='log') {
   return this
 }
 
+P.new = function(o) {
+  return (this._h_ ? new Proxy(this._t_.create(), this._h_) : this.create()).assign(o)
+}
+
 P.trap = function(fn, e, p) {
-  return new Proxy(this, { 
+  return new Proxy(this.assign({_t_: this, _h_ : {
+    set(t,k,v) { 
+      if ((!p || k==p) && !fn(v,k,t) && e) throw([e,k,v])
+      return t[k] = v
+    }
+  }}), this._h_)
+}
+
+P.trap1 = function(fn, e, p) {
+  return new Proxy(this, {
     set(t,k,v) { 
       if ((!p || k==p) && !fn(v,k,t) && e) throw([e,k,v])
       return t[k] = v

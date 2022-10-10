@@ -81,18 +81,19 @@ _.find({ a: 1 }, v => v) == { a: 1 }.find(v => v) //true
 
 ### Simple Classes
 
-```javascript
-let Person = {
-  firstName: 'john',
-  lastName: 'doe',
-  fullName () {
-    return `this`.firstName + ' ' + `this`.lastName
-  }
-}.trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
+Any object can act as a class from which new objects can be derived inheriting with the parent prperties, bound methods and traps inherited.
 
-let p1 = { firstName: 'jane' }.extend(Person)
-p1.fullName() // 'jane doe'
+```javascript
+let Person = { firstName: 'john', lastName: 'doe' }
+  .trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
+  .bind('age', t => new Date().getYear() - new Date(t.dob).getYear())
+  .bind('name', t => t.firstName + ' ' + t.lastName)
+
+let p1 = Person.new({ firstName: 'jane' })
+p1.name() // 'jane doe'
 p1.dob = 'foobar' // Uncaught [ 'Invalid date', 'dob', 'foobar' ]
+p1.dob = '10/10/2000'
+p1.age() // 22
 ```
 
 ## API
@@ -125,9 +126,18 @@ Object.values(`this`)
 { a: 1 }.values // [1]
 ```
 
+### Object.prototype.create()
+
+Object.create(this)
+
+```javascript
+let o = { a: 1 }.create() // {}
+o.a // 1
+```
+
 ### Object.prototype.keys()
 
-Object.keys(`this`)
+Object.keys(this)
 
 ```javascript
 { a: 1 }.keys // ['a']
@@ -135,7 +145,7 @@ Object.keys(`this`)
 
 ### Object.prototype.entries()
 
-Object.entries(`this`)
+Object.entries(this)
 
 ```javascript
 { a: 1 }.entries // [[a, 1]]
@@ -372,4 +382,15 @@ o.b = 2 //  b has changed
 o.c = 0 //  Uncaught [ 'Values must be positive', 'c', 0 ]
 o.sum = 1 // Uncaught [ 'Sum is read only', 'sum', 1 ]
 o // { a: 1, b: 2, sum: 3 }
+```
+
+### Object.prototype.new(object)
+
+Create a new object using `this` as its protoype. If traps have been defined for `this`, then the new object will also be a Proxy with the same trap handler but will target a new object which uses `this` as its prototype.
+
+```javascript
+let P = { a: 1 }.trap(v => v > 0, 'Not Positive')
+o1 = P.new({ b: 1 }) // { a: 1, b: 1 }
+o2 = P.new({ a: 2 }) // { a: 2 }
+o1.c = 0 // // Uncaught [ 'Not Positive', 'c', 0 ]
 ```
