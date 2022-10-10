@@ -88,9 +88,11 @@ let Person = {
   fullName () {
     return `this`.firstName + ' ' + `this`.lastName
   }
-}
+}.trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
+
 let p1 = { firstName: 'jane' }.extend(Person)
 p1.fullName() // 'jane doe'
+p1.dob = 'foobar' // Uncaught [ 'Invalid date', 'dob', 'foobar' ]
 ```
 
 ## API
@@ -354,19 +356,19 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
 
 ### Object.prototype.trap(function, error, key)
 
-Returns a proxy of `this` which traps all property assignments using the supplied function. The function takes `key`, `val` and `this` as arguments.
+Returns a proxy of `this` which traps all property assignments using the supplied function. The function takes `val`, `key` and `this` as arguments.
 If the function returns falsey and an error message is supplied then an exception will be thrown.
 If no error message is provided the function just acts as an observer, although updates to `this` are still possible.
-If `key` is defined then the trap function will only be called for assignments on that property.
+If `key` is defined then the trap function will only be called for assignments to the `key` property of `this`
 
 ```javascript
 let o = { a: 1, sum: 1 }
-  .trap((k, v, t) => v != t[k] && console.log(k + ' is now ' + v))
-  .trap((k, v) => v > 0, 'Values must be positive')
-  .trap((k, v, t) => k != 'sum' && (t.sum += v - (t[k] || 0)))
-  .trap(() => 0, 'Sum is read only', 'sum')
+  .trap((v, k, t) => v != t[k] && console.log(k + ' has changed'))
+  .trap(v => v > 0, 'Values must be positive')
+  .trap((v, k, t) => k != 'sum' && (t.sum += v - (t[k] || 0)))
+  .trap(v => false, 'Sum is read only', 'sum')
 
-o.b = 2 //  b is now 2
+o.b = 2 //  b has changed
 o.c = 0 //  Uncaught [ 'Values must be positive', 'c', 0 ]
 o.sum = 1 // Uncaught [ 'Sum is read only', 'sum', 1 ]
 o // { a: 1, b: 2, sum: 3 }
