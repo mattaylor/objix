@@ -104,10 +104,9 @@ console.assert(!{a:1, b:[{c:1}]}.contains({c:2},-1), '!Contains Deep')
 console.assert(!{a:1, b:[{c:1}]}.contains({c:1},1), '!Contains Once')
 
 
-let op = {sum:0}
+let op = {sum:0, id:'Proto'}
   .trap((v,k,t) => ['a','b','c'].includes(k) && (t.sum += t[k] ? v - t[k] : v))
   .trap(() => 0, 'Read only', 'sum')
-  
 
 op.a = 1
 op.b = 4
@@ -115,5 +114,9 @@ op.a = 2
 console.assert(op.sum == 6, 'Trap', op)
 try { console.assert(!op.sum++, '!Trap', op)} catch {}
 
+let op1 = op.new({id:'Op1'})
 
-// o1 = op.new()
+op1.c = 10
+
+console.assert(op.sum == 6, 'New (Proto)', op.sum)
+console.assert(op1.sum == 16, 'New (Created)', op1.sum)

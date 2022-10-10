@@ -386,7 +386,7 @@ o // { a: 1, b: 2, sum: 3 }
 
 ### Object.prototype.new(object)
 
-Create a new object using `this` as its protoype with additonal properties assigned from the argument. If traps have been defined for `this`, then the new object will also be a Proxy with the same trap handler but will target a new object which uses `this` as its prototype.
+Create a new object using `this` as its protoype with additonal properties assigned from the argument. If traps have been defined for `this`, then the new object will also be a Proxy with the same trap handlers but will target a new object which uses `this` as its prototype.
 
 ```javascript
 let P = { a: 1 }.trap(v => v > 0, 'Not Positive')
