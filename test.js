@@ -119,4 +119,5 @@ let op1 = op.new({id:'Op1'})
 op1.c = 10
 
 console.assert(op.sum == 6, 'New (Proto)', op.sum)
+try { console.assert(!op1.sum++, 'New !Trap', op1)} catch {}
 console.assert(op1.sum == 16, 'New (Created)', op1.sum)
