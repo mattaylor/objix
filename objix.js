@@ -115,10 +115,6 @@ P.log = function(msg='', c='log') {
   return this
 }
 
-P.new_ = function(o, i=0) {
-  return this.__ ? new Proxy(this.__.new(o, i+1), this._h_[i]) : this.create().assign(o)
-}
-
 P.new = function(o) {
   return this._t ? new Proxy(this._t.new(o), this._h) : this.create().assign(o)
 }
@@ -134,20 +130,6 @@ P.trap = function(fn, e, p) {
     }
   })
 }
-
-/*
-P.trap = function(fn, e, p) {
-  this._h_ = [{
-    set(t,k,v) {
-      if ((!p || k==p) && !fn(v,k,t) && e) throw([e,k,v])
-      return t[k] = v
-    },
-    //get(t, p) { return p == '__' ? t : t[p] }
-    get(t, p) { return p == '__' ? t : p == '__h' ? this : t[p] }
-  }].concat(this._h_||[])
-  return new Proxy(this, this._h_[0])
-}
-*/
 
 for (let fn of K(P)) {
   if (fn[0] != '_') P['_'+fn] = P[fn]
