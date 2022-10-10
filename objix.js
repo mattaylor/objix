@@ -121,20 +121,11 @@ P.new = function(o) {
 
 P.trap = function(fn, e, p) {
   return new Proxy(this.assign({_t_: this, _h_ : {
-    set(t,k,v) { 
+    set(t,k,v) {
       if ((!p || k==p) && !fn(v,k,t) && e) throw([e,k,v])
       return t[k] = v
     }
   }}), this._h_)
-}
-
-P.trap1 = function(fn, e, p) {
-  return new Proxy(this, {
-    set(t,k,v) { 
-      if ((!p || k==p) && !fn(v,k,t) && e) throw([e,k,v])
-      return t[k] = v
-    }
-  })
 }
 
 for (let fn of K(P)) {
