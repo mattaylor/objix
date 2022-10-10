@@ -118,7 +118,7 @@ P.log = function(msg='', c='log') {
 P.trap = function(fn, e, p) {
   return new Proxy(this, { 
     set(t,k,v) { 
-      if ((!p || k==p) && fn(k,v,t) && e) throw([e,k,v])
+      if ((!p || k==p) && !fn(v,k,t) && e) throw([e,k,v])
       return t[k] = v
     }
   })

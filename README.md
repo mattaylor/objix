@@ -82,15 +82,15 @@ _.find({ a: 1 }, v => v) == { a: 1 }.find(v => v) //true
 ### Simple Classes
 
 ```javascript
-let P = {
+let Person = {
   firstName: 'john',
   lastName: 'doe',
   fullName () {
     return `this`.firstName + ' ' + `this`.lastName
   }
 }
-let p1 = { firstName: 'mat' }.extend(P)
-p1.fullName() // 'mat doe'
+let p1 = { firstName: 'jane' }.extend(Person)
+p1.fullName() // 'jane doe'
 ```
 
 ## API
