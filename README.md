@@ -81,7 +81,7 @@ _.find({ a: 1 }, v => v) == { a: 1 }.find(v => v) //true
 
 ### Simple Classes
 
-Any object can act as a class from which new objects can be derived. All propoerties of `this` are inherited - including traps!!
+Any object can act as a class from which new objects can be derived. All properties of `this` are inherited - including traps!!
 
 ```javascript
 let Person = { firstName: 'john', lastName: 'doe' }
@@ -201,15 +201,15 @@ Function takes value and key as arguments.
 
 ### Object.prototype.assign(...objects)
 
-Assign and overwrite entries from arguments into `this` and return `this`.
+Assign and overwrite entries of `this` from arguments in ascending priority and return `this`.
 
 ```javascript
-{ a: 1, b: 1 }.assign({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 2, c: 3 }
+{ a: 1, b: 1 }.assign({ b: 2, c: 2 }, { c: 3 }) // { a: 1, b: 2, c: 3 }
 ```
 
 ### Object.prototype.extend(...objects)
 
-Return a new object with new entries assigned from arguments without overwriting `this`.
+Return a new object with new entries assigned from arguments in ascending priority without overwriting `this`.
 
 ```javascript
 { a: 1, b: 1 }.extend({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 1, c: 3 }
@@ -233,7 +233,8 @@ Return `this` with keys in arguments removed
 
 ### Object.prototype.some(function)
 
-True is any entry passes function
+True if any entry passes function.
+Function takes value and key as arguments.
 
 ```javascript
 { a: 1, b: 2 }.some(v => v > 1) // true
@@ -242,7 +243,7 @@ True is any entry passes function
 
 ### Object.prototype.every(function)
 
-True of all entries pass function
+True if all entries pass function.
 Function takes value and key as arguments.
 
 ```javascript
@@ -252,7 +253,7 @@ Function takes value and key as arguments.
 
 ### Object.prototype.json()
 
-JSON.stringfy(`this`)
+JSON.stringfy(this)
 
 ```javascript
 { a: 1 }.json() // '{ "a": 1 }'
@@ -269,17 +270,17 @@ let o2 = o1.clone()
 let o3 = o1.clone(1)
 o1.b.c = 2
 o1.a = 2
-o1 // { a: 2, b: { c: 2 } }
-o2 // { a: 1, b: { c: 2 } }
-o3 // { a: 1, b: { c: 1 } }
+o1 // { a: 2, b: { c: 2 }}
+o2 // { a: 1, b: { c: 2 }}
+o3 // { a: 1, b: { c: 1 }}
 ```
 
 ### Object.prototype.join(...objects)
 
-Return new Object with values concatenated from arguments having the common keys
+Return a new Object with the same keys as `this` and some values as arrays which concatenate the original value of `this` with values from all of the arguments having the same key.
 
 ```javascript
-{ a: 1 }.join({ a: 2 }, { a: 3 }) // { a: [1, 2, 3] }
+{ a: 1 }.join({ a: 2 }, { a: 3 }) // { a: [ 1, 2, 3 ]}
 ```
 
 ### Object.prototype.split()
@@ -287,7 +288,7 @@ Return new Object with values concatenated from arguments having the common keys
 Return Array of new objects for each value in each entry of `this` with a value array
 
 ```javascript
-{ a: [1,2] }.split() // [ { a: 1 }, { a: 2 } ]
+{ a: [ 1, 2 ]}.split() // [{ a: 1 }, { a: 2 }]
 ```
 
 ### Object.prototype.contains(object, depth)
@@ -375,7 +376,7 @@ If `key` is defined then the trap function will only be called for assignments t
 let o = { a: 1, sum: 1 }
   .trap((v, k, t) => v != t[k] && console.log(k + ' has changed'))
   .trap(v => v > 0, 'Values must be positive')
-  .trap((v, k, t) => k != 'sum' && (t.sum += v - (t[k] || 0)))
+  .trap((v, k, t) => k != 'sum' && (t.sum += t[k] ? v - t[k] : v))
   .trap(v => false, 'Sum is read only', 'sum')
 
 o.b = 2 //  b has changed
