@@ -126,7 +126,8 @@ P.trap = function(fn, e, p) {
       return t[k] = v
     },
     get(t,p) { 
-      return p == '_t' ? t : p == '_h' ? this : t[p]
+      // return p == '_t' ? t : p == '_h' ? this : t[p]
+      return {_t: t, _h: this}[p] || t[p]
     }
   })
 }
