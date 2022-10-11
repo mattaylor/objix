@@ -338,12 +338,12 @@ May recurse to a given depth (-1 for any depth)
 
 ### Object.prototype.size()
 
-Return number of entries of `this`. If `this` is a String, the size will be 0
+Return number of entries of `this`.
 
 ```javascript
 [1,2,3].size() // 3
 { a: 1, b: 2 }.size() // 2
-'asdf'.size() // 0
+`one`.size() // 3
 ```
 
 ### Object.prototype.keyBy(array, key)
