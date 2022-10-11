@@ -169,6 +169,15 @@ True if `this` is a string
 {}.isString() // false
 ```
 
+### Object.prototype.type()
+
+Returns the constructor name of this
+
+```javascript
+''.type() // String
+{}.type() // Object
+```
+
 ### Object.prototype.clean()
 
 Return new object with falsy entry values removed
@@ -329,11 +338,12 @@ May recurse to a given depth (-1 for any depth)
 
 ### Object.prototype.size()
 
-Return number of entries of `this`.
+Return number of entries of `this`. If `this` is a String, the size will be 0
 
 ```javascript
-{}.size() // 0
+[1,2,3].size() // 3
 { a: 1, b: 2 }.size() // 2
+'asdf'.size() // 0
 ```
 
 ### Object.prototype.keyBy(array, key)
@@ -359,7 +369,7 @@ o.max() // 3
 
 ### Object.prototype.log(msg, type='log')
 
-Prints a deep clone of `this` to the console (firefox!) together with a minute timestamp and an optional msg.
+Prints a deep clone of `this` to the console together with a minute timestamp and an optional msg.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 
 ```javascript

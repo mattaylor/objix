@@ -44,8 +44,12 @@ P.isArray = function() {
   return this instanceof Array
 }
 
+P.type = function() { 
+  return this.constructor.name
+}
+
 P.isString = function() {
-  return typeof this == 'string'
+  return this._type() == 'String'
 }
 
 P.find = P.find = function(fn) {
@@ -70,9 +74,9 @@ P.json = function(fn) {
 }
 
 P.clone = function(d) {
-  let r = {}
-  K(this).map(k => r[k] = (d && d.size()) ? this[k].clone(d-1) : this[k])
-  return r
+  let c = this.constructor()
+  K(this).map(k => c[k] = (d && this[k].size()) ? this[k].clone(d-1) : this[k])
+  return c
 }
 
 P.join = function(...obs) {
@@ -101,7 +105,7 @@ P.equals = function(ob, d) {
 }
 
 P.size = function() {
-  return K(this).length
+  return this.isString() ? 0 : K(this).length
 }
 
 P.keyBy = function(ar, k) {
