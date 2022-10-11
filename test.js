@@ -9,6 +9,21 @@ console.assert(o1.equals({a: 1}), 'Equals')
 console.assert(o1._equals({a: 1}), '_Equals')
 console.assert(!o1.equals({a: 2}), '!Equals')
 
+console.assert({a:1}.equals({a: 1}), 'Equals')
+console.assert(!{a:1}.equals(1), '!Equals (Number)')
+console.assert({}.equals(1), '!Equals (Number)')
+
+console.assert({a:[1]}.equals({a:[1]}, 1), 'Equals (Array)')
+console.assert({a:[]}.equals({a:[]}, 1), 'Equals ([])')
+console.assert(!{a:[1]}.equals({a:[]}, 1), '!Equals ([])')
+console.assert([1].equals([1]), 'Equals (Array)')
+console.assert(![1].equals([0]), '!Equals (Array)')
+console.assert('string'.equals('string'), 'Equals (String)')
+console.assert(!'string'.equals({}), '!Equals (String)')
+console.assert(!'string'.equals(''), '!Equals (String)')
+
+
+
 console.assert(o2.contains(o1), 'Contains')
 console.assert(o2._contains(o1), '_Contains')
 console.assert(!o1.contains(o2), '!Contains')
@@ -121,3 +136,19 @@ op1.c = 10
 console.assert(op.sum == 6, 'New (Proto)', op.sum)
 try { console.assert(!op1.sum++, 'New (!Trap)', op1)} catch {}
 console.assert(op1.sum == 16, 'New (Trap)', op1.sum)
+
+
+let c1 = { a: 1, b: { c: 1 }, d: [1], e: 's', f:null }
+let c2 = c1.clone()
+let c3 = c1.clone(1)
+c1.b.c = 2
+c1.a = 2
+c1.d.pop()
+console.assert(c1.equals({ a: 2, b: { c: 2 }, d:[], e: 's', f:null}, -1), 'Clone 1', c1)
+console.assert(!c1.equals({ a: 2, b: { c: 2 }, d:[], e: '', f:null}, -1), '!Clone 1', c1)
+console.assert(c2.equals({ a: 1, b: { c: 2 }, d:[], e: 's', f:null}, -1), 'Clone 2', c2)
+console.assert(!c2.equals({ a: 1, b: { c: 2 }, d:[1], e: 's', f:null}, -1), '!Clone 2', c2)
+console.assert(c3.equals({ a: 1, b: { c: 1 }, d:[1], e: 's',f:null}, -1), 'Clone 3', c3)
+console.assert(!c3.equals({ a: 1, b: { c: 1 }, d:[1], e: 's',f:false}, -1), '!Clone 3', c3)
+//o2.log('o2') // { a: 1, b: { c: 2 }}
+//o3.log('o3') // { a: 1, b: { c: 1 }}

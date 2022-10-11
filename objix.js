@@ -25,7 +25,7 @@ P.map = function(fn) {
 }
 
 P.has = function(v) {
-  return this.find(_ => _ == v)
+  return this.find(_ => _.equals(v))
 }
 
 P.filter = function(fn) {
@@ -75,7 +75,7 @@ P.json = function(fn) {
 
 P.clone = function(d) {
   let c = this.constructor()
-  K(this).map(k => c[k] = (d && this[k].size()) ? this[k].clone(d-1) : this[k])
+  K(this).map(k => c[k] = (d && this[k]?.size()) ? this[k].clone(d-1) : this[k])
   return c
 }
 
@@ -101,11 +101,11 @@ P.contains = function(ob, d) {
 }
 
 P.equals = function(ob, d) {
-  return !(this.size() == ob.size() && this.some((v,k) => v != ob[k] && !(d && v.equals(ob[k],d-1))))
+  return this == ob || ob && (this.size() == ob?.size() && !this.some((v,k) => v != ob[k] && !(d && v?.equals(ob[k],d-1))))
 }
 
 P.size = function() {
-  return this.isString() ? 0 : K(this).length
+  return this.isString() ? null : K(this).length
 }
 
 P.keyBy = function(ar, k) {
