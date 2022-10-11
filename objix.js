@@ -75,7 +75,7 @@ P.json = function(fn) {
 
 P.clone = function(d) {
   let c = this.constructor()
-  K(this).map(k => c[k] = (d && this[k]?.size()) ? this[k].clone(d-1) : this[k])
+  K(this).map(k => c[k] = (d && !(this[k]||'').isString()) ? this[k].clone(d-1) : this[k])
   return c
 }
 
@@ -105,7 +105,8 @@ P.equals = function(ob, d) {
 }
 
 P.size = function() {
-  return this.isString() ? null : K(this).length
+  //return this.isString() ? null : K(this).length
+  return K(this).length
 }
 
 P.keyBy = function(ar, k) {
