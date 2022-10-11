@@ -105,7 +105,6 @@ P.equals = function(ob, d) {
 }
 
 P.size = function() {
-  //return this.isString() ? null : K(this).length
   return K(this).length
 }
 
