@@ -251,6 +251,15 @@ Function takes value and key as arguments.
 { a: 1, b: 2 }.every(v => v > 1) // false
 ```
 
+### Object.prototype.has(value)
+
+Returns first key of where the value equals the argument.
+
+```javascript
+{ a: 1, b: 2 }.has(2) // b
+{ a: 1, b: 2 }.has(0) // null
+```
+
 ### Object.prototype.json()
 
 JSON.stringfy(this)
@@ -348,15 +357,15 @@ o.max() // 3
 
 ### Object.prototype.log(msg, type='log')
 
-Prints a deep clone of `this` to the console together with a time stamp and an optional msg.
+Prints a deep clone of `this` to the console (firefox!) together with a minute timestamp and an optional msg.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 
 ```javascript
 let o = { a: 0, b: 1 }
   .clean()
-  .log('CLEAN') // 2022-10-07T00:00 CLEAN { b: 1 }
+  .log('CLEANING') // 2022-10-07T00:00 CLEANNING { b: 1 }
   .map(v => v + 1)
-  .log('MAP') // 2022-10-07T00:00 MAP { b: 2 }
+  .log('MAPPING') // 2022-10-07T00:00 MAPPING { b: 2 }
   .log('STACK', 'trace')
 /*
 Trace: 2022-10-06T21:21 STACK { b: 2 }
@@ -365,12 +374,12 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
 */
 ```
 
-### Object.prototype.trap(function, error, key)
+### Object.prototype.trap(function, error, ...keys)
 
 Returns a proxy of `this` which traps all property assignments using the supplied function. The function takes `val`, `key` and `this` as arguments.
 If the function returns falsey and an error message is supplied then an exception will be thrown.
-If no error message is provided the function just acts as an observer, although updates to `this` are still possible.
-If `key` is defined then the trap function will only be called for assignments to the `key` property of `this`
+If no error message is provided the function just acts as an observer, although the trap may also update `this` if needed.
+When `keys` are defined then the trap function will only be called for assignments to properties `this` where the key is included in `keys`
 
 ```javascript
 let o = { a: 1, sum: 1 }

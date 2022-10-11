@@ -24,6 +24,10 @@ P.map = function(fn) {
   return r
 }
 
+P.has = function(v) {
+  return this.find(_ => _ == v)
+}
+
 P.filter = function(fn) {
   return F(K(this).flatMap(k => fn(this[k],k) ? [[k,this[k]]] : []))
 }
@@ -119,13 +123,13 @@ P.new = function(o) {
   return this._t ? new Proxy(this._t.new(o), this._h) : this.create().assign(o)
 }
 
-P.trap = function(fn, e, p) {
+P.trap = function(fn, e, ...p) {
   return new Proxy(this, {
     set(t,k,v) {
-      if ((!p || k==p) && !fn(v,k,t) && e) throw([e,k,v])
+      if ((!p[0] || p.has(k)) && !fn(v,k,t) && e) throw([e,k,v])
       return t[k] = v
     },
-    get(t,p) { 
+    get(t,p) {
       return {_t:t, _h:this}[p] || t[p]
     }
   })
