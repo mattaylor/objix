@@ -257,7 +257,9 @@ Returns first key of `this` where the value equals the argument, otherwise undef
 
 ```javascript
 { a: 1, b: 2 }.has(2) // b
-{ a: 1, b: 2 }.has(0) // null
+{ a: 1, b: 2 }.has(0) // undefined
+[1].has(1) // 1
+[].has(1)  // undefined
 ```
 
 ### Object.prototype.json()
