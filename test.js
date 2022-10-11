@@ -105,7 +105,7 @@ console.assert(!{a:1, b:[{c:1}]}.contains({c:1},1), '!Contains Once')
 
 
 let op = {sum:0, id:'Proto'}
-  .trap((v,k,t) => ['a','b','c'].includes(k) && (t.sum += t[k] ? v - t[k] : v))
+  .trap((v,k,t) => t.sum += t[k] ? v - t[k] : v,null,'a','b','c')
   .trap(() => 0, 'Read only', 'sum')
 
 op.a = 1

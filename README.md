@@ -253,7 +253,7 @@ Function takes value and key as arguments.
 
 ### Object.prototype.has(value)
 
-Returns first key of where the value equals the argument.
+Returns first key of `this` where the value equals the argument, otherwise undefined.
 
 ```javascript
 { a: 1, b: 2 }.has(2) // b
