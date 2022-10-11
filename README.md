@@ -386,7 +386,7 @@ When `keys` are defined then the trap function will only be called for assignmen
 ```javascript
 let o = { a: 1, sum: 1 }
   .trap((v, k, t) => v != t[k] && console.log(k + ' has changed'))
-  .trap(v => v > 0, 'Values must be positive')
+  .trap(v => v > 0, 'Values must be positive', null, 'a', 'b', 'c')
   .trap((v, k, t) => k != 'sum' && (t.sum += t[k] ? v - t[k] : v))
   .trap(v => false, 'Sum is read only', 'sum')
 
