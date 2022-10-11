@@ -81,12 +81,12 @@ _.find({ a: 1 }, v => v) == { a: 1 }.find(v => v) //true
 
 ### Simple Classes
 
-Any object can act as a class from which new objects can be derived inheriting with the parent prperties, bound methods and traps inherited.
+Any object can act as a class from which new objects can be derived. All propoerties of `this` are inherited - including traps!!
 
 ```javascript
 let Person = { firstName: 'john', lastName: 'doe' }
   .trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
-  .bind('age', t => new Date().getYear() - new Date(t.dob).getYear())
+  .bind('age', t => Math.abs(Date.now() - new Date(t.dob)) / 31536000000)
   .bind('name', t => t.firstName + ' ' + t.lastName)
 
 let p1 = Person.new({ firstName: 'jane' })
