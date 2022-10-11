@@ -391,7 +391,7 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
 Returns a proxy of `this` which traps all property assignments using the supplied function. The function takes `val`, `key` and `this` as arguments.
 If the function returns falsey and an error message is supplied then an exception will be thrown.
 If no error message is provided the function just acts as an observer, although the trap may also update `this` if needed.
-When `keys` are defined then the trap function will only be called for assignments to properties `this` where the key is included in `keys`
+When `keys` are defined then the trap function will only be called for assignments to properties where the key is included in `keys`
 
 ```javascript
 let o = { a: 1, sum: 1 }
@@ -412,7 +412,7 @@ Create a new object using `this` as its protoype with additonal properties assig
 
 ```javascript
 let P = { a: 1 }.trap(v => v > 0, 'Not Positive')
-o1 = P.new({ b: 1 }) // { a: 1, b: 1 }
-o2 = P.new({ a: 2 }) // { a: 2 }
+let o1 = P.new({ b: 1 }) // { a: 1, b: 1 }
+let o2 = P.new({ a: 2 }) // { a: 2 }
 o1.c = 0 // // Uncaught [ 'Not Positive', 'c', 0 ]
 ```
