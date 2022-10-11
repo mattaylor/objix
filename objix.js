@@ -93,7 +93,7 @@ P.contains = function(ob, d) {
 }
 
 P.equals = function(ob, d) {
-  return !(this.size() == ob.size() && this.some((v,k) => v != ob[k] && !(d && v.equals(ob[k],d-1) )))
+  return !(this.size() == ob.size() && this.some((v,k) => v != ob[k] && !(d && v.equals(ob[k],d-1))))
 }
 
 P.size = function() {
@@ -125,7 +125,7 @@ P.trap = function(fn, e, p) {
       if ((!p || k==p) && !fn(v,k,t) && e) throw([e,k,v])
       return t[k] = v
     },
-    get(t,p) {
+    get(t,p) { 
       return {_t:t, _h:this}[p] || t[p]
     }
   })
