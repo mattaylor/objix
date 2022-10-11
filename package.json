@@ -1,6 +1,6 @@
 {
   "name": "objix",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "description": "A dangerously convienient, high performance, lightweight (2.4kb) utility that injects methods into the Object prototype to sugar for many common use cases working with Javascript objects.",
   "main": "objix.js",
   "scripts": {
