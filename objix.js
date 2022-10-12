@@ -101,7 +101,7 @@ P.contains = function(ob, d) {
 }
 
 P.equals = function(ob, d) {
-  return this == ob || ob && this.size() == ob.size() && this.every((v,k) => v == ob[k] || d && v?.equals(ob[k],d-1))
+  return this == ob || this.size() == ob?.size() && this.every((v,k) => v == ob[k] || d && v?.equals(ob[k],d-1))
 }
 
 P.size = function() {

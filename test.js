@@ -137,7 +137,16 @@ console.assert(op.sum == 6, 'New (Proto)', op.sum)
 try { console.assert(!op1.sum++, 'New (!Trap)', op1)} catch {}
 console.assert(op1.sum == 16, 'New (Trap)', op1.sum)
 
+console.assert('123'.equals('123'), 'Equals (String)')
 console.assert(!'123'.equals('1234'), '!Equals (String)')
+console.assert([123].equals([123]), 'Equals (Number)')
+console.assert(![123].equals([123,0]), '!Equals (Number)')
+console.assert({a:0}.equals({a:0}), 'Equals (Falsy)')
+console.assert(!{a:{b:0}}.equals({a:{b:0}}), '!Equals (Deep Falsy)')
+console.assert({a:{b:0}}.equals({a:{b:0}},1), 'Equals (Deep Falsy)')
+
+
+
 
 let c1 = { a: 1, b: { c: 1 }, d: [1], e: 's', f:null }
 let c2 = c1.clone()
