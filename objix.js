@@ -124,7 +124,7 @@ P.log = function(m='', c='log') {
 }
 
 P.new = function(o) {
-  return this._t ? new Proxy(this._t.new(o), this._h) : this.create().assign(o)
+  return this._t ? new Proxy(this._t.new(o), this._h) : A(this.create(),0)
 }
 
 P.trap = function(f, e, ...p) {
