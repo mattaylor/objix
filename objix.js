@@ -73,12 +73,6 @@ P.json = function(fn) {
   return JSON.stringify(this)
 }
 
-P.clone_ = function(d) {
-  let c = this.constructor()
-  K(this).map(k => c[k] = (d && !(this[k]||'').isString()) ? this[k].clone(d-1) : this[k])
-  return c
-}
-
 P.clone = function(d) {
   let c = this.constructor(this.size()?null:this)
   K(this).map(k => c[k] = (d && !(this[k]||'').isString()) ? this[k].clone(d-1) : this[k])
