@@ -173,7 +173,7 @@ console.assert(!c3.equals({ a: 1, b: { c: 1 }, d:[1], e: 's',f:false}, -1), '!Cl
 
 o1 = 'asdf'
 c1 = o1.clone()
-console.assert(o1.equals(c1), 'Clone (String)', c1)
+console.assert(o1 == c1, 'Clone (String)', c1)
 
 o1 = ['asdf']
 c1 = o1.clone()
