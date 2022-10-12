@@ -15,7 +15,6 @@ Each batch run also includes a 100 iteration warmup verifying the results of the
 */
 function compare(funcs) {
   let hist = { }, start
-  //for (let r = 0; r < heats; r++) for (let [key,fun] of funcs.entries()) {
   for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) {
     for (let i = 0; i < 100; i++) assert(funcs.objix().equals(fun(), -1), fun)
     if (!hist[key]) hist[key] = ph.createHistogram()
