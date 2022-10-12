@@ -44,7 +44,7 @@ P.isArray = function() {
   return this instanceof Array
 }
 
-P.type = function() { 
+P.type = function() {
   return this.constructor.name
 }
 
@@ -56,20 +56,20 @@ P.find = P.find = function(f) {
   for (let k of K(this)) if (f(this[k],k)) return k
 }
 
-P.assign = function(...ar) {
-  return A(this, ...ar)
+P.assign = function(...a) {
+  return A(this, ...a)
 }
 
-P.extend = function(...ar) {
-  return A({}, ...ar, this)
+P.extend = function(...a) {
+  return A({}, ...a, this)
 }
 
-P.delete = function(...ar) {
-  for (let k of ar) delete this[k]
+P.delete = function(...a) {
+  for (let k of a) delete this[k]
   return this
 }
 
-P.json = function(f) {
+P.json = function() {
   return JSON.stringify(this)
 }
 
@@ -79,9 +79,9 @@ P.clone = function(d) {
   return c
 }
 
-P.join = function(...ar) {
+P.join = function(...a) {
   let r = A({}, this)
-  for(let o of ar) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
+  for(let o of a) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
   return r
 }
 
@@ -102,7 +102,7 @@ P.contains = function(o, d) {
 
 P.equals = function(o, d) {
   return this == o
-    || this.type() == o.type() 
+    || this.type() == o.type()
     && this.size() == o.size()
     && !(this-o)
     && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))
@@ -112,8 +112,8 @@ P.size = function() {
   return K(this).length
 }
 
-P.keyBy = function(ar, k) {
-  ar.map(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
+P.keyBy = function(a, k) {
+  a.map(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
   return this
 }
 
