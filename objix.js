@@ -56,16 +56,16 @@ P.find = P.find = function(f) {
   for (let k of K(this)) if (f(this[k],k)) return k
 }
 
-P.assign = function(...obs) {
-  return A(this, ...obs)
+P.assign = function(...ar) {
+  return A(this, ...ar)
 }
 
-P.extend = function(...obs) {
-  return A({}, ...obs, this)
+P.extend = function(...ar) {
+  return A({}, ...ar, this)
 }
 
-P.delete = function(...keys) {
-  for (let k of keys) delete this[k]
+P.delete = function(...ar) {
+  for (let k of ar) delete this[k]
   return this
 }
 
@@ -91,21 +91,21 @@ P.split = function() {
   return r
 }
 
-P.common = function(ob) {
-  return F(K(this).flatMap(k => (ob[k] == this[k]) ? [[k,this[k]]] : []))
+P.common = function(o) {
+  return F(K(this).flatMap(k => (o[k] == this[k]) ? [[k,this[k]]] : []))
 }
 
-P.contains = function(ob, d) {
-  for (let k of K(ob)) if (this[k] != ob[k] && !(d && this.some(v => v.contains(ob, d-1)))) return false
+P.contains = function(o, d) {
+  for (let k of K(o)) if (this[k] != o[k] && !(d && this.some(v => v.contains(o, d-1)))) return false
   return true
 }
 
-P.equals = function(ob, d) {
-  return this == ob
-    || this.type() == ob.type() 
-    && this.size() == ob.size()
-    && !(this-ob)
-    && this.every((v,k) => v == ob[k] || d && v?.equals(ob[k],d-1))
+P.equals = function(o, d) {
+  return this == o
+    || this.type() == o.type() 
+    && this.size() == o.size()
+    && !(this-o)
+    && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))
   }
 
 P.size = function() {
@@ -145,5 +145,5 @@ P.trap = function(f, e, ...p) {
 
 for (let f of K(P)) if (f[0] != '_') {
   P['_'+f] = P[f]
-  try { module.exports[f] = (ob, ...args) => ob['_'+f](...args) } catch {}
+  try { module.exports[f] = (o, ...args) => o['_'+f](...args) } catch {}
 }
