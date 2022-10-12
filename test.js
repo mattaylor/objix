@@ -10,8 +10,8 @@ console.assert(o1._equals({a: 1}), '_Equals')
 console.assert(!o1.equals({a: 2}), '!Equals')
 
 console.assert({a:1}.equals({a: 1}), 'Equals')
-console.assert(!{a:1}.equals(1), '!Equals (Number)')
-console.assert({}.equals(1), '!Equals (Number)')
+console.assert(!{a:1}.equals(1), '!Equals 0 (Number)')
+console.assert(!{}.equals(1), '!Equals 1 (Number)')
 
 console.assert({a:[1]}.equals({a:[1]}, 1), 'Equals (Array)')
 console.assert({a:[]}.equals({a:[]}, 1), 'Equals ([])')
@@ -60,11 +60,12 @@ console.assert(o3.delete('d','c','b') && o3.equals({a:2}), 'Delete')
 console.assert(o3._delete('d','c','b') && o3.equals({a:2}), '_Delete')
 console.assert(o3.delete('d','c','b') && !o3.equals({d:2}), '!Delete')
 
-console.assert(o4.clone().equals(o4), 'Clone')
-console.assert({a:1, b:{c:{d:1}}}.clone(-1).equals({a:1,b:{c:{ d:1}}}, -1), 'Clone')
+console.assert(o4.clone().equals(o4), 'Clone 1', o4)
+let c0 = {a:1, b:{c:{d:1}}}.clone(-1)
+console.assert(c0.equals({a:1,b:{c:{ d:1}}}, -1), 'Clone 2', c0)
 console.assert(o4._clone().equals(o4), '_Clone')
 
-console.assert(o4.clone() !== o4, '!Clone')
+console.assert(o4.clone() != o4, '!Clone', o4)
 
 console.assert({a:1}.join({a:2}).a[1] == 2, 'Join')
 console.assert({a:1}._join({a:2}).a[1] == 2, '_Join')
@@ -139,11 +140,18 @@ console.assert(op1.sum == 16, 'New (Trap)', op1.sum)
 
 console.assert('123'.equals('123'), 'Equals (String)')
 console.assert(!'123'.equals('1234'), '!Equals (String)')
-console.assert([123].equals([123]), 'Equals (Number)')
-console.assert(![123].equals([123,0]), '!Equals (Number)')
+console.assert((123).equals(123), 'Equals 3 (Number)')
+console.assert(!(1234).equals(123), '!Equals 3 (Number)')
+console.assert([123].equals([123]), 'Equals [Number]')
+console.assert(![1234].equals([123]), '!Equals 2 [Number]')
+console.assert(![123].equals([123,0]), '!Equals 2 [Number]')
 console.assert({a:0}.equals({a:0}), 'Equals (Falsy)')
 console.assert(!{a:{b:0}}.equals({a:{b:0}}), '!Equals (Deep Falsy)')
 console.assert({a:{b:0}}.equals({a:{b:0}},1), 'Equals (Deep Falsy)')
+console.assert([].equals([]), 'Equals (Array)')
+console.assert(![].equals([0]), '!Equals (Array)')
+console.assert([[{}]].equals([[{}]], 2), 'Equals (Deep Array)')
+
 
 
 

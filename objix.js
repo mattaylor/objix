@@ -73,8 +73,14 @@ P.json = function(fn) {
   return JSON.stringify(this)
 }
 
-P.clone = function(d) {
+P.clone_ = function(d) {
   let c = this.constructor()
+  K(this).map(k => c[k] = (d && !(this[k]||'').isString()) ? this[k].clone(d-1) : this[k])
+  return c
+}
+
+P.clone = function(d) {
+  let c = this.constructor(this.size()?null:this)
   K(this).map(k => c[k] = (d && !(this[k]||'').isString()) ? this[k].clone(d-1) : this[k])
   return c
 }
@@ -101,7 +107,11 @@ P.contains = function(ob, d) {
 }
 
 P.equals = function(ob, d) {
-  return this == ob || this.size() == ob?.size() && this.every((v,k) => v == ob[k] || d && v?.equals(ob[k],d-1))
+  return this == ob
+    || !(this-ob)
+    && this.type() == ob.type()
+    && this.size() == ob.size()
+    && this.every((v,k) => v == ob[k] || d && v?.equals(ob[k],d-1))
 }
 
 P.size = function() {
@@ -130,7 +140,7 @@ P.new = function(o) {
 P.trap = function(fn, e, ...p) {
   return new Proxy(this, {
     set(t,k,v) {
-      if ((!p[0] || p.has(k)) && !fn(v,k,t) && e) throw([e,k,v])
+      if ((!p[0] || p.has(k)) && !fn(v,k,t) && e) throw([e,k,v]+'')
       return t[k] = v
     },
     get(t,k) {
@@ -139,7 +149,7 @@ P.trap = function(fn, e, ...p) {
   })
 }
 
-for (let fn of K(P)) {
-  if (fn[0] != '_') P['_'+fn] = P[fn]
+for (let fn of K(P)) if (fn[0] != '_') {
+  P['_'+fn] = P[fn]
   try { module.exports[fn] = (ob, ...args) => ob['_'+fn](...args) } catch {}
 }
