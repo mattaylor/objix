@@ -74,9 +74,9 @@ P.json = function() {
 }
 
 P.clone = function(d) {
-  return this.size()
-    ? this.map(v => d && !(v||'').isString() ? v.clone(d-1) : v)
-    : this.constructor(this)
+  return this.size() 
+    ? this.constructor().assign(this.map(v => d && v ? v.clone(d-1) : v))
+    : this
 }
 
 P.join = function(...a) {

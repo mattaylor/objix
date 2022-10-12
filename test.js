@@ -1,9 +1,9 @@
 require('./objix')
 
-const o1 = { a: 1 }
-const o2 = { a: 1, b: 2 }
-const o3 = { a: 2, b: 2, c: 3}
-const o4 = { a: 2, b: 2, c: 3, d: 4}
+let o1 = { a: 1 }
+let o2 = { a: 1, b: 2 }
+let o3 = { a: 2, b: 2, c: 3}
+let o4 = { a: 2, b: 2, c: 3, d: 4}
 
 console.assert(o1.equals({a: 1}), 'Equals')
 console.assert(o1._equals({a: 1}), '_Equals')
@@ -170,3 +170,16 @@ console.assert(c3.equals({ a: 1, b: { c: 1 }, d:[1], e: 's',f:null}, -1), 'Clone
 console.assert(!c3.equals({ a: 1, b: { c: 1 }, d:[1], e: 's',f:false}, -1), '!Clone 3', c3)
 //o2.log('o2') // { a: 1, b: { c: 2 }}
 //o3.log('o3') // { a: 1, b: { c: 1 }}
+
+o1 = 'asdf'
+c1 = o1.clone()
+console.assert(o1.equals(c1), 'Clone (String)', c1)
+
+o1 = ['asdf']
+c1 = o1.clone()
+console.assert(o1.equals(c1), 'Clone (Array)', c1)
+o1.pop()
+console.assert(!o1.equals(c1), '!Clone (Array)', c1)
+
+console.assert([1,2,3].clone().equals([1,2,3]), 'Clone (Array)', [1,2,3].clone())
+console.assert([].clone().equals([]), 'Clone (Array', [].clone())
