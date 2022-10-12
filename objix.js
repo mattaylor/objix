@@ -102,8 +102,8 @@ P.contains = function(o, d) {
 
 P.equals = function(o, d) {
   return this == o
-    || this.type() == o.type()
-    && this.size() == o.size()
+    || this.size() == o.size()
+    && this.type() == o.type()
     && !(this-o)
     && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))
   }
@@ -118,7 +118,7 @@ P.keyBy = function(a, k) {
 }
 
 P.bind = function(k, f) {
-  this[k] = function(...args) { return f(this, ...args) }
+  this[k] = function(...a) { return f(this, ...a) }
   return this
 }
 
