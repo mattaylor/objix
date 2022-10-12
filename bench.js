@@ -37,20 +37,6 @@ function compare(funcs) {
   return res
 }
 
-function _compare(funcs) {
-  let res = { }, start
-  for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) {
-    for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
-    start = performance.now()
-    for (let i = 0; i < iters; i++) fun()
-    res[key] = (res[key] || 0) + performance.now() - start
-  }
-  res = res.map(v => round((heats*iters)/v))
-
-  res['% Imp'] = round(100*(res.objix - res.lodash)/res.lodash)
-  return res
-}
-
 function report(title, ob) {
   console.log(title)
   console.table({
