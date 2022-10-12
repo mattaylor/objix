@@ -91,7 +91,7 @@ let Person = { firstName: 'john', lastName: 'doe' }
 
 let p1 = Person.new({ firstName: 'jane' })
 p1.name() // 'jane doe'
-p1.dob = 'foobar' // Uncaught [ 'Invalid date', 'dob', 'foobar' ]
+p1.dob = 'foobar' // Uncaught 'Invalid date, dob, foobar'
 p1.dob = '10/10/2000'
 p1.age() // 22
 ```
@@ -401,8 +401,8 @@ let o = { a: 1, sum: 1 }
   .trap(v => false, 'Sum is read only', 'sum')
 
 o.b = 2 //  b has changed
-o.c = 0 //  Uncaught [ 'Values must be positive', 'c', 0 ]
-o.sum = 1 // Uncaught [ 'Sum is read only', 'sum', 1 ]
+o.c = 0 //  Uncaught 'Values must be positive, c, 0'
+o.sum = 1 // Uncaught 'Sum is read only, sum, 1'
 o // { a: 1, b: 2, sum: 3 }
 ```
 
@@ -414,5 +414,5 @@ Create a new object using `this` as its protoype with additonal properties assig
 let P = { a: 1 }.trap(v => v > 0, 'Not Positive')
 let o1 = P.new({ b: 1 }) // { a: 1, b: 1 }
 let o2 = P.new({ a: 2 }) // { a: 2 }
-o1.c = 0 // // Uncaught [ 'Not Positive', 'c', 0 ]
+o1.c = 0 // // Uncaught 'Not Positive, c, 0'
 ```
