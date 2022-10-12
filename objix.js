@@ -4,8 +4,8 @@ const
   K = Object.keys,
   A = Object.assign
   
-for (let f of ['keys', 'values', 'entries', 'create']) P[f] = function() {
-  return Object[f](this)
+for (let f of ['keys', 'values', 'entries', 'create', 'assign']) P[f] = function(...a) {
+  return Object[f](this, ...a)
 }
 
 P.every = function(f) {
@@ -54,10 +54,6 @@ P.isString = function() {
 
 P.find = P.find = function(f) {
   for (let k of K(this)) if (f(this[k],k)) return k
-}
-
-P.assign = function(...a) {
-  return A(this, ...a)
 }
 
 P.extend = function(...a) {
