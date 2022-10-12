@@ -3,7 +3,12 @@ const
   F = Object.fromEntries,
   K = Object.keys,
   A = Object.assign
-  
+
+let chain = f => function(...a) { 
+  f(this, ...a)
+  return this
+}
+
 for (let f of ['keys', 'values', 'entries', 'create']) P[f] = function() {
   return Object[f](this)
 }
@@ -64,10 +69,7 @@ P.extend = function(...a) {
   return A({}, ...a, this)
 }
 
-P.delete = function(...a) {
-  for (let k of a) delete this[k]
-  return this
-}
+P.delete = chain((t, ...a) => { for (let k of a) delete t[k]})
 
 P.json = function() {
   return JSON.stringify(this)
@@ -102,30 +104,21 @@ P.contains = function(o, d) {
 
 P.equals = function(o, d) {
   return this == o
-    || this.size() == o.size()
-    && this.type() == o.type()
+    || this.type() == o.type()
+    && this.size() == o.size()
     && !(this-o)
     && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))
-  }
+}
 
 P.size = function() {
   return K(this).length
 }
 
-P.keyBy = function(a, k) {
-  a.map(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
-  return this
-}
+P.keyBy = chain((t,a,k) => a.map(o => t[o[k]] = t[o[k]] ? [o].concat(t[o[k]]) : o))
 
-P.bind = function(k, f) {
-  this[k] = function(...a) { return f(this, ...a) }
-  return this
-}
+P.bind = chain((t,k,f) => t[k] = function(...a) { return f(t, ...a) })
 
-P.log = function(m='', c='log') {
-  console[c](new Date().toISOString().slice(0,-8), m, this.clone(-1))
-  return this
-}
+P.log = chain((t,m='',c='log') => console[c](new Date().toISOString().slice(0,-8), m, t.clone(-1)))
 
 P.new = function(o) {
   return this._t ? new Proxy(this._t.new(o), this._h) : this.create().assign(o)
