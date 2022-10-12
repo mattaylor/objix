@@ -74,9 +74,9 @@ P.json = function() {
 }
 
 P.clone = function(d) {
-  return this.size() && !this.isString() 
+  return this.size() //&& !this.isString() 
     ? this.constructor().assign(this.map(v => d && v ? v.clone(d-1) : v))
-    : this
+    : this.isArray() ? [] : this.constructor(this)
 }
 
 P.join = function(...a) {
@@ -105,7 +105,7 @@ P.equals = function(o, d) {
    || this.type() == o.type()
    && this.size() == o.size()
    && !(this-o)
-    && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))
+   && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))
   }
 
 P.size = function() {
