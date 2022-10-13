@@ -152,14 +152,14 @@ Object.entries(this)
 
 ### Object.prototype.is(type)
 
-True if `this` is a type of instance of `type`.
+True if `this` is a instance of `type`.
 
 ```javascript
 let n = 1
 let d = new Date()
 let b = false
 class Class1 {}
-class Class2 extendsClass1 {}
+class Class2 extends Class1 {}
 let c = new Class2()
 ''.is(String) // true
 ''.is(Object) // false
