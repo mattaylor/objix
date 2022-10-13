@@ -150,15 +150,6 @@ Object.entries(this)
 { a: 1 }.entries // [[a, 1]]
 ```
 
-### Object.prototype.isArray()
-
-True if `this` is an array
-
-```javascript
-[].isArray() // true
-{}.isArray() // false
-```
-
 ### Object.prototype.is(type)
 
 True if `this` is a type of instance of `type`.
