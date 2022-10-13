@@ -16,7 +16,7 @@ Each batch run also includes a 100 iteration warmup verifying the results of the
 function compare(funcs) {
   let hist = { }, start
   for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) {
-    for (let i = 0; i < 100; i++) assert(funcs.objix().equals(fun(), -1), fun)
+    for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
     if (!hist[key]) hist[key] = ph.createHistogram()
     start = performance.now()
     for (let i = 0; i < iters; i++) fun()
@@ -65,8 +65,10 @@ function report(title, ob) {
     },
     Clone: {
       vanilla: () => Object.assign({}, ob), //Not Deep!!
-      lodash: () => _.cloneDeep(ob),
-      objix:  () => ob.clone(-1),
+      //lodash: () => _.cloneDeep(ob),
+      //objix:  () => ob.clone(-1),
+      lodash: () => _.clone(ob),
+      objix:  () => ob.clone(),
     },
     Some: {
       vanilla: () => Object.values(ob).some(v => v == 'x'),

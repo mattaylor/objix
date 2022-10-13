@@ -220,6 +220,8 @@ console.assert(!d.is(String), '!is (Date,String)', d)
 console.assert(a.is(Array), 'is (Array,Array)', a)
 console.assert(a.is(Object), 'is (Array,Object)', a)
 console.assert(!a.is(String), '!is (Array,String)', a)
+console.assert(o.is(Object), 'is (Object,Object)', o)
+console.assert(!o.is(Array), '!is (Object,Array)', o)
 
 
 
