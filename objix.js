@@ -98,11 +98,11 @@ P.contains = function(o, d) {
 
 P.equals = function(o, d) {
   return this == o
-   || this.type() == o.type()
-   && this.size() == o.size()
-   && !(this-o)
-   && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))
-  }
+    || this.type() == o.type()
+    && this.size() == o.size()
+    && !(this-o)
+    && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))
+}
 
 P.size = function() {
   return K(this).length
