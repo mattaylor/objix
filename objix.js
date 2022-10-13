@@ -47,7 +47,7 @@ P.type = function() {
 P.is = function(t) {
   return t == Object
     ? typeof this.valueOf() == 'object' || this.valueOf() != this
-    : this.constructor.name == t.name || this.is(Object) && this instanceof t
+    : this.constructor== t || this.is(Object) && this instanceof t
 }
 
 P.find = P.find = function(f) {
