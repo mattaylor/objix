@@ -55,7 +55,7 @@ console.log({a:1}.map(v => v+1 ))
 Most of these function return objects including those modifying `this` and so can be easily chained together.
 
 ```javascript
-{a: 0, b: 1, c: 2}.clean().map(v => v+1) // {b: 2, c: 3}
+{ a: 0, b: 1, c: 2 }.clean().map(v => v+1) // { b: 2, c: 3 }
 ```
 
 ### Function Aliases
@@ -64,8 +64,8 @@ All functions documented below are also callable with a '\_' prefix to the funct
 This can help ensure that the function is availble and not overwritten by other object property assignments.
 
 ```javascript
-{a: 1}.size() == {a: 1}._size() //true
-{a: 1}.find(v => v) == {a: 1}._find(v => v) //true
+{ a: 1 }.size() == { a: 1 }._size() //true
+{ a: 1 }.find(v => v) == { a: 1 }._find(v => v) //true
 ```
 
 ### Exported Functions
@@ -105,7 +105,7 @@ Function takes value and key as arguments.
 
 ```javascript
 { a: 1 }.map(v => v+1) // { a: 2 }
-{ a: 1, b: 2 }.map((v,k) => (k == 'b') ? v+1 : v) // { a: 1, b:3 }
+{ a: 1, b: 2 }.map((v,k) => (k == 'b') ? v+1 : v) // { a: 1, b: 3 }
 ```
 
 ### Object.prototype.flatMap(function)
@@ -363,7 +363,7 @@ Binds a function to `this` object using the given key and applies `this` as its 
 ```javascript
 o = { a: 1, b: 2, c: 3 }
 o.bind('max', m => m.values().sort((a, b) => b - a)[0])
-// o.max = function() { return `this`.values().sort((a, b) => b - a)[0]) }
+// o.max = function() { return this.values().sort((a, b) => b - a)[0]) }
 o.max() // 3
 ```
 
