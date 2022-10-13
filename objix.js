@@ -40,16 +40,14 @@ P.clean = function() {
   return F(K(this).flatMap(k => this[k] ? [[k,this[k]]] : []))
 }
 
-P.isArray = function() {
-  return this instanceof Array
-}
-
 P.type = function() {
   return this.constructor.name
 }
 
-P.isString = function() {
-  return this._type() == 'String'
+P.is = function(t) {
+  return t == Object
+    ? typeof this.valueOf() == 'object' || this.valueOf() != this
+    : this.constructor.name == t.name || this.is(Object) && this instanceof t
 }
 
 P.find = P.find = function(f) {
@@ -70,9 +68,9 @@ P.json = function() {
 }
 
 P.clone = function(d) {
-  return this.size() && !this.isString()
-    ? A(new this.constructor(), d ? this.map(v => v?.clone(d-1) || v) : this)
-    : this.isArray() ? [] : new this.constructor(this)
+  return this.is(Object)
+    ? A(new this.constructor, d ? this.map(v => v?.clone(d-1) || v) : this)
+    : this.valueOf()
 }
 
 P.join = function(...a) {

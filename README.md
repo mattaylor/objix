@@ -159,13 +159,32 @@ True if `this` is an array
 {}.isArray() // false
 ```
 
-### Object.prototype.isString()
+### Object.prototype.is(type)
 
-True if `this` is a string
+True if `this` is a type of instance of `type`.
 
 ```javascript
-''.isString() // true
-{}.isString() // false
+let n = 1
+let d = new Date()
+let b = false
+class Class1 {}
+class Class2 extendsClass1 {}
+let c = new Class2()
+''.is(String) // true
+''.is(Object) // false
+{}.is(Object) // false
+[].is(Array)  // true
+[].is(Object) // true
+d.is(Date) // true
+d.is(Object) // true
+d.is(Number) // false
+n.is(Number) // true
+n.is(Object) // false
+b.is(Boolean) // true
+b.is(Object) // false
+c.is(Class1) // true
+c.is(Class2) // true
+c.is(Object) // true
 ```
 
 ### Object.prototype.type()

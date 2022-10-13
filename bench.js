@@ -65,8 +65,8 @@ function report(title, ob) {
     },
     Clone: {
       vanilla: () => Object.assign({}, ob), //Not Deep!!
-      lodash: () => _.clone(ob),
-      objix:  () => ob.clone(),
+      lodash: () => _.cloneDeep(ob),
+      objix:  () => ob.clone(-1),
     },
     Some: {
       vanilla: () => Object.values(ob).some(v => v == 'x'),

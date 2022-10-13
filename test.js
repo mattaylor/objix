@@ -1,3 +1,4 @@
+
 require('./objix')
 
 let o1 = { a: 1 }
@@ -82,9 +83,9 @@ console.assert(_r.equals({a1: 2, a2: 3}), '_FlatMap', _r)
 console.assert({a: 0, b: 2, c: null}.clean().equals({b:2}), 'Clean')
 console.assert({a: 0, b: 2, c: null}._clean().equals({b:2}), '_Clean')
 
-console.assert([].isArray(), 'isArray')
-console.assert([]._isArray(), '_isArray')
-console.assert(!{}.isArray(), '!isArray')
+console.assert([].is(Array), 'isArray')
+console.assert([]._is(Array), '_isArray')
+console.assert(!{}.is(Array), '!isArray')
 
 console.assert({a:1, b:1}.equals({a:1, b:[1]}), 'Equals Array')
 console.assert(!{a:1, b:[1,2]}.equals({a:1, b:[1,2]}), '!Equals Array')
@@ -195,4 +196,33 @@ o2 = o1.clone()
 o1.setYear(1970)
 
 console.assert(o1.getYear() != o2.getYear(), '!Clone 2 (Date)', o2)
+
+class C {}
+let c = new C()
+let n = 1
+let d = new Date()
+let s = ''
+let o = {}
+let a = []
+
+console.assert(c.is(C), 'is (Class,Class)', c)
+console.assert(c.is(Object), 'is (Class,Object)', c)
+console.assert(!c.is(Number), '!is (Class,Number)', c)
+console.assert(n.is(Number), 'is (Number,Number)', n)
+console.assert(!n.is(Object), '!is (Number,Object)', n)
+console.assert(s.is(String), 'is (String,String)', s)
+console.assert(!s.is(Object), '!is (String,Object)', s)
+console.assert(d.is(Date), 'is (Date,Date)', d)
+console.assert(d.is(Object), 'is (Date,Object)', d)
+console.assert(!d.is(Number), '!is (Date,Number)', d)
+console.assert(!d.is(String), '!is (Date,String)', d)
+
+console.assert(a.is(Array), 'is (Array,Array)', a)
+console.assert(a.is(Object), 'is (Array,Object)', a)
+console.assert(!a.is(String), '!is (Array,String)', a)
+
+
+
+
+
 
