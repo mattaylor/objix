@@ -110,8 +110,7 @@ Function takes value and key as arguments.
 
 ### Object.prototype.flatMap(function)
 
-Return new object with function applied to each entry return 0 or more new entry pairs
-Function takes value and key as arguments.
+Return new object with function applied to each entry. Function takes value and kay as arguments and should return 0 or more new entry pairs
 
 ```javascript
 { a: 1 }.flatMap((k,v) => [[k+1, v+1],[k+2, v+2]]) // { a1: 2, a2: 3 }
@@ -171,7 +170,7 @@ True if `this` is a string
 
 ### Object.prototype.type()
 
-Returns the constructor name of this
+Returns the constructor name of `this`
 
 ```javascript
 ''.type() // String
@@ -180,7 +179,7 @@ Returns the constructor name of this
 
 ### Object.prototype.clean()
 
-Return new object with falsy entry values removed
+Return a new object like `this` with falsy entry values removed
 
 ```javascript
 { a: 1, b: null, c: false, d: 0, e: '' }.clean() // { a: 1 }
@@ -188,8 +187,7 @@ Return new object with falsy entry values removed
 
 ### Object.prototype.filter(function)
 
-Return new object with only values that pass function.
-Function takes value and key as arguments.
+Return new object like `this` with only entries for which the the supplied function returns truthy. Function takes value and key as arguments.
 
 ```javascript
 { a: 1, b: 2 }.filter(v => v > 1) // { b: 2 }
@@ -199,7 +197,7 @@ Function takes value and key as arguments.
 
 ### Object.prototype.find(function)
 
-Return first key where value passes function
+Return first key of `this` where value passes function
 Function takes value and key as arguments.
 
 ```javascript
@@ -226,7 +224,7 @@ Return a new object with new entries assigned from arguments in ascending priori
 
 ### Object.prototype.common(object)
 
-Return new object with common entries intersecting with supplied object
+Return new object with entries of `this` that are also present in the supplied object
 
 ```javascript
 { a: 1, b: 2 }.common({ a: 2, b: 2 }) // { b: 2 }
