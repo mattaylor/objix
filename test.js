@@ -183,3 +183,16 @@ console.assert(!o1.equals(c1), '!Clone (Array)', c1)
 
 console.assert([1,2,3].clone().equals([1,2,3]), 'Clone (Array)', [1,2,3].clone())
 console.assert([].clone().equals([]), 'Clone (Array', [].clone())
+
+o1 = { d: new Date() }
+o2 = o1.clone(1)
+o1.d.setYear(1970)
+
+console.assert(o1.d.getYear() != o2.d.getYear(), '!Clone 1 (Date)', o2)
+
+o1 = new Date()
+o2 = o1.clone()
+o1.setYear(1970)
+
+console.assert(o1.getYear() != o2.getYear(), '!Clone 2 (Date)', o2)
+
