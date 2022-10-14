@@ -223,6 +223,18 @@ console.assert(!a.is(String), '!is (Array,String)', a)
 console.assert(o.is(Object), 'is (Object,Object)', o)
 console.assert(!o.is(Array), '!is (Object,Array)', o)
 
+o1 = { a: () => 0 , b: { c: () => 0 }}
+o2 = o1.clone()
+o3 = o1.clone(-1)
+o1.a = () => 1
+o1.b.c = () => 1
+console.assert(o1.a() == 1, 'Clone 1 (Funcion)', o1.a())
+console.assert(o2.a() == 0, 'Clone 2 (Funcion)', o2.a())
+console.assert(o2.b.c() == 1, 'Clone 3 (Funcion)', o2.b.c())
+console.assert(o3.a() == 0, 'Clone 4 (Funcion)', o3.a())
+console.assert(o3.b.c() == 0, 'Clone 5 (Funcion)', o3.b.c())
+
+
 
 
 
