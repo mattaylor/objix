@@ -73,7 +73,9 @@ P.clone = function(d, c=this.constructor) {
     : new c(this.valueOf().is(Object) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
 }
 
-P[Symbol.iterator] = function() { return this.entries()[Symbol.iterator]() }
+P[Symbol.iterator] = function() { 
+  return this.entries()[Symbol.iterator]() 
+}
 
 P.join = function(...a) {
   let r = A({}, this)
