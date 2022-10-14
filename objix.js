@@ -46,7 +46,7 @@ P.type = function() {
 
 P.is = function(t) {
   return t == Object
-    ? ![String,Boolean,Number,Symbol].includes(this.constructor)
+    ? ![String,Boolean,Number].includes(this.constructor)
     : this.constructor == t || this.is(Object) && this instanceof t
 }
 
