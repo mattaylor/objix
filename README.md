@@ -152,7 +152,7 @@ Object.entries(this)
 
 ### Object.prototype.is(type)
 
-True if `this` is a instance of `type`.
+True if `this` is an instance of `type`.
 
 ```javascript
 let n = 1
