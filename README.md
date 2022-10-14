@@ -181,6 +181,14 @@ c.is(Class2) // true
 c.is(Object) // true
 ```
 
+### Object.prototype[@@iterator]
+
+Iterate throught the entries of `this`
+
+```javascript
+for (let [k, v] of { a: 1 }) console.log(k, 'is', v) // a is 1
+```
+
 ### Object.prototype.type()
 
 Returns the constructor name of `this`
