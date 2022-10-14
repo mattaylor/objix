@@ -407,7 +407,7 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
 
 ### Object.prototype.trap(function, error, ...keys)
 
-Returns a proxy of `this` which traps all property assignments using the supplied function. The function takes `val`, `key` and `this` as arguments.
+Returns a proxy of `this` which traps property assignments using the supplied function. The function takes `val`, `key` and `this` as arguments.
 If the function returns falsey and an error message is supplied then an exception will be thrown.
 If no error message is provided the function just acts as an observer, although the trap may also update `this` if needed.
 When `keys` are defined then the trap function will only be called for assignments to properties where the key is included in `keys`
