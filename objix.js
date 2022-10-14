@@ -44,10 +44,10 @@ P.type = function() {
   return this.constructor.name
 }
 
-P.is = function(t) {
+P.is = function(t, i) {
   return t == Object
     ? ![String,Boolean,Number,Function].includes(this.constructor)
-    : this.constructor == t || this.is(Object) && this instanceof t
+    : this.constructor == t || !i && this.is(Object) && this instanceof t
 }
 
 P.find = P.find = function(f) {
@@ -67,35 +67,14 @@ P.json = function() {
   return JSON.stringify(this)
 }
 
-
-// fastest
 P.clone = function(d, c=this.constructor) {
-  return !this.is(Object) ? this.valueOf() : this.valueOf().is(Object)
-    ? this.is(Array)
-      ? this.map(v => d && v ? v.clone(d-1) : v)
-      : new c(this.map(v => d && v ? v.clone(d-1) : v))
-    : new c(this)
-}
-/*
-// smallest
-P.clone_ = function(d,c) {
-  return !this.is(Object) ? this.valueOf() : this.valueOf().is(Object)
-    ? (c=new this.constructor(this.map(v => d && v ? v.clone(d-1) : v)),c[0]||c)
-    : new this.constructor(this)
+  return !this.is(Object) ? this.valueOf() : this.is(Array,1)
+    ? this.map(v => d && v ? v.clone(d-1) : v)
+    : new c(this.valueOf().is(Object) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
 }
 
-P.clone = function(d, c=this.constructor) {
-  return !this.is(Object) ? this.valueOf() : this.valueOf().is(Object)
-    ? (this.is(Array) ? this : new c(this)).map(v => d && v ? v.clone(d-1) : v)
-    : new c(this)
-}
+P[Symbol.iterator] = function() { return this.entries()[Symbol.iterator]() }
 
-P.clone = function(d,c) {
-  return !this.is(Object) ? this.valueOf() : this.valueOf().is(Object)
-    ? (c=this.map(v => d && v ? v.clone(d-1) : v),c.is(Array)) ? c : new this.constructor(c)
-    : new this.constructor(this)
-}
-*/
 P.join = function(...a) {
   let r = A({}, this)
   for(let o of a) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
