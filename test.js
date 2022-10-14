@@ -183,7 +183,7 @@ o1.pop()
 console.assert(!o1.equals(c1), '!Clone (Array)', c1)
 
 console.assert([1,2,3].clone().equals([1,2,3]), 'Clone (Array)', [1,2,3].clone())
-console.assert([].clone().equals([]), 'Clone (Array', [].clone())
+console.assert([].clone().equals([]), 'Clone (Array)', [].clone())
 
 o1 = { d: new Date() }
 o2 = o1.clone(1)
@@ -222,7 +222,6 @@ console.assert(a.is(Object), 'is (Array,Object)', a)
 console.assert(!a.is(String), '!is (Array,String)', a)
 console.assert(o.is(Object), 'is (Object,Object)', o)
 console.assert(!o.is(Array), '!is (Object,Array)', o)
-
 
 
 
