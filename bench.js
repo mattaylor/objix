@@ -64,11 +64,13 @@ function report(title, ob) {
       objix: () => ob.equals(ob.clone(), -1),
     },
     Clone: {
-      vanilla: () => Object.assign({}, ob), //Not Deep!!
-      //lodash: () => _.cloneDeep(ob),
-      //objix:  () => ob.clone(-1),
+      vanilla: () => Object.assign({}, ob), //No Construcotrs!
       lodash: () => _.clone(ob),
       objix:  () => ob.clone(),
+    },
+    Deep: {
+      lodash: () => _.cloneDeep(ob),
+      objix:  () => ob.clone(-1),
     },
     Some: {
       vanilla: () => Object.values(ob).some(v => v == 'x'),
@@ -82,7 +84,9 @@ function report(title, ob) {
     }
   }.map(compare))
 }
-
+const d1 = new Date()
+const d2 = new Date()
 const testOb = { }
+//testOb.deep = { a: { b: [ 1,2,3,d1, { d: d2 }]}}
 for (let i=1; i <= oSize; i++) testOb['k'+i] = i
 report(`Ops/sec (iters: ${iters}, heats: ${heats} size: ${oSize})`, testOb)
