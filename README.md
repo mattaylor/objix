@@ -183,7 +183,7 @@ c.is(Object) // true
 
 ### Object.prototype[@@iterator]
 
-Iterate throught the entries of `this`
+Iterate through the entries of `this`
 
 ```javascript
 for (let [k, v] of { a: 1 }) console.log(k, 'is', v) // a is 1
