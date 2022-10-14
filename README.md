@@ -158,14 +158,17 @@ True if `this` is a instance of `type`.
 let n = 1
 let d = new Date()
 let b = false
+let f = () => 0
 class Class1 {}
 class Class2 extends Class1 {}
 let c = new Class2()
 ''.is(String) // true
 ''.is(Object) // false
-{}.is(Object) // false
+{}.is(Object) // true
 [].is(Array)  // true
 [].is(Object) // true
+f.is(Function) // true
+f.is(Object) // false
 d.is(Date) // true
 d.is(Object) // true
 d.is(Number) // false
