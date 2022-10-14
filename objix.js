@@ -73,6 +73,20 @@ P.clone = function(d) {
     : new this.constructor(this)
 }
 
+P.clone = function(d) {
+  return !this.is(Object) ? this.valueOf() : this.valueOf().is(Object)
+    ? this.is(Array) 
+      ? this.constructor(this.map(v => d && v ? v.clone(d-1) : v))[0]
+      : this.constructor(this.map(v => d && v ? v.clone(d-1) : v))
+    : new this.constructor(this)
+}
+
+P.clone = function(d,c) {
+  return !this.is(Object) ? this.valueOf() : this.valueOf().is(Object)
+    ? (c=this.constructor(this.map(v => d && v ? v.clone(d-1) : v)),c[0]||c)
+    : new this.constructor(this)
+}
+
 P.join = function(...a) {
   let r = A({}, this)
   for(let o of a) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
