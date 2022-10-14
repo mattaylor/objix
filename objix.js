@@ -68,10 +68,10 @@ P.json = function() {
 }
 
 P.clone = function(d) {
-  let V = this.valueOf(), C = this.constructor
+  let V = this.valueOf()
   return !this.is(Object) ? V : V.is(Object)
-    ? A(new C, this.map(v => d && v ? v.clone(d-1) : v))
-    : new C(this)
+    ? A(new this.constructor, this.map(v => d && v ? v.clone(d-1) : v))
+    : new this.constructor(this)
 }
 
 P.join = function(...a) {
