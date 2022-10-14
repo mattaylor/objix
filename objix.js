@@ -46,7 +46,7 @@ P.type = function() {
 
 P.is = function(t) {
   return t == Object
-    ? typeof this.valueOf() == 'object' || this.valueOf() != this
+    ? ![String,Boolean,Number,Symbol].includes(this.constructor)
     : this.constructor == t || this.is(Object) && this instanceof t
 }
 
@@ -69,7 +69,7 @@ P.json = function() {
 
 P.clone = function(d) {
   return !this.is(Object) ? this.valueOf() : this.valueOf().is(Object)
-    ? A(new this.constructor, this.map(v => d && v ? v.clone(d-1) : v))
+    ? A(this.constructor(), d ? this.map(v => v?.clone(d-1) || v) : this)
     : new this.constructor(this)
 }
 
