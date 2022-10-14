@@ -67,11 +67,38 @@ P.json = function() {
   return JSON.stringify(this)
 }
 
+// smallest
 P.clone = function(d,c) {
   return !this.is(Object) ? this.valueOf() : this.valueOf().is(Object)
-    ? (c=this.constructor(this.map(v => d && v ? v.clone(d-1) : v)),c[0]||c)
+    ? (c=new this.constructor(this.map(v => d && v ? v.clone(d-1) : v)),c[0]||c)
     : new this.constructor(this)
 }
+
+// fastest
+P.clone = function(d, c=this.constructor) {
+  return !this.is(Object) ? this.valueOf() : this.valueOf().is(Object)
+    ? this.is(Array)
+      ? this.map(v => d && v ? v.clone(d-1) : v)
+      : new c(this.map(v => d && v ? v.clone(d-1) : v))
+    : new c(this)
+}
+
+/*
+P.clone_ = function(d) {
+  let val = this.valueOf()
+  return !this.is(Object)
+    ? val
+    : val.type() != this.type() 
+      ? new this.constructor(this)
+      : this.map(v => d && v ? v.clone(d-1) : v)
+}
+
+P.clone_ = function(d,c) {
+  return !this.is(Object) ? this.valueOf() : this.valueOf().is(Object)
+    ? (c=this.map(v => d && v ? v.clone(d-1) : v),c.is(Array)) ? c : new this.constructor(c)
+    : new this.constructor(this)
+}
+*/
 
 P.join = function(...a) {
   let r = A({}, this)
