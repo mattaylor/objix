@@ -204,6 +204,10 @@ let d = new Date()
 let s = ''
 let o = {}
 let a = []
+let f = () => 1
+
+console.assert(f.is(Function), 'is (Function,Function)', f)
+console.assert(!f.is(Object), '!is (Function,Object)', f)
 
 console.assert(c.is(C), 'is (Class,Class)', c)
 console.assert(c.is(Object), 'is (Class,Object)', c)
