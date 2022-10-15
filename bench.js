@@ -16,8 +16,8 @@ Each batch run also includes a 100 iteration warmup verifying the results of the
 function compare(funcs) {
   let hist = { }, start
   for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) {
-    //for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
-    for (let i = 0; i < 100; i++) assert(funcs.objix().equals(fun(),-1), fun)
+    for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
+    //for (let i = 0; i < 100; i++) assert(funcs.objix().equals(fun(),-1), fun)
     if (!hist[key]) hist[key] = ph.createHistogram()
     start = performance.now()
     for (let i = 0; i < iters; i++) fun()
@@ -88,7 +88,7 @@ function report(title, ob) {
 const d1 = new Date()
 const d2 = new Date()
 const testOb = { }
-const deepOb = { a: { b: [ 1,2,3,d1, { c: 0, d: d2 }], e:1, f:2, g: 3, h: 4, i: 5, j: 6}}
-for (let i=1; i < oSize; i++) testOb['k'+i] = i
-for (let i=1; i < oSize/10; i++) testOb['d'+i] = deepOb
+const deepOb = { a: { b: [ 1,2,3,d1, { c: 0, d: d2 }], e:1, f:2, g: 3, h: 4, i: 5, j: []}}
+for (let i=0; i < oSize; i++) testOb['k'+i] = i
+for (let i=0; i < oSize/10; i++) testOb['d'+i] = deepOb
 report(`Ops/sec (iters: ${iters}, heats: ${heats} size: ${oSize})`, testOb)
