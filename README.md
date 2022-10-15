@@ -8,68 +8,6 @@ These protoype methods are all non enumerable and are highly optimised with zero
 
 **NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save
 
-## Benchmarks
-
-Performance of some common operations can be compared to lodash using the [benchmarks](bench.js) script.
-
-```bash
-> node bench <iterations=1000> <heats=100> <simple=10> <complex=1>
-```
-
-|              |                                              |
-| ------------ | -------------------------------------------- |
-| `iterations` | Number of iterations per heat                |
-| `heats`      | Number of randomised heats                   |
-| `simple`     | Number of simpled properties per test object |
-| `complex`    | Number of complex properties per test object |
-
-This script prints out a table of average operations per secs for each test function
-for lodash, objix and a basic vanilla alternative together with the mean error coefficient accross the heats and the % performance improvments of objix against lodash.
-
-For simple object objix performs insanely well, but this drops off quickly when more complex objects are tested.
-
-### Ops/sec (iters: 1000, heats: 100, simple: 10, complex: 0)
-
-| (index) | objix    | lodash   | vanilla  | % Inc   | % Err |
-| ------- | -------- | -------- | -------- | ------- | ----- |
-| Map     | 7134.03  | 4352.4   | 1061.13  | 63.91   | 13.99 |
-| Filter  | 38638.51 | 1968.79  | 1567.19  | 1862.55 | 20.55 |
-| Find    | 75862.74 | 21036.16 | 16961.27 | 260.63  | 24.11 |
-| KeyBy   | 9642.97  | 6482.49  |          | 48.75   | 18.78 |
-| Equals  | 2211.27  | 1375.69  | 1411.85  | 60.74   | 11.1  |
-| Clone   | 6134.17  | 2087.05  | 8217.1   | 193.92  | 9.84  |
-| Deep    | 2663.58  | 1404.26  |          | 89.68   | 11.5  |
-| Some    | 6720.74  | 3960.36  | 5809.37  | 69.7    | 11.3  |
-| Every   | 89994.04 | 8713.43  | 29993.12 | 932.82  | 22.21 |
-
-### Ops/sec (iters: 1000, heats: 100, simple: 10, complex: 1)
-
-| (index) | objix    | lodash   | vanilla  | % Inc   | % Err |
-| ------- | -------- | -------- | -------- | ------- | ----- |
-| Map     | 4276.64  | 3024.43  | 903.29   | 41.4    | 12.86 |
-| Filter  | 8139.32  | 1602.77  | 1299.11  | 407.83  | 10.89 |
-| Find    | 75342.96 | 21485.29 | 15850.22 | 250.67  | 23.88 |
-| KeyBy   | 9055.53  | 6340.41  |          | 42.82   | 21.23 |
-| Equals  | 2016.31  | 1224.62  | 1170.45  | 64.65   | 9.1   |
-| Clone   | 5255.18  | 1833.74  | 6763.65  | 186.58  | 9.88  |
-| Deep    | 358.13   | 313.97   |          | 14.07   | 6.85  |
-| Some    | 4623.3   | 3072.75  | 4293.07  | 50.46   | 9.99  |
-| Every   | 89895.68 | 7942.8   | 27554.3  | 1031.79 | 22.17 |
-
-### Ops/sec (iters: 1000, heats: 100, simple: 10, complex: 10)
-
-| (index) | objix   | lodash  | vanilla | % Inc  | % Err |
-| ------- | ------- | ------- | ------- | ------ | ----- |
-| Map     | 691.9   | 720.28  | 225     | -3.94  | 6.29  |
-| Filter  | 834.12  | 534.85  | 278.67  | 55.95  | 4.5   |
-| Find    | 3762.86 | 3694.28 | 534.93  | 1.86   | 8.54  |
-| KeyBy   | 9011.13 | 6374.19 |         | 41.37  | 20.28 |
-| Equals  | 511.47  | 474.53  | 490.35  | 7.78   | 6.63  |
-| Clone   | 1235.59 | 804.24  | 298.42  | 53.63  | 4.58  |
-| Deep    | 58.94   | 199.98  |         | -70.53 | 6.21  |
-| Some    | 821.75  | 853.98  | 456.67  | -3.77  | 4.98  |
-| Every   | 3826.04 | 2446.63 | 701.7   | 56.38  | 7.46  |
-
 ## Usage
 
 ### Node
@@ -484,3 +422,65 @@ let o1 = P.new({ b: 1 }) // { a: 1, b: 1 }
 let o2 = P.new({ a: 2 }) // { a: 2 }
 o1.c = 0 // // Uncaught 'Not Positive, c, 0'
 ```
+
+## Benchmarks
+
+Performance of some common operations can be compared to lodash using the [benchmarks](bench.js) script.
+
+```bash
+> node bench <iterations=1000> <heats=100> <simple=10> <complex=1>
+```
+
+|              |                                              |
+| ------------ | -------------------------------------------- |
+| `iterations` | Number of iterations per heat                |
+| `heats`      | Number of randomised heats                   |
+| `simple`     | Number of simpled properties per test object |
+| `complex`    | Number of complex properties per test object |
+
+This script prints out a table of average operations per secs for each test function
+for lodash, objix and a basic vanilla alternative together with the mean error coefficient accross the heats and the % performance improvments of objix against lodash.
+
+For simple object objix performs insanely well, but this drops off quickly when more complex objects are tested.
+
+### Ops/sec (iters: 1000, heats: 100, simple: 10, complex: 0)
+
+| (index) | objix    | lodash   | vanilla  | % Inc   | % Err |
+| ------- | -------- | -------- | -------- | ------- | ----- |
+| Map     | 7134.03  | 4352.4   | 1061.13  | 63.91   | 13.99 |
+| Filter  | 38638.51 | 1968.79  | 1567.19  | 1862.55 | 20.55 |
+| Find    | 75862.74 | 21036.16 | 16961.27 | 260.63  | 24.11 |
+| KeyBy   | 9642.97  | 6482.49  |          | 48.75   | 18.78 |
+| Equals  | 2211.27  | 1375.69  | 1411.85  | 60.74   | 11.1  |
+| Clone   | 6134.17  | 2087.05  | 8217.1   | 193.92  | 9.84  |
+| Deep    | 2663.58  | 1404.26  |          | 89.68   | 11.5  |
+| Some    | 6720.74  | 3960.36  | 5809.37  | 69.7    | 11.3  |
+| Every   | 89994.04 | 8713.43  | 29993.12 | 932.82  | 22.21 |
+
+### Ops/sec (iters: 1000, heats: 100, simple: 10, complex: 1)
+
+| (index) | objix    | lodash   | vanilla  | % Inc   | % Err |
+| ------- | -------- | -------- | -------- | ------- | ----- |
+| Map     | 4276.64  | 3024.43  | 903.29   | 41.4    | 12.86 |
+| Filter  | 8139.32  | 1602.77  | 1299.11  | 407.83  | 10.89 |
+| Find    | 75342.96 | 21485.29 | 15850.22 | 250.67  | 23.88 |
+| KeyBy   | 9055.53  | 6340.41  |          | 42.82   | 21.23 |
+| Equals  | 2016.31  | 1224.62  | 1170.45  | 64.65   | 9.1   |
+| Clone   | 5255.18  | 1833.74  | 6763.65  | 186.58  | 9.88  |
+| Deep    | 358.13   | 313.97   |          | 14.07   | 6.85  |
+| Some    | 4623.3   | 3072.75  | 4293.07  | 50.46   | 9.99  |
+| Every   | 89895.68 | 7942.8   | 27554.3  | 1031.79 | 22.17 |
+
+### Ops/sec (iters: 1000, heats: 100, simple: 10, complex: 10)
+
+| (index) | objix   | lodash  | vanilla | % Inc  | % Err |
+| ------- | ------- | ------- | ------- | ------ | ----- |
+| Map     | 691.9   | 720.28  | 225     | -3.94  | 6.29  |
+| Filter  | 834.12  | 534.85  | 278.67  | 55.95  | 4.5   |
+| Find    | 3762.86 | 3694.28 | 534.93  | 1.86   | 8.54  |
+| KeyBy   | 9011.13 | 6374.19 |         | 41.37  | 20.28 |
+| Equals  | 511.47  | 474.53  | 490.35  | 7.78   | 6.63  |
+| Clone   | 1235.59 | 804.24  | 298.42  | 53.63  | 4.58  |
+| Deep    | 58.94   | 199.98  |         | -70.53 | 6.21  |
+| Some    | 821.75  | 853.98  | 456.67  | -3.77  | 4.98  |
+| Every   | 3826.04 | 2446.63 | 701.7   | 56.38  | 7.46  |
