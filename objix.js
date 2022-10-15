@@ -124,8 +124,8 @@ const
     return this
   },
 
-  try(f) {
-    try { f(this) } finally { return this }
+  try(f,c) {
+    try { f(this) } catch { c && c(this) } finally { return this }
   },
 
 	new (o) {
