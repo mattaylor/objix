@@ -120,8 +120,12 @@ const
   },
 
 	log(m='', f, c='log') {
-    !f || f(this) && console[c](new Date().toISOString().slice(0,-8), m, this.clone(-1))
+    !f || f(this) && console[c](new Date().toISOString().slice(0,-8), m, this.clone())
     return this
+  },
+  
+  try(f) {
+    try { return f(this) || this } catch { return this }
   },
 
 	new (o) {

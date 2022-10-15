@@ -1,6 +1,6 @@
 
 require('./objix')
-
+const lo = require('lodash')
 let o1 = { a: 1 }
 let o2 = { a: 1, b: 2 }
 let o3 = { a: 2, b: 2, c: 3}
@@ -160,6 +160,8 @@ console.assert([[{}]].equals([[{}]], 2), 'Equals (Deep Array)')
 let c1 = { a: 1, b: { c: 1 }, d: [1], e: 's', f:null }
 let c2 = c1.clone()
 let c3 = c1.clone(1)
+//let c2 = lo.clone(c1)
+//let c3 = lo.cloneDeep(c1)
 c1.b.c = 2
 c1.a = 2
 c1.d.pop()

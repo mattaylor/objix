@@ -375,7 +375,7 @@ o.max() // 3
 
 ### Object.prototype.log(msg, test, type='log')
 
-Prints a deep clone of `this` to the console together with a minute timestamp and an optional msg. If a test function is provided then the logging will be triggered if the the function returns truthy. The the test function should expect `this` as its argument.
+Prints a shallow clone of `this` to the console together with a minute timestamp and an optional msg. If a test function is provided then the logging will be triggered if the the function returns truthy. The the test function should expect `this` as its argument.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 
 ```javascript
