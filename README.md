@@ -397,12 +397,12 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
 ### Object.protoype.try(function, catch)
 
 Call function with `this` as argument and always return `this`.
-If `catch` is defined then that function will be called with `this` as an argument when an exception is thrown otherwise, exceptions will be ignored.
+If `catch` is defined then that function will be called with `this` and the exception as arguments when an exception is thrown otherwise, exceptions will be ignored.
 
 ```javascript
-let o = { a: 1 }
-o.try(t => t.a++) // { a: 2 }
-o.try(t => t.a.b++) // { a: 1 }
+{ a: 1 }.try(o => o.a++) // { a: 2 }
+{ a: 1 }.try(o => o.a.b++) // { a: 1 }
+{ a: 1 }.try(o => o.a.b++, (o,e) => console.log(e)) // TypeError: Cannot read properties of undefined (reading 'b')
 ```
 
 ### Object.prototype.trap(function, error, ...keys)
