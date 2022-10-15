@@ -1,6 +1,6 @@
 ## Objix
 
-A dangerously convienient, high performance, zero dependency, lightweight utility (2.5kb min) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects, and give you super powers in the process!
+A dangerously convienient, high performance, zero dependency, lightweight utility (2.3kb min) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects, and give you super powers in the process!
 
 The functions are non enumerable and include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, stringify, compare, split and join objects as well as logging, iterating, type checking, and trapping and observing updates.
 
@@ -240,6 +240,7 @@ Assign and overwrite entries of `this` from arguments in ascending priority and 
 
 Assigns new properties into this from arguments in ascending priority without overwriting `this`.
 Returns `this`
+
 ```javascript
 { a: 1, b: 1 }.extend({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 1, c: 3 }
 ```

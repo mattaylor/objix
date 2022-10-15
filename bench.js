@@ -1,4 +1,3 @@
-//require('./objix.ok')
 require('./objix')
 const _ =  require('lodash')
 const assert = require('assert')
