@@ -90,5 +90,5 @@ const d2 = new Date()
 const testOb = { }
 const deepOb = { a: { b: [ 1,2,3,d1, { c: 0, d: d2 }], e:1, f:2, g: 3, h: 4, i: 5, j: 6}}
 for (let i=1; i <= oSize; i++) testOb['k'+i] = i
-for (let i=1; i <= oSize; i++) testOb['dk'+i] = deepOb
+for (let i=1; i <= oSize/10; i++) testOb['d'+i] = deepOb
 report(`Ops/sec (iters: ${iters}, heats: ${heats} size: ${oSize})`, testOb)
