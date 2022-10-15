@@ -66,10 +66,10 @@ const
     return JSON.stringify(this)
   },
 
-	clone(d, c=this.constructor) {
+	clone(d) {
     return !this.is(O) ? this.valueOf() : this.is(Array,1)
       ? this.map(v => d && v ? v.clone(d-1) : v)
-      : new c(this.valueOf().is(O) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
+      : new this.constructor(this.valueOf().is(O) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
   },
 
   [Symbol.iterator]()  {
