@@ -373,9 +373,9 @@ o.bind('max', m => m.values().sort((a, b) => b - a)[0])
 o.max() // 3
 ```
 
-### Object.prototype.log(msg, type='log')
+### Object.prototype.log(msg, test, type='log')
 
-Prints a deep clone of `this` to the console together with a minute timestamp and an optional msg.
+Prints a deep clone of `this` to the console together with a minute timestamp and an optional msg. If a test function is provided then the logging will be triggered if the the function returns truthy. The the test function should expect `this` as its argument.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 
 ```javascript
@@ -384,6 +384,8 @@ let o = { a: 0, b: 1 }
   .log('CLEANING') // 2022-10-07T00:00 CLEANNING { b: 1 }
   .map(v => v + 1)
   .log('MAPPING') // 2022-10-07T00:00 MAPPING { b: 2 }
+  .log('B is Ok', t => t.b) // 2022-10-07T00:00 B is Ok { b: 2 }
+  .log('A is Ok', t => t.a) //
   .log('STACK', 'trace')
 /*
 Trace: 2022-10-06T21:21 STACK { b: 2 }

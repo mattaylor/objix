@@ -119,8 +119,8 @@ const
     return this
   },
 
-	log(m='', c='log') {
-    console[c](new Date().toISOString().slice(0,-8), m, this.clone(-1))
+	log(m='', f, c='log') {
+    !f || f(this) && console[c](new Date().toISOString().slice(0,-8), m, this.clone(-1))
     return this
   },
 
