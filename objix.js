@@ -21,8 +21,8 @@ const
     return r
   },
 
-	has(v) {
-    return this.find(_ => _.equals(v))
+	has(o) {
+    return this.find(v => v.equals(o))
   },
 
 	filter(f) {
@@ -46,7 +46,7 @@ const
 	is(t, i) {
     return t == O
       ? ![String,Boolean,Number,Function].includes(this.constructor)
-      : this.constructor == t || !i && this.is(Object) && this instanceof t
+      : this.constructor == t || !i && this.is(O) && this instanceof t
   },
 
 	find(f) {
@@ -141,7 +141,7 @@ const
   }
 }
 
-for (let f of ['keys', 'values', 'entries', 'create', 'assign']) P[f] = function(...a) {
+for (let f of ['keys','values','entries','create','assign']) P[f] = function(...a) {
   return O[f](this, ...a)
 }
 
