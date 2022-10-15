@@ -55,7 +55,7 @@ P.find = function(f) {
 }
 
 P.extend = function(...a) {
-  return A(this.clone(), ...a, this)
+  return A(this, ...a, this)
 }
 
 P.delete = function(...a) {
