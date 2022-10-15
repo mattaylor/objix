@@ -10,7 +10,7 @@ These protoype methods are all non enumerable and are highly optimised with zero
 
 ## Benchmarks
 
-Performance against lodash can be compared on some common operations using the `bench` script provided.
+Performance of some common operations can be compared to lodash using the [benchmarks](bench.js) script.
 
 ```bash
 > node bench <iterations=1000> <heats=100> <simple=10> <complex=1>
@@ -23,8 +23,8 @@ Performance against lodash can be compared on some common operations using the `
 | `simple`     | Number of simpled properties per test object |
 | `complex`    | Number of complex properties per test object |
 
-This script abouts a table of average operations per secs for each test function
-for lodash, objix and a basic vanilla alternative together with the mean error coefficient accross the heats and the % performance improvments of objeix vs lodash.
+This script prints out a table of average operations per secs for each test function
+for lodash, objix and a basic vanilla alternative together with the mean error coefficient accross the heats and the % performance improvments of objix against lodash.
 
 For simple object objix performs insanely well, but this drops off quickly when more complex objects are tested.
 
