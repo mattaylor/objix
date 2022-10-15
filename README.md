@@ -2,26 +2,73 @@
 
 A dangerously convienient, high performance, zero dependency, lightweight utility (2.3kb min) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects, and give you super powers in the process!
 
-The functions are non enumerable and include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, stringify, compare, split and join objects as well as logging, iterating, type checking, and trapping and observing updates.
+The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, stringify, compare, split and join objects, log values, iterating, type checking, trapping and observing updates.
 
-The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. When combined with the faster startup times for using prototypes, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` is typically over 60% faster than `_.mapValues(ob, fn)` when working with small objects according to simple ops/sec [benchmarks](bench.js)
+These protoype methods are all non enumerable and are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. When combined with the faster startup times for using prototypes, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` is typically over 60% faster than `_.mapValues(ob, fn)` when working with small objects according to simple [benchmarks](bench.js)
 
-### Ops/sec (iters: 1000, heats: 100 size: 10)
+**NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save
 
-| (index) | vanilla  | lodash   | objix    | % Inc  | % Err |
-| ------- | -------- | -------- | -------- | ------ | ----- |
-| Map     | 1084.23  | 4215.8   | 6941.94  | 64.66  | 15.07 |
-| Filter  | 1566.3   | 1201.28  | 1457.21  | 21.3   | 6.82  |
-| Find    | 17400.43 | 26744.94 | 75851.68 | 183.61 | 27.38 |
-| KeyBy   |          | 6361.6   | 9369.4   | 47.28  | 20.64 |
-| Equals  | 1446.42  | 1355.97  | 1851.67  | 36.56  | 8.96  |
-| Clone   | 8007.95  | 2069.4   | 6111.26  | 195.32 | 10.09 |
-| Deep    |          | 1414.29  | 2536.6   | 79.36  | 11.61 |
-| Some    | 5864.38  | 3942.79  | 6598.18  | 67.35  | 12.51 |
-| Every   | 24470.23 | 8003.35  | 11248.07 | 40.54  | 15.06 |
+## Benchmarks
 
-**NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save by typing something like
-`ob.map(fun)` instead of `for (let key in Object.keys(ob) ob[key] = fun(ob[key], key))`
+Performance against lodash can be compared on some common operations using the `bench` script provided.
+
+```bash
+> node bench <iterations=1000> <heats=100> <simple=10> <complex=1>
+```
+
+|              |                                              |
+| ------------ | -------------------------------------------- |
+| `iterations` | Number of iterations per heat                |
+| `heats`      | Number of randomised heats                   |
+| `simple`     | Number of simpled properties per test object |
+| `complex`    | Number of complex properties per test object |
+
+This script abouts a table of average operations per secs for each test function
+for lodash, objix and a basic vanilla alternative together with the mean error coefficient accross the heats and the % performance improvments of objeix vs lodash.
+
+For simple object objix performs insanely well, but this drops off quickly when more complex objects are tested.
+
+### Ops/sec (iters: 1000, heats: 100, simple: 10, complex: 0)
+
+| (index) | objix    | lodash   | vanilla  | % Inc   | % Err |
+| ------- | -------- | -------- | -------- | ------- | ----- |
+| Map     | 7134.03  | 4352.4   | 1061.13  | 63.91   | 13.99 |
+| Filter  | 38638.51 | 1968.79  | 1567.19  | 1862.55 | 20.55 |
+| Find    | 75862.74 | 21036.16 | 16961.27 | 260.63  | 24.11 |
+| KeyBy   | 9642.97  | 6482.49  |          | 48.75   | 18.78 |
+| Equals  | 2211.27  | 1375.69  | 1411.85  | 60.74   | 11.1  |
+| Clone   | 6134.17  | 2087.05  | 8217.1   | 193.92  | 9.84  |
+| Deep    | 2663.58  | 1404.26  |          | 89.68   | 11.5  |
+| Some    | 6720.74  | 3960.36  | 5809.37  | 69.7    | 11.3  |
+| Every   | 89994.04 | 8713.43  | 29993.12 | 932.82  | 22.21 |
+
+### Ops/sec (iters: 1000, heats: 100, simple: 10, complex: 1)
+
+| (index) | objix    | lodash   | vanilla  | % Inc   | % Err |
+| ------- | -------- | -------- | -------- | ------- | ----- |
+| Map     | 4276.64  | 3024.43  | 903.29   | 41.4    | 12.86 |
+| Filter  | 8139.32  | 1602.77  | 1299.11  | 407.83  | 10.89 |
+| Find    | 75342.96 | 21485.29 | 15850.22 | 250.67  | 23.88 |
+| KeyBy   | 9055.53  | 6340.41  |          | 42.82   | 21.23 |
+| Equals  | 2016.31  | 1224.62  | 1170.45  | 64.65   | 9.1   |
+| Clone   | 5255.18  | 1833.74  | 6763.65  | 186.58  | 9.88  |
+| Deep    | 358.13   | 313.97   |          | 14.07   | 6.85  |
+| Some    | 4623.3   | 3072.75  | 4293.07  | 50.46   | 9.99  |
+| Every   | 89895.68 | 7942.8   | 27554.3  | 1031.79 | 22.17 |
+
+### Ops/sec (iters: 1000, heats: 100, simple: 100, complex: 10)
+
+| (index) | objix   | lodash  | vanilla | % Inc  | % Err |
+| ------- | ------- | ------- | ------- | ------ | ----- |
+| Map     | 151.14  | 163.67  | 37.07   | -7.66  | 4.16  |
+| Filter  | 274.74  | 175.08  | 64.13   | 56.92  | 2.85  |
+| Find    | 687.23  | 687.8   | 91.41   | -0.08  | 4.53  |
+| KeyBy   | 9861.07 | 6792.82 |         | 45.17  | 16.56 |
+| Equals  | 74.13   | 70.82   | 53.1    | 4.67   | 5.96  |
+| Clone   | 167.75  | 109.01  | 37.66   | 53.88  | 4.13  |
+| Deep    | 28.89   | 69.19   |         | -58.25 | 3.13  |
+| Some    | 220.31  | 241.64  | 95.14   | -8.83  | 3.46  |
+| Every   | 701.77  | 453.02  | 117.52  | 54.91  | 4.2   |
 
 ## Usage
 
@@ -29,25 +76,25 @@ The methods are highly optimised with zero copy operations where possible. There
 
 Install:
 
-```
-npm i -save objix
+```bash
+> npm i -save objix
 ```
 
 Require:
 
-```
+```javascript
 require('objix')
 
-console.log({a:1}.map(v => v+1 ))
+console.log({ a: 1 }.map(v => v + 1))
 ```
 
 ### Browser:
 
-```
-<script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js"/>
+```html
+<script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js" />
 
 <script>
-console.log({a:1}.map(v => v+1 ))
+  console.log({ a: 1 }.map(v => v + 1))
 </script>
 ```
 

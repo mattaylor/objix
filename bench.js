@@ -6,7 +6,8 @@ const ph = require('node:perf_hooks')
 
 const iters = process.argv[2] || 1000 // Number of iterations per heat
 const heats = process.argv[3] || 100   // Number of randomised heats
-const oSize = process.argv[4] || 10   // Number of object entries
+const nSimp = process.argv[4] || 10   // Number of simple object entries
+const nDeep = process.argv[5] || 1    // Number of complex object entries
 const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
 /*
@@ -88,6 +89,6 @@ const d1 = new Date()
 const d2 = new Date()
 const testOb = { }
 const deepOb = { a: { b: [ 1,2,3,d1, { c: 0, d: d2 }], e:1, f:2, g: 3, h: 4, i: 5, j: []}}
-for (let i=0; i < oSize; i++) testOb['k'+i] = i
-for (let i=0; i < oSize/10; i++) testOb['d'+i] = deepOb
-report(`Ops/sec (iters: ${iters}, heats: ${heats} size: ${oSize})`, testOb)
+for (let i=0; i < nSimp; i++) testOb['s'+i] = i
+for (let i=0; i < nDeep; i++) testOb['d'+i] = deepOb
+report(`Ops/sec (iters: ${iters}, heats: ${heats}, simple: ${nSimp}, complex: ${nDeep})`, testOb)
