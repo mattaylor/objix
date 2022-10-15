@@ -17,7 +17,6 @@ function compare(funcs) {
   let hist = { }, start
   for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) {
     for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
-    //for (let i = 0; i < 100; i++) assert(funcs.objix().equals(fun(),-1), fun)
     if (!hist[key]) hist[key] = ph.createHistogram()
     start = performance.now()
     for (let i = 0; i < iters; i++) fun()

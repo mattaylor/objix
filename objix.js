@@ -50,12 +50,12 @@ P.is = function(t, i) {
     : this.constructor == t || !i && this.is(Object) && this instanceof t
 }
 
-P.find = P.find = function(f) {
+P.find = function(f) {
   for (let k in this) if (f(this[k],k)) return k
 }
 
 P.extend = function(...a) {
-  return A({}, ...a, this)
+  return A(this, ...a, this)
 }
 
 P.delete = function(...a) {
@@ -94,7 +94,7 @@ P.common = function(o) {
 }
 
 P.contains = function(o, d) {
-  for (let k in o) if (this[k] != o[k] && !(d && this.some(v => v.contains(o, d-1)))) return false
+  for (let k in o) if (!this[k]?.equals(o[k]) && !(d && this.some(v => v.contains(o, d-1)))) return false
   return true
 }
 
