@@ -54,7 +54,7 @@ const
   },
 
 	extend(...a) {
-    return A(this.clone(), ...a, this)
+    return A(this, ...a, this)
   },
 
 	delete(...a) {
