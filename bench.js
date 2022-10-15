@@ -5,7 +5,7 @@ const ph = require('node:perf_hooks')
 
 
 const iters = process.argv[2] || 1000 // Number of iterations per heat
-const heats = process.argv[3] || 10   // Number of randomised heats
+const heats = process.argv[3] || 100   // Number of randomised heats
 const oSize = process.argv[4] || 10   // Number of object entries
 const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
