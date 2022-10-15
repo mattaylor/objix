@@ -1,6 +1,6 @@
 ## Objix
 
-A dangerously convienient, high performance, zero dependency, lightweight utility (2.3kb min) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects, and give you super powers in the process!
+A dangerously convienient, high performance, zero dependency, lightweight utility (2.4kb min) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects, and give you super powers in the process!
 
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, stringify, compare, split and join objects, log values, iterating, type checking, trapping and observing updates.
 
@@ -392,6 +392,17 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
   at Object.P.log (/Users/mat/extra/objix/objix.js:116:15)
   ...
 */
+```
+
+### Object.protoype.try(function, catch)
+
+Call function with `this` as argument and always return `this`.
+If `catch` is defined then that function will be called with `this` as an argument when an exception is thrown otherwise, exceptions will be ignored.
+
+```javascript
+let o = { a: 1 }
+o.try(t => t.a++) // { a: 2 }
+o.try(t => t.a.b++) // { a: 1 }
 ```
 
 ### Object.prototype.trap(function, error, ...keys)
