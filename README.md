@@ -1,8 +1,8 @@
 ## Objix
 
-A dangerously convienient, high performance, zero dependency, lightweight utility (2.5kb min) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects.
+A dangerously convienient, high performance, zero dependency, lightweight utility (2.5kb min) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects, and give you super powers in the process!
 
-The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, stringify, compare, split and join objects as well as logging, trapping and observing changes.
+The functions are non enumerable and include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, stringify, compare, split and join objects as well as logging, iterating, type checking, and trapping and observing updates.
 
 The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. When combined with the faster startup times for using prototypes, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` can be up to 50% faster than `_.mapValues(ob, fn)` when working with small objects according to simple ops/sec [benchmarks](bench.js)
 
@@ -183,10 +183,10 @@ c.is(Object) // true
 
 ### Object.prototype[@@iterator]
 
-Iterate through the entries of `this`
+Iterate through the values of `this`
 
 ```javascript
-for (let [k, v] of { a: 1 }) console.log(k, 'is', v) // a is 1
+for (let v of { a: 1 }) console.log(v) // a is 1
 ```
 
 ### Object.prototype.type()

@@ -142,8 +142,6 @@ P.trap = function(f, e, ...p) {
 }
 
 for (let f of K(P)) if (f[0] != '_') {
-  P['_'+f] = P[f]
-  try { module.exports[f] = (o, ...args) => o['_'+f](...args) } catch {}
+  [f, '__'+f].map(f => Object.defineProperty(P, f, { enumerable: false, value: P[f] }))
+  try { module.exports[f] = (o, ...args) => o['__'+f](...args) } catch {}
 }
-
-for (let f of K(P)) Object.defineProperty(P, f, { enumerable: false, value: P[f] })
