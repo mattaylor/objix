@@ -4,20 +4,21 @@ A dangerously convienient, high performance, zero dependency, lightweight utilit
 
 The functions are non enumerable and include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, clean entries, stringify, compare, split and join objects as well as logging, iterating, type checking, and trapping and observing updates.
 
-The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. When combined with the faster startup times for using prototypes, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` can be up to 50% faster than `_.mapValues(ob, fn)` when working with small objects according to simple ops/sec [benchmarks](bench.js)
+The methods are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. When combined with the faster startup times for using prototypes, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` is typically over 60% faster than `_.mapValues(ob, fn)` when working with small objects according to simple ops/sec [benchmarks](bench.js)
 
-### Ops/sec (iters: 1000, heats: 10 size: 10)
+### Ops/sec (iters: 1000, heats: 100 size: 10)
 
-| Function | Objix   | Lodash | % Imp   | % Err |
-| -------- | ------- | ------ | ------- | ----- |
-| Map      | 2495.9  | 1702.7 | 46.58   | 42.64 |
-| Filter   | 1096.4  | 94     | 1066.38 | 13.69 |
-| Find     | 13985.6 | 3564.7 | 292.34  | 72.58 |
-| KeyBy    | 5492.2  | 2762.3 | 98.83   | 57.02 |
-| Equals   | 784.4   | 475.3  | 65.03   | 18.98 |
-| Clone    | 997.5   | 941.3  | 5.97    | 15.83 |
-| Some     | 2920.1  | 2024.6 | 44.23   | 37.38 |
-| Every    | 5084.8  | 3236.8 | 57.09   | 41.47 |
+| (index) | vanilla  | lodash   | objix    | % Inc  | % Err |
+| ------- | -------- | -------- | -------- | ------ | ----- |
+| Map     | 1084.23  | 4215.8   | 6941.94  | 64.66  | 15.07 |
+| Filter  | 1566.3   | 1201.28  | 1457.21  | 21.3   | 6.82  |
+| Find    | 17400.43 | 26744.94 | 75851.68 | 183.61 | 27.38 |
+| KeyBy   |          | 6361.6   | 9369.4   | 47.28  | 20.64 |
+| Equals  | 1446.42  | 1355.97  | 1851.67  | 36.56  | 8.96  |
+| Clone   | 8007.95  | 2069.4   | 6111.26  | 195.32 | 10.09 |
+| Deep    |          | 1414.29  | 2536.6   | 79.36  | 11.61 |
+| Some    | 5864.38  | 3942.79  | 6598.18  | 67.35  | 12.51 |
+| Every   | 24470.23 | 8003.35  | 11248.07 | 40.54  | 15.06 |
 
 **NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save by typing something like
 `ob.map(fun)` instead of `for (let key in Object.keys(ob) ob[key] = fun(ob[key], key))`
@@ -60,12 +61,12 @@ Most of these function return objects including those modifying `this` and so ca
 
 ### Function Aliases
 
-All functions documented below are also callable with a '\_' prefix to the function name.
+All functions documented below are also callable with a '\_\_' prefix to the function name.
 This can help ensure that the function is availble and not overwritten by other object property assignments.
 
 ```javascript
-{ a: 1 }.size() == { a: 1 }._size() //true
-{ a: 1 }.find(v => v) == { a: 1 }._find(v => v) //true
+{ a: 1 }.size() == { a: 1 }.__size() //true
+{ a: 1 }.find(v => v) == { a: 1 }.__find(v => v) //true
 ```
 
 ### Exported Functions
