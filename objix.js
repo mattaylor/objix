@@ -9,18 +9,18 @@ for (let f of ['keys', 'values', 'entries', 'create', 'assign']) P[f] = function
 }
 
 P.every = function(f) {
-  for (let k of K(this)) if (!f(this[k], k)) return false
+  for (let k in this) if (!f(this[k], k)) return false
   return true
 }
 
 P.some = function(f) {
-  for (let k of K(this)) if (f(this[k], k)) return true
+  for (let k in this) if (f(this[k], k)) return true
   return false
 }
 
 P.map = function(f) {
   let r = {}
-  for (let k of K(this)) r[k] = f(this[k],k)
+  for (let k in this) r[k] = f(this[k],k)
   return r
 }
 
@@ -51,7 +51,7 @@ P.is = function(t, i) {
 }
 
 P.find = P.find = function(f) {
-  for (let k of K(this)) if (f(this[k],k)) return k
+  for (let k in this) if (f(this[k],k)) return k
 }
 
 P.extend = function(...a) {
@@ -73,8 +73,8 @@ P.clone = function(d, c=this.constructor) {
     : new c(this.valueOf().is(Object) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
 }
 
-P[Symbol.iterator] = function() { 
-  return this.entries()[Symbol.iterator]() 
+P[Symbol.iterator] = function() {
+  return this.values()[Symbol.iterator]()
 }
 
 P.join = function(...a) {
@@ -85,7 +85,7 @@ P.join = function(...a) {
 
 P.split = function() {
   let r = []
-  for (let k of K(this)) this[k].map((v,i) => r[i] ? r[i][k] = v : r[i] = {[k]: v})
+  for (let k in this) this[k].map((v,i) => r[i] ? r[i][k] = v : r[i] = {[k]: v})
   return r
 }
 
@@ -94,7 +94,7 @@ P.common = function(o) {
 }
 
 P.contains = function(o, d) {
-  for (let k of K(o)) if (this[k] != o[k] && !(d && this.some(v => v.contains(o, d-1)))) return false
+  for (let k in o) if (this[k] != o[k] && !(d && this.some(v => v.contains(o, d-1)))) return false
   return true
 }
 
@@ -145,3 +145,5 @@ for (let f of K(P)) if (f[0] != '_') {
   P['_'+f] = P[f]
   try { module.exports[f] = (o, ...args) => o['_'+f](...args) } catch {}
 }
+
+for (let f of K(P)) Object.defineProperty(P, f, { enumerable: false, value: P[f] })
