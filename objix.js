@@ -43,10 +43,10 @@ const
     return this.constructor.name
   },
 
-	is(t, i) {
+	is(t) {
     return t == O
       ? ![String,Boolean,Number,Function].includes(this.constructor)
-      : this.constructor == t || !i && this.is(O) && this instanceof t
+      : this.constructor == t || this.is(O) && this instanceof t
   },
 
 	find(f) {
@@ -65,9 +65,9 @@ const
 	json() {
     return JSON.stringify(this)
   },
-
-	clone(d) {
-    return !this.is(O) ? this.valueOf() : this.is(Array,1)
+  
+  clone(d) {
+    return !this.is(O) ? this.valueOf() : this.constructor === Array 
       ? this.map(v => d && v ? v.clone(d-1) : v)
       : new this.constructor(this.valueOf().is(O) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
   },

@@ -88,6 +88,7 @@ function report(title, ob) {
 const d1 = new Date()
 const d2 = new Date()
 const testOb = { }
+//const deepOb = { a: { b: { c: [1, 2, 3], d: d1, e:[] }}}
 const deepOb = { a: { b: [ 1,2,3,d1, { c: 0, d: d2 }], e:1, f:2, g: 3, h: 4, i: 5, j: []}}
 for (let i=0; i < nSimp; i++) testOb['s'+i] = i
 for (let i=0; i < nDeep; i++) testOb['d'+i] = deepOb
