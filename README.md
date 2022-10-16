@@ -72,7 +72,7 @@ Any object can act as a class from which new objects can be derived. All propert
 ```javascript
 let Person = { firstName: 'john', lastName: 'doe' }
   .trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
-  .bind('age', t => Math.abs(Date.now() - new Date(t.dob)) / 31536000000)
+  .bind('age', t => Math.abs((Date.now() - new Date(t.dob)) / 31536000000))
   .bind('name', t => t.firstName + ' ' + t.lastName)
 
 let p1 = Person.new({ firstName: 'jane' })
