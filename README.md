@@ -29,10 +29,10 @@ console.log({ a: 1 }.map(v => v + 1))
 ### Browser:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js" />
+<script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js"></script>
 
 <script>
-  console.log({ a: 1 }.map(v => v + 1))
+  { a: 1 }.map(v => v + 1)).log()
 </script>
 ```
 
