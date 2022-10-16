@@ -397,12 +397,12 @@ Trace: 2022-10-06T21:21 STACK { b: 2 }
 ### Object.protoype.try(function, catch)
 
 Call function with `this` as argument and always return `this`.
-If `catch` is defined then that function will be called with `this` and the exception as arguments when an exception is thrown otherwise, exceptions will be ignored.
+If `catch` is defined and an exception is thrown then the catch function will be called with the error and `this` as arguments. If the catch function is not defined then exceptions will be ignored.
 
 ```javascript
 { a: 1 }.try(o => o.a++) // { a: 2 }
 { a: 1 }.try(o => o.a.b++) // { a: 1 }
-{ a: 1 }.try(o => o.a.b++, (o,e) => console.log(e)) // TypeError: Cannot read properties of undefined (reading 'b')
+{ a: 1 }.try(o => o.a.b++, e => e.log()) // 2022-10-07T00:00 TypeError: Cannot read properties of undefined (reading 'b')
 ```
 
 ### Object.prototype.trap(function, error, ...keys)
@@ -417,11 +417,11 @@ let o = { a: 1, sum: 1 }
   .trap((v, k, t) => v != t[k] && console.log(k + ' has changed'))
   .trap(v => v > 0, 'Values must be positive', 'a', 'b', 'c')
   .trap((v, k, t) => k != 'sum' && (t.sum += t[k] ? v - t[k] : v))
-  .trap(v => false, 'Sum is read only', 'sum')
+  .trap(v => false, 'Read only', 'sum')
 
 o.b = 2 //  b has changed
 o.c = 0 //  Uncaught 'Values must be positive, c, 0'
-o.sum = 1 // Uncaught 'Sum is read only, sum, 1'
+o.sum = 1 // Uncaught 'Read only, sum, 1'
 o // { a: 1, b: 2, sum: 3 }
 ```
 
