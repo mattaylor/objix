@@ -67,7 +67,7 @@ const
   },
   
   clone(d) {
-    return !this.is(O) ? this.valueOf() : this.constructor === Array 
+    return !this.is(O) ? this.valueOf() : this.constructor == Array 
       ? this.map(v => d && v ? v.clone(d-1) : v)
       : new this.constructor(this.valueOf().is(O) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
   },
@@ -117,6 +117,14 @@ const
 	bind(k, f) {
     this[k] = function(...a) { return f(this, ...a) }
     return this
+  },
+
+  memo(k, f, e=1) {
+    this[k] = function(...a) {
+      let m = `__${k}(${a})`
+      return this[m] && this[m][0] > Date.now() - e*1000 
+        ?  this[m][1] : (this[m] = [Date.now(),f(this, ...a)])[1]
+    }
   },
 
 	log(m='', f, c='log') {
