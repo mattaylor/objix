@@ -162,9 +162,7 @@ for (let m of ['keys','values','entries','create','assign']) M[m] = function(...
 
 let def = (o,k,v) => (O.defineProperty(o, k, { writable:true, value:v }),v)
 
-O.prototype[Symbol.iterator] = function() {
-  return this.values()[Symbol.iterator]()
-}
+O.prototype[Symbol.iterator] = function() { return this.values()[Symbol.iterator]() }
 
 for (let m in M) if (m[0] != '_') {
   [m,'__'+m].map(k => def(O.prototype,k,M[m]))
