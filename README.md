@@ -6,7 +6,7 @@ The functions include copies of Object class methods and Array prototype methods
 
 These protoype methods are all non enumerable and are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. When combined with the faster startup times for using prototypes, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` is typically over 60% faster than `_.mapValues(ob, fn)` when working with small objects according to simple [benchmarks](#benchmarks)
 
-**NOTE:** Messing with Object prototypes may have unintended consequences in larger applications, on the upside however just think of all the fun key strokes you could save
+**NOTE:** With great power comes great responsibility and messing with Object prototypes may have unintended consequences in larger applications. However just think of all the key strokes you could save.
 
 ## Usage
 
