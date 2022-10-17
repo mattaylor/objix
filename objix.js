@@ -57,19 +57,11 @@ const
     for (let k of a) delete this[k]
     return this
   },
-
-	json() {
-    return JSON.stringify(this)
-  },
-  
+ 
   clone(d) {
     return !this.is(O) ? this.valueOf() : this.constructor == Array 
       ? this.map(v => d && v ? v.clone(d-1) : v)
       : new this.constructor(this.valueOf().is(O) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
-  },
-
-  [Symbol.iterator]()  {
-    return this.values()[Symbol.iterator]()
   },
 
 	join(...a) {
@@ -115,11 +107,16 @@ const
     return this
   },
 
+  toString() {
+    return `{${K(this).map(k => k+':'+this[k])}}`
+  },
+
   memo(k, f, e=1) {
     this[k] = function(...a) {
       let m = `__${k}$`+a
       return this[m]?.at(0) > Date.now() - e*1000
-        ? this[m][1] : def(this,m,[Date.now(),f(this, ...a)])[1]
+        ? this[m][1] 
+        : def(this,m,[Date.now(),f(this, ...a)])[1]
     }
   },
 
@@ -154,6 +151,10 @@ for (let f of ['keys','values','entries','create','assign']) P[f] = function(...
 }
 
 let def = (o,k,v) => (O.defineProperty(o, k, { writable: true, value: v }),v)
+
+O.prototype[Symbol.iterator] = function() {
+  return this.values()[Symbol.iterator]()
+}
 
 for (let p in P) if (p[0] != '_') {
   [p,'__'+p].map(k => def(O.prototype,k,P[p]))
