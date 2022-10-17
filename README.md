@@ -214,7 +214,7 @@ Assign and overwrite entries of `this` from arguments in ascending priority and 
 
 ### Object.prototype.extend(...objects)
 
-Assigns new properties into this from arguments in ascending priority without overwriting `this`.
+Assigns new properties into `this` from arguments in ascending priority without overwriting `this`.
 Returns `this`
 
 ```javascript
