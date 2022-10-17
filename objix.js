@@ -118,8 +118,8 @@ const
   memo(k, f, e=1) {
     this[k] = function(...a) {
       let m = `__${k}$`+a
-      return this[m]?.at(0) > Date.now() - e*1000 ? this[m][1] 
-        : (this[m] = [Date.now(),f(this, ...a)])[1]
+      return this[m]?.at(0) > Date.now() - e*1000
+        ? this[m][1] : def(this,m,[Date.now(),f(this, ...a)])[1]
     }
   },
 
@@ -153,8 +153,9 @@ for (let f of ['keys','values','entries','create','assign']) P[f] = function(...
   return O[f](this, ...a)
 }
 
+let def = (o,k,v) => (O.defineProperty(o, k, { writable: true, value: v }),v)
+
 for (let p in P) if (p[0] != '_') {
-  O.prototype[p] = P[p]
-  ;[p,'__'+p].map(k => O.defineProperty(O.prototype, k, { enumerable: false, value: P[p] }))
+  [p,'__'+p].map(k => def(O.prototype,k,P[p]))
   try { module.exports[p] = (o, ...a) => o['__'+p](...a) } catch {}
 }
