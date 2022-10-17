@@ -371,9 +371,9 @@ Like `bind` except that the function will be memoized such that any successive c
 ```javascript
 o = { a: 1 }
 o.memo('now', () => new Date())
-o.now() // 2022-10-17T00:01:28.364Z
-o.now() // 2022-10-17T00:01:28.364Z
-setTimeout() o.now(), 1000) // 2022-10-17T00:01:29.565Z
+o.now() // 2022-10-17T00:01:00.364Z
+o.now() // 2022-10-17T00:01:00.364Z
+setTimeout(() => o.now(), 1000) // 2022-10-17T00:01:01.565Z
 ```
 
 ### Object.prototype.log(msg, type='log')
