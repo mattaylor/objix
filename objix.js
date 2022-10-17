@@ -1,6 +1,7 @@
 const
   O = Object,
   F = O.fromEntries,
+  P = O.prototype,
   K = O.keys,
   A = O.assign,
   M = {
@@ -160,9 +161,9 @@ for (let m of ['keys','values','entries','create','assign']) M[m] = function(...
 
 let def = (o,k,v) => (O.defineProperty(o, k, { writable:true, value:v }),v)
 
-O.prototype[Symbol.iterator] = function() { return this.values()[Symbol.iterator]() }
+P[Symbol.iterator] = function() { return this.values()[Symbol.iterator]() }
 
 for (let m in M) if (m[0] != '_') {
-  [m,'__'+m].map(k => def(O.prototype,k,M[m]))
+  [m,'__'+m].map(k => def(P,k,M[m]))
   try { module.exports[m] = (o, ...a) => o['__'+m](...a) } catch {}
 }
