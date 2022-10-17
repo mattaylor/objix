@@ -275,7 +275,7 @@ Convert `this` to a formatted string. The default implementation of returns a co
 ```javascript
 { a: 1 }.$() // '{a:1}'
 { a: 1, b: [2, 3], c: { d: 'four,five' }}.$() // '{a:1,b:[2,3],c:{d:four,five}}'
-{ a: 1}.$(JSON) //
+{ a: 1}.$(JSON) // '{"a":1}'
 ```
 
 ### Object.prototype.clone(depth)
