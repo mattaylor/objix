@@ -270,12 +270,17 @@ Returns first key of `this` where the value equals the argument, otherwise undef
 
 ### Object.prototype.\$(Formatter)
 
-Convert `this` to a formatted string. The default implementation of returns a compact representation of `this` based on `JSON.stringify` with all `"`'s removed. Alternative formatters such as `JSON` can be specified, in which case the `stringify` method of the formatter will be called to convert `this` to the output string.
+Convert `this` to a formatted string. If `Formatter` is not specified it will return a a compact representation of `this` based on `JSON.stringify` with all `"`'s removed.
+
+If `Formatter` is a string, then any occurance of `${key}` or `$key` will be substituted with the `this[key].$()`
+
+If `Formatter` is not a string then the `stringify` method of the `Formatter` will be called with `this` as an argument, allowing alternative standard formatters such as `JSON` to be used.
 
 ```javascript
 { a: 1 }.$() // '{a:1}'
 { a: 1, b: [2, 3], c: { d: 'four,five' }}.$() // '{a:1,b:[2,3],c:{d:four,five}}'
 { a: 1}.$(JSON) // '{"a":1}'
+{ a: 1, b: { c: 1 }}.$('b is $b') // 'b is {c:1}'
 ```
 
 ### Object.prototype.clone(depth)
