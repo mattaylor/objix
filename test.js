@@ -6,6 +6,7 @@ let o2 = { a: 1, b: 2 }
 let o3 = { a: 2, b: 2, c: 3}
 let o4 = { a: 2, b: 2, c: 3, d: 4}
 
+
 console.assert(o1.equals({a: 1}), 'Equals')
 console.assert(o1.__equals({a: 1}), '_Equals')
 console.assert(!o1.equals({a: 2}), '!Equals')

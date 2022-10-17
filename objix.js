@@ -1,9 +1,10 @@
 const
   O = Object,
   F = O.fromEntries,
+  P = O.prototype
   K = O.keys,
   A = O.assign,
-  P = {
+  M = {
 
   every(f) {
     for (let k in this) if (!f(this[k], k)) return false
@@ -39,10 +40,10 @@ const
     return this.filter(v => v)
   },
 
-	is(t) {
-    return t == O
-      ? ![String,Boolean,Number,Function].includes(this.constructor)
-      : this.constructor == t || this.is(O) && this instanceof t
+	is(t, i) {
+    return t == O 
+      ? !i && ![String,Boolean,Number,Function].includes(this.constructor)
+      : this.constructor == t || !i && this instanceof t
   },
 
 	find(f) {
@@ -57,7 +58,13 @@ const
     for (let k of a) delete this[k]
     return this
   },
- 
+
+  clone(d) {
+    return !this.is(O) ? this.valueOf() : this.is(Array,1)
+      ? this.map(v => d && v ? v.clone(d-1) : v)
+      : new this.constructor(this.valueOf().is(O) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
+  },
+
   clone(d) {
     return !this.is(O) ? this.valueOf() : this.constructor == Array 
       ? this.map(v => d && v ? v.clone(d-1) : v)
@@ -107,13 +114,17 @@ const
     return this
   },
 
-  toString() {
-    return `{${K(this).map(k => k+':'+this[k])}}`
+  $() {
+    return this.json().replace(/\"/g,'')
+  },
+
+  json() {
+    return JSON.stringify(this)
   },
 
   memo(k, f, e=1) {
     this[k] = function(...a) {
-      let m = `__${k}$`+a
+      let m = `__${k}$`+a.$()
       return this[m]?.at(0) > Date.now() - e*1000
         ? this[m][1] 
         : def(this,m,[Date.now(),f(this, ...a)])[1]
@@ -146,17 +157,17 @@ const
   }
 }
 
-for (let f of ['keys','values','entries','create','assign']) P[f] = function(...a) {
-  return O[f](this, ...a)
+for (let m of ['keys','values','entries','create','assign']) M[m] = function(...a) {
+  return O[m](this, ...a)
 }
 
 let def = (o,k,v) => (O.defineProperty(o, k, { writable:true, value:v }),v)
 
-O.prototype[Symbol.iterator] = function() {
+P[Symbol.iterator] = function() {
   return this.values()[Symbol.iterator]()
 }
 
-for (let p in P) if (p[0] != '_') {
-  [p,'__'+p].map(k => def(O.prototype,k,P[p]))
-  try { module.exports[p] = (o, ...a) => o['__'+p](...a) } catch {}
+for (let m in M) if (m[0] != '_') {
+  [m,'__'+m].map(k => def(P,k,M[m]))
+  try { module.exports[p] = (o, ...a) => o['__'+m](...a) } catch {}
 }
