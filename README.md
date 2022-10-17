@@ -272,7 +272,7 @@ Returns first key of `this` where the value equals the argument, otherwise undef
 
 Convert `this` to a formatted string. If `Formatter` is not specified it will return a a compact representation of `this` based on `JSON.stringify` with all `"`'s removed.
 
-If `Formatter` is a string, then any occurance of `${key}` or `$key` will be substituted with the `this[key].$()`
+If `Formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this[key].$()`
 
 If `Formatter` is not a string then the `stringify` method of the `Formatter` will be called with `this` as an argument, allowing alternative standard formatters such as `JSON` to be used.
 
