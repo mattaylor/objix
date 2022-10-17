@@ -107,10 +107,14 @@ const
     a.map(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
     return this
   },
+  
+  at(p) {
+    return p.split('.').reduce((v,c) => v[c], this)
+  },
 
   $(s) {
     return s 
-      ? s.is(String) ? s.replace(/\${?(\w+)}?/g, (m,p) => this[p].$()) : s.stringify(this)
+      ? s.is(String) ? s.replace(/\${?(\w+)}?/g, (m,p) => this.at(p).$()) : s.stringify(this)
       : this.$(JSON).replace(/["\\]/g,'')
   },
 

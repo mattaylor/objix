@@ -268,11 +268,21 @@ Returns first key of `this` where the value equals the argument, otherwise undef
 [].has(1)  // undefined
 ```
 
+### Object.prototype.at(path)
+
+Return the property of this at `path`. If `path` is string `.` delimited keys then the the `this` will be traversed accordingly. ie `o.at('k1.k)` will return `o.k1.k2`
+
+```javascript
+{a:1}.at('a') // 1
+{a:1, b:{c:3}}.at('b.c') // 3
+{a:1, b:[1,2]}.at('b.1') // 2
+```
+
 ### Object.prototype.\$(Formatter)
 
 Convert `this` to a formatted string. If `Formatter` is not specified it will return a a compact representation of `this` based on `JSON.stringify` with all double quotes and escape characters removed.
 
-If `Formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this[key].$()`
+If `Formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this.at(key).$()`
 
 If `Formatter` is not a string then the `stringify` method of the `Formatter` will be called with `this` as an argument, allowing alternative standard formatters such as `JSON` to be used.
 
@@ -280,7 +290,7 @@ If `Formatter` is not a string then the `stringify` method of the `Formatter` wi
 { a: 1 }.$() // '{a:1}'
 { a: 1, b: [2, 3], c: { d: 'four,five' }}.$() // '{a:1,b:[2,3],c:{d:four,five}}'
 { a: 1}.$(JSON) // '{"a":1}'
-{ a: 1, b: { c: 1 }}.$('b is $b') // 'b is {c:1}'
+{ a: 1, b: { c: 2 }}.$('b is $b', b.c is ${b.c}) // 'b is {c:2} and b.c is 2'
 ```
 
 ### Object.prototype.clone(depth)
