@@ -113,7 +113,7 @@ Object.values(`this`)
 
 ### Object.prototype.create()
 
-Object.create(this)
+Object.create(`this`)
 
 ```javascript
 let o = { a: 1 }.create() // {}
@@ -122,7 +122,7 @@ o.a // 1
 
 ### Object.prototype.keys()
 
-Object.keys(this)
+Object.keys(`this`)
 
 ```javascript
 { a: 1 }.keys // ['a']
@@ -130,7 +130,7 @@ Object.keys(this)
 
 ### Object.prototype.entries()
 
-Object.entries(this)
+Object.entries(`this`)
 
 ```javascript
 { a: 1 }.entries // [[a, 1]]
