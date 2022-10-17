@@ -39,10 +39,6 @@ const
     return this.filter(v => v) 
   },
 
-	type() {
-    return this.constructor.name
-  },
-
 	is(t) {
     return t == O
       ? ![String,Boolean,Number,Function].includes(this.constructor)
@@ -99,7 +95,7 @@ const
 
 	equals(o, d) {
     return this == o
-      || this.type() == o.type()
+      || this.constructor == o.constructor
       && this.size() == o.size()
       && !(this-o)
       && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))
