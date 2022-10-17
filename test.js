@@ -111,8 +111,8 @@ let _x = {}.__keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
 console.assert(x.equals({ o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]}, -1), '_KeyBy')
 
 let _y = { a: 1, b: 2 }
-//_y.bind('max', o => o.entries().sort((a,b) => b[1] - a[1])[0][0])
-_y.bind('max', o => o.entries().sort((a,b) => b[1] - a[1])[0][0])
+//_y.memo('max', o => o.entries().sort((a,b) => b[1] - a[1])[0][0])
+_y.memo('max', o => o.entries().sort((a,b) => b[1] - a[1])[0][0])
 
 console.assert(_y.max() == 'b', 'Bind', _y.max())
 

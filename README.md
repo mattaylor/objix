@@ -72,8 +72,8 @@ Any object can act as a class from which new objects can be derived. All propert
 ```javascript
 let Person = { firstName: 'john', lastName: 'doe' }
   .trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
-  .bind('age', t => Math.abs((Date.now() - new Date(t.dob)) / 31536000000))
-  .bind('name', t => t.firstName + ' ' + t.lastName)
+  .memo('age', t => Math.abs((Date.now() - new Date(t.dob)) / 31536000000))
+  .memo('name', t => t.firstName + ' ' + t.lastName)
 
 let p1 = Person.new({ firstName: 'jane' })
 p1.name() // 'jane doe'
@@ -355,24 +355,20 @@ o.keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
 o // { o1: { a: 'o1' }, o2: [{ a: 'o2', b: 1 }, { a: 'o2' }]
 ```
 
-### Object.prototype.bind(key, function)
-
-Binds a function to `this` object using the given key and applies `this` as its first argument. Returns `this`.
-
-```javascript
-o = { a: 1, b: 2, c: 3 }
-o.bind('max', m => m.values().sort((a, b) => b - a)[0])
-// o.max = function() { return this.values().sort((a, b) => b - a)[0] )}
-o.max() // 3
-```
-
 ### Object.prototype.memo(key, function, expires=1)
 
-Like `bind` except that the function will be memoized such that any successive calls to the function using the the same arguments within `expires` seconds will return the same result, without re-executing the function.
+Binds a function to `this` object as a non enumerable property using the given key. When called, `this` will be applied as the first argument.
+
+If `expires` is defined then the function will be memoized such that any successive calls to the function using the the same arguments within `expires` seconds will return the same result, without re-executing the function.
+
+Always returns `this`
 
 ```javascript
-o = { a: 1 }
-o.memo('now', () => new Date())
+let o = { a: 1, b: 2, c: 3 }
+o.memo('max', m => m.values().sort((a, b) => b - a)[0])
+o.max() // 3
+
+o.memo('now', () => new Date(), 1)
 o.now() // 2022-10-17T00:01:00.364Z
 o.now() // 2022-10-17T00:01:00.364Z
 setTimeout(() => o.now(), 1000) // 2022-10-17T00:01:01.565Z
