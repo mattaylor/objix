@@ -268,12 +268,15 @@ Returns first key of `this` where the value equals the argument, otherwise undef
 [].has(1)  // undefined
 ```
 
-### Object.prototype.json()
+### Object.prototype.toString()
 
-JSON.stringfy(this)
+Converts `this` to a usefull recognisable string With `{k1: v1, k2: v2 }` style notation. (No more [Object Object]!!). Arrays are still stringified without enclosing `[]`, and strings are unquoted which can be a little confusing at first glance, but still much more usefull than `[Object Object]`
 
 ```javascript
-{ a: 1 }.json() // '{ "a": 1 }'
+{ a: 1 }+'' // '{a:1}'
+{ a: 1, b: [2, 3], c: { d: 4 }}+'' // '{a:1,b:2,3,c:{d:4}}'
+{ a: 1, b: [2, 3, { c: { d: 4 }}]}+'' // '{a:1,b:2,3,{c:{d:4}}}'
+{ a: 'hello, world' } // '{a:hello, world}'
 ```
 
 ### Object.prototype.clone(depth)

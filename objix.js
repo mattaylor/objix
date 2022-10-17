@@ -36,7 +36,7 @@ const
   },
 
 	clean() {
-    return this.filter(v => v) 
+    return this.filter(v => v)
   },
 
 	is(t) {
@@ -150,7 +150,7 @@ for (let f of ['keys','values','entries','create','assign']) P[f] = function(...
   return O[f](this, ...a)
 }
 
-let def = (o,k,v) => (O.defineProperty(o, k, { writable: true, value: v }),v)
+let def = (o,k,v) => (O.defineProperty(o, k, { writable:true, value:v }),v)
 
 O.prototype[Symbol.iterator] = function() {
   return this.values()[Symbol.iterator]()
