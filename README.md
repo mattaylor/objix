@@ -274,8 +274,8 @@ Return the property of `this` at `path`. If `path` is string containing `.` deli
 
 ```javascript
 {a:1}.at('a') // 1
-{a:1, b:{c:3}}.at('b.c') // 3
 {a:1, b:[1,2]}.at('b.1') // 2
+{a:1, b:{c:3}}.at('b.c') // 3
 ```
 
 ### Object.prototype.\$(Formatter)
