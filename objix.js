@@ -113,12 +113,8 @@ const
     return this
   },
 
-  $() {
-    return this.json().replace(/\"/g,'')
-  },
-
-  json() {
-    return JSON.stringify(this)
+  $(s) {
+    return s ? s.stringify(this) : JSON.stringify(this).replace(/\"/g,'')
   },
 
   memo(k, f, e=1) {
