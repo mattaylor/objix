@@ -270,7 +270,7 @@ Returns first key of `this` where the value equals the argument, otherwise undef
 
 ### Object.prototype.at(path)
 
-Return the property of `this` at `path`. If `path` is string containing `.` delimited keys then the `this` will be traversed accordingly. E.G `o.at('k1.k2)` will return `o.k1.k2`
+Return the property of `this` at `path`. If `path` is string containing `.` delimited keys then the `this` will be traversed accordingly. E.G `o.at('k1.k2')` will return `o.k1.k2`
 
 ```javascript
 {a:1}.at('a') // 1
