@@ -139,7 +139,7 @@ const
 	trap(f, e, ...p) {
     return new Proxy(this, {
       set(t,k,v) {
-        if ((!p[0] || p.has(k)) && !f(v,k,t) && e) throw([e,k,v]+'')
+        if ((!p[0] || p.has(k)) && !f(v,k,t) && e) throw([e,k,v])
         return t[k] = v
       },
       get(t,k) {
