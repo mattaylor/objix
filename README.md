@@ -357,9 +357,9 @@ o // { o1: { a: 'o1' }, o2: [{ a: 'o2', b: 1 }, { a: 'o2' }]
 
 ### Object.prototype.memo(key, function, expires=1)
 
-Binds a function to `this` object as a non enumerable property using the given key. When called, `this` will be applied as the first argument.
+Binds a function to `this` as a non enumerable property using the given key. When called `this` will be applied as the first argument.
 
-If `expires` is defined then the function will be memoized such that any successive calls to the function using the the same arguments within `expires` seconds will return the same result, without re-executing the function.
+If `expires` is defined then the function will be memoized such that any successive calls to the function with same arguments within `expires` seconds will return the previously cached result, without re-executing the function. Cached results are non enumerably indexed by the `$()` representation of the arguments the function was called with and are automatically removed after `expires` seconds have elapsed.
 
 Always returns `this`
 
