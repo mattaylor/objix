@@ -278,7 +278,7 @@ JSON.stringify(this)
 
 ### Object.prototype.\$()
 
-An alternative implmentation of `toString()` which returns a compact string representation of `this` based on `JSON.stringify` with all `"` removed.
+An alternative implementation of `toString()` which returns a compact string representation of `this` based on `JSON.stringify` with all `"`'s removed.
 
 ```javascript
 { a: 1 }.$() // '{a:1}'
