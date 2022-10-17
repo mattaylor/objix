@@ -117,9 +117,9 @@ const
 
   memo(k, f, e=1) {
     this[k] = function(...a) {
-      let m = `__${k}(${a})`
-      return this[m] && this[m][0] > Date.now() - e*1000 
-        ?  this[m][1] : (this[m] = [Date.now(),f(this, ...a)])[1]
+      let m = `__${k}$`+a
+      return this[m]?.at(0) > Date.now() - e*1000 ? this[m][1] 
+        : (this[m] = [Date.now(),f(this, ...a)])[1]
     }
   },
 
