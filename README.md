@@ -270,7 +270,7 @@ Returns first key of `this` where the value equals the argument, otherwise undef
 
 ### Object.prototype.\$(Formatter)
 
-Convert `this` to a formatted string. If `Formatter` is not specified it will return a a compact representation of `this` based on `JSON.stringify` with all `"`'s removed.
+Convert `this` to a formatted string. If `Formatter` is not specified it will return a a compact representation of `this` based on `JSON.stringify` with all quotation marks and escape characters removed.
 
 If `Formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this[key].$()`
 
