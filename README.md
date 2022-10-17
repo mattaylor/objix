@@ -268,21 +268,14 @@ Returns first key of `this` where the value equals the argument, otherwise undef
 [].has(1)  // undefined
 ```
 
-### Object.prototype.json()
+### Object.prototype.\$(Formatter)
 
-JSON.stringify(this)
-
-```javascript
-{ a: 1, b: 'two" }.json() // '{"a":1, "b":"two"}'
-```
-
-### Object.prototype.\$()
-
-An alternative implementation of `toString()` which returns a compact string representation of `this` based on `JSON.stringify` with all `"`'s removed.
+Convert `this` to a formatted string. The default implementation of returns a compact representation of `this` based on `JSON.stringify` with all `"`'s removed. Alternative formatters such as `JSON` can be specified, in which case the `stringify` method of the formatter will be called to convert `this` to the output string.
 
 ```javascript
 { a: 1 }.$() // '{a:1}'
 { a: 1, b: [2, 3], c: { d: 'four,five' }}.$() // '{a:1,b:[2,3],c:{d:four,five}}'
+{ a: 1}.$(JSON) //
 ```
 
 ### Object.prototype.clone(depth)
