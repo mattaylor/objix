@@ -124,7 +124,7 @@ const
   },
 
 	log(m='', c='log') {
-    console[c](new Date().toISOString().slice(0,-8), m, this.clone())
+    console[c](new Date().$().slice(0,-8), m, this.clone())
     return this
   },
 
