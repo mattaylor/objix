@@ -109,16 +109,16 @@ const
   },
 
   $(s) {
-    return s ? s.stringify(this) : JSON.stringify(this).replace(/\"/g,'')
+    return s ? s.stringify(this) : JSON.stringify(this).replace(/["\\]/g,'')
   },
 
   memo(k, f, e) {
     def(this, k, e
       ? function(...a) {
           let m = '__'+k+a.$()
-          return this[m] || (setTimeout(() => delete this[m],e*1000),def(this,m,f(...a, this)))
+          return this[m] || (setTimeout(() => delete this[m],e*1000),def(this,m,f(this, ...a)))
         }
-      : function(...a) { return f(...a, this) }
+      : function(...a) { return f(this, ...a) }
     )
     return this
   },
