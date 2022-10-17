@@ -175,15 +175,6 @@ Iterate through the values of `this`
 for (let v of { a: 1 }) console.log(v) // 1
 ```
 
-### Object.prototype.type()
-
-Returns the constructor name of `this`
-
-```javascript
-''.type() // String
-{}.type() // Object
-```
-
 ### Object.prototype.clean()
 
 Return a new object like `this` with falsy entry values removed
