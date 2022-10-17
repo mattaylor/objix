@@ -273,9 +273,7 @@ Returns first key of `this` where the value equals the argument, otherwise undef
 JSON.stringify(this)
 
 ```javascript
-{
-  a: 1
-} // '{"a":1}'
+{ a: 1, b: 'two" }.json() // '{"a":1, "b":"two"}'
 ```
 
 ### Object.prototype.\$()
