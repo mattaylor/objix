@@ -290,7 +290,7 @@ If `Formatter` is not a string then the `stringify` method of the `Formatter` wi
 { a: 1 }.$() // '{a:1}'
 { a: 1, b: [2, 3], c: { d: 'four,five' }}.$() // '{a:1,b:[2,3],c:{d:four,five}}'
 { a: 1}.$(JSON) // '{"a":1}'
-{ a: 1, b: { c: 2 }}.$('b is $b', b.c is ${b.c}) // 'b is {c:2} and b.c is 2'
+{ a: 1, b: { c: 2 }}.$('b is $b and b.c is ${b.c}') // 'b is {c:2} and b.c is 2'
 ```
 
 ### Object.prototype.clone(depth)
