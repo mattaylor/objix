@@ -373,9 +373,21 @@ o.bind('max', m => m.values().sort((a, b) => b - a)[0])
 o.max() // 3
 ```
 
-### Object.prototype.log(msg, test, type='log')
+### Object.prototype.memo(key, function, expires=1)
 
-Prints a shallow clone of `this` to the console together with a minute timestamp and an optional msg. If a test function is provided then the logging will be triggered if the the function returns truthy. The the test function should expect `this` as its argument.
+Like `bind` except that the function will be memoized such that any successive calls to the function using the the same arguments within `expires` seconds will return the same result, without re-executing the function.
+
+```javascript
+o = { a: 1 }
+o.memo('now', () => new Date())
+o.now() // 2022-10-17T00:01:28.364Z
+o.now() // 2022-10-17T00:01:28.364Z
+setTimeout() o.now(), 1000) // 2022-10-17T00:01:29.565Z
+```
+
+### Object.prototype.log(msg, type='log')
+
+Prints a shallow clone of `this` to the console together with a minute timestamp and an optional msg.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 
 ```javascript
