@@ -111,7 +111,7 @@ const
   $(s) {
     return s 
       ? s.is(String) ? s.replace(/\${?(\w+)}?/g, (m,p) => this[p].$()) : s.stringify(this)
-      : JSON.stringify(this).replace(/["\\]/g,'')
+      : this.$(JSON).replace(/["\\]/g,'')
   },
 
   memo(k, f, e) {
