@@ -396,8 +396,6 @@ let o = { a: 0, b: 1 }
   .log('CLEANING') // 2022-10-07T00:00 CLEANNING { b: 1 }
   .map(v => v + 1)
   .log('MAPPING') // 2022-10-07T00:00 MAPPING { b: 2 }
-  .log('B is Ok', t => t.b) // 2022-10-07T00:00 B is Ok { b: 2 }
-  .log('A is Ok', t => t.a) //
   .log('STACK', 'trace')
 /*
 Trace: 2022-10-06T21:21 STACK { b: 2 }
