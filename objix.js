@@ -21,7 +21,7 @@ const
     return r
   },
 
-	has(o) {
+	has(o,d) {
     return this.find(v => v.equals(o))
   },
 
@@ -76,8 +76,12 @@ const
     return r
   },
 
-	common(o) {
-    return F(K(this).flatMap(k => (o[k] == this[k]) ? [[k,this[k]]] : []))
+	same(o) {
+    return this.filter((v,k) => v.equals(o[k]))
+  },
+
+  diff(o) {
+    return this.filter((v,k) => !v.equals(o[k]))
   },
 
 	contains(o, d) {
@@ -86,8 +90,8 @@ const
   },
 
 	equals(o, d) {
-    return this == o
-      || this.constructor == o.constructor
+    return this == o || o
+      && this.constructor == o.constructor
       && this.size() == o.size()
       && !(this-o)
       && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))

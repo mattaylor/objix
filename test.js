@@ -44,9 +44,9 @@ console.assert(o3.filter(_ => _ < 3).equals({ a: 2, b: 2 }), 'Filter')
 console.assert(o3.__filter(_ => _ < 3).equals({ a: 2, b: 2 }), '_Filter')
 console.assert(o3.filter(_ => _ < 0).equals({}), '!Filter')
 
-console.assert({a:1,b:2}.common({b:2,c:3}).equals({b:2}), 'Common')
-console.assert({a:1,b:2}.__common({b:2,c:3}).equals({b:2}), '_Common')
-console.assert({a:1,b:2}.common({b:3}).equals({}), '!Common')
+console.assert({a:1,b:2}.same({b:2,c:3}).equals({b:2}), 'Common')
+console.assert({a:1,b:2}.__same({b:2,c:3}).equals({b:2}), '_Common')
+console.assert({a:1,b:2}.same({b:3}).equals({}), '!Common')
 
 console.assert({a:1}.size() == 1, 'Size')
 console.assert({a:1}.__size() == 1, '_Size')
