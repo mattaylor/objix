@@ -120,7 +120,6 @@ const
   
   bind(k, f, e) {
     def(this, k, ((...a) => f(...a, this)).memo(e))
-    //def(this, k, (function(...a) { return f(...a, this)}).memo(e))
     return this
   },
 
