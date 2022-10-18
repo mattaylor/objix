@@ -1,6 +1,5 @@
 const
   O = Object,
-  F = O.fromEntries,
   K = O.keys,
   A = O.assign,
   M = {
@@ -32,7 +31,7 @@ const
   },
 
 	flatMap(f) {
-    return F(K(this).flatMap(k => f(k,this[k])))
+    return O.fromEntries(K(this).flatMap(k => f(k,this[k])))
   },
 
 	clean() {
