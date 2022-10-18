@@ -85,8 +85,7 @@ const
   },
 
 	contains(o, d) {
-    for (let k in o) if (!this[k]?.equals(o[k]) && !(d && this.some(v => v.contains(o, d-1)))) return false
-    return true
+    return o.every((v,k) => this[k]?.equals(v)) || d && this.some(v => v.contains(o, d-1))
   },
 
 	equals(o, d) {
