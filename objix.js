@@ -160,7 +160,7 @@ let def = (o,k,v) => (O.defineProperty(o, k, { writable:true, value:v }),v)
 
 O.prototype[Symbol.iterator] = function() { return this.values()[Symbol.iterator]() }
 
-for (let m in M) if (m[0] != '_') {
+for (let m in M) {
   [m,'__'+m].map(k => def(O.prototype,k,M[m]))
   try { module.exports[m] = (o, ...a) => o['__'+m](...a) } catch {}
 }
