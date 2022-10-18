@@ -383,10 +383,10 @@ o // { o1: { a: 'o1' }, o2: [{ a: 'o2', b: 1 }, { a: 'o2' }]
 REturns a memoized wrapper around `this` as a function such that any calls to `this` with the same set of arguments within `expires` seconds will return the first cached result, without re-executing the function. Cached results are indexed by the `$()` representation of the arguments the function was orignally called with and are automatically removed after `expires` seconds have elapsed.
 
 ```javascript
-let nowish = (() => new Date()).memo(2)
+let nowish = (() => new Date()).memo(1)
 nowish() // 2022-10-17T00:01:00.364Z
 nowish() // 2022-10-17T00:01:00.364Z
-setTimeout(() => nowish(), 2000) // 2022-10-17T00:02:01.565Z
+setTimeout(() => nowish(), 1000) // 2022-10-17T00:01:01.565Z
 ```
 
 ### Object.prototype.bind(key, function, expires)
@@ -401,10 +401,10 @@ let o = { a: 1, b: 2, c: 3 }
 o.bind('max', m => m.values().sort((a, b) => b - a)[0])
 o.max() // 3
 
-o.bind('now', () => new Date(), 1)
-o.now() // 2022-10-17T00:01:00.364Z
-o.now() // 2022-10-17T00:01:00.364Z
-setTimeout(() => o.now(), 1000) // 2022-10-17T00:01:01.565Z
+o.bind('nowish', () => new Date(), 1)
+o.nowish() // 2022-10-17T00:01:00.364Z
+o.nowish() // 2022-10-17T00:01:00.364Z
+setTimeout(() => o.nowish(), 1000) // 2022-10-17T00:01:01.565Z
 ```
 
 ### Object.prototype.log(msg, test, type='log')

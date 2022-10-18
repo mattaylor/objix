@@ -114,12 +114,13 @@ const
       : this.$(JSON).replace(/["\\]/g,'')
   },
   
-  memo(e=1) {
+  memo(e) {
     return e ? (...a) => this[a.$()] ??= (setTimeout(() => delete this[a.$()],e*1000),this(...a)) : this
   },
-
+  
   bind(k, f, e) {
     def(this, k, ((...a) => f(...a, this)).memo(e))
+    //def(this, k, (function(...a) { return f(...a, this)}).memo(e))
     return this
   },
 
