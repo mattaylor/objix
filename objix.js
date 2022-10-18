@@ -58,7 +58,7 @@ const
   },
 
   clone(d) {
-    return !this.is(O) ? this.valueOf() : this.is(Array,1) 
+    return !this.is(O) ? this.valueOf() : this.constructor == Array
       ? this.map(v => d && v ? v.clone(d-1) : v)
       : new this.constructor(this.valueOf().is(O) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
   },
@@ -113,15 +113,13 @@ const
       ? s.is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this.at(p).$()) : s.stringify(this)
       : this.$(JSON).replace(/["\\]/g,'')
   },
+  
+  memo(e=1) {
+    return e ? (...a) => this[a.$()] ??= (setTimeout(() => delete this[a.$()],e*1000),this(...a)) : this
+  },
 
-  memo(k, f, e) {
-    def(this, k, e
-      ? function(...a) {
-          let m = '__'+k+a.$()
-          return this[m] || (setTimeout(() => delete this[m],e*1000),def(this,m,f(this, ...a)))
-        }
-      : function(...a) { return f(this, ...a) }
-    )
+  bind(k, f, e) {
+    def(this, k, ((...a) => f(...a, this)).memo(e))
     return this
   },
 
