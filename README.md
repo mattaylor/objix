@@ -221,12 +221,20 @@ Returns `this`
 { a: 1, b: 1 }.extend({ b: 2, c: 2 }, {c: 3 }) // { a: 1, b: 1, c: 3 }
 ```
 
-### Object.prototype.common(object)
+### Object.prototype.same(object)
 
-Return new object with entries of `this` that are also present in the supplied object
+Return a new object with entries of `this` that are present in the supplied object with equal value
 
 ```javascript
-{ a: 1, b: 2 }.common({ a: 2, b: 2 }) // { b: 2 }
+{ a: 1, b: 2 }.same({ a: 2, b: 2 }) // { b: 2 }
+```
+
+### Object.prototype.diff(object)
+
+Return new object with entries of `this` that are not present in the supplied object with equal value
+
+```javascript
+{ a: 1, b: 2 }.diff({ a: 2, b: 2 }) // { a: 1 }
 ```
 
 ### Object.prototype.delete(...keys)
@@ -337,16 +345,16 @@ True if all entries of argument are also in `this`. May recurse to a given depth
 
 ```
 
-### Object.prototype.equals(object, depth)
+### Object.prototype.eq(object, depth)
 
 True if all entries of `this` equal the argument and argument has no other entries
 May recurse to a given depth (-1 for any depth)
 
 ```javascript
-{ a: 1 }.equals({ a: 1 }) // true
-{ a: 1 }.equals({ a: 2 }) // false
-{ a: 1, b: { c: 1 }}.equals({ a: 1, b: { c: 1 }}) // false
-{ a: 1, b: { c: 1 }}.equals({ a: 1, b: { c: 1 }}, 1) // true
+{ a: 1 }.eq({ a: 1 }) // true
+{ a: 1 }.eq({ a: 2 }) // false
+{ a: 1, b: { c: 1 }}.eq({ a: 1, b: { c: 1 }}) // false
+{ a: 1, b: { c: 1 }}.eq({ a: 1, b: { c: 1 }}, 1) // true
 
 ```
 
