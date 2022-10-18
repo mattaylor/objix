@@ -62,7 +62,7 @@ function report(title, ob) {
     Equals: {
       vanilla: () => { try { return assert.deepEqual(ob,ob.clone()) || true } catch { return false }},
       lodash: () => _.isEqual(ob, ob.clone()),
-      objix: () => ob.equals(ob.clone(), -1),
+      objix: () => ob.eq(ob.clone(), -1),
     },
     Clone: {
       vanilla: () => Object.assign({}, ob), //No Construcotrs!
