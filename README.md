@@ -396,15 +396,15 @@ If a `test` function is provided then logging will only be triggered if the test
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 
 ```javascript
-let TRACE = true
-let DEBUG = false
+let WARN = () => true
+let INFO = () => false
 
 let o = { a: 0, b: 1 }
   .clean()
   .log('CLEANING') // 2022-10-07T00:00 CLEANNING { b: 1 }
   .map(v => v + 1)
-  .log('MAPPING', () => DEBUG) // ...
-  .log('STACK', () => TRACE, 'trace') // Trace: 2022-10-06T21:21 STACK { b: 2 } at Object.log ...
+  .log('MAPPING', WARN) // ...
+  .log('STACK', INFO, 'trace') // Trace: 2022-10-06T21:21 STACK { b: 2 } at Object.log ...
 ```
 
 ### Object.protoype.try(function, catch)
