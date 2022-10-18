@@ -22,7 +22,7 @@ const
   },
 
 	has(o,d) {
-    return this.find(v => v.equals(o))
+    return this.find(v => v.eq(o))
   },
 
 	filter(f) {
@@ -77,23 +77,23 @@ const
   },
 
 	same(o) {
-    return this.filter((v,k) => v.equals(o[k]))
+    return this.filter((v,k) => v.eq(o[k]))
   },
 
   diff(o) {
-    return this.filter((v,k) => !v.equals(o[k]))
+    return this.filter((v,k) => !v.eq(o[k]))
   },
 
 	contains(o, d) {
-    return o.every((v,k) => this[k]?.equals(v)) || d && this.some(v => v.contains(o, d-1))
+    return o.every((v,k) => this[k]?.eq(v)) || d && this.some(v => v.contains(o, d-1))
   },
 
-	equals(o, d) {
+	eq(o, d) {
     return this == o || o
       && this.constructor == o.constructor
       && this.size() == o.size()
       && !(this-o)
-      && this.every((v,k) => v == o[k] || d && v?.equals(o[k],d-1))
+      && this.every((v,k) => v == o[k] || d && v?.eq(o[k],d-1))
   },
 
 	size() {
