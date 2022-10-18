@@ -396,8 +396,8 @@ If a `test` function is provided then logging will only be triggered if the test
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 
 ```javascript
-let WARN = () => true
-let INFO = () => false
+let WARN = () => false
+let INFO = () => true
 
 let o = { a: 0, b: 1 }
   .clean()
