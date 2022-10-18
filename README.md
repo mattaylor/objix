@@ -389,23 +389,22 @@ o.now() // 2022-10-17T00:01:00.364Z
 setTimeout(() => o.now(), 1000) // 2022-10-17T00:01:01.565Z
 ```
 
-### Object.prototype.log(msg, type='log')
+### Object.prototype.log(msg, test, type='log')
 
 Prints a shallow clone of `this` to the console together with a minute timestamp and an optional msg.
+If a `test` function is provided then logging will only be triggered if the test function returns truthy when called with with `this` as its first argument.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 
 ```javascript
+let TRACE = true
+let DEBUG = false
+
 let o = { a: 0, b: 1 }
   .clean()
   .log('CLEANING') // 2022-10-07T00:00 CLEANNING { b: 1 }
   .map(v => v + 1)
-  .log('MAPPING') // 2022-10-07T00:00 MAPPING { b: 2 }
-  .log('STACK', 'trace')
-/*
-Trace: 2022-10-06T21:21 STACK { b: 2 }
-  at Object.P.log (/Users/mat/extra/objix/objix.js:116:15)
-  ...
-*/
+  .log('MAPPING', () => DEBUG) // ...
+  .log('STACK', () => TRACE, 'trace') // Trace: 2022-10-06T21:21 STACK { b: 2 } at Object.log ...
 ```
 
 ### Object.protoype.try(function, catch)
