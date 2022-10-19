@@ -270,7 +270,7 @@ var o = { a: 1, b: 1 }.assign({ b: 2, c: 2 }, { c: 3 }) // { a: 1, b: 2, c: 3 }
 
 ### Object..extend(..objects)
 
-Assigns new properties into `this` from arguments in ascending priority without overwriting `this`.
+Assigns properties into `this` from the arguments in ascending priority order. Properties of `this` are not overwritten and are assigned only if null or undefined in `this`.
 Returns `this`
 
 <div data-runkit>
