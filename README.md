@@ -382,7 +382,7 @@ Returns a string representation of `this`. If `formatter` is not specified it wi
 
 If `formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this.at(key).$()`
 
-If `formatter` is defined but not a string then the `stringify` method of the `Formatter` will be called with `this` as an argument, allowing alternative standard formatters such as `JSON` to be used.
+If `formatter` is not a string then the `stringify` method of the `Formatter` will be called with `this` as an argument, allowing alternative standard formatters such as `JSON` to be used. If there the formatter does not have a stringify method then `formatter` will be called as a function with `this` as its argument.
 
 <div data-runkit>
 
@@ -390,6 +390,7 @@ If `formatter` is defined but not a string then the `stringify` method of the `F
 var o = { a: 1 }.$() // '{a:1}'
 var o = { a: 1, b: [2, 3], c: { d: 'four,five' } }.$() // '{a:1,b:[2,3],c:{d:four,five}}'
 var o = { a: 1 }.$(JSON) // '{"a":1}'
+var o = { a: 1 }.$(JSON.stringify) // '{"a":1}'
 var o = { a: 1, b: { c: 2 } }.$('b is $b and b.c is ${b.c}') // 'b is {c:2} and b.c is 2'
 ```
 
