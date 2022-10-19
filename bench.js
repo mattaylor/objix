@@ -15,7 +15,7 @@ Calculate run time for *heats* batches of *iters* executions of each function, w
 Each batch run also includes a 100 iteration warmup verifying the results of the function against objix
 */
 function compare(funcs) {
-  let hist = { }, start
+  let hist = funcs.map(v => null), start
   for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) {
     for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
     if (!hist[key]) hist[key] = ph.createHistogram()
@@ -41,52 +41,52 @@ function report(title, ob) {
   console.log(title)
   console.table({
     Map: {
-      vanilla: () => Object.fromEntries(Object.entries(ob).map(([k,v]) => [k, v+1])),
-      lodash: () => _.mapValues(ob, v => v+1),
       objix : () => ob.map(v => v+1),
+      lodash: () => _.mapValues(ob, v => v+1),
+      vanilla: () => Object.fromEntries(Object.entries(ob).map(([k,v]) => [k, v+1])),
     },
     Filter: {
-      vanilla: () => Object.fromEntries(Object.entries(ob).flatMap(([k,v]) => v == 1 ? [[k,v]] : [])),
-      lodash: () => _.pickBy(ob, v => v == 1),
       objix:  () => ob.filter(v => v == 1),
+      lodash: () => _.pickBy(ob, v => v == 1),
+      vanilla: () => Object.fromEntries(Object.entries(ob).flatMap(([k,v]) => v == 1 ? [[k,v]] : [])),
     },
     Find: {
-      vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
-      lodash: () => _.findKey(ob, v => v == 1),
       objix: () => ob.find(v => v == 1),
+      lodash: () => _.findKey(ob, v => v == 1),
+      vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
     },
     KeyBy: {
-      lodash: () => _.keyBy([{a:1},{a:2},{a:3}], 'a'),
       objix:  () => ({}.keyBy([{a:1},{a:2},{a:3}], 'a')),
+      lodash: () => _.keyBy([{a:1},{a:2},{a:3}], 'a'),
     },
     Equals: {
-      vanilla: () => { try { return assert.deepEqual(ob,ob.clone()) || true } catch { return false }},
-      lodash: () => _.isEqual(ob, ob.clone()),
       objix: () => ob.eq(ob.clone(), -1),
+      lodash: () => _.isEqual(ob, ob.clone()),
+      vanilla: () => { try { return assert.deepEqual(ob,ob.clone()) || true } catch { return false }},
     },
     Clone: {
-      vanilla: () => Object.assign({}, ob), //No Construcotrs!
-      lodash: () => _.clone(ob),
       objix:  () => ob.clone(),
+      lodash: () => _.clone(ob),
+      vanilla: () => Object.assign({}, ob), //No Construcotrs!
     },
     Deep: {
-      lodash: () => _.cloneDeep(ob),
       objix:  () => ob.clone(-1),
+      lodash: () => _.cloneDeep(ob),
     },
     Extend: { 
-      lodash: () => _.defaults(ob, {a: 1, b:2, c: 2}),
       objix: () => ob.extend({a: 1, b: 2, c: 3}),
+      lodash: () => _.defaults(ob, {a: 1, b:2, c: 2}),
       vanilla: () => Object.assign({}, {a: 1, b: 2, c: 3}, ob)
     },
     Some: {
+      objix: () => ob.some(v => v == 'x'),
       vanilla: () => Object.values(ob).some(v => v == 'x'),
       lodash: () => _.some(_.values(ob), v => v == 'x'),
-      objix: () => ob.some(v => v == 'x'),
     },
     Every: {
-      vanilla: () => Object.values(ob).every(v => v),
-      lodash:  () => _.every(_.values(ob), v => v),
       objix: () => ob.every(v => v),
+      lodash:  () => _.every(_.values(ob), v => v),
+      vanilla: () => Object.values(ob).every(v => v),
     }
   }.map(compare))
 }
