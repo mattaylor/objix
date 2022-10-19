@@ -82,12 +82,12 @@ Any object can act as a class from which new objects can be derived. All propert
 ```javascript
 var Person = { firstName: 'john', lastName: 'doe' }
   .trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
-  .bind('age', t => Math.abs((Date.now() - new Date(t.dob)) / 31536000000))
+  .bind('age', t => Math.floor((Date.now() - new Date(t.dob)) / 31536000000))
   .bind('name', t => t.firstName + ' ' + t.lastName)
 
 var p1 = Person.new({ firstName: 'jane' })
 p1.name() // 'jane doe'
-p1.dob = 'foobar' // Uncaught 'Invalid date, dob, foobar'
+p1.dob = 'foobar' // Uncaught 'Invalid date [dob, foobar]'
 p1.dob = '10/10/2000'
 p1.age() // 22
 ```
