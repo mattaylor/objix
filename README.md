@@ -562,11 +562,15 @@ var o = { a: 0, b: 1 }
 
 Calls function with `this` as its argument and return the result.
 If an exception is thrown or the function returns null or undefined then `this` is returned instead.
-If `catch` is defined and an exception is thrown then the catch function will be called with the error and `this` as arguments, otherwise the exception will be ignored.
+
+If `catch` is defined and an exception is thrown then the catch function will be called with the error and `this` as arguments. If the result of the `catch` function is not null or undefined then this value will be returned instead of `this`.
+
+If no `catch` function is defined then all exceptions will be ignored, and `this` will be returned.
 
 <div data-runkit>
 
 ```javascript
+var o = { a: 1 }.try(o => o.a++) // 2
 var o = { a: 1 }.try(o => (o.a++, o)) // { a: 2 }
 var o = { a: 1 }.try(o => (o.a.b++, o)) // { a: 1 }
 var o = { a: 1 }.try(
