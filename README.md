@@ -1,34 +1,29 @@
 # Objix
 
-A dangerously convienient, high performance, zero dependency, lightweight utility (2.6kb min) that injects usefull functions into the Object O.p. to sugar many common use cases when working with native Javascript objects, and give you super powers in the process!
+A dangerously convienient, high performance, zero dependency, lightweight utility (2.6kb min) that injects usefull functions into the Object prototype to extend the standard library and sugar many common use cases when working with any Javascript objects.
 
-The functions include copies of Object class methods and Array O.p. methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, compare, split and join objects, log messages, check types and trapping and observing changes.
+The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, compare, split and join objects, log messages, check types and trapping and observing changes.
 
-These protoype methods are all non enumerable and are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. When combined with the faster startup times for using O.p.s, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` is typically over 60% faster than `_.mapValues(ob, fn)` when working with small objects according to simple [benchmarks](#benchmarks)
+These prototype methods are all non enumerable and are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. Performance in most cases is signifantly faster than lodash equivalents (eg `ob.map(fn)` is typically over 60% faster than `_.mapValues(ob, fn)` when working with small objects according to simple [benchmarks](#benchmarks)
 
-**NOTE:** With great power comes great responsibility and messing with Object O.p.s may have unintended consequences in larger applications. However just think of all the key strokes you could save.
+**NOTE:** With great power comes great responsibility and messing with Object prototypes may have unintended consequences in larger applications. However just think of all the time and key strokes you could save.
 
 ## Usage
 
 ### Node
 
-Install:
+- Install:
 
-```bash
-> npm i -save objix
-```
+  ```bash
+  > npm i -save objix
+  ```
 
-Require
+- Require:
 
-<!-- panels:start -->
-
-```javascript
-require('objix')
-
-console.log({ a: 1 }.map(v => v + 1))
-```
-
- <!-- panels:end -->
+  ```javascript
+  require('objix')
+  console.log({ a: 1 }.map(v => v + 1))
+  ```
 
 ### Browser:
 
