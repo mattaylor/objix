@@ -39,8 +39,7 @@ const
   },
 
 	is(t, i) {
-    return t == O 
-      ? !i && ![String,Boolean,Number,Function].includes(this.constructor)
+    return t == O ? !i && ![Number,String,Boolean,Function].includes(this.constructor)
       : this.constructor == t || !i && this instanceof t
   },
 
@@ -58,11 +57,11 @@ const
   },
 
   clone(d) {
-    return !this.is(O) ? this.valueOf() : this.constructor == Array
-      ? this.map(v => d && v ? v.clone(d-1) : v)
-      : new this.constructor(this.valueOf().is(O) ? this.map(v => d && v ? v.clone(d-1) : v) : this)
+    return !this.is(O) ? this.valueOf() 
+      : this.constructor == Array ? this.map(v => (d && v) ? v.clone(d-1) : v)
+      : new this.constructor(this.valueOf().is(O) ? this.map(v => (d && v) ? v.clone(d-1) : v) : this)
   },
-
+  
 	join(...a) {
     let r = A({}, this)
     for(let o of a) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
@@ -109,8 +108,8 @@ const
   },
 
   $(s) {
-    return s 
-      ? s.is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this.at(p).$()) : s.stringify(this)
+    return s ? s.is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this.at(p).$()) 
+      : s.stringify(this)
       : this.$(JSON).replace(/["\\]/g,'')
   },
   
