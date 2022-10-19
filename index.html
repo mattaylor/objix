@@ -23,6 +23,16 @@
   <link rel="stylesheet" media="(prefers-color-scheme: light)" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-changelog-plugin@latest/dist/style.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fairlay.com/static/utils/css/theme2.min.036927e3a833.css">
+  <link rel="stylesheet" href="https://fairlay.com/static/utils/css/master.6fa5a378b844.css">
+  <style>
+    body  {
+      font-size: 15px !important;
+      font-family: Avenir; 
+    }
+    p { font-size: 18px;
+    }    
+  </style>
 </head>
 <body>
   <div id="app"></div>
@@ -31,8 +41,10 @@
       name: '',
       repo: '',
       _loadSidebar: true,
-      _subMaxLevel: 3,
-      _sidebarDisplayLevel: 2,
+      subMaxLevel: 3,
+      autoToTop:true,
+      maxLevel:3,
+      loadNavbar : true,
       runkit: {
         nodeVersion   : '18',
         gutterStyle   : 'outside',
@@ -41,7 +53,7 @@
         preamble: 'require("objix")'
       },
       darklightTheme: {
-        _siteFont : 'PT Sans | Source Sans Pro',
+        siteFont : 'Source Sans Pro',
         defaultTheme : 'light | dark',
         codeFontFamily : 'Roboto Mono, Monaco, courier, monospace',
         dark: {
@@ -62,12 +74,13 @@
   -->
   <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js"></script>
-    <script src="https://unpkg.com/docsify-copy-code@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  <script src="https://unpkg.com/docsify-copy-code@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-changelog-plugin@latest/dist/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-example-panels"></script>
   <!--
+    <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
     <script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify-example-panels"></script>
-    <script src="https://cdn.jsdelivr.net/npm/docsify-changelog-plugin@latest/dist/index.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js"></script>
    -->
 

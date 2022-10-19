@@ -1,12 +1,12 @@
 # Objix
 
-A dangerously convienient, high performance, zero dependency, lightweight utility (2.6kb min) that injects usefull functions into the Object prototype to sugar many common use cases when working with native Javascript objects, and give you super powers in the process!
+A dangerously convienient, high performance, zero dependency, lightweight utility (2.6kb min) that injects usefull functions into the Object O.p. to sugar many common use cases when working with native Javascript objects, and give you super powers in the process!
 
-The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, compare, split and join objects, log messages, check types and trapping and observing changes.
+The functions include copies of Object class methods and Array O.p. methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, compare, split and join objects, log messages, check types and trapping and observing changes.
 
-These protoype methods are all non enumerable and are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. When combined with the faster startup times for using prototypes, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` is typically over 60% faster than `_.mapValues(ob, fn)` when working with small objects according to simple [benchmarks](#benchmarks)
+These protoype methods are all non enumerable and are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. When combined with the faster startup times for using O.p.s, performance in most cases is signifantly faster than lodash equivalents. (eg `ob.map(fn)` is typically over 60% faster than `_.mapValues(ob, fn)` when working with small objects according to simple [benchmarks](#benchmarks)
 
-**NOTE:** With great power comes great responsibility and messing with Object prototypes may have unintended consequences in larger applications. However just think of all the key strokes you could save.
+**NOTE:** With great power comes great responsibility and messing with Object O.p.s may have unintended consequences in larger applications. However just think of all the key strokes you could save.
 
 ## Usage
 
@@ -20,11 +20,15 @@ Install:
 
 Require
 
+<!-- panels:start -->
+
 ```javascript
 require('objix')
 
 console.log({ a: 1 }.map(v => v + 1))
 ```
+
+ <!-- panels:end -->
 
 ### Browser:
 
@@ -60,7 +64,7 @@ var o = { a: 1 }.find(v => v) == { a: 1 }.__find(v => v) //true
 
 ### Exported Functions
 
-All functions listed below are also available using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object prototype
+All functions listed below are also available using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object O.p.
 
 ```javascript
 const _ = require('objix')
@@ -90,9 +94,9 @@ p1.age() // 22
 
 </div>
 
-## API
+## Object.prototype API
 
-### Object.prototype.map(function)
+### Object..map(function)
 
 Create a clone of `this` with function applied to each value.
 Function takes value and key as arguments.
@@ -106,7 +110,7 @@ var o = { a: 1, b: 2 }.map((v, k) => (k == 'b' ? v + 1 : v)) // { a: 1, b: 3 }
 
 </div>
 
-### Object.prototype.flatMap(function)
+### Object..flatMap(function)
 
 Return new object with function applied to each entry. Function takes value and kay as arguments and should return 0 or more new entry pairs
 
@@ -122,9 +126,9 @@ var o = { a: 1, b: 0 }.flatMap((k, v) => (v ? [[k, v + 1]] : [])) // { a: 2 }
 
 </div>
 
-### Object.prototype.values()
+### Object..values()
 
-Object.values(`this`)
+values(`this`)
 
 <div data-runkit>
 
@@ -134,7 +138,7 @@ var o = { a: 1 }.values() // [1]
 
 </div>
 
-### Object.prototype.create()
+### Object..create()
 
 Object.create(`this`)
 
@@ -147,7 +151,7 @@ o.a // 1
 
 </div>
 
-### Object.prototype.keys()
+### Object..keys()
 
 Object.keys(`this`)
 
@@ -159,7 +163,7 @@ var o = { a: 1 }.keys() // ['a']
 
 </div>
 
-### Object.prototype.entries()
+### Object..entries()
 
 Object.entries(`this`)
 
@@ -171,7 +175,7 @@ var o = { a: 1 }.entries() // [[a, 1]]
 
 </div>
 
-### Object.prototype.is(type)
+### Object..is(type)
 
 True if `this` is an instance of `type`.
 
@@ -206,7 +210,7 @@ o.is(Object) // true
 
 </div>
 
-### Object.prototype[@@iterator]
+### Object..[@@iterator]
 
 Iterate through the values of `this`
 
@@ -218,7 +222,7 @@ for (var v of { a: 1 }) console.log(v) // 1
 
 </div>
 
-### Object.prototype.clean()
+### Object..clean()
 
 Return a new object like `this` with falsy entry values removed
 
@@ -230,7 +234,7 @@ var o = { a: 1, b: null, c: false, d: 0, e: '' }.clean() // { a: 1 }
 
 </div>
 
-### Object.prototype.filter(function)
+### Object..filter(function)
 
 Return new object like `this` with only entries for which the the supplied function returns truthy. Function takes value and key as arguments.
 
@@ -244,7 +248,7 @@ var o = { a: 1, b: 2 }.filter(v => v > 2) // {}
 
 </div>
 
-### Object.prototype.find(function)
+### Object..find(function)
 
 Return first key of `this` where value passes function
 Function takes value and key as arguments.
@@ -258,7 +262,7 @@ var o = { a: 1, b: 2 }.find(v => v > 2) // null
 
 </div>
 
-### Object.prototype.assign(...objects)
+### Object..assign(..objects)
 
 Assign and overwrite entries of `this` from arguments in ascending priority and return `this`.
 
@@ -270,7 +274,7 @@ var o = { a: 1, b: 1 }.assign({ b: 2, c: 2 }, { c: 3 }) // { a: 1, b: 2, c: 3 }
 
 </div>
 
-### Object.prototype.extend(...objects)
+### Object..extend(..objects)
 
 Assigns new properties into `this` from arguments in ascending priority without overwriting `this`.
 Returns `this`
@@ -283,7 +287,7 @@ var o = { a: 1, b: 1 }.extend({ b: 2, c: 2 }, { c: 3 }) // { a: 1, b: 1, c: 3 }
 
 </div>
 
-### Object.prototype.same(object)
+### Object..same(object)
 
 Return a new object with entries of `this` that are present in the supplied object with equal value
 
@@ -295,7 +299,7 @@ var o = { a: 1, b: 2 }.same({ a: 2, b: 2 }) // { b: 2 }
 
 </div>
 
-### Object.prototype.diff(object)
+### Object..diff(object)
 
 Return new object with entries of `this` that are not present in the supplied object with equal value
 
@@ -307,7 +311,7 @@ var o = { a: 1, b: 2 }.diff({ a: 2, b: 2 }) // { a: 1 }
 
 </div>
 
-### Object.prototype.delete(...keys)
+### Object..delete(..keys)
 
 Return `this` with keys in arguments removed
 
@@ -319,7 +323,7 @@ var o = { a: 1, b: 2, c: 3 }.delete('a', 'b') // { c: 3 }
 
 </div>
 
-### Object.prototype.some(function)
+### Object..some(function)
 
 True if any entry of `this` passes function.
 Function takes value and key as arguments.
@@ -333,7 +337,7 @@ var o = { a: 1, b: 2 }.some(v => v > 2) // false
 
 </div>
 
-### Object.prototype.every(function)
+### Object..every(function)
 
 True if all entries pass function.
 Function takes value and key as arguments.
@@ -347,7 +351,7 @@ var o = { a: 1, b: 2 }.every(v => v > 1) // false
 
 </div>
 
-### Object.prototype.has(value)
+### Object..has(value)
 
 Returns first key of `this` where the value equals the argument, otherwise undefined.
 
@@ -362,7 +366,7 @@ var o = { a: 1, b: 2 }.has(0) // undefined
 
 </div>
 
-### Object.prototype.at(path)
+### Object..at(path)
 
 Return the property of `this` at `path`. If `path` is string containing `.` delimited keys then the `this` will be traversed accordingly. E.G `o.at('k1.k2')` will return `o.k1.k2`
 
@@ -376,7 +380,7 @@ var o = { a: 1, b: { c: 3 } }.at('b.c') // 3
 
 </div>
 
-### Object.prototype.\$(Formatter)
+### Object..\$(Formatter)
 
 Convert `this` to a formatted string. If `Formatter` is not specified it will return a a compact representation of `this` based on `JSON.stringify` with all double quotes and escape characters removed.
 
@@ -395,7 +399,7 @@ var o = { a: 1, b: { c: 2 } }.$('b is $b and b.c is ${b.c}') // 'b is {c:2} and 
 
 </div>
 
-### Object.prototype.clone(depth)
+### Object..clone(depth)
 
 Return new object with entries cloned from `this`.
 Nested objects are also cloned to specified depth (-1 = any depth)
@@ -415,7 +419,7 @@ o3 // { a: 1, b: { c: 1 }}
 
 </div>
 
-### Object.prototype.join(...objects)
+### Object..join(...objects)
 
 Return a new Object with the same keys as `this` and some values as arrays which concatenate the original value of `this` with values from all of the arguments having the same key.
 
@@ -427,7 +431,7 @@ var o = { a: 1 }.join({ a: 2 }, { a: 3 }) // { a: [ 1, 2, 3 ]}
 
 </div>
 
-### Object.prototype.split()
+### Object..split()
 
 Return Array of new objects for each value in each entry of `this` with a value array
 
@@ -439,7 +443,7 @@ var o = { a: [1, 2] }.split() // [{ a: 1 }, { a: 2 }]
 
 </div>
 
-### Object.prototype.contains(object, depth)
+### Object..contains(object, depth)
 
 True if all entries of argument are also in `this`. May recurse to a given depth (-1 = any depth)
 
@@ -454,7 +458,7 @@ var o = { a: 1, b: [{ c: 1 }] }.contains({ c: 1 }, 2) // true
 
 </div>
 
-### Object.prototype.eq(object, depth)
+### Object..eq(object, depth)
 
 True if all entries of `this` equal the argument and argument has no other entries
 May recurse to a given depth (-1 for any depth)
@@ -470,7 +474,7 @@ var o = { a: 1, b: { c: 1 } }.eq({ a: 1, b: { c: 1 } }, 1) // true
 
 </div>
 
-### Object.prototype.size()
+### Object..size()
 
 Return number of entries of `this`.
 
@@ -484,7 +488,7 @@ var o = { a: 1, b: 2 }.size() // 2
 
 </div>
 
-### Object.prototype.keyBy(array, key)
+### Object..keyBy(array, key)
 
 Index an array of objects into `this` using the given key, and return `this`.
 
@@ -498,7 +502,7 @@ o // { o1: { a: 'o1' }, o2: [{ a: 'o2', b: 1 }, { a: 'o2' }]
 
 </div>
 
-### Object.prototype.memo(expires)
+### Object..memo(expires)
 
 Returns a memoized wrapper around `this` as a function such that any calls to `this` with the same set of arguments within `expires` seconds will return the first cached result, without re-executing the function. Cached results are indexed by the `$()` representation of the arguments the function was orignally called with and are automatically removed after `expires` seconds have elapsed.
 
@@ -513,7 +517,7 @@ setTimeout(() => nowish(), 1000) // 2022-10-17T00:01:01.565Z
 
 </div>
 
-### Object.prototype.bind(key, function, expires)
+### Object..bind(key, function, expires)
 
 Binds a function to `this` as a non enumerable property using the given key. When called `this` will be applied as the **last** argument.
 
@@ -535,7 +539,7 @@ setTimeout(() => o.nowish(), 1000) // 2022-10-17T00:01:01.565Z
 
 </div>
 
-### Object.prototype.log(msg, test, type='log')
+### Object..log(msg, test, type='log')
 
 Prints a shallow clone of `this` to the console together with a minute timestamp and an optional msg.
 If a `test` function is provided then logging will only be triggered if the test function returns truthy when called with with `this` as its first argument.
@@ -551,13 +555,13 @@ var o = { a: 0, b: 1 }
   .clean()
   .log('CLEANING') // 2022-10-07T00:00 CLEANNING { b: 1 }
   .map(v => v + 1)
-  .log('MAPPING', WARN) // ...
-  .log('TRACING', INFO, 'trace') // Trace: 2022-10-06T21:21 TRACING { b: 2 } at Object.log ...
+  .log('MAPPING', WARN) // ..
+  .log('TRACING', INFO, 'trace') // Trace: 2022-10-06T21:21 TRACING { b: 2 } at  log ..
 ```
 
 </div>
 
-### Object.protoype.try(function, catch)
+### protoype.try(function, catch)
 
 Call function with `this` as argument and always return `this`.
 If `catch` is defined and an exception is thrown then the catch function will be called with the error and `this` as arguments. If the catch function is not defined then exceptions will be ignored.
@@ -575,7 +579,7 @@ var o = { a: 1 }.try(
 
 </div>
 
-### Object.prototype.trap(function, error, ...keys)
+### Object..trap(function, error, ..keys)
 
 Returns a proxy of `this` which traps property assignments using the supplied function. The function takes `val`, `key` and `this` as arguments.
 If the function returns falsey and an error message is supplied then an exception will be thrown.
@@ -599,9 +603,9 @@ o // { a: 1, b: 2, sum: 3 }
 
 </div>
 
-### Object.prototype.new(object)
+### Object..new(object)
 
-Create a new object using `this` as its protoype with additonal properties assigned from the argument. If traps have been defined for `this`, then the new object will also be a Proxy with the same trap handlers but will target a new object which uses `this` as its prototype.
+Create a new object using `this` as its protoype with additonal properties assigned from the argument. If traps have been defined for `this`, then the new object will also be a Proxy with the same trap handlers but will target a new object which uses `this` as its Object..
 
 <div data-runkit>
 
