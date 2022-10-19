@@ -47,7 +47,7 @@ const
   },
 
 	extend(...a) {
-    return A({}, ...a).map((v,k) => this[k] ??= v, this)
+    return A({}, ...a).map((v,k) => this[k] ?? v, this)
   },
 
 	delete(...a) {
@@ -56,7 +56,7 @@ const
   },
 
   clone(d) {
-    return !this.is(O) ? this.valueOf() 
+    return !this.is(O) ? this.valueOf()
       : this.constructor == Array ? this.map(v => (d && v) ? v.clone(d-1) : v)
       : new this.constructor(this.valueOf().is(O) ? this.map(v => (d && v) ? v.clone(d-1) : v) : this)
   },
