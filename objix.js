@@ -14,8 +14,7 @@ const
     return false
   },
 
-	map(f) {
-    let r = {}
+	map(f, r={}) {
     for (let k in this) r[k] = f(this[k],k)
     return r
   },

@@ -43,5 +43,8 @@
     "observe",
     "memoize",
     "proxy"
-  ]
+  ],
+  "dependencies": {
+    "objix": "^1.9.1"
+  }
 }
