@@ -307,9 +307,9 @@ var o = { a: 1, b: 2 }.diff({ a: 2, b: 2 }) // { a: 1 }
 
 </div>
 
-### Object..delete(..keys)
+### Object..delete(...keys)
 
-Return `this` with keys in arguments removed
+Return `this` with entries deleted where the key is included in arguemnts.
 
 <div data-runkit>
 
@@ -376,13 +376,13 @@ var o = { a: 1, b: { c: 3 } }.at('b.c') // 3
 
 </div>
 
-### Object..\$(Formatter)
+### Object..\$(formatter)
 
-Convert `this` to a formatted string. If `Formatter` is not specified it will return a a compact representation of `this` based on `JSON.stringify` with all double quotes and escape characters removed.
+Returns a string representation of `this`. If `formatter` is not specified it will return a a string based on `JSON.stringify` with all double quote and escape characters removed.
 
-If `Formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this.at(key).$()`
+If `formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this.at(key).$()`
 
-If `Formatter` is not a string then the `stringify` method of the `Formatter` will be called with `this` as an argument, allowing alternative standard formatters such as `JSON` to be used.
+If `formatter` is defined but not a string then the `stringify` method of the `Formatter` will be called with `this` as an argument, allowing alternative standard formatters such as `JSON` to be used.
 
 <div data-runkit>
 
