@@ -91,10 +91,9 @@ p1.age() // 22
 
 ## Object.prototype API
 
-### Object..map(function)
+### Object..map(function, target={})
 
-Create a clone of `this` with function applied to each value.
-Function takes value and key as arguments.
+Returns a `target` including all the keys of `this` with `function` applied to each value. Function takes value and key as arguments.
 
 <div data-runkit>
 

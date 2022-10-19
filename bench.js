@@ -73,6 +73,11 @@ function report(title, ob) {
       lodash: () => _.cloneDeep(ob),
       objix:  () => ob.clone(-1),
     },
+    Extend: { 
+      lodash: () => _.defaults(ob, {a: 1, b:2, c: 2}),
+      objix: () => ob.extend({a: 1, b: 2, c: 3}),
+      vanilla: () => Object.assign({}, {a: 1, b: 2, c: 3}, ob)
+    },
     Some: {
       vanilla: () => Object.values(ob).some(v => v == 'x'),
       lodash: () => _.some(_.values(ob), v => v == 'x'),

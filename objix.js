@@ -47,7 +47,7 @@ const
   },
 
 	extend(...a) {
-    return A(this, ...a, this.clone())
+    return A({}, ...a).map((v,k) => this[k] ??= v, this)
   },
 
 	delete(...a) {
