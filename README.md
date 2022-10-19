@@ -560,14 +560,15 @@ var o = { a: 0, b: 1 }
 
 ### Object..try(function, catch)
 
-Calls function with `this` as its argument and always return `this`, regardless of any exceptions.
-If `catch` is defined and an exception is thrown then the catch function will be called with the error and `this` as arguments. If the catch function is not defined then exceptions will be ignored.
+Calls function with `this` as its argument and return the result.
+If an exception is thrown or the function returns null or undefined then `this` is returned instead.
+If `catch` is defined and an exception is thrown then the catch function will be called with the error and `this` as arguments, otherwise the exception will be ignored.
 
 <div data-runkit>
 
 ```javascript
-var o = { a: 1 }.try(o => o.a++) // { a: 2 }
-var o = { a: 1 }.try(o => o.a.b++) // { a: 1 }
+var o = { a: 1 }.try(o => (o.a++, o)) // { a: 2 }
+var o = { a: 1 }.try(o => (o.a.b++, o)) // { a: 1 }
 var o = { a: 1 }.try(
   o => o.a.b++,
   e => e.log()

@@ -127,7 +127,7 @@ const
   },
 
   try(f,c) {
-    try { f(this) } catch(e) { c && c(e,this) } finally { return this }
+    try { return f(this) ?? this } catch(e) { c && c(e,this) } return this
   },
 
 	new (o) {
