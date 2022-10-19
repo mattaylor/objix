@@ -575,7 +575,7 @@ var o = { a: 1 }.try(
 
 </div>
 
-### Object..trap(function, error, ..keys)
+### Object..trap(function, error, ...keys)
 
 Returns a proxy of `this` which traps property assignments using the supplied function. The function takes `val`, `key` and `this` as arguments.
 If the function returns falsey and an error message is supplied then an exception will be thrown.
