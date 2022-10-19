@@ -23,8 +23,7 @@ const
     return this.find(v => v.eq(o))
   },
 
-	filter(f) {
-    let r = {}
+	filter(f, r={}) {
     for (let k in this) if (f(this[k],k)) r[k] = this[k]
     return r
   },

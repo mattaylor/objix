@@ -95,7 +95,7 @@ p1.age() // 22
 
 ### Object..map(function, target={})
 
-Returns a `target` including all the keys of `this` with `function` applied to each value. Function takes value and key as arguments.
+Returns `target` including all the keys of `this` with `function` applied to each value. Function takes value and key as arguments.
 
 <div data-runkit>
 
@@ -124,7 +124,7 @@ var o = { a: 1, b: 0 }.flatMap((k, v) => (v ? [[k, v + 1]] : [])) // { a: 2 }
 
 ### Object..values()
 
-values(`this`)
+Object.values(`this`)
 
 <div data-runkit>
 
@@ -230,9 +230,9 @@ var o = { a: 1, b: null, c: false, d: 0, e: '' }.clean() // { a: 1 }
 
 </div>
 
-### Object..filter(function)
+### Object..filter(function, target={})
 
-Return new object like `this` with only entries for which the the supplied function returns truthy. Function takes value and key as arguments.
+Returns `target` including all entries of `this` for which the the supplied function returns truthy. Function takes value and key as arguments.
 
 <div data-runkit>
 
