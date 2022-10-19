@@ -557,9 +557,9 @@ var o = { a: 0, b: 1 }
 
 </div>
 
-### protoype.try(function, catch)
+### Object..try(function, catch)
 
-Call function with `this` as argument and always return `this`.
+Calls function with `this` as its argument and always return `this`, regardless of any exceptions.
 If `catch` is defined and an exception is thrown then the catch function will be called with the error and `this` as arguments. If the catch function is not defined then exceptions will be ignored.
 
 <div data-runkit>
