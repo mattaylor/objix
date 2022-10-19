@@ -58,7 +58,6 @@ const
   clone(d) {
     return !this.is(O) ? this.valueOf()
       : this.constructor == Array ? this.map(v => (d && v) ? v.clone(d-1) : v)
-      //: this.valueOf().is(O) ? this.map(v => (d && v) ? v.clone(d-1) : v, new this.constructor)
       : this.size() ? this.map(v => (d && v) ? v.clone(d-1) : v, new this.constructor)
       : new this.constructor(this)
   },
