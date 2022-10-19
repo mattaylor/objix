@@ -34,7 +34,7 @@
     }
     li { 
       font-family: Roboto Mono, Monaco, courier, monospace;
-      font-size: 10px
+      font-size: 12px
     }    
   </style>
 </head>
@@ -45,10 +45,15 @@
       name: 'Objix',
       repo: 'https://github.com/mattaylor/objix',
       _loadSidebar: true,
-      subMaxLevel: 3,
+      subMaxLevel: 4,
       autoToTop:true,
-      maxLevel:3,
+      _maxLevel:2,
       loadNavbar : true,
+      search: {
+        depth: 5,
+        _hideOtherSidebarContent: true,
+        _maxAge:1000,
+      },
       runkit: {
         nodeVersion   : '18',
         gutterStyle   : 'outside',
@@ -77,10 +82,10 @@
     <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script> </script>
   -->
   <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js"></script>
   <script src="https://unpkg.com/docsify-copy-code@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-changelog-plugin@latest/dist/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-example-panels"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
   <!--
     <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
     <script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script>
