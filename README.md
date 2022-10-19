@@ -620,6 +620,31 @@ o1.c = 0 // // Uncaught 'Not Positive, c, 0'
 
 </div>
 
+### Object..wait(defer)
+
+Returns a new promise.
+If `defer` is a number then the promise will resolve with `this` when `defer` seconds have elapsed.
+Otherwise the `defer` will be treated as a function that takes `this`, `resolve` and optionally `reject` as argumnets, and the Promise will resolve when `defer` calls `resolve` with the result.
+Any exceptions will reject the promise.
+
+<div data-runkit>
+
+```javascript
+var o = { a: 1 }.wait(1).then(t => t.log('WAIT')) // ...(1 second later)... 2022-10-19T21:55 WAIT {a:1}
+var o = (await { a: 1 }.wait(1)).log('WAIT') // ...(1 second later)... 2022-10-19T21:55 WAIT {a:1}
+
+function f (ob) {
+  ob.wait((t, r) => r(t.b.$()))
+    .then(t => t.log('SUCCESS'))
+    .catch(e => e.log('ERROR'))
+}
+
+f({ a: 1, b: 2 }) // 2022-10-19T21:55 SUCCESS 2
+f({ a: 1 }) // 2022-10-19T21:55 ERROR TypeError: Cannot read properties of undefined
+```
+
+</div>
+
 ## Benchmarks
 
 Performance of some common operations can be compared to lodash using the [benchmarks](bench.js) script.

@@ -113,7 +113,8 @@ const
   },
   
   memo(e) {
-    return e ? (...a) => this[a.$()] ??= (setTimeout(() => delete this[a.$()],e*1000),this(...a)) : this
+    //return e ? (...a) => this[a.$()] ??= (setTimeout(() => delete this[a.$()],e*1000),this(...a)) : this
+    return e ? (...a) => this[a.$()] ??= (this.wait(e).then(t => delete t[a.$()]),this(...a)) : this
   },
   
   bind(k, f, e) {
@@ -132,6 +133,10 @@ const
 
 	new (o) {
     return this._t ? new Proxy(this._t.new(o), this._h) : A(this.create(),o)
+  },
+
+  wait(s) {
+    return new Promise((r,c) => s.is(Number) ? setTimeout(() => r(this), s*1000) : s(this,r,c))
   },
 
 	trap(f, e, ...p) {
