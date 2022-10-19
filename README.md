@@ -1,8 +1,8 @@
 ## **Objix**
 
-A dangerously convienient, high performance, zero dependency, lightweight utility (2.6kb min) that injects usefull functions into the Object prototype to extend the standard library and sugar many common use cases when working with any Javascript objects.
+A dangerously convienient, high performance, zero dependency, lightweight utility (2.7kb min) that injects usefull functions into the Object prototype to extend the standard library and sugar many common use cases when working with any Javascript objects.
 
-The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, promisify, compare, split and join objects, log messages, check types and trapping/observing property assignments.
+The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, promisify, compare, split and join objects, memoise functions, log messages, check types and trapping/observing property assignments.
 
 These prototype methods are all non enumerable and are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. Performance in most cases is signifantly faster than lodash equivalents especially when working with small objects. For example `ob.map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` according to simple [benchmarks](#benchmarks).
 
@@ -622,16 +622,15 @@ o1.c = 0 // // Uncaught 'Not Positive, c, 0'
 
 ### Object..wait(defer)
 
-Returns a new promise.
+Returns a new promise wrapped around `this`.
 If `defer` is a number then the promise will resolve with `this` when `defer` seconds have elapsed.
-Otherwise the `defer` will be treated as a function that takes `this`, `resolve` and optionally `reject` as argumnets, and the Promise will resolve when `defer` calls `resolve` with the result.
-Any exceptions will reject the promise.
+Otherwise `defer` will be treated as a function that takes `this`, `resolve` and optionally `reject` as arguments, and the promise will resolve when `resolve` is called with the result. Any uncaught exceptions will reject the promise.
 
 <div data-runkit>
 
 ```javascript
-var o = { a: 1 }.wait(1).then(t => t.log('WAIT')) // ...(1 second later)... 2022-10-19T21:55 WAIT {a:1}
-var o = (await { a: 1 }.wait(1)).log('WAIT') // ...(1 second later)... 2022-10-19T21:55 WAIT {a:1}
+var o = { a: 1 }.wait(1).then(t => t.log('PROMISED')) // ...(1 second later)... 2022-10-19T21:55 PROMISED {a:1}
+var o = (await { a: 1 }.wait(1)).log('AWAITED') // ...(1 second later)... 2022-10-19T21:55 AWAITED {a:1}
 
 function f (ob) {
   ob.wait((t, r) => r(t.b.$()))
