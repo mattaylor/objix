@@ -6,7 +6,7 @@ The functions include copies of Object class methods and Array prototype methods
 
 These prototype methods are all non enumerable and are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. Performance in most cases is signifantly faster than lodash equivalents especially when working with small objects. For example `ob.map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` according to simple [benchmarks](#benchmarks).
 
-An online version of this readme with interactive examples is availble on https://mattaylor.github.io/objix.
+An online version of this readme with interactive examples is availble on https://objix.dev.
 
 **NOTE:** With great power comes great responsibility and messing with Object prototypes may have unintended consequences in larger applications. However just think of all the time and key strokes you could save.
 
