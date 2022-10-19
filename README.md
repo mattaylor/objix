@@ -27,7 +27,7 @@ An online version of this readme with interactive examples is availble on https:
   console.log({ a: 1 }.map(v => v + 1))
   ```
 
-### Browser:
+### Browser
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js"></script>
