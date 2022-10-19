@@ -1,4 +1,4 @@
-# Objix
+## **Objix**
 
 A dangerously convienient, high performance, zero dependency, lightweight utility (2.6kb min) that injects usefull functions into the Object prototype to extend the standard library and sugar many common use cases when working with any Javascript objects.
 
