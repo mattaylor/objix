@@ -625,6 +625,7 @@ o1.c = 0 // // Uncaught 'Not Positive, c, 0'
 Returns a new promise wrapped around `this`.
 If `defer` is a number then the promise will resolve with `this` when `defer` seconds have elapsed.
 Otherwise `defer` will be treated as a function that takes `this`, `resolve` and optionally `reject` as arguments, and the promise will resolve when `resolve` is called with the result. Any uncaught exceptions will reject the promise.
+If `defer` is async or otherwsie returns a truthy value then the promise will be resolved with that result.
 
 <div data-runkit>
 
@@ -640,6 +641,8 @@ function f (ob) {
 
 f({ a: 1, b: 2 }) // 2022-10-19T21:55 SUCCESS 2
 f({ a: 1 }) // 2022-10-19T21:55 ERROR TypeError: Cannot read properties of undefined
+
+var s = (await 'https://objix.dev'.wait(fetch)).status // 200
 ```
 
 </div>

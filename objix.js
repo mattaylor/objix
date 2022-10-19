@@ -134,8 +134,8 @@ const
     return this._t ? new Proxy(this._t.new(o), this._h) : A(this.create(),o)
   },
 
-  wait(s) {
-    return new Promise((r,c) => s.is(Number) ? setTimeout(() => r(this), s*1000) : s(this,r,c))
+  wait(d) {
+    return new Promise((s,f) => d.is(Number) ? setTimeout(() => s(this), s*1000) : (d = d(this,s,f)) && s(d))
   },
 
 	trap(f, e, ...p) {
