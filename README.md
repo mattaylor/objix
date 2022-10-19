@@ -258,7 +258,7 @@ var o = { a: 1, b: 2 }.find(v => v > 2) // null
 
 </div>
 
-### Object..assign(..objects)
+### Object..assign(...objects)
 
 Assign and overwrite entries of `this` from arguments in ascending priority and return `this`.
 
@@ -270,7 +270,7 @@ var o = { a: 1, b: 1 }.assign({ b: 2, c: 2 }, { c: 3 }) // { a: 1, b: 2, c: 3 }
 
 </div>
 
-### Object..extend(..objects)
+### Object..extend(...objects)
 
 Assigns properties into `this` from the arguments in ascending priority order. Properties of `this` are not overwritten and are assigned only if null or undefined in `this`.
 Returns `this`
