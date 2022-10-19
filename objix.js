@@ -113,7 +113,6 @@ const
   },
   
   memo(e) {
-    //return e ? (...a) => this[a.$()] ??= (setTimeout(() => delete this[a.$()],e*1000),this(...a)) : this
     return e ? (...a) => this[a.$()] ??= (this.wait(e).then(t => delete t[a.$()]),this(...a)) : this
   },
   
