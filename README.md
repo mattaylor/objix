@@ -1,16 +1,16 @@
 # Objix <!-- {docsify-ignore} -->
 
-A dangerously convienient, high performance, zero dependency, lightweight utility `| to extend the standard library and sugar many common use cases when working with any Javascript objects.
+Objix is a dangerously convienient, high performance, zero dependency lightweight utility to extend the javascript standard library and sugar many common use cases when working with any Javascript object.
 
-The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, promisify, compare, split and join objects, memoise functions, log messages, check types and trapping/observing property assignments.
+The functions are all non enumerable and include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, promisify, compare, split and join objects, memoise functions, log messages, check types and trapping/observing property assignments.
 
-These prototype methods are all non enumerable and are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. Performance in most cases is signifantly faster than lodash equivalents especially when working with small objects. For example `ob.map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` according to simple [benchmarks](bench.md).
+These prototype are highly optimised with zero copy operations where possible. The unminified source is only 3.6kb (2.8kb minified) which allows for fast loading and easy integration without additonal compilation or tree shaking. There is however only limited type checking to guard against unwanted side effects. Performance in most cases is signifantly faster than lodash equivalents especially when working with small objects. For example `ob.map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` and some operations such as `filter` can be several thousand times quicker `according to simple [benchmarks](bench.md).
 
 [API docs are available here](api.md). Interactive examples are also availble on https://objix.dev/#/api.
 
 **NOTE:** With great power comes great responsibility and messing with Object prototypes may have unintended consequences in larger applications. However just think of all the time and key strokes you could save.
 
-## Node Usage
+## Getting Started - Node
 
 - Install:
 
@@ -25,7 +25,7 @@ These prototype methods are all non enumerable and are highly optimised with zer
   console.log({ a: 1 }.map(v => v + 1))
   ```
 
-## Browser Usage
+## Getting Started - Browser
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js"></script>
@@ -35,7 +35,9 @@ These prototype methods are all non enumerable and are highly optimised with zer
 </script>
 ```
 
-## New Prototype Methods
+## Prototype Methods
+
+The following methods are availble to all Objects via protoype inheritence, unless overwritten by a sub class.
 
 | Method                            | Notes                                                                                             |
 | --------------------------------- | ------------------------------------------------------------------------------------------------- |
