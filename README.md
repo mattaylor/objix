@@ -44,7 +44,7 @@ These prototype methods are all non enumerable and are highly optimised with zer
 | [`values`](api.md#values)         | Return values of `this`                                                                           |
 | [`create`](api.md#create)         | Create a new Object based on `this`                                                               |
 | [`keys`](api.md#keys)             | Return keys of `this                                                                              |
-| [`entries`](api.md#entries)       | Return [key,value] entry pairs of `this`                                                          |
+| [`entries`](api.md#entries)       | Return `[key,value]` entry pairs of `this`                                                        |
 | [`is`](api.md#is)                 | Check type of `this`                                                                              |
 | [`[@@iterator]`](api.md#iterator) | Iterate through values of `this`                                                                  |
 | [`clean`](api.md#clean)           | Remove falsy values from `this`                                                                   |
@@ -59,7 +59,7 @@ These prototype methods are all non enumerable and are highly optimised with zer
 | [`every`](api.md#every)           | Test a function against all entries of `this`                                                     |
 | [`has`](api.md#has)               | Lookup key of `this` by value                                                                     |
 | [`at`](api.md#at)                 | Lookup value by key path                                                                          |
-| `$`                               | Coerce `this` into a string with configurable formatting                                          |
+| [`$`](api.md#fmt)                 | Coerce `this` into a string with configurable formatting                                          |
 | [`clone`](api.md#clone)           | Clone `this` with configurable depths                                                             |
 | [`join`](api.md#join)             | Join objects together with `this` with array property values                                      |
 | [`split`](api.md#split)           | Split `this` into multiple objects from array property values                                     |
@@ -70,8 +70,8 @@ These prototype methods are all non enumerable and are highly optimised with zer
 | [`memo`](api.md#memo)             | Memoize `this` as a function with configurable result cache expiration                            |
 | [`bind`](api.md#bind)             | Assign a function as a method of `this` with optional memoization                                 |
 | [`log`](api.md#log)               | Conditionally Write `this` to the console with an optional message                                |
-| `try`                             | Call a function against `this` and catch any exceptions                                           |
-| `trap`                            | Create a proxy around `this` to intercept property assignments                                    |
+| [`try`](api.md#try)               | Call a function against `this` and catch any exceptions                                           |
+| [`trap`](trap.md#trap)            | Create a proxy around `this` to intercept property assignments                                    |
 | [`new`](api.md#new)               | Create a new object using `this` as a prototype.                                                  |
 | [`wait`](api.md#wait)             | Create a Promise around `this` which resolves after a timeout or when called by another function. |
 
