@@ -322,7 +322,7 @@ var o = { a: 1, b: { c: 3 } }.at('b.c') // 3
 
 </div>
 
-<div id:"fmt"></div>
+<div id="fmt"></div>
 
 ## `Object..$(formatter)`
 

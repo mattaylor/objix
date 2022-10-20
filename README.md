@@ -82,7 +82,7 @@ Most of these function return objects including those modifying `this` and so ca
 <div data-runkit>
 
 ```javascript
-var o = { a: 0, b: 1, c: 2 }.clean`| // { b: 2, c: 3 }
+var o = { a: 0, b: 1, c: 2 }.clean() // { b: 2, c: 3 }
 ```
 
 </div>
