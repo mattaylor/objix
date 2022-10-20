@@ -127,7 +127,7 @@ const
   },
 
   try(f,c) {
-    try { return f(this) ?? this } catch(e) { return (!c || c(e,this)) || this }
+    try { return f(this) ?? this } catch(e) { return (c && c(e,this)) || this }
   },
 
   new (o) {
