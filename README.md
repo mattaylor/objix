@@ -37,7 +37,7 @@ These prototype methods are all non enumerable and are highly optimised with zer
 
 ## New Prototype Methods
 
-| Name                              | Notes                                                                                             |
+| Method                            | Notes                                                                                             |
 | --------------------------------- | ------------------------------------------------------------------------------------------------- |
 | [`map`](api.md#map)               | Map a function to all entries of an `this`                                                        |
 | [`flatMap`](api.md#flatMap)       | FlatMap a function to all entries of an `this`                                                    |
