@@ -1,16 +1,14 @@
 ## **Objix** <!-- {docsify-ignore} -->
 
-A dangerously convienient, high performance, zero dependency, lightweight utility (2.7kb min) that injects usefull functions into the Object prototype to extend the standard library and sugar many common use cases when working with any Javascript objects.
+A dangerously convienient, high performance, zero dependency, lightweight utility (2.7kb min) that injects [usefull methods into the Object prototype](api.md) to extend the standard library and sugar many common use cases when working with any Javascript objects.
 
 The functions include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, promisify, compare, split and join objects, memoise functions, log messages, check types and trapping/observing property assignments.
 
 These prototype methods are all non enumerable and are highly optimised with zero copy operations where possible. There is however very limited type checking to guard against unwanted side effects. Performance in most cases is signifantly faster than lodash equivalents especially when working with small objects. For example `ob.map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` according to simple [benchmarks](bench.md).
 
-An online version of this readme with interactive examples is availble on https://objix.dev.
+[API docs are available here](api.md). Interactive examples are also availble on https://objix.dev/#/api.
 
 **NOTE:** With great power comes great responsibility and messing with Object prototypes may have unintended consequences in larger applications. However just think of all the time and key strokes you could save.
-
-## Usage
 
 ### Node
 
