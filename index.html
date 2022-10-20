@@ -39,6 +39,9 @@
         position: sticky;
       }
     }
+    .app-name-link { 
+      height: 20px;
+    }
     body  {
       font-size: 16px;
       font-family: Avenir; 
@@ -47,6 +50,17 @@
     }
     .github-corner { 
       position: fixed;
+    }
+    .logo {
+      float:left;
+      height:40px;
+    }
+    #name { 
+      background-color: white;
+      border-radius: 10px;
+      text-align: center;
+      padding:10px;
+      padding-right: 40px;
     }
     .app-nav { 
       height: 70;
@@ -67,13 +81,17 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: 'Objix',
+      name: '<div id="name"><img class="logo" src="https://static.thenounproject.com/png/258024-200.png">Objix<div>',
+      _logo: 'https://cdn3.iconfinder.com/data/icons/mythical-creatures/300/24-512.png',
+      _logo: 'https://cdn3.iconfinder.com/data/icons/mythical-creatures-outlines/300/24-512.png',
+      _logo: 'https://cdn3.iconfinder.com/data/icons/mythical-creatures/300/24-256.png :size=10',
+      _logo: 'https://static.thenounproject.com/png/258024-200.png',
       repo: 'https://github.com/mattaylor/objix',
       subMaxLevel: 4,
       autoToTop: true,
       maxLevel:4,
       loadNavbar : true,
-      loadSidebar: '_navbar.md',
+      loadSidebar: true,
       topMargin: 60,
       search: {
         depth: 5,

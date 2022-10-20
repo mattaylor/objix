@@ -2,7 +2,7 @@
 
 All the methods below are assigned as members to the `Object.prototype`
 
-<div id="map"></div>
+<div id="_map"></div>
 
 ## `Object..map(function, target={})`
 
