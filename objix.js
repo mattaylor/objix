@@ -9,47 +9,47 @@ const
     return true
   },
 
-	some(f) {
+  some(f) {
     for (let k in this) if (f(this[k], k)) return true
     return false
   },
 
-	map(f, r={}) {
+  map(f, r={}) {
     for (let k in this) r[k] = f(this[k],k)
     return r
   },
 
-	has(o,d) {
+  has(o,d) {
     return this.find(v => v.eq(o))
   },
 
-	filter(f, r={}) {
+  filter(f, r={}) {
     for (let k in this) if (f(this[k],k)) r[k] = this[k]
     return r
   },
 
-	flatMap(f) {
+  flatMap(f) {
     return O.fromEntries(K(this).flatMap(k => f(k,this[k])))
   },
 
-	clean() {
+  clean() {
     return this.filter(v => v)
   },
 
-	is(t, i) {
+  is(t, i) {
     return t == O ? !i && ![Number,String,Boolean,Function,Symbol].includes(this.constructor)
       : this.constructor == t || !i && this instanceof t
   },
 
-	find(f) {
+  find(f) {
     for (let k in this) if (f(this[k],k)) return k
   },
 
-	extend(...a) {
+  extend(...a) {
     return A({}, ...a).map((v,k) => this[k] ?? v, this)
   },
 
-	delete(...a) {
+  delete(...a) {
     for (let k of a) delete this[k]
     return this
   },
@@ -60,20 +60,20 @@ const
       : this.size() ? this.map(v => (d && v) ? v.clone(d-1) : v, new this.constructor)
       : new this.constructor(this)
   },
-  
-	join(...a) {
+
+  join(...a) {
     let r = A({}, this)
     for(let o of a) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
     return r
   },
 
-	split() {
+  split() {
     let r = []
     for (let k in this) this[k].map((v,i) => r[i] ? r[i][k] = v : r[i] = {[k]: v})
     return r
   },
 
-	same(o) {
+  same(o) {
     return this.filter((v,k) => v.eq(o[k]))
   },
 
@@ -81,11 +81,11 @@ const
     return this.filter((v,k) => !v.eq(o[k]))
   },
 
-	contains(o, d) {
+  contains(o, d) {
     return o.every((v,k) => this[k]?.eq(v)) || d && this.some(v => v.contains(o, d-1))
   },
 
-	eq(o, d) {
+  eq(o, d) {
     return this == o || o
       && this.constructor == o.constructor
       && this.size() == o.size()
@@ -93,44 +93,44 @@ const
       && this.every((v,k) => v == o[k] || d && v?.eq(o[k],d-1))
   },
 
-	size() {
+  size() {
     return K(this).length
   },
 
-	keyBy(a, k) {
+  keyBy(a, k) {
     a.map(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
     return this
   },
-  
+
   at(p) {
     return p.split('.').reduce((v,c) => v[c], this)
   },
 
   $(s) {
-    return s ? s.is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this.at(p).$()) 
+    return s ? s.is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this.at(p).$())
       : (s.stringify || s)(this)
       : this.$(JSON).replace(/["\\]/g,'')
   },
-  
+
   memo(e) {
     return e ? (...a) => this[a.$()] ??= (this.wait(e).then(t => delete t[a.$()]),this(...a)) : this
   },
-  
+
   bind(k, f, e) {
     def(this, k, (function(...a) { return f(...a, this)}).memo(e))
     return this
   },
 
-	log(m='', f, c='log') {
+  log(m='', f, c='log') {
     (!f || f(this)) && console[c](new Date().$().slice(0,-8), m, this.clone())
     return this
   },
 
   try(f,c) {
-    try { return f(this) ?? this } catch(e) { return (!c || c(e,this)) || this } 
+    try { return f(this) ?? this } catch(e) { return (!c || c(e,this)) || this }
   },
 
-	new (o) {
+  new (o) {
     return this._t ? new Proxy(this._t.new(o), this._h) : A(this.create(),o)
   },
 
@@ -138,7 +138,7 @@ const
     return new Promise((s,f) => d.is(Number) ? setTimeout(() => s(this), s*1000) : (d = d(this,s,f)) && s(d))
   },
 
-	trap(f, e, ...p) {
+  trap(f, e, ...p) {
     return new Proxy(this, {
       set(t,k,v) {
         if ((!p[0] || p.has(k)) && !f(v,k,t) && e) throw(e+' '+[k,v].$())
