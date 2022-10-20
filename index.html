@@ -34,13 +34,18 @@
     <link rel="stylesheet" href="https://fairlay.com/static/utils/css/master.6fa5a378b844.css">
   -->
   <style>
+    @media only screen and (max-device-width: 600px) {
+      ._sidebar { 
+        position: sticky;
+      }
+    }
     body  {
       font-size: 16px;
       font-family: Avenir; 
     }
     p { font-size: 17px;
     }
-    .sidebar { position: sticky; 
+    ._sidebar { position: sticky; 
     }
     li { 
       font-family: Roboto Mono, Monaco, courier, monospace;
@@ -67,7 +72,7 @@
       runkit: {
         nodeVersion   : '18',
         gutterStyle   : 'outside',
-        evaluateOnLoad: true,
+        evaluateOnLoad: false,
         readOnly: false,
         preamble: 'require("objix")'
       },
