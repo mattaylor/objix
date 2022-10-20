@@ -1,3 +1,3 @@
 - [Getting Started](/#objix 'Objix Home')
-- [Objix API](api.md#apidocs 'Objix API')
+- [Objix API](api.md#objixapi 'Objix API')
 - [Benchmarks](bench.md#benchmarks 'Performance Benchmarks')
