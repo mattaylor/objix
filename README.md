@@ -633,11 +633,10 @@ If `defer` is async or otherwsie returns a truthy value then the promise will be
 var o = { a: 1 }.wait(1).then(t => t.log('PROMISED')) // ...(1 second later)... 2022-10-19T21:55 PROMISED {a:1}
 var o = (await { a: 1 }.wait(1)).log('AWAITED') // ...(1 second later)... 2022-10-19T21:55 AWAITED {a:1}
 
-function f (ob) {
-  ob.wait((t, r) => r(t.b.$()))
-    .then(t => t.log('SUCCESS'))
-    .catch(e => e.log('ERROR'))
-}
+var f = o => o
+  .wait((t, r) => r(t.b.$()))
+  .then(o => o.log('SUCCESS'))
+  .catch(e => e.log('ERROR'))
 
 f({ a: 1, b: 2 }) // 2022-10-19T21:55 SUCCESS 2
 f({ a: 1 }) // 2022-10-19T21:55 ERROR TypeError: Cannot read properties of undefined
