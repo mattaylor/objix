@@ -574,7 +574,7 @@ var o = { a: 1 }.try(o => o.a++) // 2
 var o = { a: 1 }.try(o => (o.a++, o)) // { a: 2 }
 var o = { a: 1 }.try(o => (o.a.b++, o)) // { a: 1 }
 var o = { a: 1 }.try(
-  o => o.a.b++,
+  o => o.a.b.c++,
   e => e.log()
 ) // 2022-10-07T00:00 TypeError: Cannot read properties of undefined (reading 'b')
 ```
