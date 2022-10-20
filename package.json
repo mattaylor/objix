@@ -1,11 +1,11 @@
 {
   "name": "objix",
-  "version": "1.11.3",
+  "version": "1.11.4",
   "description": "A dangerously convienient, high performance and super lightweight utility (2.7kb) that injects methods into the Object prototype to sugar for many common use cases working with Javascript objects.",
   "main": "objix.js",
   "scripts": {
     "test": "node ./test",
-    "bench": "node ./bench"
+    "perf": "node ./bench"
   },
   "repository": {
     "type": "git",
@@ -45,8 +45,5 @@
     "observe",
     "memoize",
     "proxy"
-  ],
-  "dependencies": {
-    "objix": "^1.9.1"
-  }
+  ]
 }
