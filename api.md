@@ -1,4 +1,4 @@
-# Objix API <!-- {docsify-ignore} -->
+# API Docs<!-- {docsify-ignore} -->
 
 All the methods below are assigned as members to the `Object.prototype`
 
