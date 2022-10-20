@@ -39,7 +39,7 @@ These protoype methods are highly optimised with zero copy operations where poss
 
 The following methods are availble to all Objects via protoype inheritence, unless overwritten by a sub class.
 
-| Method                            | Notes                                                                                             |
+|                                   |                                                                                                   |
 | --------------------------------- | ------------------------------------------------------------------------------------------------- |
 | [`map`](api.md#map)               | Map a function to all entries of an `this`                                                        |
 | [`flatMap`](api.md#flatMap)       | FlatMap a function to all entries of an `this`                                                    |
