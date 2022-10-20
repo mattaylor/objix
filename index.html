@@ -45,7 +45,17 @@
     }
     p { font-size: 17px;
     }
-    ._sidebar { position: sticky; 
+    .github-corner { 
+      position: fixed;
+    }
+    .app-nav { 
+      height: 70;
+      position: fixed;
+      right: 20px;
+      padding: 20px;
+      padding-right:60px;
+      top: 0;
+      background: var(--base-background-color);
     }
     li { 
       _font-family: Roboto Mono, Monaco, courier, monospace;
@@ -59,11 +69,12 @@
     window.$docsify = {
       name: 'Objix',
       repo: 'https://github.com/mattaylor/objix',
-      loadSidebar: true,
       subMaxLevel: 4,
-      autoToTop:true,
+      autoToTop: true,
       maxLevel:4,
       loadNavbar : true,
+      loadSidebar: '_navbar.md',
+      topMargin: 60,
       search: {
         depth: 5,
         _hideOtherSidebarContent: true,
