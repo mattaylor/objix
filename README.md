@@ -633,10 +633,11 @@ If `defer` is async or otherwsie returns a truthy value then the promise will be
 var o = { a: 1 }.wait(1).then(t => t.log('PROMISED')) // ...(1 second later)... 2022-10-19T21:55 PROMISED {a:1}
 var o = (await { a: 1 }.wait(1)).log('AWAITED') // ...(1 second later)... 2022-10-19T21:55 AWAITED {a:1}
 
-var f = o => o
-  .wait((t, r) => r(t.b.$()))
-  .then(o => o.log('SUCCESS'))
-  .catch(e => e.log('ERROR'))
+var f = o =>
+  o
+    .wait((t, r) => r(t.b.$()))
+    .then(o => o.log('SUCCESS'))
+    .catch(e => e.log('ERROR'))
 
 f({ a: 1, b: 2 }) // 2022-10-19T21:55 SUCCESS 2
 f({ a: 1 }) // 2022-10-19T21:55 ERROR TypeError: Cannot read properties of undefined
@@ -710,3 +711,155 @@ For simple object objix performs insanely well, but this drops off quickly when 
 | Extend  | 9473.53 | 7550.47 | 230.18  | 25.47  | 12.98 |
 | Some    | 725.86  | 758.97  | 408.42  | -4.36  | 4.42  |
 | Every   | 3085.48 | 2110.81 | 621.44  | 46.18  | 5.98  |
+
+### Scratch
+
+<!-- tabs:start -->
+
+#### **PlantUML**
+
+```plantuml
+@startuml
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response
+@enduml
+```
+
+#### **VegaLite**
+
+```vegalite
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "description": "Horizontally concatenated charts that show different types of discretizing scales.",
+  "data": {
+    "values": [
+      {"a": "A", "b": 28},
+      {"a": "B", "b": 55},
+      {"a": "C", "b": 43},
+      {"a": "D", "b": 91},
+      {"a": "E", "b": 81},
+      {"a": "F", "b": 53},
+      {"a": "G", "b": 19},
+      {"a": "H", "b": 87},
+      {"a": "I", "b": 52}
+    ]
+  },
+  "hconcat": [
+    {
+      "mark": "circle",
+      "encoding": {
+        "y": {
+          "field": "b",
+          "type": "nominal",
+          "sort": null,
+          "axis": {
+            "ticks": false,
+            "domain": false,
+            "title": null
+          }
+        },
+        "size": {
+          "field": "b",
+          "type": "quantitative",
+          "scale": {
+            "type": "quantize"
+          }
+        },
+        "color": {
+          "field": "b",
+          "type": "quantitative",
+          "scale": {
+            "type": "quantize",
+            "zero": true
+          },
+          "legend": {
+            "title": "Quantize"
+          }
+        }
+      }
+    },
+    {
+      "mark": "circle",
+      "encoding": {
+        "y": {
+          "field": "b",
+          "type": "nominal",
+          "sort": null,
+          "axis": {
+            "ticks": false,
+            "domain": false,
+            "title": null
+          }
+        },
+        "size": {
+          "field": "b",
+          "type": "quantitative",
+          "scale": {
+            "type": "quantile",
+            "range": [80, 160, 240, 320, 400]
+          }
+        },
+        "color": {
+          "field": "b",
+          "type": "quantitative",
+          "scale": {
+            "type": "quantile",
+            "scheme": "magma"
+          },
+          "legend": {
+            "format": "d",
+            "title": "Quantile"
+          }
+        }
+      }
+    },
+    {
+      "mark": "circle",
+      "encoding": {
+        "y": {
+          "field": "b",
+          "type": "nominal",
+          "sort": null,
+          "axis": {
+            "ticks": false,
+            "domain": false,
+            "title": null
+          }
+        },
+        "size": {
+          "field": "b",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [30, 70],
+            "range": [80, 200, 320]
+          }
+        },
+        "color": {
+          "field": "b",
+          "type": "quantitative",
+          "scale": {
+            "type": "threshold",
+            "domain": [30, 70],
+            "scheme": "viridis"
+          },
+          "legend": {
+            "title": "Threshold"
+          }
+        }
+      }
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "color": "independent",
+      "size": "independent"
+    }
+  }
+}
+```
+
+<!-- tabs:end -->
