@@ -194,8 +194,9 @@ Assign and overwrite entries of `this` from arguments in ascending priority and 
 
 <div data-runkit>
 
-````javascript
-var o = { a: 0, b: 0 }.assign({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 1, b: 2, c: 2 }```
+```javascript
+var o = { a: 0, b: 0 }.assign({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 1, b: 2, c: 2 }
+```
 
 </div>
 
@@ -210,7 +211,7 @@ Returns `this`
 
 ```javascript
 var o = { a: 0, b: 0 }.extend({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 0, b: 0, c: 2 }
-````
+```
 
 </div>
 
@@ -621,3 +622,4 @@ var s = (await 'https://objix.dev'.wait(fetch)).status // 200
 ```
 
 </div>
+````
