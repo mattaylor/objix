@@ -35,7 +35,7 @@ These prototype methods are all non enumerable and are highly optimised with zer
 </script>
 ```
 
-## Prototype Methods
+## New Prototype Methods
 
 | Name                              | Notes                                                                      |
 | --------------------------------- | -------------------------------------------------------------------------- |
@@ -75,7 +75,7 @@ These prototype methods are all non enumerable and are highly optimised with zer
 | [`new`](api.md#new)               |
 | [`wait`](api.md#wait)             | Create a Promise which resoves after a timeout or when callback is called. |
 
-## Fluent Chaining
+## Fluent Method Chaining
 
 Most of these function return objects including those modifying `this` and so can be easily chained together.
 
@@ -95,17 +95,6 @@ This can help ensure that the function is availble and not overwritten by other 
 ```javascript
 var o = { a: 1 }.size`| //true
 var o = { a: 1 }.find`| //true
-```
-
-## Module Exports
-
-All functions listed below are also available using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object O.p.
-
-```javascript
-const _ = require`|
-
-_.size`| // true
-_.find`| //true
 ```
 
 ## Simple Classes
@@ -128,3 +117,14 @@ p1.age`| // 22
 ```
 
 </div>
+
+## Module Exports
+
+All functions listed below are also available using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object O.p.
+
+```javascript
+const _ = require`|
+
+_.size`| // true
+_.find`| //true
+```
