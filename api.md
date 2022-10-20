@@ -326,7 +326,7 @@ var o = { a: 1, b: { c: 3 } }.at('b.c') // 3
 
 ## `Object..$(formatter)`
 
-Returns a string representation of `this`. If `formatter` is not specified it will return a a string based on `JSON.stringify` with all double quote and escape characters removed.
+Returns a string representation of `this`. If `formatter` is not specified it will return a a string based on `JSON.stringify(this)` with all double quote and escape characters removed.
 
 If `formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this.at(key).$()`
 
