@@ -93,8 +93,8 @@ All functions documented below are also callable with a '\_\_' prefix to the fun
 This can help ensure that the function is availble and not overwritten by other object property assignments.
 
 ```javascript
-var o = { a: 1 }.size`| //true
-var o = { a: 1 }.find`| //true
+var o = { a: 1 }.size() == { a: 1 }.__size() //true
+var o = { a: 1 }.find(v => v) == { a: 1 }.__find(v => v) //true
 ```
 
 ## Simple Classes
@@ -105,15 +105,15 @@ Any object can act as a class from which new objects can be derived. All propert
 
 ```javascript
 var Person = { firstName: 'john', lastName: 'doe' }
-  .trap`|
-  .bind`|
-  .bind`|
+  .trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
+  .bind('age', t => Math.floor((Date.now() - new Date(t.dob)) / 31536000000))
+  .bind('name', t => t.firstName + ' ' + t.lastName)
 
-var p1 = Person.new`|
-p1.name`| // 'jane doe'
+var p1 = Person.new({ firstName: 'jane' })
+p1.name() // 'jane doe'
 p1.dob = 'foobar' // Uncaught 'Invalid date [dob, foobar]'
 p1.dob = '10/10/2000'
-p1.age`| // 22
+p1.age() // 22
 ```
 
 </div>
@@ -123,8 +123,8 @@ p1.age`| // 22
 All functions listed below are also available using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object O.p.
 
 ```javascript
-const _ = require`|
+const _ = require('objix')
 
-_.size`| // true
-_.find`| //true
+_.size({ a: 1 }) == { a: 1 }.size() // true
+_.find({ a: 1 }, v => v) == { a: 1 }.find(v => v) //true
 ```
