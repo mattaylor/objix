@@ -1,4 +1,3 @@
 - [Objix Home](/)
-- [Objix API](api.md)
-- [Scratch](scratch.md 'Nothing to see here')
+- [API Docs](api.md)
 - [Benchmarks](bench.md 'Nothing to see here')
