@@ -1,4 +1,4 @@
-## **Benchmarks** <!-- {docsify-ignore} -->
+# Benchmarks <!-- {docsify-ignore} -->
 
 Performance of some common operations can be compared to lodash using the [benchmarks](bench.js) script.
 

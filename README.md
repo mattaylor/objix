@@ -1,4 +1,4 @@
-## **Objix** <!-- {docsify-ignore} -->
+# Objix <!-- {docsify-ignore} -->
 
 A dangerously convienient, high performance, zero dependency, lightweight utility `| to extend the standard library and sugar many common use cases when working with any Javascript objects.
 
@@ -10,7 +10,7 @@ These prototype methods are all non enumerable and are highly optimised with zer
 
 **NOTE:** With great power comes great responsibility and messing with Object prototypes may have unintended consequences in larger applications. However just think of all the time and key strokes you could save.
 
-### Node
+## Node Usage
 
 - Install:
 
@@ -25,7 +25,7 @@ These prototype methods are all non enumerable and are highly optimised with zer
   console.log({ a: 1 }.map(v => v + 1))
   ```
 
-### Browser
+## Browser Usage
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js"></script>
@@ -35,7 +35,7 @@ These prototype methods are all non enumerable and are highly optimised with zer
 </script>
 ```
 
-### API Overview
+## Prototype Methods
 
 | Name                              | Notes                                                                      |
 | --------------------------------- | -------------------------------------------------------------------------- |
@@ -75,7 +75,7 @@ These prototype methods are all non enumerable and are highly optimised with zer
 | [`new`](api.md#new)               |
 | [`wait`](api.md#wait)             | Create a Promise which resoves after a timeout or when callback is called. |
 
-### Chaining
+## Fluent Chaining
 
 Most of these function return objects including those modifying `this` and so can be easily chained together.
 
@@ -87,7 +87,7 @@ var o = { a: 0, b: 1, c: 2 }.clean`| // { b: 2, c: 3 }
 
 </div>
 
-### Function Aliases
+## Function Aliases
 
 All functions documented below are also callable with a '\_\_' prefix to the function name.
 This can help ensure that the function is availble and not overwritten by other object property assignments.
@@ -97,7 +97,7 @@ var o = { a: 1 }.size`| //true
 var o = { a: 1 }.find`| //true
 ```
 
-### Exported Functions
+## Module Exports
 
 All functions listed below are also available using traditional module exports, where the first argument of the function will be the object that the function is targeting as `this` if called via the object O.p.
 
@@ -108,7 +108,7 @@ _.size`| // true
 _.find`| //true
 ```
 
-### Simple Classes
+## Simple Classes
 
 Any object can act as a class from which new objects can be derived. All properties of `this` are inherited - including traps!!
 
