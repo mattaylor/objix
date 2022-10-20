@@ -194,9 +194,8 @@ Assign and overwrite entries of `this` from arguments in ascending priority and 
 
 <div data-runkit>
 
-```javascript
-var o = { a: 1, b: 1 }.assign({ b: 2, c: 2 }, { c: 3 }) // { a: 1, b: 2, c: 3 }
-```
+````javascript
+var o = { a: 0, b: 0 }.assign({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 1, b: 2, c: 2 }```
 
 </div>
 
@@ -204,14 +203,14 @@ var o = { a: 1, b: 1 }.assign({ b: 2, c: 2 }, { c: 3 }) // { a: 1, b: 2, c: 3 }
 
 ## `Object..extend(...objects)`
 
-Assigns properties into `this` from the arguments in ascending priority order. Properties of `this` are not overwritten and are assigned only if null or undefined in `this`.
+Assigns properties into `this` from the arguments in ascending priority order. Properties of `this` are assigned only if null or undefined in `this`.
 Returns `this`
 
 <div data-runkit>
 
 ```javascript
-var o = { a: 1, b: 1 }.extend({ b: 2, c: 2 }, { c: 3 }) // { a: 1, b: 1, c: 3 }
-```
+var o = { a: 0, b: 0 }.extend({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 0, b: 0, c: 2 }
+````
 
 </div>
 
