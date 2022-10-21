@@ -1,3 +1,0 @@
-- [Objix Home](/)
-- [API Docs](api.md)
-- [Benchmarks](bench.md 'Nothing to see here')
