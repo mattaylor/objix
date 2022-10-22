@@ -532,20 +532,21 @@ var o = { a: 0, b: 1 }
 
 Calls `function` with `this` as its argument in a try catch block.
 
-If `catch` is defined and an exception is thrown then the catch function will be called with the error and `this` as arguments.
-If `catch` is not defined then any exceptions will be ignored.
+If `catch` is defined and an exception is thrown the `catch` function will be called the error and `this` as arguments. Otherwise all exceptions will be ignored.
 
 If `return` is truthy, then `this` will always be returned, otherwise the results of `function` or `catch` will be returned.
 
 <div data-runkit>
 
 ```javascript
-var o = { a: 1 }.try(t => (t.a += 1)) // 2
-var o = { a: 1 }.try(t => (t.b += 1)) // 1
-var o = { a: 1 }.try(t => (t.a += 1), false, true) // { a : 2 }
-var o = { a: 1 }.try(t => (t.a.b += 1), false, true) // { a: 1 }
+var o = { a: 1 }.try(t => t.a += 1) // 2
+var o = { a: 1 }.try(t => t.b += 1) // NaN
+var o = { a: 1 }.try(t => t.b.c += 1) // Undefined
+var o = { a: 1 }.try(t => (t.a++,t) // { a: 2 }
+var o = { a: 1 }.try(t => t.a += 1, null, true) // { a : 2 }
+var o = { a: 1 }.try(t => t.b.c += 1, null, true) // { a: 1 }
 var o = { a: 1 }.try(
-  o => (o.b.c += 1),
+  t => (t.b.c += 1),
   e => e.log()
 ) // 2022-10-07T00:00 TypeError: Cannot read properties of undefined (reading 'c')
 ```
