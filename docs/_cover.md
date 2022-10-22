@@ -6,9 +6,9 @@
 
 > Enchant your javascript.
 
-- [Smaller](https://github.com/mattaylor/objix)
-- [Faster](bench)
 - [Smarter](api)
+- [Faster](bench)
+- [Smaller](https://github.com/mattaylor/objix)
 
 [GitHub](https://github.com/mattaylor/objix)
 [Get Started](/#objix)
