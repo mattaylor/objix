@@ -20,7 +20,7 @@ This library is highly optimised with zero copy operations where possible. The u
 
   ```javascript
   require('objix')
-  console.log({ a: 1 }.map(v => v + 1))
+  var o = { a: 1 }.map(v => v + 1)).log()
   ```
 
 ## Getting Started - Browser
