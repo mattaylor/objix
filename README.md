@@ -6,7 +6,7 @@ The functions are all non enumerable and include copies of Object class methods 
 
 This library is highly optimised with zero copy operations where possible. The un-minified source is only 3.6kb (2.7kb minified) which allows for fast loading and easy integration without additonal compilation or tree shaking. There is however limited type checking to guard against unwanted side effects, and there may be some undiscovered edge case that do not behave as expected. Performance in most cases is signifantly faster than `lodash` equivalents especially when working with small objects. For example `ob.map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` and some operations such as `filter` can be several thousand times quicker according to simple [benchmarks](docs/bench.md).
 
-Interactive examples are availble on https://objix.dev/#/api.
+Interactive docs and demos are availble on https://objix.dev/#/api.
 
 ## Getting Started - Node
 
