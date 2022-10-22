@@ -2,7 +2,7 @@
 
 All the methods below are assigned as members to the `Object.prototype`
 
-<div id="_map"></div>
+<div id="map"></div>
 
 ## `Object..map(function, target={})`
 
@@ -17,7 +17,7 @@ var o = { a: 1, b: 2 }.map((v, k) => (k == 'b' ? v + 1 : v)) // { a: 1, b: 3 }
 
 </div>
 
-<div id="flatMap"></div>
+<div id="flatmap"></div>
 
 ## `Object..flatMap(function)`
 
