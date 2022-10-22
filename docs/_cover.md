@@ -10,6 +10,6 @@
 - [Faster](bench)
 - [Smaller](https://github.com/mattaylor/objix)
 
-[GitHub](https://github.com/mattaylor/objix)
 [Get Started](/#objix)
 [API Docs](api)
+[GitHub](https://github.com/mattaylor/objix)
