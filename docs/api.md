@@ -528,25 +528,26 @@ var o = { a: 0, b: 1 }
 
 <div id="try"></div>
 
-## `Object..try(function, catch)`
+## `Object..try(function, catch, return)`
 
-Calls function with `this` as its argument and return the result.
-If an exception is thrown or the function returns null or undefined then `this` is returned instead.
+Calls `function` with `this` as its argument in a try catch block.
 
-If `catch` is defined and an exception is thrown then the catch function will be called with the error and `this` as arguments. If the result of the `catch` function is not null or undefined then this value will be returned instead of `this`.
+If `catch` is defined and an exception is thrown then the catch function will be called with the error and `this` as arguments.
+If `catch` is not defined then any exceptions will be ignored.
 
-If no `catch` function is defined then all exceptions will be ignored, and `this` will be returned.
+If `return` is truthy, then `this` will always be returned, otherwise the results of `function` or `catch` will be returned.
 
 <div data-runkit>
 
 ```javascript
-var o = { a: 1 }.try(o => o.a++) // 2
-var o = { a: 1 }.try(o => (o.a++, o)) // { a: 2 }
-var o = { a: 1 }.try(o => (o.a.b++, o)) // { a: 1 }
+var o = { a: 1 }.try(t => (t.a += 1)) // 2
+var o = { a: 1 }.try(t => (t.b += 1)) // 1
+var o = { a: 1 }.try(t => (t.a += 1), false, true) // { a : 2 }
+var o = { a: 1 }.try(t => (t.a.b += 1), false, true) // { a: 1 }
 var o = { a: 1 }.try(
-  o => o.a.b.c++,
+  o => (o.b.c += 1),
   e => e.log()
-) // 2022-10-07T00:00 TypeError: Cannot read properties of undefined (reading 'b')
+) // 2022-10-07T00:00 TypeError: Cannot read properties of undefined (reading 'c')
 ```
 
 </div>
@@ -600,8 +601,8 @@ o1.c = 0 // // Uncaught 'Not Positive, c, 0'
 
 Returns a new promise wrapped around `this`.
 If `defer` is a number then the promise will resolve with `this` when `defer` seconds have elapsed.
-Otherwise `defer` will be treated as a function that takes `this`, `resolve` and optionally `reject` as arguments, and the promise will resolve when `resolve` is called with the result. Any uncaught exceptions will reject the promise.
-If `defer` is async or otherwsie returns a truthy value then the promise will be resolved with that result.
+Otherwise `defer` will be treated as a function that takes `this`, and functions to `resolve` and optionally `reject` the promise. Any uncaught exceptions will reject the promise.
+If `defer` is async or otherwsie returns a truthy value then the promise will be resolved with that result, regardless of whether the the `resolve` function is called.
 
 <div data-runkit>
 
@@ -626,7 +627,7 @@ var s = (await 'https://objix.dev'.wait(fetch)).status // 200
 
 ## `Object..isEx()`
 
-Returns true if `this` is an exotic objext which extends the standard object prototype, ortherwise false if `this` is an ordinary object with a a primitive value.
+Returns true if `this` is an exotic objext which extends the standard object prototype, otherwise false if `this` is an ordinary object or primitive
 
 <div data-runkit>
 

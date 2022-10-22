@@ -87,7 +87,7 @@ const
 
   eq(o, d) {
     return this == o || o
-      && this.constructor == o.constructor
+      && this.is(o.constructor)
       && this.size() == o.size()
       && !(this-o)
       && this.every((v,k) => v == o[k] || d && v?.eq(o[k],d-1))
@@ -126,8 +126,8 @@ const
     return this
   },
 
-  try(f,c) {
-    try { return f(this) ?? this } catch(e) { return (c && c(e,this)) || this }
+  try(t,c,r,_) {
+    try { _ = t(this) } catch(e) { _ = (c && c(e,this)) } return r ? this : _
   },
 
   new (o) {
