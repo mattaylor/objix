@@ -4,11 +4,9 @@ Objix is a delightfully convienient, high performance, zero dependency, lightwei
 
 The functions are all non enumerable and include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, promisify, compare, split and join objects, memoise functions, log messages, check types and trapping/observing property assignments.
 
-These protoype methods are highly optimised with zero copy operations where possible. The un-minified source is only 3.6kb (2.7kb minified) which allows for fast loading and easy integration without additonal compilation or tree shaking steps. There is however only limited type checking to guard against unwanted side effects, and there may be some undiscovered edge case that do not behave as expected. Performance in most cases is signifantly faster than lodash equivalents especially when working with small objects. For example `ob.map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` and some operations such as `filter` can be several thousand times quicker according to simple [benchmarks](docs/bench.md).
+These protoype methods are highly optimised with zero copy operations where possible. The un-minified source is only 3.6kb (2.7kb minified) which allows for fast loading and easy integration without additonal compilation or tree shaking steps. There is however limited type checking to guard against unwanted side effects, and there may be some undiscovered edge case that do not behave as expected. Performance in most cases is signifantly faster than lodash equivalents especially when working with small objects. For example `ob.map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` and some operations such as `filter` can be several thousand times quicker according to simple [benchmarks](docs/bench.md).
 
 [API docs are available here](docs/api.md). Interactive examples are also availble on https://objix.dev/#/api.
-
-**NOTE:** With great power comes great responsibility and messing with Object prototypes may have unintended consequences in larger applications. However just think of all the time and key strokes you could save.
 
 ## Getting Started - Node
 
