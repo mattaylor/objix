@@ -1,6 +1,6 @@
 # Objix <!-- {docsify-ignore} -->
 
-Objix is a dangerously convienient, high performance, zero dependency lightweight utility to extend the javascript standard library and sugar many common use cases when working with native object.
+Objix is a delightfully convienient, high performance, zero dependency, lightweight utility which extends the javascript standard library to sugar many common use cases for working with any objects.
 
 The functions are all non enumerable and include copies of Object class methods and Array prototype methods that are applied to the values of the object as well others inspired by lodash and some extras to delete keys, stringify, promisify, compare, split and join objects, memoise functions, log messages, check types and trapping/observing property assignments.
 
