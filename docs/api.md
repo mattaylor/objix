@@ -539,12 +539,12 @@ If `return` is truthy, then `this` will always be returned, otherwise the result
 <div data-runkit>
 
 ```javascript
-var o = { a: 1 }.try(t => t.a += 1) // 2
-var o = { a: 1 }.try(t => t.b += 1) // NaN
-var o = { a: 1 }.try(t => t.b.c += 1) // Undefined
-var o = { a: 1 }.try(t => (t.a++,t) // { a: 2 }
-var o = { a: 1 }.try(t => t.a += 1, null, true) // { a : 2 }
-var o = { a: 1 }.try(t => t.b.c += 1, null, true) // { a: 1 }
+var o = { a: 1 }.try(t => (t.a += 1)) // 2
+var o = { a: 1 }.try(t => (t.b += 1)) // NaN
+var o = { a: 1 }.try(t => (t.b.c += 1)) // Undefined
+var o = { a: 1 }.try(t => (t.a++, t)) // { a: 2 }
+var o = { a: 1 }.try(t => (t.a += 1), null, true) // { a : 2 }
+var o = { a: 1 }.try(t => (t.b.c += 1), null, true) // { a: 1 }
 var o = { a: 1 }.try(
   t => (t.b.c += 1),
   e => e.log()
