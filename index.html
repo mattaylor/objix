@@ -85,6 +85,10 @@
   <script>
     window.$docsify = {
       basePath: '/docs/',
+      _relativePath: true,
+      alias: { 
+        '/docs/(.*)': '$1'
+      },
       homepage: '../README.md',
       coverpage: '_cover.md',
       _logo: 'logo.png',

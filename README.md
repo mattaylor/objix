@@ -71,7 +71,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`bind`](docs/api.md#bind)             | Assign a function as a method of `this` with optional memoization                           |
 | [`log`](docs/api.md#log)               | Conditionally write `this` to the console with an optional message                          |
 | [`try`](docs/api.md#try)               | Call a function against `this` and catch any exceptions                                     |
-| [`trap`](trap.md#trap)                 | Create a proxy around `this` to intercept property assignments                              |
+| [`trap`](docs/trap.md#trap)            | Create a proxy around `this` to intercept property assignments                              |
 | [`new`](docs/api.md#new)               | Create a new object from another using `this` as a prototype, including traps               |
 | [`wait`](docs/api.md#wait)             | Create a Promise which resolves `this` after a timeout or as determined by another function |
 | [`isEx()`](docs/api.md#isex)           | Check if `this` is exotic and not an ordinary object or primitive.                          |
