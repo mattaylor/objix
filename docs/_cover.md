@@ -8,7 +8,7 @@
 
 - [Smaller](https://github.com/mattaylor/objix)
 - [Faster](bench)
-- [Richer](api)
+- [Smarter](api)
 
 [GitHub](https://github.com/mattaylor/objix)
 [Get Started](/#objix)
