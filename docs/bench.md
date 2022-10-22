@@ -1,6 +1,6 @@
 # Benchmarks <!-- {docsify-ignore} -->
 
-Performance of some common operations can be compared to lodash using the [benchmarks](bench.js) script.
+Performance of some common operations can be compared to lodash using the [benchmarks](../bench.js) script.
 
 ```bash
 > node bench <iterations=1000> <heats=100> <simple=10> <complex=1>

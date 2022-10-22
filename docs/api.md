@@ -623,3 +623,24 @@ var s = (await 'https://objix.dev'.wait(fetch)).status // 200
 
 </div>
 ````
+
+## `Object..isEx()`
+
+Returns true if `this` is an exotic objext which extends the standard object prototype, ortherwise false if `this` is an ordinary object with a a primitive value.
+
+<div data-runkit>
+
+```javascript
+var n = 1
+var s = ''
+var o = {}
+var a = []
+var d = new Date()
+n.isEx() // false
+s.isEx() // false
+o.isEx() // false
+a.isEx() // true
+d.isEx() // true
+```
+
+</div>

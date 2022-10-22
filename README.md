@@ -76,6 +76,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`trap`](trap.md#trap)            | Create a proxy around `this` to intercept property assignments                                    |
 | [`new`](api.md#new)               | Create a new object using `this` as a prototype.                                                  |
 | [`wait`](api.md#wait)             | Create a Promise around `this` which resolves after a timeout or when called by another function. |
+| [`isEx()`](api.md#isex)           | Chaeck if `this` is exotic or primitive.                                                          |
 
 ## Fluent Method Chaining
 

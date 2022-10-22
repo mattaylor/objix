@@ -37,7 +37,7 @@ const
   },
 
   is(t, i) {
-    return t == O ? !i && ![Number,String,Boolean,Function,Symbol].includes(this.constructor)
+    return (!i && t == O) ? ![Number,String,Boolean,Function,Symbol].includes(this.constructor)
       : this.constructor == t || !i && this instanceof t
   },
 
@@ -148,6 +148,10 @@ const
         return {_t:t, _h:this}[k] || t[k]
       }
     })
+  },
+
+  isEx () {
+    return this.is(O) && !this.is(O,1)
   }
 }
 
