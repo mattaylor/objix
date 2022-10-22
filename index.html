@@ -84,26 +84,17 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
-      basePath: '/docs/',
-      _relativePath: true,
-      alias: { 
-        '/docs/(.*)': '$1'
-      },
-      homepage: '../README.md',
-      coverpage: '_cover.md',
-      _logo: 'logo.png',
-      name: '<div id="name"><img class="logo" src="docs/objin.png">Objix<div>',
+      relativePath: true,
+      homepage: 'README.md',
+      coverpage: 'docs/_cover.md',
+      name: '<div id="name"><img class="logo" src="/docs/objin.png">Objix<div>',
       _name: '<div id="name"><img class="logo" src="https://static.thenounproject.com/png/258024-200.png">Objix<div>',
-      _logo: 'https://cdn3.iconfinder.com/data/icons/mythical-creatures/300/24-512.png',
-      _logo: 'https://cdn3.iconfinder.com/data/icons/mythical-creatures-outlines/300/24-512.png',
-      _logo: 'https://cdn3.iconfinder.com/data/icons/mythical-creatures/300/24-256.png',
-      _logo: 'https://static.thenounproject.com/png/258024-200.png',
       repo: 'https://github.com/mattaylor/objix',
       subMaxLevel: 4,
       autoToTop: true,
       maxLevel:4,
-      loadNavbar : true,
-      loadSidebar: '_navbar.md',
+      loadNavbar : 'docs/_navbar.md',
+      loadSidebar: 'docs/_navbar.md',
       topMargin: 50,
       search: {
         depth: 5,
@@ -127,6 +118,8 @@
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+<!--
+--> 
   <script src="https://cdn.jsdelivr.net/npm/docsify-plugin-runkit@1"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/js/docsify-themeable.min.js"></script>
   <script src="https://unpkg.com/docsify-copy-code@2"></script>

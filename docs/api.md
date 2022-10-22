@@ -98,7 +98,7 @@ var o = { a: 1 }.entries() // [[a, 1]]
 
 True if `this` is an instance of `type`.
 
-<div data-runkit>
+<div _data-runkit>
 
 ```javascript
 var a = []
@@ -245,7 +245,7 @@ var o = { a: 1, b: 2 }.diff({ a: 2, b: 2 }) // { a: 1 }
 
 <div id="delete"></div>
 
-## `Object..delete(...keys)` :id=hello-world
+## `Object..delete(...keys)` <!--:id=hello -->
 
 Return `this` with entries deleted where the key is included in arguemnts.
 
