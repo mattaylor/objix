@@ -67,8 +67,7 @@ const
     return r
   },
 
-  split() {
-    let r = []
+  split(r=[]) {
     for (let k in this) this[k].map((v,i) => r[i] ? r[i][k] = v : r[i] = {[k]: v})
     return r
   },
@@ -149,7 +148,7 @@ const
       }
     })
   },
-  
+ 
   isEx () {
     return this.is(O) && !this.is(O,1)
   }

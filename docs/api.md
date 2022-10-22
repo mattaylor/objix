@@ -382,14 +382,14 @@ var o = { a: 1 }.join({ a: 2 }, { a: 3 }) // { a: [ 1, 2, 3 ]}
 
 <div id="split"></div>
 
-## `Object..split()`
+## `Object..split(array=[])`
 
-Return Array of new objects for each value in each entry of `this` with a value array
+Split `this` into an array of similar objects containing values corresponding to same indexed entry `this` if the entry is an array.
 
 <div data-runkit>
 
 ```javascript
-var o = { a: [1, 2] }.split() // [{ a: 1 }, { a: 2 }]
+var o = { a: [1, 2], b: [1, 3] }.split() // [{ a: 1, b: 1 }, { a: 2, b: 2 }]
 ```
 
 </div>
