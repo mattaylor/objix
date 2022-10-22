@@ -245,7 +245,7 @@ var o = { a: 1, b: 2 }.diff({ a: 2, b: 2 }) // { a: 1 }
 
 <div id="delete"></div>
 
-## `Object..delete(...keys)`
+## `Object..delete(...keys)` :id=hello-world
 
 Return `this` with entries deleted where the key is included in arguemnts.
 
