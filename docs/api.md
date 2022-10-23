@@ -98,7 +98,7 @@ var o = { a: 1 }.entries() // [[a, 1]]
 
 True if `this` is an instance of `type`.
 
-<div _data-runkit>
+<div data-runkit>
 
 ```javascript
 var a = []
@@ -471,9 +471,10 @@ Returns a memoized wrapper around `this` as a function such that any calls to `t
 
 ```javascript
 var nowish = (() => new Date()).memo(1)
-nowish() // 2022-10-17T00:01:00.364Z
-nowish() // 2022-10-17T00:01:00.364Z
-setTimeout(() => nowish(), 1000) // 2022-10-17T00:01:01.565Z
+var logNow = i => console.log(i + ' time is ' + nowish().toLocaleTimeString())
+logNow(1) // "1 time is 1:5:07:06 PM"
+logNow(2) // "2 time is 1:5:07:06 PM"
+setTimeout(() => logNow(3), 1000) // "3 time is 1:5:07:07 PM"
 ```
 
 </div>
