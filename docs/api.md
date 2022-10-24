@@ -2,9 +2,9 @@
 
 All the methods below are assigned as members to the `Object.prototype`
 
-<div id="map"></div>
-
 ## `Object..map(function, target={})`
+
+<a id="map"></a>
 
 Returns `target` including all the keys of `this` with `function` applied to each value. Function takes value and key as arguments.
 
@@ -17,9 +17,9 @@ var o = { a: 1, b: 2 }.map((v, k) => (k == 'b' ? v + 1 : v)) // { a: 1, b: 3 }
 
 </div>
 
-<div id="flatmap"></div>
-
 ## `Object..flatMap(function)`
+
+<a id="flatmap"></a>
 
 Returns a new object based on `this` but which may have a different set of properties. The `function` is applied to each entry of `this` and is expected to return an array of zero or more key,value entry pairs (eg `[[k1,v1],[k2,v2],..]`) which are then used to build the new object which is returned.
 
@@ -35,9 +35,7 @@ var o = { a: 1, b: 0 }.flatMap((k, v) => (v ? [[k, v + 1]] : [])) // { a: 2 }
 
 </div>
 
-<div id="values"></div>
-
-## `Object..values()`
+## `Object..values()` <a id="values"></a>
 
 Object.values(`this`)
 
@@ -49,9 +47,7 @@ var o = { a: 1 }.values() // [1]
 
 </div>
 
-<div id="create"></div>
-
-## `Object..create()`
+## `Object..create()` <a id="create"></a>
 
 Object.create(`this`)
 
@@ -64,9 +60,7 @@ o.a // 1
 
 </div>
 
-<div id="keys"></div>
-
-## `Object..keys()`
+## `Object..keys()` <a id="keys"></a>
 
 Object.keys(`this`)
 
@@ -78,9 +72,7 @@ var o = { a: 1 }.keys() // ['a']
 
 </div>
 
-<div id="entries"></div>
-
-## `Object..entries()`
+## `Object..entries()` <a id="entries"></a>
 
 Object.entries(`this`)
 
@@ -92,43 +84,36 @@ var o = { a: 1 }.entries() // [[a, 1]]
 
 </div>
 
-<div id="is"></div>
-
-## `Object..is(type)`
+## `Object..is(type)` <a id="is"></a>
 
 True if `this` is an instance of `type`.
 
 <div data-runkit>
 
 ```javascript
-var a = []
-var s = ''
-var n = 1
-var o = {}
-var d = new Date()
-var b = false
-var f = () => 0
+var t = { a: [], s: '', n: 1, o: {}, d: new Date(), b: false, f: () => 0 }
 class Class1 {}
 class Class2 extends Class1 {}
-var c = new Class2()
-s.is(String) // true
-a.is(Array) // true
-a.is(Object) // true
-f.is(Function) // true
-f.is(Object) // false
-d.is(Date) // true
-d.is(Object) // true
-n.is(Number) // true
-b.is(Boolean) // true
-c.is(Class1) // true
-c.is(Class2) // true
-c.is(Object) // true
-o.is(Object) // true
+t.c = new Class2()
+t.s.is(String) // true
+t.s.is(Object) // false
+t.a.is(Array) // true
+t.a.is(Object) // true
+t.f.is(Function) // true
+t.f.is(Object) // false
+t.o.is(Object) // true
+t.d.is(Date) // true
+t.d.is(Object) // false
+t.n.is(Number) // true
+t.b.is(Boolean) // true
+t.c.is(Class1) // true
+t.c.is(Class2) // true
+t.c.is(Object) // true
 ```
 
 </div>
 
-## `Object..[@@iterator]`
+## `Object..[@@iterator]` <a id="iter"></a>
 
 Iterate through the values of `this`
 
@@ -140,9 +125,7 @@ for (var v of { a: 1 }) console.log(v) // 1
 
 </div>
 
-<div id="clean"></div>
-
-## `Object..clean()`
+## `Object..clean()` <a id="clean"></a>
 
 Return a new object like `this` with falsy entry values removed
 
@@ -154,9 +137,7 @@ var o = { a: 1, b: null, c: false, d: 0, e: '' }.clean() // { a: 1 }
 
 </div>
 
-<div id="filter"></div>
-
-## `Object..filter(function, target={})`
+## `Object..filter(function, target={})` <a id="filter"></a>
 
 Returns `target` including all entries of `this` for which the the supplied function returns truthy. Function takes value and key as arguments.
 
@@ -170,9 +151,7 @@ var o = { a: 1, b: 2 }.filter(v => v > 2) // {}
 
 </div>
 
-<div id="find"></div>
-
-## `Object..find(function)`
+## `Object..find(function)` <a id="find"></a>
 
 Return first key of `this` where value passes function
 Function takes value and key as arguments.
@@ -186,9 +165,7 @@ var o = { a: 1, b: 2 }.find(v => v > 2) // null
 
 </div>
 
-<div id="assign"></div>
-
-## `Object..assign(...objects)`
+## `Object..assign(...objects)` <a id="assign"></a>
 
 Assign and overwrite entries of `this` from arguments in ascending priority and return `this`.
 
@@ -200,9 +177,7 @@ var o = { a: 0, b: 0 }.assign({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 1, b: 2, c
 
 </div>
 
-<div id="extend"></div>
-
-## `Object..extend(...objects)`
+## `Object..extend(...objects)` <a id="extend"></a>
 
 Assigns properties into `this` from the arguments in ascending priority order. Properties of `this` are assigned only if null or undefined in `this`.
 Returns `this`
@@ -215,9 +190,7 @@ var o = { a: 0, b: 0 }.extend({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 0, b: 0, c
 
 </div>
 
-<div id="same"></div>
-
-## `Object..same(object)`
+## `Object..same(object)` <a id="same"></a>
 
 Return a new object with entries of `this` that are present in the supplied object with equal value
 
@@ -229,9 +202,7 @@ var o = { a: 1, b: 2 }.same({ a: 2, b: 2 }) // { b: 2 }
 
 </div>
 
-<div id="diff"></div>
-
-## `Object..diff(object)`
+## `Object..diff(object)` <a id="diff"></a>
 
 Return new object with entries of `this` that are not present in the supplied object with equal value
 
@@ -243,9 +214,7 @@ var o = { a: 1, b: 2 }.diff({ a: 2, b: 2 }) // { a: 1 }
 
 </div>
 
-<div id="delete"></div>
-
-## `Object..delete(...keys)` <!--:id=hello -->
+## `Object..delete(...keys)` <a id="delete"></a>
 
 Return `this` with entries deleted where the key is included in arguemnts.
 
@@ -257,9 +226,7 @@ var o = { a: 1, b: 2, c: 3 }.delete('a', 'b') // { c: 3 }
 
 </div>
 
-<div id="some"></div>
-
-## `Object..some(function)`
+## `Object..some(function)` <a id="some"></a>
 
 True if any entry of `this` passes function.
 Function takes value and key as arguments.
@@ -273,9 +240,7 @@ var o = { a: 1, b: 2 }.some(v => v > 2) // false
 
 </div>
 
-<div id="every"></div>
-
-## `Object..every(function)`
+## `Object..every(function)` <a id="every"></a>
 
 True if all entries pass function.
 Function takes value and key as arguments.
@@ -289,9 +254,7 @@ var o = { a: 1, b: 2 }.every(v => v > 1) // false
 
 </div>
 
-<div id="has"></div>
-
-## `Object..has(value)`
+## `Object..has(value)` <a id="has"></a>
 
 Returns first key of `this` where the value equals the argument, otherwise undefined.
 
@@ -306,9 +269,7 @@ var o = { a: 1, b: 2 }.has(0) // undefined
 
 </div>
 
-<div id="at"></div>
-
-## `Object..at(path)`
+## `Object..at(path)` <a id="at"></a>
 
 Return the property of `this` at `path`. If `path` is string containing `.` delimited keys then the `this` will be traversed accordingly. E.G `o.at('k1.k2')` will return `o.k1.k2`
 
@@ -322,9 +283,7 @@ var o = { a: 1, b: { c: 3 } }.at('b.c') // 3
 
 </div>
 
-<div id="fmt"></div>
-
-## `Object..$(formatter)`
+## `Object..$(formatter)` <a id="fmt"></a>
 
 Returns a string representation of `this`. If `formatter` is not specified it will return a a string based on `JSON.stringify(this)` with all double quote and escape characters removed.
 
@@ -344,9 +303,7 @@ var o = { a: 1, b: { c: 2 } }.$('b is $b and b.c is ${b.c}') // 'b is {c:2} and 
 
 </div>
 
-<div id="clone"></div>
-
-## `Object..clone(depth)`
+## `Object..clone(depth)` <a id="clone"></a>
 
 Return new object with entries cloned from `this`.
 Nested objects are also cloned to specified depth (-1 = any depth)
@@ -366,9 +323,7 @@ o3 // { a: 1, b: { c: 1 }}
 
 </div>
 
-<div id="join"></div>
-
-## `Object..join(...objects)`
+## `Object..join(...objects)` <a id='join'></a>
 
 Return a new Object with the same keys as `this` and some values as arrays which concatenate the original value of `this` with values from all of the arguments having the same key.
 
@@ -380,9 +335,7 @@ var o = { a: 1 }.join({ a: 2 }, { a: 3 }) // { a: [ 1, 2, 3 ]}
 
 </div>
 
-<div id="split"></div>
-
-## `Object..split(array=[])`
+## `Object..split(array=[])` <a id="split"></a>
 
 Split `this` into an array of similar objects containing values corresponding to same indexed entry `this` if the entry is an array.
 
@@ -394,9 +347,7 @@ var o = { a: [1, 2], b: [1, 3] }.split() // [{ a: 1, b: 1 }, { a: 2, b: 2 }]
 
 </div>
 
-<div id="contains"></div>
-
-## `Object..contains(object, depth)`
+## `Object..contains(object, depth)` <a id="contains"></a>
 
 True if all entries of argument are also in `this`. May recurse to a given depth (-1 = any depth)
 
@@ -411,9 +362,7 @@ var o = { a: 1, b: [{ c: 1 }] }.contains({ c: 1 }, 2) // true
 
 </div>
 
-<div id="eq"></div>
-
-## `Object..eq(object, depth)`
+## `Object..eq(object, depth)` <a id="eq"></a>
 
 True if all entries of `this` equal the argument and argument has no other entries
 May recurse to a given depth (-1 for any depth)
@@ -429,7 +378,7 @@ var o = { a: 1, b: { c: 1 } }.eq({ a: 1, b: { c: 1 } }, 1) // true
 
 </div>
 
-<div id="size"></div>
+<a id="size"></a>
 
 ## `Object..size()`
 
@@ -445,9 +394,7 @@ var o = { a: 1, b: 2 }.size() // 2
 
 </div>
 
-<div id="keyBy"></div>
-
-## `Object..keyBy(array, key)`
+## `Object..keyBy(array, key)` <a id="keyBy"></a>
 
 Index an array of objects into `this` using the given key, and return `this`.
 
@@ -461,9 +408,7 @@ o // { o1: { a: 'o1' }, o2: [{ a: 'o2', b: 1 }, { a: 'o2' }]
 
 </div>
 
-<div id="memo"></div>
-
-## `Object..memo(expires)`
+## `Object..memo(expires)` <a id="memo"></a>
 
 Returns a memoized wrapper around `this` as a function such that any calls to `this` with the same set of arguments within `expires` seconds will return the first cached result, without re-executing the function. Cached results are indexed by the `$()` representation of the arguments the function was orignally called with and are automatically removed after `expires` seconds have elapsed.
 
@@ -479,9 +424,7 @@ setTimeout(() => logNow(3), 1000) // "3 time is 1:5:07:07 PM"
 
 </div>
 
-<div id="bind"></div>
-
-## `Object..bind(key, function, expires)`
+## `Object..bind(key, function, expires)` <a id="bind"></a>
 
 Binds a function to `this` as a non enumerable property using the given key. When called `this` will be applied as the **last** argument.
 
@@ -503,9 +446,7 @@ setTimeout(() => o.nowish(), 1000) // 2022-10-17T00:01:01.565Z
 
 </div>
 
-<div id="log"></div>
-
-## `Object..log(msg, test, type='log')`
+## `Object..log(msg, test, type='log')` <a id="log"></a>
 
 Prints a shallow clone of `this` to the console together with a minute timestamp and an optional msg.
 If a `test` function is provided then logging will only be triggered if the test function returns truthy when called with with `this` as its first argument.
@@ -527,9 +468,7 @@ var o = { a: 0, b: 1 }
 
 </div>
 
-<div id="try"></div>
-
-## `Object..try(function, catch, return)`
+## `Object..try(function, catch, return)` <a id="try"></a>
 
 Calls `function` with `this` as its argument in a try catch block.
 
@@ -554,9 +493,7 @@ var o = { a: 1 }.try(
 
 </div>
 
-<div id="trap"></div>
-
-## `Object..trap(function, error, ...keys)`
+## `Object..trap(function, error, ...keys)` <a id="trap"></a>
 
 Returns a proxy of `this` which traps property assignments using the supplied function. The function takes `val`, `key` and `this` as arguments.
 If the function returns falsey and an error message is supplied then an exception will be thrown.
@@ -580,9 +517,7 @@ o // { a: 1, b: 2, sum: 3 }
 
 </div>
 
-<div id="new"></div>
-
-## `Object..new(object)`
+## `Object..new(object)` <a id="new"></a>
 
 Create a new object using `this` as its protoype with additonal properties assigned from the argument. If traps have been defined for `this`, then the new object will also be a Proxy with the same trap handlers but will target a new object which uses `this` as its Object..
 
@@ -597,9 +532,7 @@ o1.c = 0 // // Uncaught 'Not Positive, c, 0'
 
 </div>
 
-<div id="wait"></div>
-
-## `Object..wait(defer)`
+## `Object..wait(defer)` <a id="wait"></a>
 
 Returns a new promise wrapped around `this`.
 If `defer` is a number then the promise will resolve with `this` when `defer` seconds have elapsed.
@@ -625,25 +558,20 @@ var s = (await 'https://objix.dev'.wait(fetch)).status // 200
 ```
 
 </div>
-````
 
-## `Object..isEx()`
+## `Object..isEx()` <a id=isex></a>
 
 Returns true if `this` is an exotic objext which extends the standard object prototype, otherwise false if `this` is an ordinary object or primitive
 
 <div data-runkit>
 
 ```javascript
-var n = 1
-var s = ''
-var o = {}
-var a = []
-var d = new Date()
-n.isEx() // false
-s.isEx() // false
-o.isEx() // false
-a.isEx() // true
-d.isEx() // true
+var t = { n: 1, s:'', o = {}, a = [], d = new Date() }
+t.n.isEx() // false
+t.s.isEx() // false
+t.o.isEx() // false
+t.a.isEx() // true
+t.d.isEx() // true
 ```
 
 </div>
