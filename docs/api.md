@@ -2,9 +2,7 @@
 
 All the methods below are assigned as members to the `Object.prototype`
 
-## `Object..map(function, target={})`
-
-<a id="map"></a>
+## <a id="map"></a> `Object..map(function, target={})`
 
 Returns `target` including all the keys of `this` with `function` applied to each value. Function takes value and key as arguments.
 
@@ -17,7 +15,7 @@ var o = { a: 1, b: 2 }.map((v, k) => (k == 'b' ? v + 1 : v)) // { a: 1, b: 3 }
 
 </div>
 
-## `Object..flatMap(function)` <a id="flatmap"></a>
+## <a id="flatmap"></a> `Object..flatMap(function)`
 
 Returns a new object based on `this` but which may have a different set of properties. The `function` is applied to each entry of `this` and is expected to return an array of zero or more key,value entry pairs (eg `[[k1,v1],[k2,v2],..]`) which are then used to build the new object which is returned.
 
