@@ -84,9 +84,9 @@ Most of these function return objects including those modifying `this` and so ca
 ```javascript
 var o = { a: 0, b: 1, c: 2 }
   .filter(v => v > 0)
-  .log('POISITVES') // 2022-10-07T00:00 POSITIVE { b: 1, c: 2 }
+  .log('POSITIVE') // 2022-10-07T00:00 POSITIVE { b: 1, c: 2 }
   .map(v => v + 1)
-  .log('INCREMENT') // 2022-10-07T00:00 POSITIVE { b: 2, c: 3 }
+  .log('INCREMENT') // 2022-10-07T00:00 INCREMENT { b: 2, c: 3 }
 ```
 
 </div>
