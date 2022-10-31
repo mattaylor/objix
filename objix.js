@@ -148,10 +148,6 @@ const
       }
     })
   },
- 
-  isEx () {
-    return this.is(O) && !this.is(O,1)
-  }
 }
 
 for (let m of ['keys','values','entries','create','assign']) M[m] = function(...a) {
