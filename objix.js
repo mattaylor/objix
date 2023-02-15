@@ -121,7 +121,7 @@ const
   },
 
   log(m='', f, c='log') {
-    (!f || f(this)) && console[c](new Date().$().slice(0,-8), m, this.clone())
+    (!f || f(this)) && console[c](new Date(), m, this.clone())
     return this
   },
 
