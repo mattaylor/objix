@@ -1,7 +1,8 @@
 const
-  O = Object,
-  K = O.keys,
-  A = O.assign,
+  O = Object
+  C = 'constructor'
+  K = O.keys
+  A = O.assign
   M = {
 
   every(f) {
@@ -37,8 +38,8 @@ const
   },
 
   is(t, i) {
-    return (!i && t == O) ? ![Number,String,Boolean,Function,Symbol].includes(this.constructor)
-      : this.constructor == t || !i && this instanceof t
+    return (!i && t == O) ? ![Number,String,Boolean,Function,Symbol].includes(this[C])
+      : this[C] == t || !i && this instanceof t
   },
 
   find(f) {
@@ -56,9 +57,9 @@ const
 
   clone(d) {
     return !this.is(O) ? this.valueOf()
-      : this.constructor == Array ? this.map(v => (d && v) ? v.clone(d-1) : v)
-      : this.size() ? this.map(v => (d && v) ? v.clone(d-1) : v, new this.constructor)
-      : new this.constructor(this)
+      : this[C] == Array ? this.map(v => (d && v) ? v.clone(d-1) : v)
+      : this.size() ? this.map(v => (d && v) ? v.clone(d-1) : v, new this[C])
+      : new this[C](this)
   },
 
   join(...a) {
@@ -86,7 +87,7 @@ const
 
   eq(o, d) {
     return this == o || o
-      && this.is(o.constructor)
+      && this.is(o[C])
       && this.size() == o.size()
       && !(this-o)
       && this.every((v,k) => v == o[k] || d && v?.eq(o[k],d-1))
