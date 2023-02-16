@@ -1,8 +1,8 @@
 const
-  O = Object
-  C = 'constructor'
-  K = O.keys
-  A = O.assign
+  O = Object,
+  C = 'constructor',
+  K = O.keys,
+  A = O.assign,
   M = {
 
   every(f) {
@@ -122,7 +122,7 @@ const
   },
 
   log(m='', f, c='log') {
-    (!f || f(this)) && console[c](new Date(), m, this.clone())
+    (!f || f(this)) && console[c](Date().slice(4,24), m, this.clone())
     return this
   },
 
