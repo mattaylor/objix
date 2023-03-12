@@ -109,7 +109,7 @@ const
   $(s) {
     return s ? s.is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this.at(p).$())
       : (s.stringify || s)(this)
-      : this.$(JSON).replace(/["\\]/g,'')
+      : this.$(JSON).replace(/"(\w+)":/g,'$1:')
   },
 
   memo(e) {
