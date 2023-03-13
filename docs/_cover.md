@@ -2,7 +2,7 @@
 
 ![logo](/docs/objin.png)
 
-# objix <small>1.11.6</small>
+# objix <small>1.11.9</small>
 
 > Enchant your javascript.
 
