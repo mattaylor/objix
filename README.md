@@ -92,12 +92,12 @@ var o = { a: 0, b: 1, c: 2 }
 
 ## Function Aliases
 
-All functions documented below are also callable with a '\_\_' prefix to the function name.
+All functions documented below are also callable with a '\_' prefix to the function name.
 This can help ensure that the function is callable when overwritten by other object property assignments.
 
 ```javascript
-var o = { a: 1 }.size() == { a: 1 }.__size() //true
-var o = { a: 1 }.find(v => v) == { a: 1 }.__find(v => v) //true
+var o = { a: 1 }.size() == { a: 1 }._size() //true
+var o = { a: 1 }.find(v => v) == { a: 1 }._find(v => v) //true
 ```
 
 ## Simple Classes

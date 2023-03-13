@@ -8,7 +8,7 @@ let o4 = { a: 2, b: 2, c: 3, d: 4}
 
 
 console.assert(o1.eq({a: 1}), 'Equals')
-console.assert(o1.__eq({a: 1}), '_Equals')
+console.assert(o1._eq({a: 1}), '_Equals')
 console.assert(!o1.eq({a: 2}), '!Equals')
 
 console.assert({a:1}.eq({a: 1}), 'Equals')
@@ -27,65 +27,65 @@ console.assert(!'string'.eq(''), '!Equals (String)')
 
 
 console.assert(o2.contains(o1), 'Contains')
-console.assert(o2.__contains(o1), '_Contains')
+console.assert(o2._contains(o1), '_Contains')
 console.assert(!o1.contains(o2), '!Contains')
 
 console.assert(o1.map(_ => _+1).a === 2, 'Map')
-console.assert(o1.__map(_ => _+1).a === 2, '_Map')
+console.assert(o1._map(_ => _+1).a === 2, '_Map')
 console.assert(o1.map(_ => _+1).a != o1.a, '!Map')
 
 //console.assert(o1.apply(_ => _-1) && o1.a === 0, 'Apply')
 
 console.assert(o2.find(_ => _ > 1) === 'b', 'Find')
-console.assert(o2.__find(_ => _ > 1) === 'b', '_Find')
+console.assert(o2._find(_ => _ > 1) === 'b', '_Find')
 console.assert(!o2.find(_ => _ > 3), '!Find')
 
 console.assert(o3.filter(_ => _ < 3).eq({ a: 2, b: 2 }), 'Filter')
-console.assert(o3.__filter(_ => _ < 3).eq({ a: 2, b: 2 }), '_Filter')
+console.assert(o3._filter(_ => _ < 3).eq({ a: 2, b: 2 }), '_Filter')
 console.assert(o3.filter(_ => _ < 0).eq({}), '!Filter')
 
 console.assert({a:1,b:2}.same({b:2,c:3}).eq({b:2}), 'Common')
-console.assert({a:1,b:2}.__same({b:2,c:3}).eq({b:2}), '_Common')
+console.assert({a:1,b:2}._same({b:2,c:3}).eq({b:2}), '_Common')
 console.assert({a:1,b:2}.same({b:3}).eq({}), '!Common')
 
 console.assert({a:1}.size() == 1, 'Size')
-console.assert({a:1}.__size() == 1, '_Size')
+console.assert({a:1}._size() == 1, '_Size')
 console.assert(!{}.size(), '!Size')
 
 console.assert(o3.assign({d:4}).eq(o4) && o3.eq(o4), 'Assign')
-console.assert(o3.__assign({d:4}).eq(o4) && o3.eq(o4), '_Assign')
+console.assert(o3._assign({d:4}).eq(o4) && o3.eq(o4), '_Assign')
 
 //console.assert(o3.patch({d:4}) && o3.eq(o4), 'Patch')
-//console.assert(o3.__patch({d:4}) && o3.eq(o4), '_Patch')
+//console.assert(o3._patch({d:4}) && o3.eq(o4), '_Patch')
 
 console.assert(o3.delete('d','c','b') && o3.eq({a:2}), 'Delete')
-console.assert(o3.__delete('d','c','b') && o3.eq({a:2}), '_Delete')
+console.assert(o3._delete('d','c','b') && o3.eq({a:2}), '_Delete')
 console.assert(o3.delete('d','c','b') && !o3.eq({d:2}), '!Delete')
 
 console.assert(o4.clone().eq(o4), 'Clone 1', o4)
 let c0 = {a:1, b:{c:{d:1}}}.clone(-1)
 console.assert(c0.eq({a:1,b:{c:{ d:1}}}, -1), 'Clone 2', c0)
-console.assert(o4.__clone().eq(o4), '_Clone')
+console.assert(o4._clone().eq(o4), '_Clone')
 
 console.assert(o4.clone() != o4, '!Clone', o4)
 
 console.assert({a:1}.join({a:2}).a[1] == 2, 'Join')
-console.assert({a:1}.__join({a:2}).a[1] == 2, '_Join')
+console.assert({a:1}._join({a:2}).a[1] == 2, '_Join')
 
 console.assert({a: [1,2]}.split(), 'Split')
-console.assert({a: [1,2]}.__split(), '_Split')
+console.assert({a: [1,2]}._split(), '_Split')
 
 let r = {a: 1}.flatMap((k,v) => [[k+1, v+1],[k+2, v+2]])
 console.assert(r.eq({a1: 2, a2: 3}), 'FlatMap', r)
 
-let _r = {a: 1}.__flatMap((k,v) => [[k+1, v+1],[k+2, v+2]])
+let _r = {a: 1}._flatMap((k,v) => [[k+1, v+1],[k+2, v+2]])
 console.assert(_r.eq({a1: 2, a2: 3}), '_FlatMap', _r)
 
 console.assert({a: 0, b: 2, c: null}.clean().eq({b:2}), 'Clean')
-console.assert({a: 0, b: 2, c: null}.__clean().eq({b:2}), '_Clean')
+console.assert({a: 0, b: 2, c: null}._clean().eq({b:2}), '_Clean')
 
 console.assert([].is(Array), 'isArray')
-console.assert([].__is(Array), '_isArray')
+console.assert([]._is(Array), '_isArray')
 console.assert(!{}.is(Array), '!isArray')
 
 console.assert({a:1, b:1}.eq({a:1, b:[1]}), 'Equals Array')
@@ -94,20 +94,20 @@ console.assert({a:1, b:[1,2]}.eq({a:1, b:[1,2]}, true), 'Deep Equals Array')
 console.assert(!{a:1, b:{c:1}}.eq({a:1, b:{c:2}}, true), '!Deep Equals Object')
 console.assert({a:1, b:{c:1}}.eq({a:1, b:{c:1}}, true), 'Deep Equals Object')
 console.assert({a:1, b:[{c:1}, {c:2}]}.eq({a:1, b:[{c:1}, {c:2}]}, -1), 'Deep Equals Mixed')
-console.assert({a:1, b:[{c:1}, {c:2}]}.__eq({a:1, b:[{c:1}, {c:2}]}, -1), '_Deep Equals Mixed')
+console.assert({a:1, b:[{c:1}, {c:2}]}._eq({a:1, b:[{c:1}, {c:2}]}, -1), '_Deep Equals Mixed')
 
 console.assert({a:1, b:2}.some(v => v > 1), 'Some')
-console.assert({a:1, b:2}.__some(v => v > 1), '_Some')
+console.assert({a:1, b:2}._some(v => v > 1), '_Some')
 console.assert(!{a:1, b:2}.some(v => v > 2),'!Some')
 
 console.assert({a:1, b:2}.every(v => v > 0), 'Every')
-console.assert({a:1, b:2}.__every(v => v > 0), '_Every')
+console.assert({a:1, b:2}._every(v => v > 0), '_Every')
 console.assert(!{a:1, b:2}.every(v => v > 1),'!Every')
 
 let x = {}.keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
 console.assert(x.eq({ o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]}, -1), 'KeyBy')
 
-let _x = {}.__keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
+let _x = {}._keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
 console.assert(x.eq({ o1: { a: 'o1' }, o2: [ { a: 'o2', b: 1 }, { a: 'o2' } ]}, -1), '_KeyBy')
 
 let _y = { a: 1, b: 2 }

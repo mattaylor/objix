@@ -126,7 +126,7 @@ const
     try { _ = t(this) } catch(e) { _ = (c && c(e,this)) } return r ? this : _
   },
 
-  new (o) {
+  new(o) {
     return this._t ? new Proxy(this._t.new(o), this._h) : A(this.create(),o)
   },
 
@@ -137,7 +137,7 @@ const
   trap(f, e, ...p) {
     return new Proxy(this, {
       set(t,k,v) {
-        if ((!p[0] || p.__find(k)) && !f(v,k,t) && e) throw(e+' '+[k,v].$())
+        if ((!p[0] || p._find(k)) && !f(v,k,t) && e) throw(e+' '+[k,v].$())
         return t[k] = v
       },
       get(t,k) {
@@ -156,6 +156,6 @@ let def = (o,k,v) => (O.defineProperty(o, k, { writable:true, value:v }),v)
 O.prototype[Symbol.iterator] = function() { return this.values()[Symbol.iterator]() }
 
 for (let m in M) {
-  [m,'__'+m].map(k => def(O.prototype,k,M[m]))
-  try { module.exports[m] = (o, ...a) => o['__'+m](...a) } catch {}
+  [m,'_'+m].map(k => def(O.prototype,k,M[m]))
+  try { module.exports[m] = (o, ...a) => o['_'+m](...a) } catch {}
 }
