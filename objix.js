@@ -20,10 +20,6 @@ const
     return r
   },
 
-  has(o,d) {
-    return this.find(v => v.eq(o))
-  },
-
   filter(f, r={}) {
     for (let k in this) if (f(this[k],k)) r[k] = this[k]
     return r
@@ -42,8 +38,8 @@ const
       : this[C] == t || !i && this instanceof t
   },
 
-  find(f) {
-    for (let k in this) if (f(this[k],k)) return k
+  find(t) {
+    for (let k in this) if (t.call ? t(this[k],k) : this[k].eq(t)) return k
   },
 
   extend(...a) {

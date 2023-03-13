@@ -49,7 +49,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`[@@iterator]`](docs/api.md#iterator) | Iterate through values of `this`                                                            |
 | [`clean`](docs/api.md#clean)           | Return a copy of `this` without falsey entries                                              |
 | [`filter`](docs/api.md#filter)         | Create a copy of `this` with only entries that match a filter function                      |
-| [`find`](docs/api.md#find)             | Find keys of `this` which match a function                                                  |
+| [`find`](docs/api.md#find)             | Find keys of `this` which match a function or value                                                  |
 | [`assign`](docs/api.md#assign)         | Assign new properties to `this`                                                             |
 | [`extend`](docs/api.md#extend)         | Assign default properties to `this`                                                         |
 | [`same`](docs/api.md#same)             | Return new object like `this` with properties shared with another                           |
@@ -57,7 +57,6 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`delete`](docs/api.md#delete)         | Remove keys from `this`                                                                     |
 | [`some`](docs/api.md#some)             | Test a function against at least one entry of `this`                                        |
 | [`every`](docs/api.md#every)           | Test a function against all entries of `this`                                               |
-| [`has`](docs/api.md#has)               | Lookup key of `this` by value                                                               |
 | [`at`](docs/api.md#at)                 | Lookup value by key path                                                                    |
 | [`$`](docs/api.md#fmt)                 | Coerce `this` into a string with configurable formatting                                    |
 | [`clone`](docs/api.md#clone)           | Clone `this` with configurable depths                                                       |

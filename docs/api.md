@@ -169,16 +169,18 @@ var o = { a: 1, b: 2 }.filter(v => v > 2) // {}
 
 <a id="find"></a>
 
-## `Object..find(function)`
+## `Object..find(test)`
 
-Return first key of `this` where value passes function
-Function takes value and key as arguments.
+If `test` is a function, Return first key of `this` which passes `test` where `test` takes each value and key as arguments. If `test` is not a function then return the first key of `this` where the value equals `test` (using `value.eq(test)`)
 
 <div data-runkit>
 
 ```javascript
 var o = { a: 1, b: 2 }.find(v => v > 1) // 'b'
 var o = { a: 1, b: 2 }.find(v => v > 2) // null
+var o = { a: 1, b: 2 }.find(2) // b
+var o = { a: 1, b: 2 }.find(0) // undefined
+
 ```
 
 </div>
@@ -282,23 +284,6 @@ Function takes value and key as arguments.
 ```javascript
 var o = { a: 1, b: 2 }.every(v => v > 0) // true
 var o = { a: 1, b: 2 }.every(v => v > 1) // false
-```
-
-</div>
-
-<a id="has"></a>
-
-## `Object..has(value)`
-
-Returns first key of `this` where the value equals the argument, otherwise undefined.
-
-<div data-runkit>
-
-```javascript
-var o = { a: 1, b: 2 }.has(2) // b
-var o = { a: 1, b: 2 }.has(0) // undefined
-;[1].has(1) // 1
-;[].has(1) // undefined
 ```
 
 </div>
