@@ -131,7 +131,7 @@ const
   },
 
   wait(d) {
-    return new Promise((s,f) => d.is(Number) ? setTimeout(() => s(this), s*1000) : (d = d(this,s,f)) && s(d))
+    return new Promise((s,f) => d.is(Number) ? setTimeout(() => s(this), d*1000) : (d = d(this,s,f)) && s(d))
   },
 
   trap(f, e, ...p) {
