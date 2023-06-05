@@ -21,7 +21,7 @@ const
     return r
   },
 
-  only(f, r={}) {
+  pick(f, r={}) {
     for (let k in this) if (f.call ? f(this[k],k) : f.includes(k)) r[k] = this[k]
     return r
   },
@@ -31,7 +31,7 @@ const
   },
 
   clean() {
-    return this.only(v => v)
+    return this.pick(v => v)
   },
 
   is(t, i) {
@@ -71,11 +71,11 @@ const
   },
 
   same(o) {
-    return this.only((v,k) => v.eq(o[k]))
+    return this.pick((v,k) => v.eq(o[k]))
   },
 
   diff(o) {
-    return this.only((v,k) => !v.eq(o[k]))
+    return this.pick((v,k) => !v.eq(o[k]))
   },
 
   contains(o, d) {

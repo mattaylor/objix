@@ -151,7 +151,7 @@ var o = { a: 1, b: null, c: false, d: 0, e: '' }.clean() // { a: 1 }
 
 </div>
 
-<a id="only"></a>
+<a id="pick"></a>
 
 ## `Object..filter(function||list, target={})`
 
@@ -161,10 +161,10 @@ If the first argument is a list, return `target` with all entries of `this` wher
 <div data-runkit>
 
 ```javascript
-var o = { a: 1, b: 2 }.only(['b']) // { b: 2 }
-var o = { a: 1, b: 2 }.only(v => v > 1) // { b: 2 }
-var o = { a: 1, b: 2 }.only((v, k) => k == 'b') // { b: 2 }
-var o = { a: 1, b: 2 }.only(v => v > 2) // {}
+var o = { a: 1, b: 2 }.pick(['b']) // { b: 2 }
+var o = { a: 1, b: 2 }.pick(v => v > 1) // { b: 2 }
+var o = { a: 1, b: 2 }.pick((v, k) => k == 'b') // { b: 2 }
+var o = { a: 1, b: 2 }.pick(v => v > 2) // {}
 ```
 
 </div>

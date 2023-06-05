@@ -48,7 +48,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`is`](docs/api.md#is)                 | Check type of `this`                                                                        |
 | [`[@@iterator]`](docs/api.md#iterator) | Iterate through values of `this`                                                            |
 | [`clean`](docs/api.md#clean)           | Return a copy of `this` without falsey entries                                              |
-| [`only`](docs/api.md#only)         | Create a copy of `this` with only entries with specific keys or values that that match a filter function                    |
+| [`pick`](docs/api.md#pick)         | Create a copy of `this` with only entries with specific keys or values that that match a filter function                    |
 | [`find`](docs/api.md#find)             | Find keys of `this` which match a function or value                                                  |
 | [`assign`](docs/api.md#assign)         | Assign new properties to `this`                                                             |
 | [`extend`](docs/api.md#extend)         | Assign default properties to `this`                                                         |

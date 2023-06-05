@@ -45,16 +45,18 @@ function report(title, ob) {
       lodash: () => _.mapValues(ob, v => v+1),
       vanilla: () => Object.fromEntries(Object.entries(ob).map(([k,v]) => [k, v+1])),
     },
-    'Only (func)': {
-      objix:  () => ob.only(v => v == 1),
+    Pick: {
+      objix:  () => ob.pick(v => v == 1),
       lodash: () => _.pickBy(ob, v => v == 1),
       vanilla: () => Object.fromEntries(Object.entries(ob).flatMap(([k,v]) => v == 1 ? [[k,v]] : [])),
     },
-    'Only (list)': {
-      objix:  () => ob.only(['s1','s2','s3']),
+    /*
+    'Pick (list)': {
+      objix:  () => ob.pick(['s1','s2','s3']),
       lodash: () => _.pick(ob,['s1','s2','s3']),
       vanilla: () => Object.fromEntries(Object.entries(ob).flatMap(([k,v]) => ['s1','s2','s3'].includes(k) ? [[k,v]] : [])),
     },
+    */
     Find: {
       objix: () => ob.find(v => v == 1),
       lodash: () => _.findKey(ob, v => v == 1),
