@@ -153,7 +153,7 @@ var o = { a: 1, b: null, c: false, d: 0, e: '' }.clean() // { a: 1 }
 
 <a id="pick"></a>
 
-## `Object..filter(function||list, target={})`
+## `Object..pick(function||list, target={})`
 
 If the first argument is a function, returns `target` including all entries of `this` for which the the supplied function returns truthy using value and key as arguments.
 If the first argument is a list, return `target` with all entries of `this` where the key is included in the supplied list.
