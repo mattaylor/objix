@@ -151,18 +151,20 @@ var o = { a: 1, b: null, c: false, d: 0, e: '' }.clean() // { a: 1 }
 
 </div>
 
-<a id="filter"></a>
+<a id="only"></a>
 
-## `Object..filter(function, target={})`
+## `Object..filter(function||list, target={})`
 
-Returns `target` including all entries of `this` for which the the supplied function returns truthy. Function takes value and key as arguments.
+If the first argument is a function, returns `target` including all entries of `this` for which the the supplied function returns truthy using value and key as arguments.
+If the first argument is a list, return `target` with all entries of `this` where the key is included in the supplied list.
 
 <div data-runkit>
 
 ```javascript
-var o = { a: 1, b: 2 }.filter(v => v > 1) // { b: 2 }
-var o = { a: 1, b: 2 }.filter((v, k) => k == 'b') // { b: 2 }
-var o = { a: 1, b: 2 }.filter(v => v > 2) // {}
+var o = { a: 1, b: 2 }.only(['b']) // { b: 2 }
+var o = { a: 1, b: 2 }.only(v => v > 1) // { b: 2 }
+var o = { a: 1, b: 2 }.only((v, k) => k == 'b') // { b: 2 }
+var o = { a: 1, b: 2 }.only(v => v > 2) // {}
 ```
 
 </div>

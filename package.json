@@ -45,5 +45,8 @@
     "observe",
     "memoize",
     "proxy"
-  ]
+  ],
+  "devDependencies": {
+    "hdr-histogram-js": "^3.0.0",
+  }
 }

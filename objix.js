@@ -3,6 +3,7 @@ const
   C = 'constructor',
   K = O.keys,
   A = O.assign,
+  I = Symbol.iterator,
   M = {
 
   every(f) {
@@ -20,8 +21,8 @@ const
     return r
   },
 
-  filter(f, r={}) {
-    for (let k in this) if (f(this[k],k)) r[k] = this[k]
+  only(f, r={}) {
+    for (let k in this) if (f.call ? f(this[k],k) : f.includes(k)) r[k] = this[k]
     return r
   },
 
@@ -30,7 +31,7 @@ const
   },
 
   clean() {
-    return this.filter(v => v)
+    return this.only(v => v)
   },
 
   is(t, i) {
@@ -70,11 +71,11 @@ const
   },
 
   same(o) {
-    return this.filter((v,k) => v.eq(o[k]))
+    return this.only((v,k) => v.eq(o[k]))
   },
 
   diff(o) {
-    return this.filter((v,k) => !v.eq(o[k]))
+    return this.only((v,k) => !v.eq(o[k]))
   },
 
   contains(o, d) {
@@ -144,7 +145,7 @@ const
         return {_t:t, _h:this}[k] || t[k]
       }
     })
-  },
+  }
 }
 
 for (let m of ['keys','values','entries','create','assign']) M[m] = function(...a) {
@@ -153,7 +154,7 @@ for (let m of ['keys','values','entries','create','assign']) M[m] = function(...
 
 let def = (o,k,v) => (O.defineProperty(o, k, { writable:true, value:v }),v)
 
-O.prototype[Symbol.iterator] = function() { return this.values()[Symbol.iterator]() }
+O.prototype[I] = function() { return this.values()[I]() }
 
 for (let m in M) {
   [m,'_'+m].map(k => def(O.prototype,k,M[m]))
