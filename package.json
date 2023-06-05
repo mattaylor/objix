@@ -1,10 +1,10 @@
 {
   "name": "objix",
-  "version": "1.12.2",
+  "version": "1.13.0",
   "description": "A dangerously convienient, high performance and super lightweight utility (2.7kb) that injects methods into the Object prototype to sugar for many common use cases working with Javascript objects.",
   "main": "objix.js",
   "scripts": {
-    "test": "node ./test",
+    "test": "node ./objix.test",
     "perf": "node ./bench"
   },
   "repository": {
@@ -47,6 +47,6 @@
     "proxy"
   ],
   "devDependencies": {
-    "hdr-histogram-js": "^3.0.0",
+    "hdr-histogram-js": "^3.0.0"
   }
 }
