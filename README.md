@@ -65,7 +65,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`contains`](docs/api.md#contains)     | Check if `this` contains all entries from another object to a given depth.                  |
 | [`eq`](docs/api.md#eq)                 | Compare key and value identity between `this` and other objects to a given depth            |
 | [`size`](docs/api.md#size)             | Return number of entres in `this`.                                                          |
-| [`keyBy`](docs/api.md#keyBy)           | Index an array of objects into `this` using a given key                                     |
+| [`keyBy`](docs/api.md#keyBy)           | Re-index values of this `this` using a given key path                                    |
 | [`memo`](docs/api.md#memo)             | Memoize `this` as a function with configurable result cache expiration                      |
 | [`bind`](docs/api.md#bind)             | Assign a function as a method of `this` with optional memoization                           |
 | [`log`](docs/api.md#log)               | Conditionally write `this` to the console with an optional message                          |

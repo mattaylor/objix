@@ -431,16 +431,17 @@ var o = { a: 1, b: 2 }.size() // 2
 
 <a id="keyBy"></a>
 
-## `Object..keyBy(array, key)`
+## `Object..keyBy(path)`
 
-Index an array of objects into `this` using the given key, and return `this`.
+Re-Index values of this `this` using the given key path, and return `this`.
 
 <div data-runkit>
 
 ```javascript
-o = {}
-o.keyBy([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }], 'a')
+var o = [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }].keyBy('a')
 o // { o1: { a: 'o1' }, o2: [{ a: 'o2', b: 1 }, { a: 'o2' }]
+var o = [{ a: { b: { c:'o1' }}}, { a: { b: { c: 'o2' }}}].keyBy('a.b.c')
+o // { o1: { a: { b: { c:'o1' }}}, o2: { a: { b: { c: 'o2' }}}}
 ```
 
 </div>
@@ -491,7 +492,7 @@ setTimeout(() => o.nowish(), 1000) // 2022-10-17T00:01:01.565Z
 
 ## `Object..log(msg, test, type='log')`
 
-Prints a shallow clone of `this` to the console together with a minute timestamp and an optional msg.
+Prints `this.$()` to the console together with a minute timestamp and an optional msg.
 If a `test` function is provided then logging will only be triggered if the test function returns truthy when called with with `this` as its first argument.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 

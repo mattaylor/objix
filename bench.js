@@ -63,7 +63,7 @@ function report(title, ob) {
       vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
     },
     KeyBy: {
-      objix:  () => ({}.keyBy([{a:1},{a:2},{a:3}], 'a')),
+      objix:  () => [{a:1},{a:2},{a:3}].keyBy('a'),
       lodash: () => _.keyBy([{a:1},{a:2},{a:3}], 'a'),
     },
     Equals: {

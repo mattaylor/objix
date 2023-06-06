@@ -94,13 +94,13 @@ const
     return K(this).length
   },
 
-  keyBy(a, k) {
-    a.map(o => this[o[k]] = this[o[k]] ? [o].concat(this[o[k]]) : o)
-    return this
+  keyBy(k, r={}, v) {
+    this.map(o => r[v=o.at(k)] = r[v] ? [o].concat(r[v]) : o)
+    return r
   },
 
   at(p) {
-    return p.split('.').reduce((v,c) => v[c], this)
+    return this[p] || p.split('.').reduce((v,c) => v[c], this)
   },
 
   $(s) {
@@ -119,7 +119,7 @@ const
   },
 
   log(m='', f, c='log') {
-    (!f || f(this)) && console[c](Date().slice(4,24),'-',m,this.clone())
+    (!f || f(this)) && console[c](Date().slice(4,24),'-',m,this.$())
     return this
   },
 
