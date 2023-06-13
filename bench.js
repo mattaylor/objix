@@ -62,6 +62,18 @@ function report(title, ob) {
       lodash: () => _.findKey(ob, v => v == 1),
       vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
     },
+    FlatMap: {
+      objix: () => ob.flatMap((k,v) => [[k,v],[k+1, v+1]]),
+      lodash: () => Object.fromEntries(_.flatMap(ob, (v,k) => [[k,v],[k+1, v+1]])),
+      /*
+      _lodash: () => {
+        let r = {}
+        for (let [k,v] of _.flatMap(ob, (v,k) => [[k,v],[k+1, v+1]])) r[k] = v
+        return r
+      }
+      */
+      //vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
+    },
     KeyBy: {
       objix:  () => [{a:1},{a:2},{a:3}].keyBy('a'),
       lodash: () => _.keyBy([{a:1},{a:2},{a:3}], 'a'),

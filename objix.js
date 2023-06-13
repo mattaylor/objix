@@ -20,14 +20,15 @@ const
     for (let k in this) r[k] = f(this[k],k)
     return r
   },
-
+  
   pick(f, r={}) {
     for (let k in this) if (f.call ? f(this[k],k) : f.includes(k)) r[k] = this[k]
     return r
   },
 
-  flatMap(f) {
-    return O.fromEntries(K(this).flatMap(k => f(k,this[k])))
+  flatMap(f, r={}) {
+    for (let i of K(this)) for (let [k,v] of f(i,this[i])) r[k] = v
+    return r
   },
 
   clean() {
