@@ -22,7 +22,7 @@ const
   },
 
   has(v) {
-    return this.some(x => v== x)
+    return this.some(x => v == x)
   },
 
   pick(f, r={}) {
@@ -62,7 +62,7 @@ const
       : [O,Array].has(this[C]) ? this.map(v => (d && v) ? v.clone(d-1) : v)
       : new this[C](this)
   },
-  
+
   join(...a) {
     let r = A({}, this)
     for(let o of a) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
