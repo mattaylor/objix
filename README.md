@@ -46,6 +46,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`keys`](docs/api.md#keys)             | Return keys of `this`                                                                       |
 | [`entries`](docs/api.md#entries)       | Return `[key,value]` entry pairs of `this`                                                  |
 | [`is`](docs/api.md#is)                 | Check type of `this`                                                                        |
+| [`has`](docs/api.md#has)               | Check if `this` includes some value                                                         |
 | [`[@@iterator]`](docs/api.md#iterator) | Iterate through values of `this`                                                            |
 | [`clean`](docs/api.md#clean)           | Return a copy of `this` without falsey entries                                              |
 | [`pick`](docs/api.md#pick)         | Create a copy of `this` with only entries with specific keys or values that that match a filter function                    |
