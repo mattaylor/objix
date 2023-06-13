@@ -74,6 +74,11 @@ function report(title, ob) {
       */
       //vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
     },
+    Includes: {
+      objix:  () => ob.has(3),
+      lodash: () => _.includes(ob, 3),
+      vanilla: () => Object.values(ob).includes(3)
+    },
     KeyBy: {
       objix:  () => [{a:1},{a:2},{a:3}].keyBy('a'),
       lodash: () => _.keyBy([{a:1},{a:2},{a:3}], 'a'),

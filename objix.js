@@ -20,9 +20,13 @@ const
     for (let k in this) r[k] = f(this[k],k)
     return r
   },
-  
+
+  has(v) {
+    return this.some(x => v == x)
+  },
+
   pick(f, r={}) {
-    for (let k in this) if (f.call ? f(this[k],k) : f.includes(k)) r[k] = this[k]
+    for (let k in this) if (f.call ? f(this[k],k) : f.has(k)) r[k] = this[k]
     return r
   },
 
@@ -36,7 +40,7 @@ const
   },
 
   is(t, i) {
-    return (!i && t == O) ? ![Number,String,Boolean,Function,Symbol].includes(this[C])
+    return (!i && t == O) ? ![Number,String,Boolean,Function,Symbol].has(this[C])
       : this[C] == t || !i && this instanceof t
   },
 
