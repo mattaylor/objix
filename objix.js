@@ -59,11 +59,10 @@ const
 
   clone(d) {
     return !this.is(O) ? this.valueOf()
-      : this[C] == Array ? this.map(v => (d && v) ? v.clone(d-1) : v)
-      : this.size() ? this.map(v => (d && v) ? v.clone(d-1) : v, new this[C])
+      : [O,Array].has(this[C]) ? this.map(v => (d && v) ? v.clone(d-1) : v)
       : new this[C](this)
   },
-
+  
   join(...a) {
     let r = A({}, this)
     for(let o of a) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
