@@ -74,7 +74,7 @@ function report(title, ob) {
       */
       //vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
     },
-    Includes: {
+    Has: {
       objix:  () => ob.has(3),
       lodash: () => _.includes(ob, 3),
       vanilla: () => Object.values(ob).includes(3)

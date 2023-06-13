@@ -22,7 +22,7 @@ const
   },
 
   has(v) {
-    return this.some(x => v == x)
+    return this.some(x => v== x)
   },
 
   pick(f, r={}) {

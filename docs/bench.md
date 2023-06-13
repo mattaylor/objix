@@ -33,6 +33,7 @@ For simple object objix performs insanely well, but this drops off quickly when 
 | Extend  | 11217.6  | 8173.79  | 4990.64  | 37.24   | 16.67 |
 | Some    | 5362.03  | 3119.58  | 4735.68  | 71.88   | 9.95  |
 | Every   | 91059.92 | 6736.96  | 25402.9  | 1251.65 | 20.86 |
+| Has     | 57978.85 | 7727.63  | 23863.82 |  650.28 | 11.11 |
 
 ## Ops/sec (iters: 1000, heats: 100, simple: 10, complex: 1)
 
@@ -49,6 +50,7 @@ For simple object objix performs insanely well, but this drops off quickly when 
 | Extend  | 11065.27 | 7604.92  | 4522.67  | 45.5    | 17.6  |
 | Some    | 3835.54  | 2530.53  | 3581.07  | 51.57   | 9.2   |
 | Every   | 88203.64 | 6055.98  | 23058.4  | 1356.47 | 21.38 |
+| Has     | 92532.96 | 7917.65  | 26882.72 | 1068.69 | 11.11 |
 
 ## Ops/sec (iters: 1000, heats: 100, simple: 10, complex: 10)
 
@@ -65,3 +67,4 @@ For simple object objix performs insanely well, but this drops off quickly when 
 | Extend  | 9473.53 | 7550.47 | 230.18  | 25.47  | 12.98 |
 | Some    | 725.86  | 758.97  | 408.42  | -4.36  | 4.42  |
 | Every   | 3085.48 | 2110.81 | 621.44  | 46.18  | 5.98  |
+| Has     | 622.36  |  419.62 | 111.41  | 48.32  | 12.32 |

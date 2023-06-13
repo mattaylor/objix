@@ -123,6 +123,22 @@ t.c.is(Object) // true
 
 </div>
 
+<a id="has"></a>
+
+## `Object..has(value)`
+
+Return true of `value` is a member of the values of `this`, otherwise `false`
+
+<div data-runkit>
+
+```javascript
+[1,2,3].has(2) // true
+{a: 1, b: 2, c: 3}.has(3) // true
+{a: 1, b: 2, c: { x: 3}}.has({x: 3}) // false
+```
+
+</div>
+
 <a id="iter"></a>
 
 ## `Object..[@@iterator]`
