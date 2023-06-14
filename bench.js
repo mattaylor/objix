@@ -16,7 +16,7 @@ Each batch run also includes a 100 iteration warmup verifying the results of the
 */
 function compare(funcs) {
   let hist = funcs.map(v => null), start
-  for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) {
+  for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) if (fun) {
     for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
     if (!hist[key]) hist[key] = hdr.build()
     start = performance.now()
@@ -31,7 +31,7 @@ function compare(funcs) {
     [k + ' Inc', round((100*v.mean/hist.lodash.mean)-100)],
   ])
   */
-  let res = hist.map(v => v.mean)
+  let res = hist.map(v => v?.mean)
   res['% Inc'] = round(100*(hist.objix.mean - hist.lodash.mean)/hist.lodash.mean)
   //res['% Err'] = round(100*(hist.objix.stddev + hist.lodash.stddev)/(hist.objix.mean + hist.lodash.mean))
   return res
@@ -95,6 +95,7 @@ function report(title, ob) {
     },
     Deep: {
       objix:  () => ob.clone(-1),
+      vanilla: typeof structuredClone !== 'undefined' ? () => structuredClone(ob) : null,
       lodash: () => _.cloneDeep(ob),
     },
     Extend: { 
