@@ -58,7 +58,7 @@ const
   },
   
   clone(d, e) {
-    return (this.size() > 10 && !e && d == -1) ? this.try(structuredClone, () => this.clone(d,1))
+    return (!e && d == -1 && this.size() > 10) ? this.try(structuredClone, () => this.clone(d,1))
       : !this.is(O) ? this.valueOf()
       : [O,Array].has(this[C]) ? this.map(v => (d && v) ? v.clone(d-1) : v)
       : new this[C](this)
