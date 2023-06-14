@@ -56,9 +56,10 @@ const
     for (let k of a) delete this[k]
     return this
   },
-
-  clone(d) {
-    return !this.is(O) ? this.valueOf()
+  
+  clone(d, e) {
+    return (this.size() > 10 && !e && d == -1) ? this.try(structuredClone, () => this.clone(d,1))
+      : !this.is(O) ? this.valueOf()
       : [O,Array].has(this[C]) ? this.map(v => (d && v) ? v.clone(d-1) : v)
       : new this[C](this)
   },
