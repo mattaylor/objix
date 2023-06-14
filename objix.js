@@ -58,12 +58,11 @@ const
   },
   
   clone(d, e) {
-    return (!e && d == -1 && this.size() > 10) ? this.try(structuredClone, () => this.clone(d,1))
-      : !this.is(O) ? this.valueOf()
+    return !this.is(O) ? this.valueOf()
+      : (!e && d == -1 && this.size() > 10) ? this.try(structuredClone, () => this.clone(d,1)) 
       : [O,Array].has(this[C]) ? this.map(v => (d && v) ? v.clone(d-1) : v)
       : new this[C](this)
-  },
-
+},
   join(...a) {
     let r = A({}, this)
     for(let o of a) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
