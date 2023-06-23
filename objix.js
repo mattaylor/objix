@@ -57,9 +57,10 @@ const
     return this
   },
   
+  
   clone(d, e) {
     return !this.is(O) ? this.valueOf()
-      : (!e && d == -1 && this.size() > 10) ? this.try(structuredClone, () => this.clone(d,1)) 
+      : (!e && d == -1 && this.size() > 10) ? this.try(global.structuredClone, () => this.clone(d,1))
       : [O,Array].has(this[C]) ? this.map(v => (d && v) ? v.clone(d-1) : v)
       : new this[C](this)
   },
