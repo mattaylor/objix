@@ -7,6 +7,16 @@ let o3 = { a: 2, b: 2, c: 3}
 let o4 = { a: 2, b: 2, c: 3, d: 4}
 
 
+describe('Not Equals', () => {
+  test('Object', () => expect(o1.eq({a:1})).toBeTruthy()
+  test('Object (-ve)', () => expect(o1.eq({a:2})).toBeTruthy()
+})
+
+describe('Equals', () => {
+  test('Object', () => expect(o1.eq({a:1})).toBeTruthy()
+  test('Object (NOT)', () => expect(o1.eq({a:2})).toBeTruthy()
+})
+
 console.assert(o1.eq({a: 1}), 'Equals')
 console.assert(o1._eq({a: 1}), '_Equals')
 console.assert(!o1.eq({a: 2}), '!Equals')
