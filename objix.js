@@ -57,9 +57,8 @@ const
     return this
   },
   
-  
   clone(d, e) {
-    return !this.is(O) ? this.valueOf()
+    return !this._is(O) ? this.valueOf()
       : (!e && d == -1 && this._size() > 10) ? this._try(global.structuredClone, () => this._clone(d,1))
       : [O,Array]._has(this[C]) ? this._map(v => (d && v) ? v._clone(d-1) : v)
       : new this[C](this)
@@ -91,7 +90,7 @@ const
   eq(o, d) {
     return this == o || o
       && this._is(o[C])
-      && this._size() == o.size()
+      && this._size() == o._size()
       && !(this-o)
       && this._every((v,k) => v == o[k] || d && v?._eq(o[k],d-1))
   },
@@ -101,7 +100,7 @@ const
   },
 
   keyBy(k, v, r={}) {
-    this._map(o => r[v=o._at(k)] = r[v] ? [o].concat(r[v]) : o)
+    this.map(o => r[v=o._at(k)] = r[v] ? [o].concat(r[v]) : o)
     return r
   },
 
@@ -164,6 +163,6 @@ O.prototype[I] = function() { return this._values()[I]() }
 
 for (let m in M) {
   def(O.prototype,'_'+m,M[m])
-  def(O.prototype,m,M[m])
+  //def(O.prototype,m,M[m])
   try { module.exports[m] = (o, ...a) => o['_'+m](...a) } catch {}
 }
