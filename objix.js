@@ -158,7 +158,7 @@ for (let m of ['keys','values','entries','create','assign']) M[m] = function(...
   return O[m](this, ...a)
 }
 
-let def = (o,k,v) => (O.defineProperty(o, k, { writable:true, value:v }),v)
+let def = (o,k,v) =>  (O.defineProperty(o, k, { writable:true, value:v }),v)
 
 O.prototype[I] = function() { return this.values()[I]() }
 
