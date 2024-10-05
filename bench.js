@@ -15,8 +15,8 @@ Calculate run time for *heats* batches of *iters* executions of each function, w
 Each batch run also includes a 100 iteration warmup verifying the results of the function against objix
 */
 function compare(funcs) {
-  let hist = funcs.map(v => null), start
-  for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs.entries())) if (fun) {
+  let hist = funcs._map(v => null), start
+  for (let r = 0; r < heats; r++) for (let [key,fun] of _.shuffle(funcs._entries())) if (fun) {
     for (let i = 0; i < 100; i++) assert.deepEqual(funcs.objix(), fun(), fun)
     if (!hist[key]) hist[key] = hdr.build()
     start = performance.now()
@@ -31,7 +31,7 @@ function compare(funcs) {
     [k + ' Inc', round((100*v.mean/hist.lodash.mean)-100)],
   ])
   */
-  let res = hist.map(v => v?.mean)
+  let res = hist._map(v => v?.mean)
   res['% Inc'] = round(100*(hist.objix.mean - hist.lodash.mean)/hist.lodash.mean)
   //res['% Err'] = round(100*(hist.objix.stddev + hist.lodash.stddev)/(hist.objix.mean + hist.lodash.mean))
   return res
@@ -41,12 +41,12 @@ function report(title, ob) {
   console.log(title)
   console.table({
     Map: {
-      objix : () => ob.map(v => v+1),
+      objix : () => ob._map(v => v+1),
       lodash: () => _.mapValues(ob, v => v+1),
       vanilla: () => Object.fromEntries(Object.entries(ob).map(([k,v]) => [k, v+1])),
     },
     Pick: {
-      objix:  () => ob.pick(v => v == 1),
+      objix:  () => ob._pick(v => v == 1),
       lodash: () => _.pickBy(ob, v => v == 1),
       vanilla: () => Object.fromEntries(Object.entries(ob).flatMap(([k,v]) => v == 1 ? [[k,v]] : [])),
     },
@@ -58,12 +58,12 @@ function report(title, ob) {
     },
     */
     Find: {
-      objix: () => ob.find(v => v == 1),
+      objix: () => ob._find(v => v == 1),
       lodash: () => _.findKey(ob, v => v == 1),
       vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
     },
     FlatMap: {
-      objix: () => ob.flatMap((k,v) => [[k,v],[k+1, v+1]]),
+      objix: () => ob._flatMap((k,v) => [[k,v],[k+1, v+1]]),
       lodash: () => Object.fromEntries(_.flatMap(ob, (v,k) => [[k,v],[k+1, v+1]])),
       /*
       _lodash: () => {
@@ -75,45 +75,45 @@ function report(title, ob) {
       //vanilla: () => { for (let [k,v] of Object.entries(ob)) if (v == 1) return k },
     },
     Has: {
-      objix:  () => ob.has(3),
+      objix:  () => ob._has(3),
       lodash: () => _.includes(ob, 3),
       vanilla: () => Object.values(ob).includes(3)
     },
     KeyBy: {
-      objix:  () => [{a:1},{a:2},{a:3}].keyBy('a'),
+      objix:  () => [{a:1},{a:2},{a:3}]._keyBy('a'),
       lodash: () => _.keyBy([{a:1},{a:2},{a:3}], 'a'),
     },
     Equals: {
-      objix: () => ob.eq(ob.clone(), -1),
-      lodash: () => _.isEqual(ob, ob.clone()),
-      vanilla: () => { try { return assert.deepEqual(ob,ob.clone()) || true } catch { return false }},
+      objix: () => ob._eq(ob._clone(), -1),
+      lodash: () => _.isEqual(ob, ob._clone()),
+      vanilla: () => { try { return assert.deepEqual(ob,ob._clone()) || true } catch { return false }},
     },
     Clone: {
-      objix:  () => ob.clone(),
+      objix:  () => ob._clone(),
       lodash: () => _.clone(ob),
       vanilla: () => Object.assign({}, ob), //No Construcotrs!
     },
     Deep: {
-      objix:  () => ob.clone(-1),
+      objix:  () => ob._clone(-1),
       vanilla: typeof structuredClone !== 'undefined' ? () => structuredClone(ob) : null,
       lodash: () => _.cloneDeep(ob),
     },
     Extend: { 
-      objix: () => ob.extend({a: 1, b: 2, c: 3}),
+      objix: () => ob._extend({a: 1, b: 2, c: 3}),
       lodash: () => _.defaults(ob, {a: 1, b:2, c: 2}),
       vanilla: () => Object.assign({}, {a: 1, b: 2, c: 3}, ob)
     },
     Some: {
-      objix: () => ob.some(v => v == 'x'),
+      objix: () => ob._some(v => v == 'x'),
       vanilla: () => Object.values(ob).some(v => v == 'x'),
       lodash: () => _.some(_.values(ob), v => v == 'x'),
     },
     Every: {
-      objix: () => ob.every(v => v),
+      objix: () => ob._every(v => v), 
       lodash:  () => _.every(_.values(ob), v => v),
       vanilla: () => Object.values(ob).every(v => v),
     }
-  }.map(compare))
+  }._map(compare))
 }
 const d1 = new Date()
 const d2 = new Date()

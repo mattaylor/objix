@@ -17,16 +17,17 @@ const
   },
 
   map(f, r={}) {
+    if (this.map) return this.map(f,r)
     for (let k in this) r[k] = f(this[k],k)
     return r
   },
 
   has(v) {
-    return this.some(x => v == x)
+    return this._some(x => v == x)
   },
 
   pick(f, r={}) {
-    for (let k in this) if (f.call ? f(this[k],k) : f.has(k)) r[k] = this[k]
+    for (let k in this) if (f.call ? f(this[k],k) : f._has(k)) r[k] = this[k]
     return r
   },
 
@@ -36,20 +37,20 @@ const
   },
 
   clean() {
-    return this.pick(v => v)
+    return this._pick(v => v)
   },
 
   is(t, i) {
-    return (!i && t == O) ? ![Number,String,Boolean,Function,Symbol].has(this[C])
+    return (!i && t == O) ? ![Number,String,Boolean,Function,Symbol]._has(this[C])
       : this[C] == t || !i && this instanceof t
   },
 
   find(t) {
-    for (let k in this) if (t.call ? t(this[k],k) : this[k].eq(t)) return k
+    for (let k in this) if (t.call ? t(this[k],k) : this[k]._eq(t)) return k
   },
 
   extend(...a) {
-    return A({}, ...a).map((v,k) => this[k] ?? v, this)
+    return A({}, ...a)._map((v,k) => this[k] ?? v, this)
   },
 
   delete(...a) {
@@ -57,75 +58,74 @@ const
     return this
   },
   
-  
   clone(d, e) {
-    return !this.is(O) ? this.valueOf()
-      : (!e && d == -1 && this.size() > 10) ? this.try(global.structuredClone, () => this.clone(d,1))
-      : [O,Array].has(this[C]) ? this.map(v => (d && v) ? v.clone(d-1) : v)
-      : new this[C](this)
+    return !this._is(O) ? this.valueOf()
+      : (!e && d == -1 && this._len() > 10) ? this._try(global.structuredClone, () => this._clone(d,1))
+      : this._len() ? this._map(v => v && d ? v._clone(d-1) : v) 
+      : this.map ? this : new this[C](this)
   },
   
   join(...a) {
     let r = A({}, this)
-    for(let o of a) K(o).map(k => r[k] &&= [].concat(r[k], o[k]))
+    for(let o of a) K(o)._map(k => r[k] &&= [].concat(r[k], o[k]))
     return r
   },
 
   split(r=[]) {
-    for (let k in this) this[k].map((v,i) => r[i] ? r[i][k] = v : r[i] = {[k]: v})
+    for (let k in this) this[k]._map((v,i) => r[i] ? r[i][k] = v : r[i] = {[k]: v})
     return r
   },
 
   same(o) {
-    return this.pick((v,k) => v.eq(o[k]))
+    return this._pick((v,k) => v._eq(o[k]))
   },
 
   diff(o) {
-    return this.pick((v,k) => !v.eq(o[k]))
+    return this._pick((v,k) => !v._eq(o[k]))
   },
 
   contains(o, d) {
-    return o.every((v,k) => this[k]?.eq(v)) || d && this.some(v => v.contains(o, d-1))
+    return o._every((v,k) => this[k]?._eq(v)) || d && this._some(v => v._contains(o, d-1))
   },
 
   eq(o, d) {
     return this == o || o
-      && this.is(o[C])
-      && this.size() == o.size()
+      && this._is(o[C])
+      && this._len() == o._len()
       && !(this-o)
-      && this.every((v,k) => v == o[k] || d && v?.eq(o[k],d-1))
+      && this._every((v,k) => v == o[k] || d && v?._eq(o[k],d-1))
   },
 
-  size() {
+  len() {
     return K(this).length
   },
 
   keyBy(k, v, r={}) {
-    this.map(o => r[v=o.at(k)] = r[v] ? [o].concat(r[v]) : o)
+    this.map(o => r[v=o._at(k)] = r[v] ? [o].concat(r[v]) : o)
     return r
   },
 
   at(p) {
-    return this[p] || p.split('.').reduce((v,c) => v[c], this)
+    return this[p] || p._split('.')._reduce((v,c) => v[c], this)
   },
 
   $(s) {
-    return s ? s.is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this.at(p).$())
+    return s ? s._is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this._at(p).$())
       : (s.stringify || s)(this)
-      : this.$(JSON).replace(/"(\w+)":/g,'$1:')
+      : this._$(JSON).replace(/"(\w+)":/g,'$1:')
   },
 
   memo(e) {
-    return e ? (...a) => this[a.$()] ??= (this.wait(e).then(t => delete t[a.$()]),this(...a)) : this
+    return e ? (...a) => this[a._$()] ??= (this._wait(e).then(t => delete t[a._$()]),this(...a)) : this
   },
 
   bind(k, f, e) {
-    def(this, k, (function(...a) { return f(...a, this)}).memo(e))
+    def(this, k, (function(...a) { return f(...a, this)})._memo(e))
     return this
   },
 
   log(m='', f, c='log') {
-    (!f || f(this)) && console[c](Date().slice(4,24),'-',m,this.$())
+    (!f || f(this)) && console[c](Date().slice(4,24),'-',m,this._$())
     return this
   },
 
@@ -134,11 +134,11 @@ const
   },
 
   new(o) {
-    return this._t ? new Proxy(this._t.new(o), this._h) : A(this.create(),o)
+    return this._t ? new Proxy(this._t._new(o), this._h) : A(this._create(),o)
   },
 
   wait(d) {
-    return new Promise((s,f) => d.is(Number) ? setTimeout(() => s(this), d*1000) : (d = d(this,s,f)) && s(d))
+    return new Promise((s,f) => d._is(Number) ? setTimeout(() => s(this), d*1000) : (d = d(this,s,f)) && s(d))
   },
 
   trap(f, e, ...p) {
@@ -158,11 +158,12 @@ for (let m of ['keys','values','entries','create','assign']) M[m] = function(...
   return O[m](this, ...a)
 }
 
-let def = (o,k,v) =>  (O.defineProperty(o, k, { writable:true, value:v }),v)
+let def = (o,k,v) => o[k] || (O.defineProperty(o, k, { writable:true, value:v }),v)
 
-O.prototype[I] = function() { return this.values()[I]() }
+O.prototype[I] = function() { return this._values()[I]() }
 
 for (let m in M) {
-  [m,'_'+m].map(k => def(O.prototype,k,M[m]))
+  def(O.prototype,'_'+m,M[m])
+  //def(O.prototype,m,M[m])
   try { module.exports[m] = (o, ...a) => o['_'+m](...a) } catch {}
 }
