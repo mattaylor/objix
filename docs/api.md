@@ -471,7 +471,7 @@ Returns a memoized wrapper around `this` as a function such that any calls to `t
 <div data-runkit>
 
 ```javascript
-var nowish = (() => new Date()).memo(1)
+var nowish = (() => new Date())._memo(1)
 var logNow = i => console.log(i + ' time is ' + nowish().toLocaleTimeString())
 logNow(1) // "1 time is 1:5:07:06 PM"
 logNow(2) // "2 time is 1:5:07:06 PM"
@@ -493,10 +493,10 @@ Always returns `this`
 
 ```javascript
 var o = { a: 1, b: 2, c: 3 }
-o.bind('max', m => m.values().sort((a, b) => b - a)[0])
+o._bind('max', m => m._values().sort((a, b) => b - a)[0])
 o.max() // 3
 
-o.bind('nowish', () => new Date(), 1)
+o._bind('nowish', () => new Date(), 1)
 o.nowish() // 2022-10-17T00:01:00.364Z
 o.nowish() // 2022-10-17T00:01:00.364Z
 setTimeout(() => o.nowish(), 1000) // 2022-10-17T00:01:01.565Z
@@ -519,11 +519,11 @@ var WARN = () => false
 var INFO = () => true
 
 var o = { a: 0, b: 1 }
-  .clean()
-  .log('CLEANING') // 2022-10-07T00:00 CLEANNING { b: 1 }
-  .map(v => v + 1)
-  .log('MAPPING', WARN) // ._
-  .log('TRACING', INFO, 'trace') // Trace: 2022-10-06T21:21 TRACING { b: 2 } at  log ._
+  ._clean()
+  ._log('CLEANING') // 2022-10-07T00:00 CLEANNING { b: 1 }
+  ._map(v => v + 1)
+  ._log('MAPPING', WARN) // ._
+  ._log('TRACING', INFO, 'trace') // Trace: 2022-10-06T21:21 TRACING { b: 2 } at  log ._
 ```
 
 </div>
@@ -549,7 +549,7 @@ var o = { a: 1 }._try(t => (t.a += 1), null, true) // { a : 2 }
 var o = { a: 1 }._try(t => (t.b.c += 1), null, true) // { a: 1 }
 var o = { a: 1 }._try(
   t => (t.b.c += 1),
-  e => e.log()
+  e => e._log()
 ) // 2022-10-07T00:00 TypeError: Cannot read properties of undefined (reading 'c')
 ```
 
@@ -568,10 +568,10 @@ When `keys` are defined then the trap function will only be called for assignmen
 
 ```javascript
 var o = { a: 1, sum: 1 }
-  .trap((v, k, t) => v != t[k] && console.log(k + ' has changed'))
-  .trap(v => v > 0, 'Values must be positive', 'a', 'b', 'c')
-  .trap((v, k, t) => k != 'sum' && (t.sum += t[k] ? v - t[k] : v))
-  .trap(v => false, 'Read only', 'sum')
+  ._trap((v, k, t) => v != t[k] && console.log(k + ' has changed'))
+  ._trap(v => v > 0, 'Values must be positive', 'a', 'b', 'c')
+  ._trap((v, k, t) => k != 'sum' && (t.sum += t[k] ? v - t[k] : v))
+  .+trap(v => false, 'Read only', 'sum')
 
 o.b = 2 //  b has changed
 o.c = 0 //  Uncaught 'Values must be positive, c, 0'
@@ -591,8 +591,8 @@ Create a new object using `this` as its protoype with additonal properties assig
 
 ```javascript
 var P = { a: 1 }._trap(v => v > 0, 'Not Positive')
-var o1 = P.new({ b: 1 }) // { a: 1, b: 1 }
-var o2 = P.new({ a: 2 }) // { a: 2 }
+var o1 = P._new({ b: 1 }) // { a: 1, b: 1 }
+var o2 = P._new({ a: 2 }) // { a: 2 }
 o1.c = 0 // // Uncaught 'Not Positive, c, 0'
 ```
 
@@ -610,14 +610,14 @@ If `defer` is async or otherwsie returns a truthy value then the promise will be
 <div data-runkit>
 
 ```javascript
-var o = { a: 1 }._wait(1).then(t => t.log('PROMISED')) // ...(1 second later)... 2022-10-19T21:55 PROMISED {a:1}
-var o = (await { a: 1 }._wait(1)).log('AWAITED') // ...(1 second later)... 2022-10-19T21:55 AWAITED {a:1}
+var o = { a: 1 }._wait(1).then(t => t._log('PROMISED')) // ...(1 second later)... 2022-10-19T21:55 PROMISED {a:1}
+var o = (await { a: 1 }._wait(1))._log('AWAITED') // ...(1 second later)... 2022-10-19T21:55 AWAITED {a:1}
 
 var f = o =>
   o
-    .wait((t, r) => r(t.b.$()))
-    .then(o => o.log('SUCCESS'))
-    .catch(e => e.log('ERROR'))
+    ._wait((t, r) => r(t.b.$()))
+    .then(o => o._log('SUCCESS'))
+    ._catch(e => e._log('ERROR'))
 
 f({ a: 1, b: 2 }) // 2022-10-19T21:55 SUCCESS 2
 f({ a: 1 }) // 2022-10-19T21:55 ERROR TypeError: Cannot read properties of undefined
