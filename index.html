@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Objix API</title>
+  <title>Objin API</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -87,8 +87,8 @@
       relativePath: true,
       homepage: 'README.md',
       coverpage: 'docs/_cover.md',
-      name: '<div id="name"><img class="logo" src="/docs/objin.png">Objix<div>',
-      _name: '<div id="name"><img class="logo" src="https://static.thenounproject.com/png/258024-200.png">Objix<div>',
+      name: '<div id="name"><img class="logo" src="/docs/objix.png">objix<div>',
+      _name: '<div id="name"><img class="logo" src="https://static.thenounproject.com/png/258024-200.png">objix<div>',
       repo: 'https://github.com/mattaylor/objix',
       subMaxLevel: 4,
       autoToTop: true,
@@ -106,7 +106,7 @@
         gutterStyle   : 'outside',
         evaluateOnLoad: false,
         readOnly: false,
-        preamble: 'require("objix")'
+        preamble: 'require("objix@latest")'
       },
       tabs: {
         persist    : true,      // default
@@ -159,10 +159,10 @@
     // pretty min https://www.cleancss.com/javascript-minify/
     // good min https://www.toptal.com/developers/javascript-minifier
     let o = {a:0, b: 1, c: 2, d: 4}
-      .clean().log('CLEAN')
-      .map(v => v+1).log('MAP')
-      .filter(v => v > 2).log('FILTER')
-      .delete('c').log('DELETE')
+      ._clean()._log('CLEAN')
+      ._map(v => v+1)._log('MAP')
+      ._filter(v => v > 2)._log('FILTER')
+      ._delete('c')._log('DELETE')
   </script>
 </body>
 </html>
