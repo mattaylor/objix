@@ -1,10 +1,10 @@
 <!-- _coverpage.md -->
 
-![logo](/docs/objin.png)
+![logo](/docs/objix.png)
 
-# objix <small>1.11.9</small>
+# objix <small>2.0.1</small>
 
-> Enchant your javascript.
+> Enchanted Javascript.
 
 - [Smarter](/docs/api)
 - [Faster](/docs/bench)
