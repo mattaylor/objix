@@ -26,7 +26,7 @@ The `_size()` method is now renamied to `_len()`.
 
   ```javascript
   require('objix')
-  var o = { a: 1 }._map(v => v + 1).log()
+  var o = { a: 1 }._map(v => v + 1)._log()
   ```
 
 ## Getting Started - Browser
@@ -115,15 +115,15 @@ Any object can act as a class from which new objects can be derived. All propert
 
 ```javascript
 var Person = { firstName: 'john', lastName: 'doe' }
-  .trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
-  .bind('age', t => Math.floor((Date.now() - new Date(t.dob)) / 31536000000))
-  .bind('name', t => t.firstName + ' ' + t.lastName)
+  ._trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
+  ._bind('age', t => Math.floor((Date.now() - new Date(t.dob)) / 31536000000))
+  ._bind('name', t => t.firstName + ' ' + t.lastName)
 
-var p1 = Person.new({ firstName: 'jane' })
+var p1 = Person._new({ firstName: 'jane' })
 p1.name() // 'jane doe'
-p1.try(
+p1._try(
   p => (p.dob = 'foobar'),
-  e => e.log()
+  e => e._log()
 ) // Uncaught 'Invalid date [dob, foobar]'
 p1.dob = '10/10/2000'
 p1.age() // 22
@@ -138,6 +138,6 @@ All functions listed below are also available using traditional module exports, 
 ```javascript
 const _ = require('objix')
 
-_.size({ a: 1 }) == { a: 1 }.size() // true
+_.len({ a: 1 }) == { a: 1 }._len() // true
 _.find({ a: 1 }, v => v) == { a: 1 }.find(v => v) //true
 ```
