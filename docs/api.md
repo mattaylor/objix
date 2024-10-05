@@ -94,7 +94,7 @@ var o = { a: 1 }._entries() // [[a, 1]]
 
 <a id="is"></a>
 
-## `Object._iis(type)`
+## `Object._is(type)`
 
 True if `this` is an instance of `type`.
 
