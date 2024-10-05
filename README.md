@@ -139,5 +139,5 @@ All functions listed below are also available using traditional module exports, 
 const _ = require('objix')
 
 _.len({ a: 1 }) == { a: 1 }._len() // true
-_.find({ a: 1 }, v => v) == { a: 1 }.find(v => v) //true
+_.find({ a: 1 }, v => v) == { a: 1 }._find(v => v) //true
 ```
