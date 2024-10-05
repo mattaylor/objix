@@ -4,9 +4,15 @@ Objix is a delightfully convienient, high performance, zero dependency and super
 
 The functions are all non enumerable and include copies of Object class methods and Array prototype methods applied to the values of the object as well others to delete keys, stringify, promisify, memoize, compare, split/join objects, check types, log messages and trapping/observing property assignments.
 
-This library is highly optimised with zero copy operations where possible. The source is only 3.5kb (2.6kb minified) which allows for fast loading and easy integration without additional compilation or tree shaking. There is however limited type checking to guard against unwanted side effects, and there may be some undiscovered edge case that do not behave as expected. Performance in most cases is significantly faster than `lodash` equivalents especially when working with small objects. For example `ob.map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` and some operations such as `pick` can be several thousand times quicker according to simple [benchmarks](docs/bench.md).
+This library is highly optimised with zero copy operations where possible. The source is only 3.8kb (2.8kb minified) which allows for fast loading and easy integration without additional compilation or tree shaking. Performance in most cases is significantly faster than `lodash` equivalents especially when working with small objects. For example `ob._map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` and some operations such as `pick` can be several thousand times quicker according to simple [benchmarks](docs/bench.md).
 
 Interactive docs and demos are availble on https://objix.dev/#/docs/api.
+
+## Upgrading from 1.0
+
+Objix 2.0 now prefixes all prototype methods with '_'. This avoids name clashes with built in methods and reduces unwanted side effects and compatibility issues inherent in the 1.x releases. 
+
+The `_size()` method is now renamied to `_len()`.
 
 ## Getting Started - Node
 
@@ -20,7 +26,7 @@ Interactive docs and demos are availble on https://objix.dev/#/docs/api.
 
   ```javascript
   require('objix')
-  var o = { a: 1 }.map(v => v + 1).log()
+  var o = { a: 1 }._map(v => v + 1).log()
   ```
 
 ## Getting Started - Browser
@@ -29,7 +35,7 @@ Interactive docs and demos are availble on https://objix.dev/#/docs/api.
 <script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js"></script>
 
 <script>
-  var o = { a: 1 }.map(v => v + 1).log()
+  var o = { a: 1 }._map(v => v + 1)._log()
 </script>
 ```
 
@@ -65,7 +71,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`split`](docs/api.md#split)           | Split `this` into multiple objects from array property values                               |
 | [`contains`](docs/api.md#contains)     | Check if `this` contains all entries from another object to a given depth.                  |
 | [`eq`](docs/api.md#eq)                 | Compare key and value identity between `this` and other objects to a given depth            |
-| [`size`](docs/api.md#size)             | Return number of entres in `this`.                                                          |
+| [`len`](docs/api.md#len)             | Return number of entres in `this`.                                                          |
 | [`keyBy`](docs/api.md#keyBy)           | Re-index values of this `this` using a given key path                                    |
 | [`memo`](docs/api.md#memo)             | Memoize `this` as a function with configurable result cache expiration                      |
 | [`bind`](docs/api.md#bind)             | Assign a function as a method of `this` with optional memoization                           |
@@ -83,10 +89,10 @@ Most of these function return objects including those modifying `this` and so ca
 
 ```javascript
 var o = { a: 0, b: 1, c: 2 }
-  .filter(v => v > 0)
-  .log('POSITIVE') // 2022-10-07T00:00 POSITIVE { b: 1, c: 2 }
-  .map(v => v + 1)
-  .log('INCREMENT') // 2022-10-07T00:00 INCREMENT { b: 2, c: 3 }
+  ._filter(v => v > 0)
+  ._log('POSITIVE') // 2022-10-07T00:00 POSITIVE { b: 1, c: 2 }
+  ._map(v => v + 1)
+  ._log('INCREMENT') // 2022-10-07T00:00 INCREMENT { b: 2, c: 3 }
 ```
 
 </div>
@@ -97,8 +103,8 @@ All functions documented below are also callable with a '\_' prefix to the funct
 This can help ensure that the function is callable when overwritten by other object property assignments.
 
 ```javascript
-var o = { a: 1 }.size() == { a: 1 }._size() //true
-var o = { a: 1 }.find(v => v) == { a: 1 }._find(v => v) //true
+var o = { a: 1 }._len() == { a: 1 }._len() //true
+var o = { a: 1 }._find(v => v) == { a: 1 }._find(v => v) //true
 ```
 
 ## Simple Classes

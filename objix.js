@@ -17,6 +17,7 @@ const
   },
 
   map(f, r={}) {
+    if (this.map) return this.map(f,r)
     for (let k in this) r[k] = f(this[k],k)
     return r
   },
@@ -59,9 +60,9 @@ const
   
   clone(d, e) {
     return !this._is(O) ? this.valueOf()
-      : (!e && d == -1 && this._size() > 10) ? this._try(global.structuredClone, () => this._clone(d,1))
-      : [O,Array]._has(this[C]) ? this._map(v => (d && v) ? v._clone(d-1) : v)
-      : new this[C](this)
+      : (!e && d == -1 && this._len() > 10) ? this._try(global.structuredClone, () => this._clone(d,1))
+      : this._len() ? this._map(v => v && d ? v._clone(d-1) : v) 
+      : this.map ? this : new this[C](this)
   },
   
   join(...a) {
@@ -90,12 +91,12 @@ const
   eq(o, d) {
     return this == o || o
       && this._is(o[C])
-      && this._size() == o._size()
+      && this._len() == o._len()
       && !(this-o)
       && this._every((v,k) => v == o[k] || d && v?._eq(o[k],d-1))
   },
 
-  size() {
+  len() {
     return K(this).length
   },
 
