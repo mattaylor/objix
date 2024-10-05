@@ -205,7 +205,7 @@ var o = { a: 1, b: 2 }._find(0) // undefined
 
 <a id="assign"></a>
 
-## `Object._assign(._.objects)`
+## `Object._assign(...objects)`
 
 Assign and overwrite entries of `this` from arguments in ascending priority and return `this`.
 
@@ -219,7 +219,7 @@ var o = { a: 0, b: 0 }._assign({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 1, b: 2, 
 
 <a id="extend"></a>
 
-## `Object._extend(._.objects)`
+## `Object._extend(...objects)`
 
 Assigns properties into `this` from the arguments in ascending priority order. Properties of `this` are assigned only if null or undefined in `this`.
 Returns `this`
@@ -262,7 +262,7 @@ var o = { a: 1, b: 2 }._diff({ a: 2, b: 2 }) // { a: 1 }
 
 <a id="delete"></a>
 
-## `Object._delete(._.keys)`
+## `Object._delete(...keys)`
 
 Return `this` with entries deleted where the key is included in arguemnts.
 
@@ -368,7 +368,7 @@ o3 // { a: 1, b: { c: 1 }}
 
 <a id='join'></a>
 
-## `Object._join(._.objects)`
+## `Object._join(...objects)`
 
 Return a new Object with the same keys as `this` and some values as arrays which concatenate the original value of `this` with values from all of the arguments having the same key.
 
@@ -557,7 +557,7 @@ var o = { a: 1 }._try(
 
 <a id="trap"></a>
 
-## `Object._trap(function, error, ._.keys)`
+## `Object._trap(function, error, ...keys)`
 
 Returns a proxy of `this` which traps property assignments using the supplied function. The function takes `val`, `key` and `this` as arguments.
 If the function returns falsey and an error message is supplied then an exception will be thrown.
@@ -610,8 +610,8 @@ If `defer` is async or otherwsie returns a truthy value then the promise will be
 <div data-runkit>
 
 ```javascript
-var o = { a: 1 }._wait(1).then(t => t.log('PROMISED')) // ._.(1 second later)._. 2022-10-19T21:55 PROMISED {a:1}
-var o = (await { a: 1 }._wait(1)).log('AWAITED') // ._.(1 second later)._. 2022-10-19T21:55 AWAITED {a:1}
+var o = { a: 1 }._wait(1).then(t => t.log('PROMISED')) // ...(1 second later)... 2022-10-19T21:55 PROMISED {a:1}
+var o = (await { a: 1 }._wait(1)).log('AWAITED') // ...(1 second later)... 2022-10-19T21:55 AWAITED {a:1}
 
 var f = o =>
   o
