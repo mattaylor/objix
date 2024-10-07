@@ -112,10 +112,10 @@
           const url = 'https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js'
           https.get(url, res => {
             if (res.statusCode != 200) return
-            let rawData = ''
+            let raw = ''
             res.setEncoding('utf8')
-            res.on('data', chunk => { rawData += chunk; })
-            res.on('end', () => { vm.runInThisContext(rawData, url) })
+            res.on('data', chunk => { raw += chunk; })
+            res.on('end', () => { vm.runInThisContext(raw, url) })
           })
         `
       },
