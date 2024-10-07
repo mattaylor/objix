@@ -45,41 +45,41 @@ The following methods are availble to all Objects via protoype inheritence, unle
 
 |                                        |                                                                                             |
 | -------------------------------------- | ------------------------------------------------------------------------------------------- |
-| [`map`](docs/api.md#map)               | Return a copy of `this` with all entries mapped by a function                               |
-| [`flatMap`](docs/api.md#flatMap)       | FlatMap a function to all entries of an `this`                                              |
-| [`values`](docs/api.md#values)         | Return values of `this`                                                                     |
-| [`create`](docs/api.md#create)         | Create a new Object based on `this` as a prototoype                                         |
-| [`keys`](docs/api.md#keys)             | Return keys of `this`                                                                       |
-| [`entries`](docs/api.md#entries)       | Return `[key,value]` entry pairs of `this`                                                  |
-| [`is`](docs/api.md#is)                 | Check type of `this`                                                                        |
-| [`has`](docs/api.md#has)               | Check if `this` includes some value                                                         |
-| [`[@@iterator]`](docs/api.md#iterator) | Iterate through values of `this`                                                            |
-| [`clean`](docs/api.md#clean)           | Return a copy of `this` without falsey entries                                              |
-| [`pick`](docs/api.md#pick)         | Create a copy of `this` with only entries with specific keys or values that that match a filter function                    |
-| [`find`](docs/api.md#find)             | Find keys of `this` which match a function or value                                                  |
-| [`assign`](docs/api.md#assign)         | Assign new properties to `this`                                                             |
-| [`extend`](docs/api.md#extend)         | Assign default properties to `this`                                                         |
-| [`same`](docs/api.md#same)             | Return new object like `this` with properties shared with another                           |
-| [`diff`](docs/api.md#diff)             | Return new object like `this` with properties not shared with another                       |
-| [`delete`](docs/api.md#delete)         | Remove keys from `this`                                                                     |
-| [`some`](docs/api.md#some)             | Test a function against at least one entry of `this`                                        |
-| [`every`](docs/api.md#every)           | Test a function against all entries of `this`                                               |
-| [`at`](docs/api.md#at)                 | Lookup value by key path                                                                    |
-| [`$`](docs/api.md#fmt)                 | Coerce `this` into a string with configurable formatting                                    |
-| [`clone`](docs/api.md#clone)           | Clone `this` with configurable depths                                                       |
-| [`join`](docs/api.md#join)             | Join objects together with `this` with array property values                                |
-| [`split`](docs/api.md#split)           | Split `this` into multiple objects from array property values                               |
-| [`contains`](docs/api.md#contains)     | Check if `this` contains all entries from another object to a given depth.                  |
-| [`eq`](docs/api.md#eq)                 | Compare key and value identity between `this` and other objects to a given depth            |
-| [`len`](docs/api.md#len)             | Return number of entres in `this`.                                                          |
-| [`keyBy`](docs/api.md#keyBy)           | Re-index values of this `this` using a given key path                                    |
-| [`memo`](docs/api.md#memo)             | Memoize `this` as a function with configurable result cache expiration                      |
-| [`bind`](docs/api.md#bind)             | Assign a function as a method of `this` with optional memoization                           |
-| [`log`](docs/api.md#log)               | Conditionally write `this` to the console with an optional message                          |
-| [`try`](docs/api.md#try)               | Call a function against `this` and catch any exceptions                                     |
-| [`trap`](docs/trap.md#trap)            | Create a proxy around `this` to intercept property assignments                              |
-| [`new`](docs/api.md#new)               | Create a new object from another using `this` as a prototype, including traps               |
-| [`wait`](docs/api.md#wait)             | Create a Promise which resolves `this` after a timeout or as determined by another function |
+| [`_map`](docs/api.md#map)               | Return a copy of `this` with all entries mapped by a function                               |
+| [`_flatMap`](docs/api.md#flatMap)       | FlatMap a function to all entries of an `this`                                              |
+| [`_values`](docs/api.md#values)         | Return values of `this`                                                                     |
+| [`_create`](docs/api.md#create)         | Create a new Object based on `this` as a prototoype                                         |
+| [`_keys`](docs/api.md#keys)             | Return keys of `this`                                                                       |
+| [`_entries`](docs/api.md#entries)       | Return `[key,value]` entry pairs of `this`                                                  |
+| [`_is`](docs/api.md#is)                 | Check type of `this`                                                                        |
+| [`_has`](docs/api.md#has)               | Check if `this` includes some value                                                         |
+| [`_[@@iterator]`](docs/api.md#iterator) | Iterate through values of `this`                                                            |
+| [`_clean`](docs/api.md#clean)           | Return a copy of `this` without falsey entries                                              |
+| [`_pick`](docs/api.md#pick)         | Create a copy of `this` with only entries with specific keys or values that that match a filter function                    |
+| [`_find`](docs/api.md#find)             | Find keys of `this` which match a function or value                                                  |
+| [`_assign`](docs/api.md#assign)         | Assign new properties to `this`                                                             |
+| [`_extend`](docs/api.md#extend)         | Assign default properties to `this`                                                         |
+| [`_same`](docs/api.md#same)             | Return new object like `this` with properties shared with another                           |
+| [`_diff`](docs/api.md#diff)             | Return new object like `this` with properties not shared with another                       |
+| [`_delete`](docs/api.md#delete)         | Remove keys from `this`                                                                     |
+| [`_some`](docs/api.md#some)             | Test a function against at least one entry of `this`                                        |
+| [`_every`](docs/api.md#every)           | Test a function against all entries of `this`                                               |
+| [`_at`](docs/api.md#at)                 | Lookup value by key path                                                                    |
+| [`_$`](docs/api.md#fmt)                 | Coerce `this` into a string with configurable formatting                                    |
+| [`_clone`](docs/api.md#clone)           | Clone `this` with configurable depths                                                       |
+| [`_join`](docs/api.md#join)             | Join objects together with `this` with array property values                                |
+| [`_split`](docs/api.md#split)           | Split `this` into multiple objects from array property values                               |
+| [`_contains`](docs/api.md#contains)     | Check if `this` contains all entries from another object to a given depth.                  |
+| [`_eq`](docs/api.md#eq)                 | Compare key and value identity between `this` and other objects to a given depth            |
+| [`_len`](docs/api.md#len)             | Return number of entres in `this`.                                                          |
+| [`_keyBy`](docs/api.md#keyBy)           | Re-index values of this `this` using a given key path                                    |
+| [`_memo`](docs/api.md#memo)             | Memoize `this` as a function with configurable result cache expiration                      |
+| [`_bind`](docs/api.md#bind)             | Assign a function as a method of `this` with optional memoization                           |
+| [`_log`](docs/api.md#log)               | Conditionally write `this` to the console with an optional message                          |
+| [`_try`](docs/api.md#try)               | Call a function against `this` and catch any exceptions                                     |
+| [`_trap`](docs/trap.md#trap)            | Create a proxy around `this` to intercept property assignments                              |
+| [`_new`](docs/api.md#new)               | Create a new object from another using `this` as a prototype, including traps               |
+| [`_wait`](docs/api.md#wait)             | Create a Promise which resolves `this` after a timeout or as determined by another function |
 
 ## Fluent Method Chaining
 
