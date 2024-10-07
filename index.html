@@ -106,8 +106,8 @@
         gutterStyle   : 'outside',
         evaluateOnLoad: false,
         readOnly: false,
-        _preamble: 'require("objix@2.0.0")',
-        preamble: `
+        preamble: 'require("objix@2.0.0")',
+        _preamble: `
           const https = require('https'), vm = require('vm')
           const url = 'https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js'
           https.get(url, res => {
