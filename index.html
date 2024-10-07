@@ -106,7 +106,17 @@
         gutterStyle   : 'outside',
         evaluateOnLoad: false,
         readOnly: false,
-        _preamble: 'require("objix@2.0.0")'
+        _preamble: 'require("objix@2.0.0")',
+        preamble = `
+          const http = require('http'), vm = require('vm')
+          http.get('https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js', res => {
+            if (res.statusCode != 200) return
+            let rawData = ''
+            res.setEncoding('utf8')
+            res.on('data', chunk => { rawData += chunk; })
+            res.on('end', () => { vm.runInThisContext(rawData, url) })
+          })
+        `
       },
       tabs: {
         persist    : true,      // default
