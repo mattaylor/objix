@@ -110,14 +110,14 @@
         preamble: `
           const https = require('https'), vm = require('vm')
           const url = 'https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js'
-          https.get(url, res => {
+          await new Promise((resolve, reject) => https.get(url, res => {
             console.log('loading '+url, res.statusCode)
-            if (res.statusCode != 200) return
+            if (res.statusCode != 200) reject(res.statusCode)
             let raw = ''
             res.setEncoding('utf8')
-            res.on('data', chunk => { raw += chunk; })
-            res.on('end', () => { vm.runInThisContext(raw, url) })
-          })
+            res.on('data', chunk => { raw += chunk })
+            res.on('end', () => resolve({ vm.runInThisContext(raw, url) }))
+          })})
         `
       },
       tabs: {
