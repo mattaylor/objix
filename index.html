@@ -108,8 +108,9 @@
         readOnly: false,
         _preamble: 'require("objix@2.0.0")',
         preamble: `
-          const http = require('http'), vm = require('vm')
-          http.get('https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js', res => {
+          const https = require('https'), vm = require('vm')
+          const url = 'https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js'
+          https.get(url, res => {
             if (res.statusCode != 200) return
             let rawData = ''
             res.setEncoding('utf8')
