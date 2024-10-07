@@ -94,8 +94,8 @@
       autoToTop: true,
       maxLevel:4,
       _routerMode: 'history',
-      loadNavbar : '/docs/_navbar.md',
-      loadSidebar: '/docs/_navbar.md',
+      loadNavbar : 'docs/_navbar.md',
+      loadSidebar: 'docs/_navbar.md',
       topMargin: 50,
       search: {
         depth: 5,
@@ -106,11 +106,12 @@
         gutterStyle   : 'outside',
         evaluateOnLoad: false,
         readOnly: false,
-        preamble: 'require("objix@2.0.0")',
-        _preamble: `
+        _preamble: 'require("objix@2.0.0")',
+        preamble: `
           const https = require('https'), vm = require('vm')
           const url = 'https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js'
           https.get(url, res => {
+            console.log('loading '+url, res.statusCode)
             if (res.statusCode != 200) return
             let raw = ''
             res.setEncoding('utf8')
