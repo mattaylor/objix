@@ -116,7 +116,7 @@
             let raw = ''
             res.setEncoding('utf8')
             res.on('data', chunk => { raw += chunk })
-            res.on('end', () => resolve({ vm.runInThisContext(raw, url) }))
+            res.on('end', () => resolve(vm.runInThisContext(raw, url)))
           }))
         `
       },
