@@ -137,6 +137,7 @@
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  <script src="//unpkg.com/docsify-swagger/dist/docsify-swagger.min.js"></script>
   <!--
     <script src="https://cdn.jsdelivr.net/npm/docsify-example-panels"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify-changelog-plugin@latest/dist/index.js"></script>
@@ -161,7 +162,6 @@
     <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script> </script>
     <script src="https://cdn.jsdelivr.net/npm/docsify-example-panels"></script>
     <script src="//unpkg.com/docsify-kroki"></script>
-    <script src="//unpkg.com/docsify-swagger/dist/docsify-swagger.min.js"></script>
     -->
 
   <script src="https://cdn.jsdelivr.net/gh/mattaylor/objix@main/objix.min.js"></script>
@@ -171,7 +171,7 @@
     let o = {a:0, b: 1, c: 2, d: 4}
       ._clean()._log('CLEAN')
       ._map(v => v+1)._log('MAP')
-      ._filter(v => v > 2)._log('FILTER')
+      ._pick(v => v > 2)._log('PICK')
       ._delete('c')._log('DELETE')
   </script>
 </body>
