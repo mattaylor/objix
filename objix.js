@@ -17,7 +17,7 @@ const
   },
 
   map(f, r={}) {
-    if (this.map) return this.map(f,r)
+    if (this.map) return this.map(f)
     for (let k in this) r[k] = f(this[k],k)
     return r
   },
@@ -164,6 +164,5 @@ O.prototype[I] = function() { return this._values()[I]() }
 
 for (let m in M) {
   def(O.prototype,'_'+m,M[m])
-  //def(O.prototype,m,M[m])
   try { module.exports[m] = (o, ...a) => o['_'+m](...a) } catch {}
 }
