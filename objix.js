@@ -60,7 +60,7 @@ const
   
   clone(d, e) {
     return !this._is(O) ? this.valueOf()
-      : (!e && d == -1 && this._len() > 10) ? this._try(global.structuredClone, () => this._clone(d,1))
+      : (!e && d == -1) ? this._try(global.structuredClone, () => this._clone(d,1))
       : this._len() ? this._map(v => v && d ? v._clone(d-1) : v) 
       : this.map ? this : new this[C](this)
   },

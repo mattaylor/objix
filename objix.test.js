@@ -1,11 +1,12 @@
 
 require('./objix')
 const lo = require('lodash')
+//global.structuredClone = require('@ungap/structured-clone')
+
 let o1 = { a: 1 }
 let o2 = { a: 1, b: 2 }
 let o3 = { a: 2, b: 2, c: 3}
 let o4 = { a: 2, b: 2, c: 3, d: 4}
-
 /*
 describe('Not Equals', () => {
   test('Object', () => expect(o1._eq({a:1})).toBeTruthy())

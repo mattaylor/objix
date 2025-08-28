@@ -47,9 +47,8 @@
     "proxy"
   ],
   "devDependencies": {
-    "hdr-histogram-js": "^3.0.0"
-  },
-  "dependencies": {
+    "hdr-histogram-js": "^3.0.0",
+    "@ungap/structured-clone": "^1.3.0",
     "reflect-metadata": "^0.2.2"
   }
 }
