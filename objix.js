@@ -12,7 +12,7 @@ const
   },
 
   some(f) {
-    for (let k in this) if (f(this[k], k)) return true
+    for (let k of K(this)) if (f(this[k], k)) return true
     return false
   },
 
@@ -90,10 +90,10 @@ const
 
   eq(o, d) {
     return this == o || o
-      && this._is(o[C])
-      && this._len() == o._len()
-      && !(this-o)
-      && this._every((v,k) => v == o[k] || d && v?._eq(o[k],d-1))
+    && !(this-o)
+    && this._is(o[C])
+    && this._len() == o._len()
+    && this._every((v,k) => v == o[k] || d && v?._eq(o[k],d-1))
   },
 
   len() {
