@@ -23,7 +23,7 @@ const
   },
 
   has(v) {
-    return this._some(x => v == x)
+    return Object.values(this).includes(v)
   },
 
   pick(f, r={}) {
