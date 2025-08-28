@@ -23,7 +23,7 @@ const
   },
 
   has(v) {
-    return Object.values(this).includes(v)
+    return O.values(this).includes(v)
   },
 
   pick(f, r={}) {
