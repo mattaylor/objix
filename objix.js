@@ -106,11 +106,11 @@ const
   },
 
   at(p) {
-    return this[p] || p._split('.')._reduce((v,c) => v[c], this)
+    return this[p] ?? String(p).split('.').reduce((v,c) => v?.[c], this)
   },
 
   $(s) {
-    return s ? s._is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this._at(p).$())
+    return s ? s._is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this._at(p)?._$() ?? '')
       : (s.stringify || s)(this)
       : this._$(JSON).replace(/"(\w+)":/g,'$1:')
   },
@@ -144,11 +144,11 @@ const
   trap(f, e, ...p) {
     return new Proxy(this, {
       set(t,k,v) {
-        if ((!p[0] || p._find(k)) && !f(v,k,t) && e) throw(e+' '+[k,v].$())
-        return t[k] = v
+        if ((!p[0] || p._find(k)) && !f(v,k,t) && e) throw(e+' '+[k,v]._$())
+        return (t[k] = v, true)
       },
       get(t,k) {
-        return {_t:t, _h:this}[k] || t[k]
+        return k == '_t' ? t : k == '_h' ? this : t[k]
       }
     })
   }
