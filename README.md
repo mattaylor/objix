@@ -141,3 +141,25 @@ const _ = require('objix')
 _.len({ a: 1 }) == { a: 1 }._len() // true
 _.find({ a: 1 }, v => v) == { a: 1 }._find(v => v) //true
 ```
+
+## Testing
+
+The unit test suite runs on [Jest](https://jestjs.io) under Node, with one test
+file per API function under `test/`.
+
+```bash
+npm install
+npm test              # run the suite
+npm run test:coverage # run with a coverage report
+npm run test:watch    # re-run on change
+npm run test:legacy   # the original console.assert script (silent on success)
+```
+
+Coverage is enforced at 100% of statements, branches, functions and lines for
+`objix.js`.
+
+Note for contributors: because objix installs `Symbol.iterator` on
+`Object.prototype`, and Jest's equality treats *any* object with an iterator as
+an ordered sequence, `test/setup.js` detaches that iterator so `toEqual` stays
+order-insensitive. `test/iterator.test.js` restores it locally — see the comments
+in both files before changing them.

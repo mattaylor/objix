@@ -51,15 +51,16 @@ var o = { a: 1 }._values() // [1]
 
 <a id="create"></a>
 
-## `Object._create()`
+## `Object._create(descriptors)`
 
-Object.create(`this`)
+Object.create(`this`, `descriptors`) — returns a new object with `this` as its prototype and no own enumerable keys, unless property `descriptors` are supplied.
 
 <div data-runkit>
 
 ```javascript
 var o = { a: 1 }._create() // {}
 o.a // 1
+var p = { a: 1 }._create({ b: { value: 2, enumerable: true } }) // { b: 2 }
 ```
 
 </div>
@@ -94,9 +95,9 @@ var o = { a: 1 }._entries() // [[a, 1]]
 
 <a id="is"></a>
 
-## `Object._is(type)`
+## `Object._is(type, exact)`
 
-True if `this` is an instance of `type`.
+True if `this` is an instance of `type`. If `exact` is truthy, only an exact constructor match counts, so inherited types are excluded — `new Class2()._is(Class1, true)` is `false` while `._is(Class2, true)` is `true`.
 
 <div data-runkit>
 
@@ -113,7 +114,7 @@ t.f._is(Function) // true
 t.f._is(Object) // false
 t.o._is(Object) // true
 t.d._is(Date) // true
-t.d._is(Object) // false
+t.d._is(Object) // true
 t.n._is(Number) // true
 t.b._is(Boolean) // true
 t.c._is(Class1) // true
@@ -189,14 +190,14 @@ var o = { a: 1, b: 2 }._pick(v => v > 2) // {}
 
 ## `Object._find(test)`
 
-If `test` is a function, Return first key of `this` which passes `test` where `test` takes each value and key as arguments. If `test` is not a function then return the first key of `this` where the value equals `test` (using `value.eq(test)`)
+If `test` is a function, Return first key of `this` which passes `test` where `test` takes each value and key as arguments. If `test` is not a function then return the first key of `this` where the value equals `test` (using `value._eq(test)`). Returns `undefined` if nothing matches.
 
 <div data-runkit>
 
 ```javascript
 var o = { a: 1, b: 2 }._find(v => v > 1) // 'b'
-var o = { a: 1, b: 2 }._find(v => v > 2) // null
-var o = { a: 1, b: 2 }._find(2) // b
+var o = { a: 1, b: 2 }._find(v => v > 2) // undefined
+var o = { a: 1, b: 2 }._find(2) // 'b'
 var o = { a: 1, b: 2 }._find(0) // undefined
 
 ```
@@ -326,9 +327,9 @@ var o = { a: 1, b: { c: 3 } }._at('b.c') // 3
 
 ## `Object._$(formatter)`
 
-Returns a string representation of `this`. If `formatter` is not specified it will return a a string based on `JSON.stringify(this)` with all double quote and escape characters removed.
+Returns a string representation of `this`. If `formatter` is not specified it will return a string based on `JSON.stringify(this)` with the quotes around keys removed. Quotes around string *values* are retained.
 
-If `formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this.at(key).$()`
+If `formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this._at(key)._$()`. A key that is not found substitutes an empty string.
 
 If `formatter` is not a string then the `stringify` method of the `Formatter` will be called with `this` as an argument, allowing alternative standard formatters such as `JSON` to be used. If there the formatter does not have a stringify method then `formatter` will be called as a function with `this` as its argument.
 
@@ -336,7 +337,7 @@ If `formatter` is not a string then the `stringify` method of the `Formatter` wi
 
 ```javascript
 var o = { a: 1 }._$() // '{a:1}'
-var o = { a: 1, b: [2, 3], c: { d: 'four,five' } }._$() // '{a:1,b:[2,3],c:{d:four,five}}'
+var o = { a: 1, b: [2, 3], c: { d: 'four,five' } }._$() // '{a:1,b:[2,3],c:{d:"four,five"}}'
 var o = { a: 1 }._$(JSON) // '{"a":1}'
 var o = { a: 1 }._$(JSON.stringify) // '{"a":1}'
 var o = { a: 1, b: { c: 2 } }._$('b is $b and b.c is ${b.c}') // 'b is {c:2} and b.c is 2'
@@ -370,12 +371,14 @@ o3 // { a: 1, b: { c: 1 }}
 
 ## `Object._join(...objects)`
 
-Return a new Object with the same keys as `this` and some values as arrays which concatenate the original value of `this` with values from all of the arguments having the same key.
+Return a new Object with the same keys as `this` and some values as arrays which concatenate the original value of `this` with values from all of the arguments having the same key. Keys present only in the arguments are ignored, and keys whose value in `this` is falsy are left untouched.
 
 <div data-runkit>
 
 ```javascript
 var o = { a: 1 }._join({ a: 2 }, { a: 3 }) // { a: [ 1, 2, 3 ]}
+var o = { a: 1, b: 2 }._join({ a: 9 }) // { a: [ 1, 9 ], b: 2 }
+var o = { a: 0 }._join({ a: 1 }) // { a: 0 } — falsy values are skipped
 ```
 
 </div>
@@ -389,7 +392,7 @@ Split `this` into an array of similar objects containing values corresponding to
 <div data-runkit>
 
 ```javascript
-var o = { a: [1, 2], b: [1, 3] }._split() // [{ a: 1, b: 1 }, { a: 2, b: 2 }]
+var o = { a: [1, 2], b: [1, 3] }._split() // [{ a: 1, b: 1 }, { a: 2, b: 3 }]
 ```
 
 </div>
@@ -398,12 +401,12 @@ var o = { a: [1, 2], b: [1, 3] }._split() // [{ a: 1, b: 1 }, { a: 2, b: 2 }]
 
 ## `Object._contains(object, depth)`
 
-True if all entries of argument are also in `this`. May recurse to a given depth (-1 = any depth)
+Truthy if all entries of argument are also in `this`. May recurse to a given depth (-1 = any depth). Returns `undefined` rather than `false` when an entry is missing, so test the result for truthiness.
 
 <div data-runkit>
 
 ```javascript
-var o = { a: 1 }._contains({ a: 1, b: 2 }) // false
+var o = { a: 1 }._contains({ a: 1, b: 2 }) // undefined (falsy)
 var o = { a: 1, b: 2 }._contains({ a: 1 }) // true
 var o = { a: 1, b: [{ c: 1 }] }._contains({ c: 1 }, 1) // false
 var o = { a: 1, b: [{ c: 1 }] }._contains({ c: 1 }, 2) // true
@@ -449,14 +452,14 @@ var o = { a: 1, b: 2 }._len() // 2
 
 ## `Object._keyBy(path)`
 
-Re-Index values of this `this` using the given key path, and return `this`.
+Re-Index values of `this` using the given key path, and return a new object keyed by the value found at that path. Values sharing a key are collected into an array, most recently seen first. `this` must be mappable (an array), since `_keyBy` calls `this.map`.
 
 <div data-runkit>
 
 ```javascript
-var o = [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }].keyBy('a')
-o // { o1: { a: 'o1' }, o2: [{ a: 'o2', b: 1 }, { a: 'o2' }]
-var o = [{ a: { b: { c:'o1' }}}, { a: { b: { c: 'o2' }}}].keyBy('a.b.c')
+var o = [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }]._keyBy('a')
+o // { o1: { a: 'o1' }, o2: [{ a: 'o2', b: 1 }, { a: 'o2' }] }
+var o = [{ a: { b: { c:'o1' }}}, { a: { b: { c: 'o2' }}}]._keyBy('a.b.c')
 o // { o1: { a: { b: { c:'o1' }}}, o2: { a: { b: { c: 'o2' }}}}
 ```
 
@@ -486,7 +489,9 @@ setTimeout(() => logNow(3), 1000) // "3 time is 1:5:07:07 PM"
 
 Binds a function to `this` as a non enumerable property using the given key. When called `this` will be applied as the **last** argument.
 
-If `expires` is defined then the function will be memoized with the given expiration time in seconds.
+If `expires` is defined then the function will be memoized with the given expiration time in seconds. Note that a memoized bound function does not receive `this` as its last argument — `_memo` wraps it in an arrow function, which loses the receiver — so only use `expires` for functions that do not need `this`.
+
+An existing key is never overwritten, and the bound property is non-enumerable.
 Always returns `this`
 
 <div data-runkit>
@@ -496,6 +501,7 @@ var o = { a: 1, b: 2, c: 3 }
 o._bind('max', m => m._values().sort((a, b) => b - a)[0])
 o.max() // 3
 
+// The memoized form takes no arguments, so losing the receiver does not matter.
 o._bind('nowish', () => new Date(), 1)
 o.nowish() // 2022-10-17T00:01:00.364Z
 o.nowish() // 2022-10-17T00:01:00.364Z
@@ -571,7 +577,7 @@ var o = { a: 1, sum: 1 }
   ._trap((v, k, t) => v != t[k] && console.log(k + ' has changed'))
   ._trap(v => v > 0, 'Values must be positive', 'a', 'b', 'c')
   ._trap((v, k, t) => k != 'sum' && (t.sum += t[k] ? v - t[k] : v))
-  .+trap(v => false, 'Read only', 'sum')
+  ._trap(v => false, 'Read only', 'sum')
 
 o.b = 2 //  b has changed
 o.c = 0 //  Uncaught 'Values must be positive, c, 0'
@@ -585,15 +591,15 @@ o // { a: 1, b: 2, sum: 3 }
 
 ## `Object._new(object)`
 
-Create a new object using `this` as its protoype with additonal properties assigned from the argument. If traps have been defined for `this`, then the new object will also be a Proxy with the same trap handlers but will target a new object which uses `this` as its Object._
+Create a new object using `this` as its prototype, with additional properties assigned from the argument. Properties from the argument are *own* properties of the new object; everything else is inherited from `this`. If traps have been defined for `this`, then the new object will also be a Proxy with the same trap handlers, but will target a new object which uses `this` as its prototype.
 
 <div data-runkit>
 
 ```javascript
 var P = { a: 1 }._trap(v => v > 0, 'Not Positive')
-var o1 = P._new({ b: 1 }) // { a: 1, b: 1 }
-var o2 = P._new({ a: 2 }) // { a: 2 }
-o1.c = 0 // // Uncaught 'Not Positive, c, 0'
+var o1 = P._new({ b: 1 }) // own { b: 1 }, and o1.a is 1 by inheritance
+var o2 = P._new({ a: 2 }) // own { a: 2 }, shadowing the inherited a
+o1.c = 0 // Uncaught 'Not Positive ["c",0]'
 ```
 
 </div>
@@ -622,7 +628,7 @@ var f = o =>
 f({ a: 1, b: 2 }) // 2022-10-19T21:55 SUCCESS 2
 f({ a: 1 }) // 2022-10-19T21:55 ERROR TypeError: Cannot read properties of undefined
 
-var s = (await 'https://objix.dev'.wait(fetch)).status // 200
+var s = (await 'https://objix.dev'._wait(fetch)).status // 200
 ```
 
 </div>
