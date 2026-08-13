@@ -144,22 +144,36 @@ _.find({ a: 1 }, v => v) == { a: 1 }._find(v => v) //true
 
 ## Testing
 
-The unit test suite runs on [Jest](https://jestjs.io) under Node, with one test
-file per API function under `test/`.
+The unit test suite has one test file per API function under `test/`, and runs
+both on [Jest](https://jestjs.io) under Node and directly under
+[Bun](https://bun.sh).
 
 ```bash
 npm install
-npm test              # run the suite
+npm test              # run the suite on Jest
 npm run test:coverage # run with a coverage report
 npm run test:watch    # re-run on change
+npm run test:bun      # run the same suite under `bun test`
 npm run test:legacy   # the original console.assert script (silent on success)
 ```
 
 Coverage is enforced at 100% of statements, branches, functions and lines for
 `objix.js`.
 
-Note for contributors: because objix installs `Symbol.iterator` on
-`Object.prototype`, and Jest's equality treats *any* object with an iterator as
-an ordered sequence, `test/setup.js` detaches that iterator so `toEqual` stays
-order-insensitive. `test/iterator.test.js` restores it locally — see the comments
-in both files before changing them.
+Notes for contributors:
+
+- `test/setup.js` loads objix for every test file. Jest picks it up through
+  `setupFiles` in `jest.config.js`; Bun ignores that and reads `preload` from
+  `bunfig.toml` instead. Both need to stay in step.
+- Under Jest that setup also **detaches** `Object.prototype[Symbol.iterator]`.
+  objix installs it so any object can be spread, but Jest's equality treats *any*
+  object carrying an iterator as an ordered sequence, which breaks `toEqual` on
+  key order. Bun's `toEqual` compares by keys regardless, so it keeps the iterator
+  installed. `test/iterator.test.js` restores it where the behaviour is under
+  test — read the comments in both files before changing them.
+- Bun shares one module registry and one `Object.prototype` across all test
+  files, where Jest isolates each. Tests must therefore not rely on prototype
+  state set up by another file, and must not tear down shared state that other
+  files depend on.
+- Prefer `jest.advanceTimersByTime` plus awaited microtask ticks over
+  `advanceTimersByTimeAsync`, which Bun does not implement.

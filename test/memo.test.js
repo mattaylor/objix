@@ -3,6 +3,16 @@
 //
 // _memo schedules a real setTimeout for the expiry, so tests use fake timers to
 // keep pending timers from outliving the suite and to advance expiry instantly.
+//
+// Advancing is split into a synchronous `advanceTimersByTime` plus two microtask
+// ticks rather than `advanceTimersByTimeAsync`, which Bun does not implement.
+// The expiry fires `_wait(e).then(...)`, so one tick settles the timer's promise
+// and the second runs the `delete` in its `then`.
+const advance = async ms => {
+  jest.advanceTimersByTime(ms)
+  await Promise.resolve()
+  await Promise.resolve()
+}
 
 describe('_memo', () => {
   beforeEach(() => jest.useFakeTimers())
@@ -44,7 +54,7 @@ describe('_memo', () => {
     memoised(1)
     memoised(1)
     expect(calls).toBe(1)
-    await jest.advanceTimersByTimeAsync(1001)
+    await advance(1001)
     memoised(1)
     expect(calls).toBe(2)
   })
@@ -54,7 +64,7 @@ describe('_memo', () => {
     const double = a => (calls++, a * 2)
     const memoised = double._memo(1)
     memoised(1)
-    await jest.advanceTimersByTimeAsync(900)
+    await advance(900)
     memoised(1)
     expect(calls).toBe(1)
   })

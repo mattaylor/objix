@@ -4,8 +4,16 @@
 // equality only checks for its *presence* and would then compare every plain
 // object as an ordered sequence (see setup.js for the full rationale). This file
 // is where the iterator itself is under test, so it restores the function setup.js
-// stashed - the library's own implementation, not a copy. Jest gives each test
-// file a fresh global scope, so the re-install stays local to this file.
+// stashed - the library's own implementation, not a copy - and puts things back
+// afterwards.
+//
+// Under Bun none of that applies: its `toEqual` compares plain objects by their
+// keys even when an iterator is present, so setup.js leaves the iterator in
+// place. The restore below is then a no-op, and the teardown must NOT remove it -
+// Bun runs every test file against one shared Object.prototype, so deleting it
+// here would break whichever files happen to run next. Jest, by contrast, gives
+// each file a fresh global scope, so its re-install stays local.
+const detached = !Object.prototype[Symbol.iterator]
 
 beforeAll(() => {
   Object.prototype[Symbol.iterator] = globalThis.OBJIX_ITERATOR
@@ -16,7 +24,7 @@ test('the restored iterator is objix own implementation', () => {
 })
 
 afterAll(() => {
-  delete Object.prototype[Symbol.iterator]
+  if (detached) delete Object.prototype[Symbol.iterator]
 })
 
 describe('Symbol.iterator on Object.prototype', () => {

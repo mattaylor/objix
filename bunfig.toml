@@ -1,0 +1,6 @@
+# Bun does not read jest.config.js, so the shared test setup is preloaded here
+# instead. Without this, `bun test <single-file>` would run against an unpatched
+# Object.prototype: Bun shares one module registry across test files, so a
+# `require('../objix')` inside any one file cannot be relied on by the others.
+[test]
+preload = ["./test/setup.js"]
