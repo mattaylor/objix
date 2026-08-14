@@ -1,6 +1,6 @@
 {
   "name": "objix",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A powerfull, high performance, lightweight library to injecs many usefull methods into the Object prototype to sugar many use cases working with common Javascript object.",
   "main": "objix.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "test:coverage": "jest --coverage",
     "test:bun": "bun test",
     "test:legacy": "node ./objix.test",
-    "perf": "node ./bench"
+    "perf": "node ./bench",
+    "perf:bun": "bun ./bench.js"
   },
   "repository": {
     "type": "git",
