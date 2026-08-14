@@ -63,14 +63,19 @@ describe('_bind', () => {
     expect(calls).toBe(1)
   })
 
-  test('KNOWN ISSUE: an expiry loses the receiver, so self is undefined', () => {
-    // _memo wraps the bound method in an arrow function, which captures the
-    // enclosing `this` (the module scope) instead of the object the method is
-    // called on. Without an expiry the wrapper is a normal function and `self`
-    // is passed correctly - see the tests above.
-    const o = { a: 1 }
+  test('an expiry still passes the object through as self', () => {
+    const o = { a: 5 }
     o._bind('getA', self => self?.a ?? 'no receiver', 1)
-    expect(o.getA()).toBe('no receiver')
+    expect(o.getA()).toBe(5)
+  })
+
+  test('an expiry memoises without leaking results between objects', () => {
+    // _bind builds a fresh wrapper per call, so each object gets its own cache
+    // even though _memo keys purely on the argument list.
+    const fn = self => self.a
+    const first = { a: 1 }._bind('getA', fn, 1)
+    const second = { a: 2 }._bind('getA', fn, 1)
+    expect([first.getA(), second.getA()]).toEqual([1, 2])
   })
 
   test('without an expiry the bound method runs every call', () => {

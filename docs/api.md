@@ -483,13 +483,24 @@ setTimeout(() => logNow(3), 1000) // "3 time is 1:5:07:07 PM"
 
 </div>
 
+The wrapper forwards its receiver, so `this` works inside a memoized method. Note that the cache is keyed by the arguments alone, so one wrapper shared between objects also shares its results:
+
+```javascript
+var get = function() { return this.a }._memo(1)
+var x = { a: 1, get: get }, y = { a: 2, get: get }
+x.get() // 1
+y.get() // 1 - same arguments, so x's cached result is returned
+```
+
+Give each object its own wrapper — or use [`_bind`](#bind), which does so for you — when the result depends on `this`.
+
 <a id="bind"></a>
 
 ## `Object._bind(key, function, expires)`
 
 Binds a function to `this` as a non enumerable property using the given key. When called `this` will be applied as the **last** argument.
 
-If `expires` is defined then the function will be memoized with the given expiration time in seconds. Note that a memoized bound function does not receive `this` as its last argument — `_memo` wraps it in an arrow function, which loses the receiver — so only use `expires` for functions that do not need `this`.
+If `expires` is defined then the function will be memoized with the given expiration time in seconds. `this` is still applied as the last argument, and each bound method gets its own cache, so memoizing here is safe for functions that read the object.
 
 An existing key is never overwritten, and the bound property is non-enumerable.
 Always returns `this`
@@ -501,7 +512,7 @@ var o = { a: 1, b: 2, c: 3 }
 o._bind('max', m => m._values().sort((a, b) => b - a)[0])
 o.max() // 3
 
-// The memoized form takes no arguments, so losing the receiver does not matter.
+// The memoized form caches per bound method and still receives the object.
 o._bind('nowish', () => new Date(), 1)
 o.nowish() // 2022-10-17T00:01:00.364Z
 o.nowish() // 2022-10-17T00:01:00.364Z

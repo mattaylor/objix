@@ -115,8 +115,8 @@ const
       : this._$(JSON).replace(/"(\w+)":/g,'$1:')
   },
 
-  memo(e) {
-    return e ? (...a) => this[a._$()] ??= (this._wait(e).then(t => delete t[a._$()]),this(...a)) : this
+  memo(e, f=this) {
+    return e ? function(...a) { return f[a._$()] ??= (f._wait(e).then(t => delete t[a._$()]), f.apply(this,a)) } : this
   },
 
   bind(k, f, e) {

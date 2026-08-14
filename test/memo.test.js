@@ -114,4 +114,19 @@ describe('_memo', () => {
     const add = (a, b) => a + b
     expect(add._memo(1)).not.toBe(add)
   })
+
+  test('the receiver is forwarded to the wrapped function', () => {
+    const o = { a: 7, getA: function () { return this.a }._memo(1) }
+    expect(o.getA()).toBe(7)
+  })
+
+  test('the cache is keyed by arguments only, not by receiver', () => {
+    // Sharing one memoised function across objects shares one cache, so a call
+    // with the same arguments returns the first receiver's result. _bind avoids
+    // this by creating a fresh wrapper per call.
+    const shared = function () { return this.a }._memo(1)
+    const first = { a: 1, get: shared }
+    const second = { a: 2, get: shared }
+    expect([first.get(), second.get()]).toEqual([1, 1])
+  })
 })
