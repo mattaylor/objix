@@ -263,9 +263,9 @@ var o = { a: 1, b: 2 }._every(v => v > 0) // true
 var o = { a: 1, b: 2 }._every(v => v > 1) // false
 ```
 
-<a id="at"></a>
 
 ## `Object.prototype._at(path)`
+<a id="at"></a>
 
 Return the property of `this` at `path`. If `path` is string containing `.` delimited keys then the `this` will be traversed accordingly. E.G `o.at('k1.k2')` will return `o.k1.k2`
 
