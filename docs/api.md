@@ -8,7 +8,6 @@ are shown beneath each block, so the `// ...` comments can be checked against
 what actually happens.
 
 <a id="map"></a>
-
 ## `Object.prototype._map(function, target={})`
 
 Returns `target` including all the keys of `this` with `function` applied to each value. Function takes value and key as arguments.
@@ -19,7 +18,6 @@ var o = { a: 1, b: 2 }._map((v, k) => (k == 'b' ? v + 1 : v)) // { a: 1, b: 3 }
 ```
 
 <a id="flatmap"></a>
-
 ## `Object.prototype._flatMap(function)`
 
 Returns a new object based on `this` but which may have a different set of properties. The `function` is applied to each entry of `this` and is expected to return an array of zero or more key,value entry pairs (eg `[[k1,v1],[k2,v2],._]`) which are then used to build the new object which is returned.
@@ -33,7 +31,6 @@ var o = { a: 1, b: 0 }._flatMap((k, v) => (v ? [[k, v + 1]] : [])) // { a: 2 }
 ```
 
 <a id="values"></a>
-
 ## `Object.prototype._values()`
 
 Object.values(`this`)
@@ -43,7 +40,6 @@ var o = { a: 1 }._values() // [1]
 ```
 
 <a id="create"></a>
-
 ## `Object.prototype._create(descriptors)`
 
 Object.create(`this`, `descriptors`) — returns a new object with `this` as its prototype and no own enumerable keys, unless property `descriptors` are supplied.
@@ -55,7 +51,6 @@ var p = { a: 1 }._create({ b: { value: 2, enumerable: true } }) // { b: 2 }
 ```
 
 <a id="keys"></a>
-
 ## `Object.prototype._keys()`
 
 Object.keys(`this`)
@@ -65,7 +60,6 @@ var o = { a: 1 }._keys() // ['a']
 ```
 
 <a id="entries"></a>
-
 ## `Object.prototype._entries()`
 
 Object.entries(`this`)
@@ -75,7 +69,6 @@ var o = { a: 1 }._entries() // [[a, 1]]
 ```
 
 <a id="is"></a>
-
 ## `Object.prototype._is(type, exact)`
 
 True if `this` is an instance of `type`. If `exact` is truthy, only an exact constructor match counts, so inherited types are excluded — `new Class2()._is(Class1, true)` is `false` while `._is(Class2, true)` is `true`.
@@ -102,7 +95,6 @@ t.c._is(Object) // true
 ```
 
 <a id="has"></a>
-
 ## `Object.prototype._has(value)`
 
 Return true if `value` is a member of the values of `this`, otherwise `false`.
@@ -127,7 +119,6 @@ without being read as an array index or a block. Assigning to a variable first,
 or wrapping the literal in parentheses, avoids it.
 
 <a id="iter"></a>
-
 ## `Object.prototype._[@@iterator]`
 
 Iterate through the values of `this`.
@@ -151,7 +142,6 @@ sequence. Some test runners compare iterables by order rather than by key for
 this reason, so objix's own test setup detaches the iterator under Jest.
 
 <a id="clean"></a>
-
 ## `Object.prototype._clean()`
 
 Return a new object like `this` with falsy entry values removed
@@ -161,7 +151,6 @@ var o = { a: 1, b: null, c: false, d: 0, e: '' }._clean() // { a: 1 }
 ```
 
 <a id="pick"></a>
-
 ## `Object.prototype._pick(function||list, target={})`
 
 If the first argument is a function, returns `target` including all entries of `this` for which the the supplied function returns truthy using value and key as arguments.
@@ -175,7 +164,6 @@ var o = { a: 1, b: 2 }._pick(v => v > 2) // {}
 ```
 
 <a id="find"></a>
-
 ## `Object.prototype._find(test)`
 
 If `test` is a function, Return first key of `this` which passes `test` where `test` takes each value and key as arguments. If `test` is not a function then return the first key of `this` where the value equals `test` (using `value._eq(test)`). Returns `undefined` if nothing matches.
@@ -189,7 +177,6 @@ var o = { a: 1, b: 2 }._find(0) // undefined
 ```
 
 <a id="assign"></a>
-
 ## `Object.prototype._assign(...objects)`
 
 Assign and overwrite entries of `this` from arguments in ascending priority and return `this`.
@@ -199,7 +186,6 @@ var o = { a: 0, b: 0 }._assign({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 1, b: 2, 
 ```
 
 <a id="extend"></a>
-
 ## `Object.prototype._extend(...objects)`
 
 Assigns properties into `this` from the arguments in ascending priority order. Properties of `this` are assigned only if null or undefined in `this`.
@@ -210,7 +196,6 @@ var o = { a: 0, b: 0 }._extend({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 0, b: 0, 
 ```
 
 <a id="same"></a>
-
 ## `Object.prototype._same(object)`
 
 Return a new object with entries of `this` that are present in the supplied object with equal value
@@ -220,7 +205,6 @@ var o = { a: 1, b: 2 }._same({ a: 2, b: 2 }) // { b: 2 }
 ```
 
 <a id="diff"></a>
-
 ## `Object.prototype._diff(object)`
 
 Return new object with entries of `this` that are not present in the supplied object with equal value
@@ -230,7 +214,6 @@ var o = { a: 1, b: 2 }._diff({ a: 2, b: 2 }) // { a: 1 }
 ```
 
 <a id="delete"></a>
-
 ## `Object.prototype._delete(...keys)`
 
 Return `this` with entries deleted where the key is included in arguemnts.
@@ -239,8 +222,8 @@ Return `this` with entries deleted where the key is included in arguemnts.
 var o = { a: 1, b: 2, c: 3 }._delete('a', 'b') // { c: 3 }
 ```
 
-## `Object.prototype._some(function)`
 <a id="some"></a>
+## `Object.prototype._some(function)`
 
 True if any entry of `this` passes function.
 Function takes value and key as arguments.
@@ -250,8 +233,8 @@ var o = { a: 1, b: 2 }._some(v => v > 1) // true
 var o = { a: 1, b: 2 }._some(v => v > 2) // false
 ```
 
-## `Object.prototype._every(function)`
 <a id="every"></a>
+## `Object.prototype._every(function)`
 
 True if all entries pass function.
 Function takes value and key as arguments.
@@ -261,8 +244,8 @@ var o = { a: 1, b: 2 }._every(v => v > 0) // true
 var o = { a: 1, b: 2 }._every(v => v > 1) // false
 ```
 
-## `Object.prototype._at(path)` 
 <a id="at"></a>
+## `Object.prototype._at(path)` 
 
 Return the property of `this` at `path`. If `path` is string containing `.` delimited keys then the `this` will be traversed accordingly. E.G `o.at('k1.k2')` will return `o.k1.k2`
 
@@ -273,7 +256,6 @@ var o = { a: 1, b: { c: 3 } }._at('b.c') // 3
 ```
 
 <a id="fmt"></a>
-
 ## `Object.prototype._$(formatter)`
 
 Returns a string representation of `this`. If `formatter` is not specified it will return a string based on `JSON.stringify(this)` with the quotes around keys removed. Quotes around string *values* are retained.
@@ -291,7 +273,6 @@ var o = { a: 1, b: { c: 2 } }._$('b is $b and b.c is ${b.c}') // 'b is {c:2} and
 ```
 
 <a id="clone"></a>
-
 ## `Object.prototype._clone(depth)`
 
 Return new object with entries cloned from `this`.
@@ -309,7 +290,6 @@ o3 // { a: 1, b: { c: 1 }}
 ```
 
 <a id='join'></a>
-
 ## `Object.prototype._join(...objects)`
 
 Return a new Object with the same keys as `this` and some values as arrays which concatenate the original value of `this` with values from all of the arguments having the same key. Keys present only in the arguments are ignored, and keys whose value in `this` is falsy are left untouched.
@@ -321,7 +301,6 @@ var o = { a: 0 }._join({ a: 1 }) // { a: 0 } — falsy values are skipped
 ```
 
 <a id="split"></a>
-
 ## `Object.prototype._split(array=[])`
 
 Split `this` into an array of similar objects containing values corresponding to same indexed entry `this` if the entry is an array.
@@ -331,7 +310,6 @@ var o = { a: [1, 2], b: [1, 3] }._split() // [{ a: 1, b: 1 }, { a: 2, b: 3 }]
 ```
 
 <a id="contains"></a>
-
 ## `Object.prototype._contains(object, depth)`
 
 Truthy if all entries of argument are also in `this`. May recurse to a given depth (-1 = any depth). Returns `undefined` rather than `false` when an entry is missing, so test the result for truthiness.
@@ -344,7 +322,6 @@ var o = { a: 1, b: [{ c: 1 }] }._contains({ c: 1 }, 2) // true
 ```
 
 <a id="eq"></a>
-
 ## `Object.prototype._eq(object, depth)`
 
 True if all entries of `this` equal the argument and argument has no other entries
@@ -358,7 +335,6 @@ var o = { a: 1, b: { c: 1 } }._eq({ a: 1, b: { c: 1 } }, 1) // true
 ```
 
 <a id="size"></a>
-
 ## `Object.prototype._len()`
 
 Return number of entries of `this`.
@@ -370,7 +346,6 @@ var o = { a: 1, b: 2 }._len() // 2
 ```
 
 <a id="keyBy"></a>
-
 ## `Object.prototype._keyBy(path)`
 
 Re-Index values of `this` using the given key path, and return a new object keyed by the value found at that path. Values sharing a key are collected into an array, most recently seen first. `this` must be mappable (an array), since `_keyBy` calls `this.map`.
@@ -383,7 +358,6 @@ o // { o1: { a: { b: { c:'o1' }}}, o2: { a: { b: { c: 'o2' }}}}
 ```
 
 <a id="memo"></a>
-
 ## `Object.prototype._memo(expires)`
 
 Returns a memoized wrapper around `this` as a function such that any calls to `this` with the same set of arguments within `expires` seconds will return the first cached result, without re-executing the function. Cached results are indexed by the `$()` representation of the arguments the function was orignally called with and are automatically removed after `expires` seconds have elapsed.
@@ -408,7 +382,6 @@ y.get() // 1 - same arguments, so x's cached result is returned
 Give each object its own wrapper — or use [`_bind`](#bind), which does so for you — when the result depends on `this`.
 
 <a id="bind"></a>
-
 ## `Object.prototype._bind(key, function, expires)`
 
 Binds a function to `this` as a non enumerable property using the given key. When called `this` will be applied as the **last** argument.
@@ -431,7 +404,6 @@ setTimeout(() => o.nowish(), 1000) // 2022-10-17T00:01:01.565Z
 ```
 
 <a id="log"></a>
-
 ## `Object.prototype._log(msg, test, type='log')`
 
 Prints `this.$()` to the console together with a minute timestamp and an optional msg.
@@ -451,7 +423,6 @@ var o = { a: 0, b: 1 }
 ```
 
 <a id="try"></a>
-
 ## `Object.prototype._try(function, catch, return)`
 
 Calls `function` with `this` as its argument in a try catch block.
@@ -478,7 +449,6 @@ Log the error with `console.log` rather than [`_log`](#log). `_log` formats with
 `Error` keeps its `message` and `name` on the prototype, not as own keys.
 
 <a id="trap"></a>
-
 ## `Object.prototype._trap(function, error, ...keys)`
 
 Returns a proxy of `this` which traps property assignments using the supplied function. The function takes `val`, `key` and `this` as arguments.
@@ -512,7 +482,6 @@ it throws a **string**, not an `Error`, so `catch (e)` gives you the message
 itself.
 
 <a id="new"></a>
-
 ## `Object.prototype._new(object)`
 
 Create a new object using `this` as its prototype, with additional properties assigned from the argument. Properties from the argument are *own* properties of the new object; everything else is inherited from `this`. If traps have been defined for `this`, then the new object will also be a Proxy with the same trap handlers, but will target a new object which uses `this` as its prototype.
@@ -527,7 +496,6 @@ o1._try(t => (t.c = 0), e => e) // 'Not Positive ["c",0]' - P's trap came too
 ```
 
 <a id="wait"></a>
-
 ## `Object.prototype._wait(defer)`
 
 Returns a new promise wrapped around `this`.
