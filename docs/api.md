@@ -169,10 +169,11 @@ var o = { a: 1, b: 2 }._pick(v => v > 2) // {}
 If `test` is a function, Return first key of `this` which passes `test` where `test` takes each value and key as arguments. If `test` is not a function then return the first key of `this` where the value equals `test` (using `value._eq(test)`). Returns `undefined` if nothing matches.
 
 ```javascript
-var o = { a: 1, b: 2 }._find(v => v > 1) // 'b'
-var o = { a: 1, b: 2 }._find(v => v > 2) // undefined
-var o = { a: 1, b: 2 }._find(2) // 'b'
-var o = { a: 1, b: 2 }._find(0) // undefined
+var o = { a: 1, b: 2 }.
+o._find(v => v > 1) // 'b'
+o._find(v => v > 2) // undefined
+o._find(2) // 'b'
+o._find(0) // undefined
 
 ```
 
@@ -229,8 +230,9 @@ True if any entry of `this` passes function.
 Function takes value and key as arguments.
 
 ```javascript
-var o = { a: 1, b: 2 }._some(v => v > 1) // true
-var o = { a: 1, b: 2 }._some(v => v > 2) // false
+var o = { a: 1, b: 2 }
+o._some(v => v > 1) // true
+o._some(v => v > 2) // false
 ```
 
 <a id="every"></a>
@@ -240,8 +242,9 @@ True if all entries pass function.
 Function takes value and key as arguments.
 
 ```javascript
-var o = { a: 1, b: 2 }._every(v => v > 0) // true
-var o = { a: 1, b: 2 }._every(v => v > 1) // false
+var o = { a: 1, b: 2 }
+o._every(v => v > 0) // true
+o._every(v => v > 1) // false
 ```
 
 <a id="at"></a>
@@ -258,7 +261,7 @@ var o = { a: 1, b: { c: 3 } }._at('b.c') // 3
 <a id="fmt"></a>
 ## `Object.prototype._$(formatter)`
 
-Returns a string representation of `this`. If `formatter` is not specified it will return a string based on `JSON.stringify(this)` with the quotes around keys removed. Quotes around string *values* are retained.
+Returns a string representation of `this`. If `formatter` is not specified it will return a string based on `JSON.stringify(this)` with the quotes around keys removed. Quotes around string *values* are retained. If `this` contains no enumermable properties then `String(this)` will be returned, 
 
 If `formatter` is a string, then that string will be returned with all occurances of `${key}` or `$key` substituted with `this._at(key)._$()`. A key that is not found substitutes an empty string.
 
@@ -406,7 +409,7 @@ setTimeout(() => o.nowish(), 1000) // 2022-10-17T00:01:01.565Z
 <a id="log"></a>
 ## `Object.prototype._log(msg, test, type='log')`
 
-Prints `this.$()` to the console together with a minute timestamp and an optional msg.
+Prints `this._$()` to the console together with a minute timestamp and an optional msg.
 If a `test` function is provided then logging will only be triggered if the test function returns truthy when called with with `this` as its first argument.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
 
@@ -510,18 +513,13 @@ The result is an ordinary promise, so rejections are handled with the native
 var o = { a: 1 }._wait(1).then(t => t._log('PROMISED')) // ...(1 second later)... 2022-10-19T21:55 PROMISED {a:1}
 var o = (await { a: 1 }._wait(1))._log('AWAITED') // ...(1 second later)... 2022-10-19T21:55 AWAITED {a:1}
 
-var f = o =>
-  o
-    ._wait((t, r) => r(t.b._$()))
-    .then(o => o._log('SUCCESS'))
-    .catch(e => console.log('ERROR', String(e)))
+var f = o => o
+  ._wait((t, r) => r(t.b._$()))
+  .then(o => o._log('SUCCESS'))
+  .catch(e => e._log('ERROR'))
 
 f({ a: 1, b: 2 }) // 2022-10-19T21:55 SUCCESS "2"
 f({ a: 1 }) // ERROR TypeError: Cannot read properties of undefined (reading '_$')
 
 var s = (await 'https://objix.dev'._wait(fetch)).status // 200
 ```
-
-Note that the rejection is logged with `console.log` rather than
-[`_log`](#log). `_log` formats with [`_$`](#fmt), which reads enumerable keys
-only, and an `Error` has none — so `e._log('ERROR')` would print `{}`.

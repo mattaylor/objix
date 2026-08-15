@@ -113,7 +113,7 @@ const
   $(s) {
     return s ? s._is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this._at(p)?._$() ?? '')
       : (s.stringify || s)(this)
-      : this._$(JSON).replace(/"(\w+)":/g,'$1:')
+      : this._len() ? this._$(JSON).replace(/"(\w+)":/g,'$1:') : String(this)
   },
 
   memo(e, f=this) {
@@ -125,7 +125,7 @@ const
     return this
   },
 
-  log(m='', f, c='log') {
+  log(m = '', f, c = 'log') {
     (!f || f(this)) && console[c](Date().slice(4,24),'-',m,this._$())
     return this
   },
