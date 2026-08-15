@@ -240,7 +240,6 @@ var o = { a: 1, b: 2, c: 3 }._delete('a', 'b') // { c: 3 }
 ```
 
 <a id="some"></a>
-
 ## `Object.prototype._some(function)`
 
 True if any entry of `this` passes function.
@@ -252,7 +251,6 @@ var o = { a: 1, b: 2 }._some(v => v > 2) // false
 ```
 
 <a id="every"></a>
-
 ## `Object.prototype._every(function)`
 
 True if all entries pass function.
@@ -263,8 +261,8 @@ var o = { a: 1, b: 2 }._every(v => v > 0) // true
 var o = { a: 1, b: 2 }._every(v => v > 1) // false
 ```
 
-
-## `Object.prototype._at(path)` <a id="at"></a>
+<a id="at"></a>
+## `Object.prototype._at(path)` 
 
 Return the property of `this` at `path`. If `path` is string containing `.` delimited keys then the `this` will be traversed accordingly. E.G `o.at('k1.k2')` will return `o.k1.k2`
 
