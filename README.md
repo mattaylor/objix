@@ -6,7 +6,8 @@ The functions are all non enumerable and include copies of Object class methods 
 
 This library is highly optimised with zero copy operations where possible. The source is only 3.8kb (2.8kb minified) which allows for fast loading and easy integration without additional compilation or tree shaking. Performance in most cases is significantly faster than `lodash` equivalents especially when working with small objects. For example `ob._map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` and some operations such as `pick` can be several thousand times quicker according to simple [benchmarks](docs/bench.md).
 
-Interactive docs and demos are availble on https://objix.dev/#/docs/api.
+Interactive docs and demos are availble on https://objix.dev/#/docs/api, where
+every example is runnable and editable in the page.
 
 ## Upgrading from 1.0
 
@@ -85,8 +86,6 @@ The following methods are availble to all Objects via protoype inheritence, unle
 
 Most of these function return objects including those modifying `this` and so can be fluently chained together.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 0, b: 1, c: 2 }
   ._pick(v => v > 0)
@@ -94,8 +93,6 @@ var o = { a: 0, b: 1, c: 2 }
   ._map(v => v + 1)
   ._log('INCREMENT') // 2022-10-07T00:00 INCREMENT { b: 2, c: 3 }
 ```
-
-</div>
 
 ## Function Aliases
 
@@ -111,8 +108,6 @@ var o = { a: 1 }._find(v => v) == { a: 1 }._find(v => v) //true
 
 Any object can act as a class from which new objects can be derived. All properties of `this` are inherited - including traps!!
 
-<div data-runkit>
-
 ```javascript
 var Person = { firstName: 'john', lastName: 'doe' }
   ._trap(v => new Date(v).getDate(), 'Invalid date', 'dob')
@@ -123,13 +118,11 @@ var p1 = Person._new({ firstName: 'jane' })
 p1.name() // 'jane doe'
 p1._try(
   p => (p.dob = 'foobar'),
-  e => e._log()
-) // Uncaught 'Invalid date [dob, foobar]'
+  e => e
+) // 'Invalid date ["dob","foobar"]' - the trap rejected it
 p1.dob = '10/10/2000'
-p1.age() // 22
+p1.age() // age in years since the dob above
 ```
-
-</div>
 
 ## Module Exports
 

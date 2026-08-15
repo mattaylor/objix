@@ -2,28 +2,27 @@
 
 All the methods below are assigned as members to the `Object.prototype`
 
+On [objix.dev](https://objix.dev) every example below is live: press **Run** to
+execute it in the page, or edit the code first and run your own version. Results
+are shown beneath each block, so the `// ...` comments can be checked against
+what actually happens.
+
 <a id="map"></a>
 
 ## `Object._map(function, target={})`
 
 Returns `target` including all the keys of `this` with `function` applied to each value. Function takes value and key as arguments.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1 }._map(v => v + 1) // { a: 2 }
 var o = { a: 1, b: 2 }._map((v, k) => (k == 'b' ? v + 1 : v)) // { a: 1, b: 3 }
 ```
-
-</div>
 
 <a id="flatmap"></a>
 
 ## `Object._flatMap(function)`
 
 Returns a new object based on `this` but which may have a different set of properties. The `function` is applied to each entry of `this` and is expected to return an array of zero or more key,value entry pairs (eg `[[k1,v1],[k2,v2],._]`) which are then used to build the new object which is returned.
-
-<div data-runkit>
 
 ```javascript
 var o = { a: 1 }._flatMap((k, v) => [
@@ -33,21 +32,15 @@ var o = { a: 1 }._flatMap((k, v) => [
 var o = { a: 1, b: 0 }._flatMap((k, v) => (v ? [[k, v + 1]] : [])) // { a: 2 }
 ```
 
-</div>
-
 <a id="values"></a>
 
 ## `Object._values()`
 
 Object.values(`this`)
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1 }._values() // [1]
 ```
-
-</div>
 
 <a id="create"></a>
 
@@ -55,15 +48,11 @@ var o = { a: 1 }._values() // [1]
 
 Object.create(`this`, `descriptors`) — returns a new object with `this` as its prototype and no own enumerable keys, unless property `descriptors` are supplied.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1 }._create() // {}
 o.a // 1
 var p = { a: 1 }._create({ b: { value: 2, enumerable: true } }) // { b: 2 }
 ```
-
-</div>
 
 <a id="keys"></a>
 
@@ -71,13 +60,9 @@ var p = { a: 1 }._create({ b: { value: 2, enumerable: true } }) // { b: 2 }
 
 Object.keys(`this`)
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1 }._keys() // ['a']
 ```
-
-</div>
 
 <a id="entries"></a>
 
@@ -85,21 +70,15 @@ var o = { a: 1 }._keys() // ['a']
 
 Object.entries(`this`)
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1 }._entries() // [[a, 1]]
 ```
-
-</div>
 
 <a id="is"></a>
 
 ## `Object._is(type, exact)`
 
 True if `this` is an instance of `type`. If `exact` is truthy, only an exact constructor match counts, so inherited types are excluded — `new Class2()._is(Class1, true)` is `false` while `._is(Class2, true)` is `true`.
-
-<div data-runkit>
 
 ```javascript
 var t = { a: [], s: '', n: 1, o: {}, d: new Date(), b: false, f: () => 0 }
@@ -122,37 +101,54 @@ t.c._is(Class2) // true
 t.c._is(Object) // true
 ```
 
-</div>
-
 <a id="has"></a>
 
 ## `Object._has(value)`
 
-Return true of `value` is a member of the values of `this`, otherwise `false`
+Return true if `value` is a member of the values of `this`, otherwise `false`.
 
-<div data-runkit>
+Values are compared with `===`, so objects match by reference and not by
+structure. Use [`_contains`](#contains) or [`_find`](#find) to compare by value.
 
 ```javascript
-[1,2,3]._has(2) // true
-{a: 1, b: 2, c: 3}._has(3) // true
-{a: 1, b: 2, c: { x: 3}}._has({x: 3}) // false
+;[1, 2, 3]._has(2) // true
+;({ a: 1, b: 2, c: 3 })._has(3) // true
+
+var inner = { x: 3 }
+var outer = { a: 1, c: inner }
+outer._has(inner) // true - the same object
+outer._has({ x: 3 }) // false - an equal object, but not the same one
+outer._contains({ c: { x: 3 } }, 1) // true - _contains compares values
+outer._find({ x: 3 }) // 'c' - so does _find
 ```
 
-</div>
+The leading `;` above is needed because a statement cannot begin with `[` or `{`
+without being read as an array index or a block. Assigning to a variable first,
+or wrapping the literal in parentheses, avoids it.
 
 <a id="iter"></a>
 
 ## `Object._[@@iterator]`
 
-Iterate through the values of `this`
+Iterate through the values of `this`.
 
-<div data-runkit>
+objix installs `Symbol.iterator` on `Object.prototype`, so every object is
+iterable and therefore spreadable — anywhere JavaScript accepts an iterable, it
+now accepts a plain object, yielding its **values**.
 
 ```javascript
 for (var v of { a: 1 }) console.log(v) // 1
+;[...{ a: 1, b: 2 }] // [1, 2]
+Array.from({ a: 1, b: 2 }) // [1, 2]
+Math.max(...{ a: 1, b: 5, c: 3 }) // 5
 ```
 
-</div>
+Use [`_keys`](#keys) or [`_entries`](#entries) when you want the keys as well.
+
+This is worth knowing about when objix shares a process with other tooling: a
+library that branches on whether a value is iterable will treat every object as a
+sequence. Some test runners compare iterables by order rather than by key for
+this reason, so objix's own test setup detaches the iterator under Jest.
 
 <a id="clean"></a>
 
@@ -160,13 +156,9 @@ for (var v of { a: 1 }) console.log(v) // 1
 
 Return a new object like `this` with falsy entry values removed
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1, b: null, c: false, d: 0, e: '' }._clean() // { a: 1 }
 ```
-
-</div>
 
 <a id="pick"></a>
 
@@ -175,8 +167,6 @@ var o = { a: 1, b: null, c: false, d: 0, e: '' }._clean() // { a: 1 }
 If the first argument is a function, returns `target` including all entries of `this` for which the the supplied function returns truthy using value and key as arguments.
 If the first argument is a list, return `target` with all entries of `this` where the key is included in the supplied list.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1, b: 2 }._pick(['b']) // { b: 2 }
 var o = { a: 1, b: 2 }._pick(v => v > 1) // { b: 2 }
@@ -184,15 +174,11 @@ var o = { a: 1, b: 2 }._pick((v, k) => k == 'b') // { b: 2 }
 var o = { a: 1, b: 2 }._pick(v => v > 2) // {}
 ```
 
-</div>
-
 <a id="find"></a>
 
 ## `Object._find(test)`
 
 If `test` is a function, Return first key of `this` which passes `test` where `test` takes each value and key as arguments. If `test` is not a function then return the first key of `this` where the value equals `test` (using `value._eq(test)`). Returns `undefined` if nothing matches.
-
-<div data-runkit>
 
 ```javascript
 var o = { a: 1, b: 2 }._find(v => v > 1) // 'b'
@@ -202,21 +188,15 @@ var o = { a: 1, b: 2 }._find(0) // undefined
 
 ```
 
-</div>
-
 <a id="assign"></a>
 
 ## `Object._assign(...objects)`
 
 Assign and overwrite entries of `this` from arguments in ascending priority and return `this`.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 0, b: 0 }._assign({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 1, b: 2, c: 2 }
 ```
-
-</div>
 
 <a id="extend"></a>
 
@@ -225,13 +205,9 @@ var o = { a: 0, b: 0 }._assign({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 1, b: 2, 
 Assigns properties into `this` from the arguments in ascending priority order. Properties of `this` are assigned only if null or undefined in `this`.
 Returns `this`
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 0, b: 0 }._extend({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 0, b: 0, c: 2 }
 ```
-
-</div>
 
 <a id="same"></a>
 
@@ -239,13 +215,9 @@ var o = { a: 0, b: 0 }._extend({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 0, b: 0, 
 
 Return a new object with entries of `this` that are present in the supplied object with equal value
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1, b: 2 }._same({ a: 2, b: 2 }) // { b: 2 }
 ```
-
-</div>
 
 <a id="diff"></a>
 
@@ -253,13 +225,9 @@ var o = { a: 1, b: 2 }._same({ a: 2, b: 2 }) // { b: 2 }
 
 Return new object with entries of `this` that are not present in the supplied object with equal value
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1, b: 2 }._diff({ a: 2, b: 2 }) // { a: 1 }
 ```
-
-</div>
 
 <a id="delete"></a>
 
@@ -267,13 +235,9 @@ var o = { a: 1, b: 2 }._diff({ a: 2, b: 2 }) // { a: 1 }
 
 Return `this` with entries deleted where the key is included in arguemnts.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1, b: 2, c: 3 }._delete('a', 'b') // { c: 3 }
 ```
-
-</div>
 
 <a id="some"></a>
 
@@ -282,14 +246,10 @@ var o = { a: 1, b: 2, c: 3 }._delete('a', 'b') // { c: 3 }
 True if any entry of `this` passes function.
 Function takes value and key as arguments.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1, b: 2 }._some(v => v > 1) // true
 var o = { a: 1, b: 2 }._some(v => v > 2) // false
 ```
-
-</div>
 
 <a id="every"></a>
 
@@ -298,14 +258,10 @@ var o = { a: 1, b: 2 }._some(v => v > 2) // false
 True if all entries pass function.
 Function takes value and key as arguments.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1, b: 2 }._every(v => v > 0) // true
 var o = { a: 1, b: 2 }._every(v => v > 1) // false
 ```
-
-</div>
 
 <a id="at"></a>
 
@@ -313,15 +269,11 @@ var o = { a: 1, b: 2 }._every(v => v > 1) // false
 
 Return the property of `this` at `path`. If `path` is string containing `.` delimited keys then the `this` will be traversed accordingly. E.G `o.at('k1.k2')` will return `o.k1.k2`
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1 }._at('a') // 1
 var o = { a: 1, b: [1, 2] }._at('b.1') // 2
 var o = { a: 1, b: { c: 3 } }._at('b.c') // 3
 ```
-
-</div>
 
 <a id="fmt"></a>
 
@@ -333,8 +285,6 @@ If `formatter` is a string, then that string will be returned with all occurance
 
 If `formatter` is not a string then the `stringify` method of the `Formatter` will be called with `this` as an argument, allowing alternative standard formatters such as `JSON` to be used. If there the formatter does not have a stringify method then `formatter` will be called as a function with `this` as its argument.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1 }._$() // '{a:1}'
 var o = { a: 1, b: [2, 3], c: { d: 'four,five' } }._$() // '{a:1,b:[2,3],c:{d:"four,five"}}'
@@ -343,16 +293,12 @@ var o = { a: 1 }._$(JSON.stringify) // '{"a":1}'
 var o = { a: 1, b: { c: 2 } }._$('b is $b and b.c is ${b.c}') // 'b is {c:2} and b.c is 2'
 ```
 
-</div>
-
 <a id="clone"></a>
 
 ## `Object._clone(depth)`
 
 Return new object with entries cloned from `this`.
 Nested objects are also cloned to specified depth (-1 = any depth)
-
-<div data-runkit>
 
 ```javascript
 var o1 = { a: 1, b: { c: 1 } }
@@ -365,15 +311,11 @@ o2 // { a: 1, b: { c: 2 }}
 o3 // { a: 1, b: { c: 1 }}
 ```
 
-</div>
-
 <a id='join'></a>
 
 ## `Object._join(...objects)`
 
 Return a new Object with the same keys as `this` and some values as arrays which concatenate the original value of `this` with values from all of the arguments having the same key. Keys present only in the arguments are ignored, and keys whose value in `this` is falsy are left untouched.
-
-<div data-runkit>
 
 ```javascript
 var o = { a: 1 }._join({ a: 2 }, { a: 3 }) // { a: [ 1, 2, 3 ]}
@@ -381,29 +323,21 @@ var o = { a: 1, b: 2 }._join({ a: 9 }) // { a: [ 1, 9 ], b: 2 }
 var o = { a: 0 }._join({ a: 1 }) // { a: 0 } — falsy values are skipped
 ```
 
-</div>
-
 <a id="split"></a>
 
 ## `Object._split(array=[])`
 
 Split `this` into an array of similar objects containing values corresponding to same indexed entry `this` if the entry is an array.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: [1, 2], b: [1, 3] }._split() // [{ a: 1, b: 1 }, { a: 2, b: 3 }]
 ```
-
-</div>
 
 <a id="contains"></a>
 
 ## `Object._contains(object, depth)`
 
 Truthy if all entries of argument are also in `this`. May recurse to a given depth (-1 = any depth). Returns `undefined` rather than `false` when an entry is missing, so test the result for truthiness.
-
-<div data-runkit>
 
 ```javascript
 var o = { a: 1 }._contains({ a: 1, b: 2 }) // undefined (falsy)
@@ -412,16 +346,12 @@ var o = { a: 1, b: [{ c: 1 }] }._contains({ c: 1 }, 1) // false
 var o = { a: 1, b: [{ c: 1 }] }._contains({ c: 1 }, 2) // true
 ```
 
-</div>
-
 <a id="eq"></a>
 
 ## `Object._eq(object, depth)`
 
 True if all entries of `this` equal the argument and argument has no other entries
 May recurse to a given depth (-1 for any depth)
-
-<div data-runkit>
 
 ```javascript
 var o = { a: 1 }._eq({ a: 1 }) // true
@@ -430,15 +360,11 @@ var o = { a: 1, b: { c: 1 } }._eq({ a: 1, b: { c: 1 } }) // false
 var o = { a: 1, b: { c: 1 } }._eq({ a: 1, b: { c: 1 } }, 1) // true
 ```
 
-</div>
-
 <a id="size"></a>
 
 ## `Object._len()`
 
 Return number of entries of `this`.
-
-<div data-runkit>
 
 ```javascript
 ;[1, 2, 3]._len() // 3
@@ -446,15 +372,11 @@ var o = { a: 1, b: 2 }._len() // 2
 'one'._len() // 3
 ```
 
-</div>
-
 <a id="keyBy"></a>
 
 ## `Object._keyBy(path)`
 
 Re-Index values of `this` using the given key path, and return a new object keyed by the value found at that path. Values sharing a key are collected into an array, most recently seen first. `this` must be mappable (an array), since `_keyBy` calls `this.map`.
-
-<div data-runkit>
 
 ```javascript
 var o = [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }]._keyBy('a')
@@ -463,15 +385,11 @@ var o = [{ a: { b: { c:'o1' }}}, { a: { b: { c: 'o2' }}}]._keyBy('a.b.c')
 o // { o1: { a: { b: { c:'o1' }}}, o2: { a: { b: { c: 'o2' }}}}
 ```
 
-</div>
-
 <a id="memo"></a>
 
 ## `Object._memo(expires)`
 
 Returns a memoized wrapper around `this` as a function such that any calls to `this` with the same set of arguments within `expires` seconds will return the first cached result, without re-executing the function. Cached results are indexed by the `$()` representation of the arguments the function was orignally called with and are automatically removed after `expires` seconds have elapsed.
-
-<div data-runkit>
 
 ```javascript
 var nowish = (() => new Date())._memo(1)
@@ -480,8 +398,6 @@ logNow(1) // "1 time is 1:5:07:06 PM"
 logNow(2) // "2 time is 1:5:07:06 PM"
 setTimeout(() => logNow(3), 1000) // "3 time is 1:5:07:07 PM"
 ```
-
-</div>
 
 The wrapper forwards its receiver, so `this` works inside a memoized method. Note that the cache is keyed by the arguments alone, so one wrapper shared between objects also shares its results:
 
@@ -505,8 +421,6 @@ If `expires` is defined then the function will be memoized with the given expira
 An existing key is never overwritten, and the bound property is non-enumerable.
 Always returns `this`
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1, b: 2, c: 3 }
 o._bind('max', m => m._values().sort((a, b) => b - a)[0])
@@ -519,8 +433,6 @@ o.nowish() // 2022-10-17T00:01:00.364Z
 setTimeout(() => o.nowish(), 1000) // 2022-10-17T00:01:01.565Z
 ```
 
-</div>
-
 <a id="log"></a>
 
 ## `Object._log(msg, test, type='log')`
@@ -528,8 +440,6 @@ setTimeout(() => o.nowish(), 1000) // 2022-10-17T00:01:01.565Z
 Prints `this.$()` to the console together with a minute timestamp and an optional msg.
 If a `test` function is provided then logging will only be triggered if the test function returns truthy when called with with `this` as its first argument.
 Alternative console methods such as 'trace', 'info', 'error' and 'debug' may also be specified. Returns `this`.
-
-<div data-runkit>
 
 ```javascript
 var WARN = () => false
@@ -543,8 +453,6 @@ var o = { a: 0, b: 1 }
   ._log('TRACING', INFO, 'trace') // Trace: 2022-10-06T21:21 TRACING { b: 2 } at  log ._
 ```
 
-</div>
-
 <a id="try"></a>
 
 ## `Object._try(function, catch, return)`
@@ -555,8 +463,6 @@ If `catch` is defined and an exception is thrown the `catch` function will be ca
 
 If `return` is truthy, then `this` will always be returned, otherwise the results of `function` or `catch` will be returned.
 
-<div data-runkit>
-
 ```javascript
 var o = { a: 1 }._try(t => (t.a += 1)) // 2
 var o = { a: 1 }._try(t => (t.b += 1)) // NaN
@@ -566,11 +472,13 @@ var o = { a: 1 }._try(t => (t.a += 1), null, true) // { a : 2 }
 var o = { a: 1 }._try(t => (t.b.c += 1), null, true) // { a: 1 }
 var o = { a: 1 }._try(
   t => (t.b.c += 1),
-  e => e._log()
-) // 2022-10-07T00:00 TypeError: Cannot read properties of undefined (reading 'c')
+  e => String(e)
+) // 'TypeError: Cannot read properties of undefined (reading 'c')'
 ```
 
-</div>
+Log the error with `console.log` rather than [`_log`](#log). `_log` formats with
+[`_$`](#fmt), which reads enumerable keys only, so `e._log()` prints `{}` — an
+`Error` keeps its `message` and `name` on the prototype, not as own keys.
 
 <a id="trap"></a>
 
@@ -581,7 +489,8 @@ If the function returns falsey and an error message is supplied then an exceptio
 If no error message is provided the function just acts as an observer, although the trap may also update `this` if needed.
 When `keys` are defined then the trap function will only be called for assignments to properties where the key is included in `keys`
 
-<div data-runkit>
+Each `_trap` wraps the proxy returned by the one before it, so assignments run
+through the traps from the last one added to the first.
 
 ```javascript
 var o = { a: 1, sum: 1 }
@@ -590,13 +499,20 @@ var o = { a: 1, sum: 1 }
   ._trap((v, k, t) => k != 'sum' && (t.sum += t[k] ? v - t[k] : v))
   ._trap(v => false, 'Read only', 'sum')
 
-o.b = 2 //  b has changed
-o.c = 0 //  Uncaught 'Values must be positive, c, 0'
-o.sum = 1 // Uncaught 'Read only, sum, 1'
-o // { a: 1, b: 2, sum: 3 }
+o.b = 2 // sum has changed, then b has changed
+o._try(t => (t.c = 0), e => e) // 'Values must be positive ["c",0]'
+o._try(t => (t.sum = 1), e => e) // 'Read only ["sum",1]'
+o // { a: 1, sum: 3, b: 2 }
 ```
 
-</div>
+`o.b = 2` reports **two** changes. The third trap keeps `sum` up to date, and its
+assignment to `t.sum` passes back through the observer, which logs `sum` before
+`b`.
+
+The failing assignments are wrapped in [`_try`](#try) so the whole example runs.
+Written directly as `o.c = 0` they throw, which is the point of the trap — note
+it throws a **string**, not an `Error`, so `catch (e)` gives you the message
+itself.
 
 <a id="new"></a>
 
@@ -604,16 +520,14 @@ o // { a: 1, b: 2, sum: 3 }
 
 Create a new object using `this` as its prototype, with additional properties assigned from the argument. Properties from the argument are *own* properties of the new object; everything else is inherited from `this`. If traps have been defined for `this`, then the new object will also be a Proxy with the same trap handlers, but will target a new object which uses `this` as its prototype.
 
-<div data-runkit>
-
 ```javascript
 var P = { a: 1 }._trap(v => v > 0, 'Not Positive')
 var o1 = P._new({ b: 1 }) // own { b: 1 }, and o1.a is 1 by inheritance
 var o2 = P._new({ a: 2 }) // own { a: 2 }, shadowing the inherited a
-o1.c = 0 // Uncaught 'Not Positive ["c",0]'
+o1.a // 1 - inherited from P
+o2.a // 2 - its own
+o1._try(t => (t.c = 0), e => e) // 'Not Positive ["c",0]' - P's trap came too
 ```
-
-</div>
 
 <a id="wait"></a>
 
@@ -624,7 +538,8 @@ If `defer` is a number then the promise will resolve with `this` when `defer` se
 Otherwise `defer` will be treated as a function that takes `this`, and functions to `resolve` and optionally `reject` the promise. Any uncaught exceptions will reject the promise.
 If `defer` is async or otherwsie returns a truthy value then the promise will be resolved with that result, regardless of whether the the `resolve` function is called.
 
-<div data-runkit>
+The result is an ordinary promise, so rejections are handled with the native
+`.catch`, not with an objix method.
 
 ```javascript
 var o = { a: 1 }._wait(1).then(t => t._log('PROMISED')) // ...(1 second later)... 2022-10-19T21:55 PROMISED {a:1}
@@ -632,15 +547,17 @@ var o = (await { a: 1 }._wait(1))._log('AWAITED') // ...(1 second later)... 2022
 
 var f = o =>
   o
-    ._wait((t, r) => r(t.b.$()))
+    ._wait((t, r) => r(t.b._$()))
     .then(o => o._log('SUCCESS'))
-    ._catch(e => e._log('ERROR'))
+    .catch(e => console.log('ERROR', String(e)))
 
-f({ a: 1, b: 2 }) // 2022-10-19T21:55 SUCCESS 2
-f({ a: 1 }) // 2022-10-19T21:55 ERROR TypeError: Cannot read properties of undefined
+f({ a: 1, b: 2 }) // 2022-10-19T21:55 SUCCESS "2"
+f({ a: 1 }) // ERROR TypeError: Cannot read properties of undefined (reading '_$')
 
 var s = (await 'https://objix.dev'._wait(fetch)).status // 200
 ```
 
-</div>
+Note that the rejection is logged with `console.log` rather than
+[`_log`](#log). `_log` formats with [`_$`](#fmt), which reads enumerable keys
+only, and an `Error` has none — so `e._log('ERROR')` would print `{}`.
 
