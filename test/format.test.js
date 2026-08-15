@@ -13,7 +13,7 @@ describe('_$', () => {
     })
 
     test('renders an empty object', () => {
-      expect({}._$()).toBe('{}')
+      expect({}._$()).toBe('[object Object]')
     })
 
     test('renders an array', () => {
