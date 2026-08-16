@@ -78,7 +78,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`_bind`](docs/api.md#bind)             | Assign a function as a method of `this` with optional memoization                           |
 | [`_log`](docs/api.md#log)               | Conditionally write `this` to the console with an optional message                          |
 | [`_try`](docs/api.md#try)               | Call a function against `this` and catch any exceptions                                     |
-| [`_trap`](docs/trap.md#trap)            | Create a proxy around `this` to intercept property assignments                              |
+| [`_trap`](docs/api.md#trap)            | Create a proxy around `this` to intercept property assignments                              |
 | [`_new`](docs/api.md#new)               | Create a new object from another using `this` as a prototype, including traps               |
 | [`_wait`](docs/api.md#wait)             | Create a Promise which resolves `this` after a timeout or as determined by another function |
 
