@@ -155,7 +155,7 @@ const
   },
 
   eval(s) {
-    const g = { Math: Math, RegExp: RegExp, Date: Date, JSON: JSON }._map(_ => O.freeze(_))
+    const g = { Math, RegExp, Date, JSON }._map(_ => O.freeze(_))
     return /\bimport\b/.test(s) ? 'invalid' : Function('p', `with (p) { return ${s} }`)(
       new Proxy(this, {
         has() { return true },
