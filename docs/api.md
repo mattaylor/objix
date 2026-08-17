@@ -158,10 +158,10 @@ If the first argument is a list, return `target` with all entries of `this` wher
 
 ```javascript
 var o = { a: 1, b: 2 }
-o._pick(['b']) // { b: 2 }
 o._pick(v => v > 1) // { b: 2 }
-o._pick((v, k) => k == 'b') // { b: 2 }
 o._pick(v => v > 2) // {}
+o._pick(['b']) // { b: 2 }
+o._pick((v, k) => k == 'b') // { b: 2 }
 ```
 
 <a id="find"></a>
