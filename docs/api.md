@@ -24,10 +24,10 @@ Returns a new object based on `this` but which may have a different set of prope
 
 ```javascript
 var o = { a: 1 }._flatMap((k, v) => [
-  [k + 1, v + 1],
-  [k + 2, v + 2]
+  [ k + 1, v + 1 ],
+  [ k + 2, v + 2 ]
 ]) // { a1: 2, a2: 3 }
-var o = { a: 1, b: 0 }._flatMap((k, v) => (v ? [[k, v + 1]] : [])) // { a: 2 }
+var o = { a: 1, b: 0 }._flatMap((k, v) => (v ? [[ k, v + 1 ]] : [])) // { a: 2 }
 ```
 
 <a id="values"></a>
@@ -103,7 +103,7 @@ Values are compared with `===`, so objects match by reference and not by
 structure. Use [`_contains`](#contains) or [`_find`](#find) to compare by value.
 
 ```javascript
-;[1, 2, 3]._has(2) // true
+;[ 1, 2, 3 ]._has(2) // true
 ;({ a: 1, b: 2, c: 3 })._has(3) // true
 
 var inner = { x: 3 }
@@ -255,7 +255,7 @@ Return the property of `this` at `path`. If `path` is string containing `.` deli
 
 ```javascript
 var o = { a: 1 }._at('a') // 1
-var o = { a: 1, b: [1, 2] }._at('b.1') // 2
+var o = { a: 1, b: [ 1, 2 ] }._at('b.1') // 2
 var o = { a: 1, b: { c: 3 } }._at('b.c') // 3
 ```
 
@@ -274,7 +274,7 @@ var o = { a: 1 }
 o._$() // '{a:1}'
 o._$(JSON) // '{"a":1}'
 o._$(JSON.stringify) // '{"a":1}'
-var o = { a: 1, b: [2, 3], c: { d: 'four,five' } }._$() // '{a:1,b:[2,3],c:{d:"four,five"}}'
+var o = { a: 1, b: [ 2, 3 ], c: { d: 'four,five' } }._$() // '{a:1,b:[2,3],c:{d:"four,five"}}'
 var o = { a: 1, b: { c: 2 } }._$('b is $b and b.c is ${b.c}') // 'b is {c:2} and b.c is 2'
 ```
 
@@ -312,7 +312,7 @@ var o = { a: 0 }._join({ a: 1 }) // { a: 0 } — falsy values are skipped
 Split `this` into an array of similar objects containing values corresponding to same indexed entry `this` if the entry is an array.
 
 ```javascript
-var o = { a: [1, 2], b: [1, 3] }._split() // [{ a: 1, b: 1 }, { a: 2, b: 3 }]
+var o = { a: [ 1, 2 ], b: [ 1, 3 ] }._split() // [{ a: 1, b: 1 }, { a: 2, b: 3 }]
 ```
 
 <a id="contains"></a>
@@ -438,13 +438,14 @@ If `catch` is defined and an exception is thrown the `catch` function will be ca
 If `return` is truthy, then `this` will always be returned, otherwise the results of `function` or `catch` will be returned.
 
 ```javascript
-var o = { a: 1 }._try(t => (t.a += 1)) // 2
-var o = { a: 1 }._try(t => (t.b += 1)) // NaN
-var o = { a: 1 }._try(t => (t.b.c += 1)) // Undefined
-var o = { a: 1 }._try(t => (t.a++, t)) // { a: 2 }
-var o = { a: 1 }._try(t => (t.a += 1), null, true) // { a : 2 }
-var o = { a: 1 }._try(t => (t.b.c += 1), null, true) // { a: 1 }
-var o = { a: 1 }._try(
+var o = { a: 1 }
+o._try(t => (t.a += 1)) // 2
+o._try(t => (t.b += 1)) // NaN
+o._try(t => (t.b.c += 1)) // Undefined
+o._try(t => (t.a++, t)) // { a: 2 }
+o._try(t => (t.a += 1), null, true) // { a : 2 }
+o._try(t => (t.b.c += 1), null, true) // { a: 1 }
+o._try(
   t => (t.b.c += 1),
   e => String(e)
 ) // 'TypeError: Cannot read properties of undefined (reading 'c')'
