@@ -170,7 +170,7 @@ o._pick((v, k) => k == 'b') // { b: 2 }
 If `test` is a function, Return first key of `this` which passes `test` where `test` takes each value and key as arguments. If `test` is not a function then return the first key of `this` where the value equals `test` (using `value._eq(test)`). Returns `undefined` if nothing matches.
 
 ```javascript
-var o = { a: 1, b: 2 }.
+var o = { a: 1, b: 2 }
 o._find(v => v > 1) // 'b'
 o._find(v => v > 2) // undefined
 o._find(2) // 'b'
@@ -363,8 +363,8 @@ o._keyBy('a') // { o1: [{ a: 'o1' }], o2: [{ a: 'o2', b: 1 }, { a: 'o2' }] }
 var o = [{ a: { b: { c:'o1' }}}, { a: { b: { c: 'o2' }}}]
 o._keyBy('a.b.c') // { o1: [{ a: { b: { c:'o1' }}}], o2: [{ a: { b: { c: 'o2' }}}]}
 
-var o = { o1 : { a : 'a1', b: 'group1'}, o2: { a: 'o2': b: 'group1'}, o3: { a: 'o3', b: 'group1'} }
-o._keyBy('a') // { group1: [ { a: 'a1', b: 'group1' }, { a: 'o2', b: 'group1' } ], group2: [ { a: 'o3', b: 'group2' } ] }
+var o = { o1: { a: 'a1', b: 'group1'}, o2: { a: 'o2', b: 'group1'}, o3: { a: 'o3', b: 'group2'} }
+o._keyBy('b') // { group1: [ { a: 'a1', b: 'group1' }, { a: 'o2', b: 'group1' } ], group2: [ { a: 'o3', b: 'group2' } ] }
 ```
 
 <a id="memo"></a>
@@ -531,3 +531,120 @@ f({ a: 1 }) // ERROR TypeError: Cannot read properties of undefined (reading '_$
 
 var s = (await 'https://objix.dev'._wait(fetch)).status // 200
 ```
+
+<a id="eval"></a>
+## `this._eval(expression)`
+
+Evaluates `expression` as a JavaScript expression in which the properties of
+`this` are in scope as bare identifiers, and returns the result. It is the
+expression counterpart to [`_$`](#fmt)'s `'$a'` interpolation: where `_$` builds a
+string, `_eval` computes a value.
+
+```javascript
+var o = { a: 1, b: 2 }
+o._eval('a + b') // 3
+o._eval('a > 0 ? "positive" : "negative"') // 'positive'
+o._eval('`a is ${a}`') // 'a is 1'
+;({ a: { b: { c: 3 } } })._eval('a.b.c') // 3
+```
+
+Keys are resolved on `this`, so nested paths, method calls and objix's own
+methods all work — including on an array receiver:
+
+```javascript
+;({ a: 1 })._eval('_map(v => v + 1)') // { a: 2 }
+;[1, 2, 3]._eval('length') // 3
+;[1, 2, 3]._eval('map(v => v * 2)') // [2, 4, 6]
+```
+
+The scope is a `Proxy` around `this`, and a bare method call is made with that
+proxy as its receiver. Generic methods do not mind — the array methods above only
+read `length` and indexed properties, which the proxy forwards. Methods that need
+an *internal slot* do mind, and throw:
+
+```javascript
+;'abc'._eval('length') // 3 - a plain property read
+;'abc'._eval('_len()') // 3 - objix methods are generic too
+;'abc'._try(t => t._eval('toUpperCase()'), e => e.message)
+// "String.prototype.toString requires that 'this' be a String"
+;(5)._try(t => t._eval('toFixed(2)'), e => e.message)
+// "Number.prototype.toFixed requires that 'this' be a Number"
+```
+
+The same applies to `Date` and `Map` methods. Call these on the object rather
+than through the scope — `'abc'._eval('length')` then `.toUpperCase()` outside,
+or pass the value in as a property: `({ s: 'abc' })._eval('s.toUpperCase()')`
+works, because `s` is read off the proxy and the call receiver is the real string.
+
+### Scope
+
+Identifiers resolve to properties of `this` first, then to a small set of
+built-ins: `Math`, `RegExp`, `Date`, `JSON` and `Number`. Nothing else is
+reachable by name — `process`, `require`, `globalThis`, `console`, `Function`,
+`eval`, `Array`, `Object` and every other global read as `undefined`.
+
+```javascript
+;({ a: 4 })._eval('Math.sqrt(a)') // 2
+;({})._eval('typeof process') // 'undefined'
+;({})._eval('typeof require') // 'undefined'
+;({})._eval('constructor') // undefined - and so is __proto__
+;({ Math: 9 })._eval('Math') // 9 - an own key shadows the built-in
+```
+
+The fallback is `??`, so a key holding `null` or `undefined` falls through to the
+built-in of the same name while a falsy-but-defined value like `0` shadows it.
+
+Note that the built-ins are frozen with `Object.freeze` on first use, and these
+are the **real** objects rather than copies, so the freeze applies process-wide:
+after any `_eval` call, `Math.myHelper = fn` silently fails (or throws in strict
+mode) anywhere in the program. Existing behaviour is unaffected — `Math.max`,
+`Date.now`, `new RegExp(...)` and subclassing all continue to work.
+
+### Expressions only
+
+The body is evaluated as a single expression, so statements are a `SyntaxError`:
+`var x = 1`, `return 1` and `throw 1` all fail. Assignment is an expression,
+though, and writes through to `this`:
+
+```javascript
+var o = { a: 1 }
+o._eval('a = 5') // 5
+o // { a: 5 } - the object was modified
+o._eval('delete a') // true, and o is now {}
+```
+
+An expression that throws throws out of `_eval`; wrap the call in
+[`_try`](#try) if you want a value instead:
+
+```javascript
+;({})._try(t => t._eval('a.b'), e => e.message)
+// "Cannot read properties of undefined (reading 'b')" - it threw
+;({})._try(t => t._eval('a.b'), e => 'bad expression') // 'bad expression'
+```
+
+Strings containing the word `import` are refused, returning the string
+`'invalid'` rather than throwing. The check is a plain text match, so it also
+rejects an `import` appearing in a string literal, a comment or a key name.
+
+```javascript
+;({})._eval('import("fs")') // 'invalid'
+;({})._eval('"the word import here"') // 'invalid' - matched anywhere
+;({})._eval('"important".length') // 9 - only the whole word matches
+```
+
+### Not a security boundary
+
+Hiding the globals raises the bar but does not close it, so **do not pass
+untrusted input to `_eval`**. Any value the expression can reach exposes its
+`.constructor`, and reaching `Function` that way is enough to run arbitrary code:
+
+```javascript
+;({})._eval('[].constructor') // Array - via a literal, not the scope
+;({})._eval('(() => {}).constructor("return 1 + 1")()') // 2 - arbitrary code
+```
+
+`this` inside the expression is also the host global object, because the
+generated function body is non-strict. Treat `_eval` as a convenience for
+expressions you control — configuration, rules and templates from your own
+codebase — and use a real sandbox (a worker, a VM with its own realm, or a
+separate process) for anything user-supplied.

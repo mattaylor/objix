@@ -13,7 +13,7 @@ const NAMES = [
   'every', 'some', 'map', 'has', 'pick', 'flatMap', 'clean', 'is', 'find',
   'extend', 'delete', 'clone', 'join', 'split', 'same', 'diff', 'contains',
   'eq', 'len', 'keyBy', 'at', '$', 'memo', 'bind', 'log', 'try', 'new', 'wait',
-  'trap', 'keys', 'values', 'entries', 'create', 'assign'
+  'trap', 'eval', 'keys', 'values', 'entries', 'create', 'assign'
 ]
 
 describe('module exports', () => {
@@ -21,8 +21,8 @@ describe('module exports', () => {
     expect(Object.keys(objix).sort()).toEqual([...NAMES].sort())
   })
 
-  test('exports 34 functions', () => {
-    expect(Object.keys(objix).length).toBe(34)
+  test('exports 35 functions', () => {
+    expect(Object.keys(objix).length).toBe(35)
   })
 
   test.each(NAMES)('%s is a function', name => {

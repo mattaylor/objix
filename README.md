@@ -81,6 +81,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`_trap`](docs/api.md#trap)            | Create a proxy around `this` to intercept property assignments                              |
 | [`_new`](docs/api.md#new)               | Create a new object from another using `this` as a prototype, including traps               |
 | [`_wait`](docs/api.md#wait)             | Create a Promise which resolves `this` after a timeout or as determined by another function |
+| [`_eval`](docs/api.md#eval)             | Evaluate an expression with the properties of `this` in scope                                |
 
 ## Fluent Method Chaining
 
