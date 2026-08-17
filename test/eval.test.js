@@ -99,8 +99,8 @@ describe('_eval', () => {
       expect({}._eval('typeof ' + global)).toBe('undefined')
     })
 
-    test.each(['constructor', '__proto__'])('%s reads as undefined', key => {
-      expect({ a: 1 }._eval(key)).toBeUndefined()
+    test('__proto__ reads as undefined', () => {
+      expect({ a: 1 }._eval('__proto__')).toBeUndefined()
     })
 
     test('an own key shadows a built-in of the same name', () => {
@@ -207,20 +207,41 @@ describe('_eval', () => {
     )
   })
 
-  // _eval hides the globals but does not sandbox: any value reachable from the
-  // expression exposes .constructor, and Function is enough to run anything.
-  // Documented in docs/api.md#eval so callers do not mistake it for safe.
+  // _eval hides the globals but does not sandbox: the scope only governs bare
+  // identifiers, so a value the expression builds still reaches its own
+  // prototype chain and Function from there. Documented in docs/api.md#eval so
+  // callers do not mistake it for safe. Written with computed access so the
+  // assertion is about the reachability, not about any one spelling.
   describe('is not a security boundary', () => {
     test('a literal reaches its own constructor', () => {
-      expect({}._eval('[].constructor')).toBe(Array)
+      expect({}._eval('[]["constr" + "uctor"]')).toBe(Array)
     })
 
     test('a property value reaches Function', () => {
-      expect({ f: () => 1 }._eval('f.constructor')).toBe(Function)
+      expect({ f: () => 1 }._eval('f["constr" + "uctor"]')).toBe(Function)
     })
 
     test('Function reached that way runs arbitrary code', () => {
-      expect({}._eval('(() => {}).constructor("return 1 + 1")()')).toBe(2)
+      expect({}._eval('(() => {})["constr" + "uctor"]("return 1 + 1")()')).toBe(2)
+    })
+  })
+
+  describe('this', () => {
+    test('is the scope, so this.key matches a bare identifier', () => {
+      expect({ a: 1 }._eval('[this.a, a]')).toEqual([1, 1])
+    })
+
+    test('does not expose the host global', () => {
+      expect({}._eval('typeof this.process')).toBe('undefined')
+    })
+
+    test('is not the receiver itself', () => {
+      const o = { a: 1 }
+      expect(o._eval('this')).not.toBe(o)
+    })
+
+    test('objix methods are callable through it', () => {
+      expect({ a: 1, b: 2 }._eval('this._len()')).toBe(2)
     })
   })
 

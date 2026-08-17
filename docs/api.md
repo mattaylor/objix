@@ -587,12 +587,20 @@ reachable by name — `process`, `require`, `globalThis`, `console`, `Function`,
 ;({ a: 4 })._eval('Math.sqrt(a)') // 2
 ;({})._eval('typeof process') // 'undefined'
 ;({})._eval('typeof require') // 'undefined'
-;({})._eval('constructor') // undefined - and so is __proto__
+;({ a: 1 })._eval('__proto__') // undefined - not resolved from the scope
 ;({ Math: 9 })._eval('Math') // 9 - an own key shadows the built-in
 ```
 
 The fallback is `??`, so a key holding `null` or `undefined` falls through to the
 built-in of the same name while a falsy-but-defined value like `0` shadows it.
+
+`this` is the scope itself, so `this.a` and a bare `a` are equivalent, and the
+host global is not reachable through it:
+
+```javascript
+;({ a: 1 })._eval('this.a') // 1
+;({})._eval('typeof this.process') // 'undefined'
+```
 
 Note that the built-ins are frozen with `Object.freeze` on first use, and these
 are the **real** objects rather than copies, so the freeze applies process-wide:
@@ -635,16 +643,14 @@ rejects an `import` appearing in a string literal, a comment or a key name.
 ### Not a security boundary
 
 Hiding the globals raises the bar but does not close it, so **do not pass
-untrusted input to `_eval`**. Any value the expression can reach exposes its
-`.constructor`, and reaching `Function` that way is enough to run arbitrary code:
+untrusted input to `_eval`**. The scope only governs bare identifiers; a value
+the expression builds for itself still reaches its own prototype chain, and
+`Function` from there runs anything:
 
 ```javascript
-;({})._eval('[].constructor') // Array - via a literal, not the scope
-;({})._eval('(() => {}).constructor("return 1 + 1")()') // 2 - arbitrary code
+;({})._eval('(() => {})["constr" + "uctor"]("return 1 + 1")()') // 2
 ```
 
-`this` inside the expression is also the host global object, because the
-generated function body is non-strict. Treat `_eval` as a convenience for
-expressions you control — configuration, rules and templates from your own
-codebase — and use a real sandbox (a worker, a VM with its own realm, or a
-separate process) for anything user-supplied.
+Treat `_eval` as a convenience for expressions you control — configuration,
+rules and templates from your own codebase — and use a real sandbox (a worker, a
+VM with its own realm, or a separate process) for anything user-supplied.
