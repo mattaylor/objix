@@ -155,15 +155,12 @@ const
   },
 
   eval(s) {
-    const g = { Math, RegExp, Date, JSON }._map(_ => O.freeze(_))
-    return /\bimport\b/.test(s) ? 'invalid' : Function('p', `with (p) { return ${s} }`)(
-      new Proxy(this, {
-        has() { return true },
-        get(t, k) {
-          return [Symbol.unscopables, 'constructor', '__proto__']._has(k) ? undefined : t[k] ?? g[k]
-        }
-      })
-    )
+    const g = { Math, RegExp, Date, JSON, Number }._map(_ => O.freeze(_))
+    const p = new Proxy(this, {
+      has() { return true },
+      get(t, k) { return [Symbol.unscopables, 'constructor', '__proto__']._has(k) ? undefined : t[k] ?? g[k] }
+    })
+    return /\b(import|constructor)\b/.test(s) ? 'invalid' : Function('p', `with (p) { return ${s} }`).call(p,p)
   }
 }
 
