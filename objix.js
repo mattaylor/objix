@@ -12,7 +12,7 @@ const
   },
 
   some(f) {
-    for (let k of K(this)) if (f(this[k], k)) return true
+    for (let k in this) if (f(this[k], k)) return true
     return false
   },
 
@@ -113,7 +113,7 @@ const
   $(s) {
     return s ? s._is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this._at(p)?._$() ?? '')
       : (s.stringify || s)(this)
-      : this._len() ? this._$(JSON).replace(/"(\w+)":/g,'$1:') : String(this)
+      : this._len() ? this._$(JSON).replace(/"(\w+)":/g,'$1:') : this+''
   },
 
   memo(e, f=this) {
