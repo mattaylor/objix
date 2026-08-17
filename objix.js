@@ -101,9 +101,8 @@ const
     return K(this).length
   },
 
-  keyBy(k, v, r={}) {
-    //this._map(o => r[v=o._at(k)] = r[v] ? [o].concat(r[v]) : o)
-    this._map(o => r[v=o._at(k)] = (r[v] || []).concat(o))
+  keyBy(k, v, r={}, a) {
+    this._map(o => r[v=o._at(k)] = r[v]?.concat(o) || [o])
     return r
   },
 

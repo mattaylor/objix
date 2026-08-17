@@ -88,8 +88,8 @@ function report(title, ob) {
       vanilla: () => Object.values(ob).includes(3)
     },
     KeyBy: {
-      objix: () => [{ a: 1 }, { a: 2 }, { a: 3 }]._keyBy('a'),
-      lodash: () => _.keyBy([{ a: 1 }, { a: 2 }, { a: 3 }], 'a'),
+      objix: () => [{ a: 1 }, { a: 2 }, { a: 3 }]._keyBy('a')._map(v => v),
+      lodash: () => _.keyBy([{ a: 1 }, { a: 2 }, { a: 3 }], 'a')._map(v => [v]),
     },
     Equals: {
       objix: () => ob._eq(ob._clone(), -1),
