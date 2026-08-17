@@ -157,10 +157,11 @@ If the first argument is a function, returns `target` including all entries of `
 If the first argument is a list, return `target` with all entries of `this` where the key is included in the supplied list.
 
 ```javascript
-var o = { a: 1, b: 2 }._pick(['b']) // { b: 2 }
-var o = { a: 1, b: 2 }._pick(v => v > 1) // { b: 2 }
-var o = { a: 1, b: 2 }._pick((v, k) => k == 'b') // { b: 2 }
-var o = { a: 1, b: 2 }._pick(v => v > 2) // {}
+var o = { a: 1, b: 2 }
+o._pick(['b']) // { b: 2 }
+o._pick(v => v > 1) // { b: 2 }
+o._pick((v, k) => k == 'b') // { b: 2 }
+o._pick(v => v > 2) // {}
 ```
 
 <a id="find"></a>
@@ -268,10 +269,12 @@ If `formatter` is a string, then that string will be returned with all occurance
 If `formatter` is not a string then the `stringify` method of the `Formatter` will be called with `this` as an argument, allowing alternative standard formatters such as `JSON` to be used. If there the formatter does not have a stringify method then `formatter` will be called as a function with `this` as its argument.
 
 ```javascript
-var o = { a: 1 }._$() // '{a:1}'
+
+var o = { a: 1 }
+o._$() // '{a:1}'
+o._$(JSON) // '{"a":1}'
+o._$(JSON.stringify) // '{"a":1}'
 var o = { a: 1, b: [2, 3], c: { d: 'four,five' } }._$() // '{a:1,b:[2,3],c:{d:"four,five"}}'
-var o = { a: 1 }._$(JSON) // '{"a":1}'
-var o = { a: 1 }._$(JSON.stringify) // '{"a":1}'
 var o = { a: 1, b: { c: 2 } }._$('b is $b and b.c is ${b.c}') // 'b is {c:2} and b.c is 2'
 ```
 

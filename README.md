@@ -116,10 +116,7 @@ var Person = { firstName: 'john', lastName: 'doe' }
 
 var p1 = Person._new({ firstName: 'jane' })
 p1.name() // 'jane doe'
-p1._try(
-  p => (p.dob = 'foobar'),
-  e => e
-) // 'Invalid date ["dob","foobar"]' - the trap rejected it
+p1._try(p => (p.dob = 'foobar'), console.log) // 'Invalid date ["dob","foobar"]' - the trap rejected it
 p1.dob = '10/10/2000'
 p1.age() // age in years since the dob above
 ```
