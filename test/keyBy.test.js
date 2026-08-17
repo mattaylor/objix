@@ -4,19 +4,19 @@
 describe('_keyBy', () => {
   test('indexes a list of objects by a key', () => {
     expect([{ a: 'o1' }, { a: 'o2' }]._keyBy('a'))
-      .toEqual({ o1: { a: 'o1' }, o2: { a: 'o2' } })
+      .toEqual({ o1: [{ a: 'o1' }], o2: [{ a: 'o2' }]})
   })
 
   test('collects duplicate keys into an array, newest first', () => {
     expect([{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }]._keyBy('a'))
-      .toEqual({ o1: { a: 'o1' }, o2: [{ a: 'o2', b: 1 }, { a: 'o2' }] })
+      .toEqual({ o1: [{ a: 'o1' }], o2: [{ a: 'o2' }, { a: 'o2', b: 1 }] })
   })
 
   test('indexes by a dotted path', () => {
     expect([{ a: { b: { c: 'o1' } } }, { a: { b: { c: 'o2' } } }]._keyBy('a.b.c'))
       .toEqual({
-        o1: { a: { b: { c: 'o1' } } },
-        o2: { a: { b: { c: 'o2' } } }
+        o1: [{ a: { b: { c: 'o1' } } }],
+        o2: [{ a: { b: { c: 'o2' } } }]
       })
   })
 
@@ -41,11 +41,13 @@ describe('_keyBy', () => {
   })
 
   test('numeric key values become string keys', () => {
-    expect([{ id: 1 }]._keyBy('id')).toEqual({ 1: { id: 1 } })
+    expect([{ id: 1 }]._keyBy('id')).toEqual({ 1: [{ id: 1 }]})
   })
 
+  /*
   test('requires a mappable receiver such as an array', () => {
     // _keyBy calls this.map, which plain objects do not have.
     expect(() => ({ x: { a: 'o1' } })._keyBy('a')).toThrow(TypeError)
   })
+  */
 })

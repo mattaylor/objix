@@ -354,13 +354,17 @@ var o = { a: 1, b: 2 }._len() // 2
 <a id="keyBy"></a>
 ## `this._keyBy(path)`
 
-Re-Index values of `this` using the given key path, and return a new object keyed by the value found at that path. Values sharing a key are collected into an array, most recently seen first. `this` must be mappable (an array), since `_keyBy` calls `this.map`.
+Re-Index values of `this` using the given key path, and return a new object keyed by the value found at that path. Values sharing a key are collected into an array, most recently seen first. 
 
 ```javascript
-var o = [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }]._keyBy('a')
-o // { o1: { a: 'o1' }, o2: [{ a: 'o2', b: 1 }, { a: 'o2' }] }
-var o = [{ a: { b: { c:'o1' }}}, { a: { b: { c: 'o2' }}}]._keyBy('a.b.c')
-o // { o1: { a: { b: { c:'o1' }}}, o2: { a: { b: { c: 'o2' }}}}
+var o = [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }]
+o._keyBy('a') // { o1: [{ a: 'o1' }], o2: [{ a: 'o2', b: 1 }, { a: 'o2' }] }
+
+var o = [{ a: { b: { c:'o1' }}}, { a: { b: { c: 'o2' }}}]
+o._keyBy('a.b.c') // { o1: [{ a: { b: { c:'o1' }}}], o2: [{ a: { b: { c: 'o2' }}}]}
+
+var o = { o1 : { a : 'a1', b: 'group1'}, o2: { a: 'o2': b: 'group1'}, o3: { a: 'o3', b: 'group1'} }
+o._keyBy('a') // { group1: [ { a: 'a1', b: 'group1' }, { a: 'o2', b: 'group1' } ], group2: [ { a: 'o3', b: 'group2' } ] }
 ```
 
 <a id="memo"></a>

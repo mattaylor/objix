@@ -125,7 +125,7 @@ describe('module exports', () => {
     })
 
     test('keyBy indexes a list', () => {
-      expect(objix.keyBy([{ a: 'x' }], 'a')).toEqual({ x: { a: 'x' } })
+      expect(objix.keyBy([{ a: 'x' }], 'a')).toEqual({ x: [{ a: 'x' }] })
     })
   })
 
