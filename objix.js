@@ -152,6 +152,17 @@ const
         return k == '_t' ? t : k == '_h' ? this : t[k]
       }
     })
+  },
+
+  eval(s) {
+    const g = { Math: Math, RegExp: RegExp, Date: Date, JSON: JSON }._map(_ => O.freeze(_))
+    const p = new Proxy(this, {
+      has() { return true },
+      get(t, k) {
+        return [Symbol.unscopables, 'constructor', '__proto__']._has(k) ? undefined : t[k] ?? g[k]
+      }
+    })
+    return Function('c', `with (c) { return ${s} }`)(p)
   }
 }
 
