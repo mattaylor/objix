@@ -258,13 +258,22 @@ describe('_eval', () => {
       expect(o._eval('f["constr" + "uctor"]')).toBeUndefined()
     })
 
+    // Only the code-compiling constructors are swapped. A wrapper's is left
+    // alone, so _is - and _clone through it - keep working inside the call.
     test.each([
-      ['Number', { v: 5 }],
-      ['String', { v: 'x' }],
-      ['Boolean', { v: true }],
-      ['Symbol', { v: Symbol('s') }]
-    ])('the %s wrapper is swapped out as well', (_name, o) => {
-      expect(o._eval('v["constr" + "uctor"]')).toBeUndefined()
+      ['Number', { v: 5 }, Number],
+      ['String', { v: 'x' }, String],
+      ['Boolean', { v: true }, Boolean]
+    ])('the %s wrapper is left reachable', (_name, o, ctor) => {
+      expect(o._eval('v["constr" + "uctor"]')).toBe(ctor)
+    })
+
+    test.each([
+      ['a string', { v: 'x' }, 'x'],
+      ['a number', { v: 5 }, 5],
+      ['a boolean', { v: true }, true]
+    ])('so _clone of %s behaves the same inside the call', (_label, o, expected) => {
+      expect(o._eval('v._clone()')).toBe(expected)
     })
 
     test('so none of them can be called to compile code', () => {
@@ -273,9 +282,9 @@ describe('_eval', () => {
     })
 
     // Captured before any _eval below runs, so the comparison is against the
-    // untouched descriptors. Function's is writable, the function kinds' are
+    // untouched descriptors. Function's is writable and the other three are
     // not, so each has to be compared against its own.
-    const CTORS = [Number, String, Boolean, Function, Symbol].concat(
+    const CTORS = [Function].concat(
       [async function () {}, function * () {}, async function * () {}]
         .map(f => Object.getPrototypeOf(f).constructor)
     )

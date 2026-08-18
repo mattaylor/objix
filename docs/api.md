@@ -664,12 +664,11 @@ Prefer [`_wait`](#wait) for anything asynchronous.
 
 ### Not a security boundary
 
-For the duration of the call, the constructors of `Number`, `String`, `Boolean`,
-`Symbol` and all four function kinds — `Function`, `AsyncFunction`,
-`GeneratorFunction` and `AsyncGeneratorFunction` — are replaced with a getter
-returning `undefined`, and restored afterwards. The four function constructors
-are the ones that matter: they compile code, and a value reaching its own
-prototype chain is the route the text guard above cannot see.
+For the duration of the call, every constructor that can compile code — those of
+`Function`, `AsyncFunction`, `GeneratorFunction` and `AsyncGeneratorFunction` —
+is replaced with a getter returning `undefined`, and restored afterwards. That
+closes the route the text guard above cannot see: a value reaching its own
+prototype chain.
 
 ```javascript
 ;({})._eval('typeof (() => {})["constr" + "uctor"]') // 'undefined' - swapped out
