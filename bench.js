@@ -116,6 +116,11 @@ function report(title, ob) {
       vanilla: () => Object.values(ob).some(v => v == 'x'),
       lodash: () => _.some(_.values(ob), v => v == 'x'),
     },
+    Some_A: {
+      objix: () => [1,2,3,4,5,6,7,8,9]._some(v => v == 9),
+      vanilla: () => Object.values([1,2,3,4,5,6,7,8,9]).some(v => v == 9),
+      lodash: () => _.some(_.values([1,2,3,4,5,6,7,8,9]), v => v == 9),
+    },
     Every: {
       objix: () => ob._every(v => v),
       lodash: () => _.every(_.values(ob), v => v),

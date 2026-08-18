@@ -4,12 +4,11 @@ const
   F = Function,
   K = O.keys,
   A = O.assign,
-  P = [Number, String, Boolean, Function, Symbol],
+  P = 'prototype',
   I = Symbol.iterator,
   M = {
 
     every(f) {
-      if (this.every) return this.every(f)
       for (let k in this) if (!f(this[k], k)) return false
       return true
     },
@@ -47,7 +46,7 @@ const
     },
 
     is(t, i) {
-      return (!i && t == O) ? !P.some(c => this instanceof c)
+      return (!i && t == O) ? ![Number, String, Boolean, Function, Symbol].some(c => this instanceof c)
         : this[C] == t || !i && this instanceof t
     },
 
@@ -126,7 +125,7 @@ const
     },
 
     bind(k, f, e) {
-      def(this, k, (function (...a) { return f(...a, this) })._memo(e))
+      def(this, k, { value: function (...a) { return f(...a, this) }._memo(e) })
       return this
     },
 
@@ -160,17 +159,17 @@ const
     },
 
     eval(s) {
-      const g = { Math, RegExp, Date, JSON, Number }._map(_ => O.freeze(_))
-      const f = [F, (async function () { })[C], (function* () { })[C], (async function* () { })[C]]
-      const o = f.map(_ => O.getOwnPropertyDescriptor(_.prototype, C))
-      const d = (c, p) => O.defineProperty(c.prototype, C, p)
-      const p = new Proxy(O(this._clone(-1)), {
-        has() { return true },
-        get(t, k) { return [Symbol.unscopables, C, '__proto__']._has(k) ? undefined : t[k] ?? g[k] }
-      })
-      f.map(v => d(v, { configurable: true, get() { return undefined } }))
+      const
+        g = { Math, RegExp, Date, JSON, Number }._map(_ => O.freeze(_)),
+        f = [F, (async function () {})[C], (function* () {})[C], (async function* () {})[C]],
+        o = f.map(_ => O.getOwnPropertyDescriptor(_[P], C)),
+        p = new Proxy(O(this._clone(-1)), {
+          has() { return true },
+          get(t, k) { return [Symbol.unscopables, C, '__proto__']._has(k) ? undefined : t[k] ?? g[k] }
+        })
+      f.map(v => def(v[P], C, { configurable: true, get() { return undefined } }))
       try { return /\b(import|await|async)\b/.test(s) ? 'invalid' : F('p', `with (p) { return ${s} }`).call(p, p) }
-      finally { f.map((v,k) => d(v, o[k])) }
+      finally { f.map((v,k) => def(v[P], C, o[k])) }
     }
   }
 
@@ -178,11 +177,11 @@ for (let m of ['keys','values','entries','create','assign']) M[m] = function(...
   return O[m](this, ...a)
 }
 
-let def = (o,k,v) => o[k] || (O.defineProperty(o, k, { writable:true, value:v }),v)
+const def = (o,k,v) => O.defineProperty(o, k, v)
 
-O.prototype[I] = function() { return this._values()[I]() }
+O[P][I] = function() { return this._values()[I]() }
 
 for (let m in M) {
-  def(O.prototype,'_'+m,M[m])
+  def(O[P], '_' + m, { value: M[m] })
   try { module.exports[m] = (o, ...a) => o['_'+m](...a) } catch {}
 }

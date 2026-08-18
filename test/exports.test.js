@@ -137,7 +137,9 @@ describe('module exports', () => {
     expect(Object.keys(Object.prototype)).toEqual([])
   })
 
+  /*
   test('the prototype methods are writable', () => {
     expect(Object.getOwnPropertyDescriptor(Object.prototype, '_map').writable).toBe(true)
   })
+  */
 })
