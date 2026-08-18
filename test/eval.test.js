@@ -58,19 +58,28 @@ describe('_eval', () => {
       expect([1, 2, 3]._eval('map(v => v * 2)')).toEqual([2, 4, 6])
     })
 
-    // _clone returns valueOf() for a non-object, and a primitive cannot be the
-    // target of a Proxy - documented in docs/api.md#eval. The wording of the
-    // TypeError is engine-specific, so only its name is asserted.
-    test.each([['a string', 'abc'], ['a number', 5], ['a boolean', true]])(
-      '%s receiver throws, having nothing to proxy', (_label, receiver) => {
-        expect({}._try(() => receiver._eval('1 + 1'), e => e.name)).toBe('TypeError')
+    // _clone returns valueOf() for a primitive, and the Object() wrapper around
+    // it gives the Proxy something to target.
+    test.each([['a string', 'abc', 'length', 3], ['a number', 5, '1 + 1', 2]])(
+      '%s receiver works, wrapped', (_label, receiver, src, expected) => {
+        expect(receiver._eval(src)).toBe(expected)
       }
     )
 
-    // The scope is a Proxy around the clone, and a bare method call uses that
-    // proxy as its receiver. Methods needing an internal slot reject it.
-    test('a method needing an internal slot throws', () => {
-      expect(new Date(0)._try(t => t._eval('getTime()'), e => e.name)).toBe('TypeError')
+    test('objix methods are generic enough for a primitive receiver', () => {
+      expect('abc'._eval('_len()')).toBe(3)
+    })
+
+    // The scope is a Proxy around the wrapped clone, and a bare method call uses
+    // that proxy as its receiver. Methods needing an internal slot reject it -
+    // documented in docs/api.md#eval. The wording is engine-specific, so only
+    // the error's name is asserted.
+    test.each([
+      ['a string', 'abc', 'toUpperCase()'],
+      ['a number', 5, 'toFixed(2)'],
+      ['a date', new Date(0), 'getTime()']
+    ])('a method of %s needing an internal slot throws', (_label, receiver, src) => {
+      expect(receiver._try(t => t._eval(src), e => e.name)).toBe('TypeError')
     })
 
     test('the same method works when reached through a property', () => {
@@ -191,66 +200,88 @@ describe('_eval', () => {
     })
   })
 
-  describe('the import guard', () => {
+  describe('the import and await guard', () => {
     test.each([
       'import("fs")',
       '"the word import here"',
-      '1 /* import */'
+      '1 /* import */',
+      'await x',
+      '"the word await here"'
     ])('refuses %s', src => {
       expect({}._eval(src)).toBe('invalid')
     })
 
-    test('a key named import is refused too', () => {
-      expect({ import: 5 }._eval('import')).toBe('invalid')
-    })
+    test.each([['import', { import: 5 }], ['await', { await: 5 }]])(
+      'a key named %s is refused too', (name, o) => {
+        expect(o._eval(name)).toBe('invalid')
+      }
+    )
 
-    test.each(['"important".length', '"unimportant".length'])(
+    test.each(['"important".length', '"unimportant".length', '"awaited".length'])(
       'the match is whole-word, so %s is allowed', src => {
         expect({}._eval(src)).not.toBe('invalid')
       }
     )
+
+    // await is only a deterrent: the body is not an async function, so `await`
+    // would be a SyntaxError anyway, and an async expression can still be built.
+    test('an async expression is discouraged rather than prevented', () => {
+      expect({}._eval('(async () => 1)()')).toBeInstanceOf(Promise)
+    })
   })
 
   // _eval hides the globals but does not sandbox: the scope only governs bare
   // identifiers, so a value the expression builds still reaches its own
-  // prototype chain. Function.prototype.constructor is swapped out for the
-  // duration of the call, which is not the whole story - documented in
+  // prototype chain. Every constructor that compiles code is swapped out for
+  // the duration of the call, which is still not a boundary - documented in
   // docs/api.md#eval so callers do not mistake it for safe. Written with
   // computed access so the assertions are about reachability, not any one
   // spelling.
   describe('the constructor swap', () => {
-    test('a function value no longer reaches Function', () => {
-      expect({ f: () => 1 }._eval('f["constr" + "uctor"]')).toBeUndefined()
+    // The four constructors that compile code, each reached from a value of its
+    // own kind rather than by name.
+    test.each([
+      ['Function', '(() => {})'],
+      ['AsyncFunction', '(async () => {})'],
+      ['GeneratorFunction', '(function * () {})'],
+      ['AsyncGeneratorFunction', '(async function * () {})']
+    ])('%s is not reachable from a value of its kind', (_name, literal) => {
+      expect({}._eval(literal + '["constr" + "uctor"]')).toBeUndefined()
     })
 
-    test('Function cannot be reached to compile code', () => {
+    test('so none of them can be called to compile code', () => {
       expect(() => ({})._eval('(() => {})["constr" + "uctor"]("return 1")'))
         .toThrow(TypeError)
     })
 
+    // Captured before any _eval below runs, so the comparison is against the
+    // untouched descriptors. Function's is writable, the other three are not.
+    const CTORS = [Function].concat(
+      [async function () {}, function * () {}, async function * () {}]
+        .map(f => Object.getPrototypeOf(f).constructor)
+    )
+    const DESCRIPTORS = CTORS.map(c => Object.getOwnPropertyDescriptor(c.prototype, 'constructor'))
+
     test.each([
-      ['restores Function.prototype.constructor', '1'],
-      ['restores it even when the expression throws', 'a.b']
+      ['restores every descriptor it replaced', '1'],
+      ['restores them even when the expression throws', 'a.b']
     ])('%s', (_label, src) => {
       ({})._try(t => t._eval(src))
-      expect(Function.prototype.constructor).toBe(Function)
-      expect(Object.getOwnPropertyDescriptor(Function.prototype, 'constructor'))
-        .toEqual({ value: Function, writable: true, enumerable: false, configurable: true })
+      CTORS.forEach((ctor, i) => {
+        expect(ctor.prototype.constructor).toBe(ctor)
+        expect(Object.getOwnPropertyDescriptor(ctor.prototype, 'constructor'))
+          .toEqual(DESCRIPTORS[i])
+      })
     })
 
-    // Only Function.prototype is swapped, so this is not a security boundary.
-    test('a non-function literal still reaches its own constructor', () => {
+    // Only the code-compiling constructors are swapped, and a returned closure
+    // outlives the swap, so this is not a security boundary.
+    test('a constructor that does not compile code is still reachable', () => {
       expect({}._eval('[]["constr" + "uctor"]')).toBe(Array)
     })
 
-    test('the generator function constructor still compiles code', () => {
-      expect({}._eval('(function * () {})["constr" + "uctor"]("return 1 + 1")().next()'))
-        .toEqual({ value: 2, done: true })
-    })
-
-    test('the async function constructor still compiles code', async () => {
-      expect(await ({})._eval('(async () => {})["constr" + "uctor"]("return 1 + 1")()'))
-        .toBe(2)
+    test('a closure called after the call gets Function back', () => {
+      expect({}._eval('() => (() => {})["constr" + "uctor"]')()).toBe(Function)
     })
   })
 

@@ -570,13 +570,14 @@ o._eval('delete a') // true
 o // { a: 1 } - unchanged either way
 ```
 
-Only own, cloneable properties survive the copy, and the receiver has to be an
-object — a primitive clones to itself, and cannot be proxied:
+Only own, cloneable properties survive the copy — an inherited key is not in
+scope. A primitive receiver copies to itself and is wrapped with `Object`, so it
+works too:
 
 ```javascript
 ;({ a: 1 })._new({ b: 2 })._eval('typeof a') // 'undefined' - own keys only
-;'abc'._try(t => t._eval('length'), e => e.message)
-// "Cannot create proxy with a non-object as target or handler"
+;'abc'._eval('length') // 3 - a plain property read
+;'abc'._eval('_len()') // 3 - objix methods are generic too
 ```
 
 The scope is a `Proxy` around that copy, and a bare method call is made with the
@@ -585,12 +586,15 @@ read `length` and indexed properties, which the proxy forwards. Methods that nee
 an *internal slot* do mind, and throw:
 
 ```javascript
+;'abc'._try(t => t._eval('toUpperCase()'), e => e.message)
+// "String.prototype.toString requires that 'this' be a String"
 new Date(0)._try(t => t._eval('getTime()'), e => e.message)
 // "this is not a Date object."
 ```
 
-Pass the value in as a property instead: `({ s: 'abc' })._eval('s.toUpperCase()')`
-works, because `s` is read off the proxy and the call receiver is the real string.
+The same applies to `Number` and `Map` methods. Pass the value in as a property
+instead: `({ s: 'abc' })._eval('s.toUpperCase()')` works, because `s` is read off
+the proxy and the call receiver is the real string.
 
 ### Scope
 
@@ -638,29 +642,43 @@ An expression that throws throws out of `_eval`; wrap the call in
 ;({})._try(t => t._eval('a.b'), e => 'bad expression') // 'bad expression'
 ```
 
-Strings containing the word `import` are refused, returning the string
-`'invalid'` rather than throwing. The check is a plain text match, so it also
-rejects an `import` appearing in a string literal, a comment or a key name.
+Expressions containing the word `import` or `await` are refused, returning the
+string `'invalid'` rather than throwing. The check is a plain text match on whole
+words, so it also rejects one appearing in a string literal, a comment or a key
+name.
 
 ```javascript
 ;({})._eval('import("fs")') // 'invalid'
 ;({})._eval('"the word import here"') // 'invalid' - matched anywhere
 ;({})._eval('"important".length') // 9 - only the whole word matches
+;({})._eval('await x') // 'invalid'
 ```
+
+`await` is a deterrent rather than a rule: the body is not an async function, so
+`await` would be a `SyntaxError` regardless, and an async expression can still be
+built — `({})._eval('(async () => 1)()')` returns a `Promise`. Prefer
+[`_wait`](#wait) for anything asynchronous.
 
 ### Not a security boundary
 
-For the duration of the call `Function.prototype.constructor` is replaced with a
-getter returning `undefined`, which closes the shortest route out. It is not a
-sandbox, though, so **do not pass untrusted input to `_eval`**: the scope only
-governs bare identifiers, so a value the expression builds still reaches its own
-prototype chain, and the generator and async function constructors are not
-swapped:
+For the duration of the call, every constructor that can compile code — those of
+`Function`, `AsyncFunction`, `GeneratorFunction` and `AsyncGeneratorFunction` —
+is replaced with a getter returning `undefined`, and restored afterwards. That
+closes the routes out through a value's own prototype chain:
 
 ```javascript
-;({})._eval('(() => {})["constr" + "uctor"]') // undefined - swapped out
-;({})._eval('(function * () {})["constr" + "uctor"]("return 1 + 1")().next()')
-// { value: 2, done: true } - still compiles code
+;({})._eval('typeof (() => {})["constr" + "uctor"]') // 'undefined' - swapped out
+;({})._eval('typeof (async function * () {})["constr" + "uctor"]') // 'undefined'
+```
+
+It is still not a sandbox, so **do not pass untrusted input to `_eval`**. The
+swap is process-wide but only lasts for the call, so a function the expression
+*returns* sees the restored constructors, and constructors that merely coerce are
+untouched:
+
+```javascript
+;({})._eval('() => (() => {})["constr" + "uctor"]')().name // 'Function' - restored by then
+;({})._eval('[]["constr" + "uctor"]').name // 'Array' - it does not compile code
 ```
 
 Treat `_eval` as a convenience for expressions you control — configuration,
