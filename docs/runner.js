@@ -15,9 +15,15 @@
 
   // Parse-check with the engine itself rather than counting brackets, which
   // gets strings, regexes and comments wrong.
-  const parses = src => {
+  const compiles = src => {
     try { new AsyncFn(src); return true } catch { return false }
   }
+
+  // An example starting with an object literal is not a valid *statement* — the
+  // `{` opens a block — but instrument() emits it wrapped in parens, where it is
+  // fine. Accept either, or one such line swallows the rest of the block into a
+  // chunk that cannot parse at all.
+  const parses = src => compiles(src) || compiles('(\n' + src + '\n)')
 
   const isComment = src => !src.replace(/\/\/.*$/gm, '').trim()
 
