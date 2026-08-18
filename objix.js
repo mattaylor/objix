@@ -1,168 +1,176 @@
 const
   O = Object,
   C = 'constructor',
+  F = Function,
   K = O.keys,
   A = O.assign,
   I = Symbol.iterator,
   M = {
 
-  every(f) {
-    for (let k in this) if (!f(this[k], k)) return false
-    return true
-  },
+    every(f) {
+      for (let k in this) if (!f(this[k], k)) return false
+      return true
+    },
 
-  some(f) {
-    for (let k in this) if (f(this[k], k)) return true
-    return false
-  },
+    some(f) {
+      for (let k in this) if (f(this[k], k)) return true
+      return false
+    },
 
-  map(f, r={}) {
-    if (this.map) return this.map(f)
-    for (let k in this) r[k] = f(this[k],k)
-    return r
-  },
+    map(f, r = {}) {
+      if (this.map) return this.map(f)
+      for (let k in this) r[k] = f(this[k], k)
+      return r
+    },
 
-  has(v) {
-    for (let k in this) if (this[k] === v) return true
-    return false
-  },
+    has(v) {
+      for (let k in this) if (this[k] === v) return true
+      return false
+    },
 
-  pick(f, r={}) {
-    for (let k in this) if (f.call ? f(this[k],k) : f._has(k)) r[k] = this[k]
-    return r
-  },
+    pick(f, r = {}) {
+      for (let k in this) if (f.call ? f(this[k], k) : f._has(k)) r[k] = this[k]
+      return r
+    },
 
-  flatMap(f, r={}) {
-    for (let i of K(this)) for (let [k,v] of f(i,this[i])) r[k] = v
-    return r
-  },
+    flatMap(f, r = {}) {
+      for (let i of K(this)) for (let [k, v] of f(i, this[i])) r[k] = v
+      return r
+    },
 
-  clean() {
-    return this._pick(v => v)
-  },
+    clean() {
+      return this._pick(v => v)
+    },
 
-  is(t, i) {
-    return (!i && t == O) ? ![Number,String,Boolean,Function,Symbol]._has(this[C])
-      : this[C] == t || !i && this instanceof t
-  },
+    is(t, i) {
+      return (!i && t == O) ? ![Number, String, Boolean, Function, Symbol]._has(this[C])
+        : this[C] == t || !i && this instanceof t
+    },
 
-  find(t) {
-    for (let k in this) if (t.call ? t(this[k],k) : this[k]._eq(t)) return k
-  },
+    find(t) {
+      for (let k in this) if (t.call ? t(this[k], k) : this[k]._eq(t)) return k
+    },
 
-  extend(...a) {
-    return A({}, ...a)._map((v,k) => this[k] ?? v, this)
-  },
+    extend(...a) {
+      return A({}, ...a)._map((v, k) => this[k] ?? v, this)
+    },
 
-  delete(...a) {
-    for (let k of a) delete this[k]
-    return this
-  },
+    delete(...a) {
+      for (let k of a) delete this[k]
+      return this
+    },
 
-  clone(d, e) {
-    return !this._is(O) ? this.valueOf()
-      : (!e && d == -1) ? this._try(structuredClone, () => this._clone(d,1))
-      : this._len() ? this._map(v => v && d ? v._clone(d-1) : v)
-      : this.map ? this : new this[C](this)
-  },
+    clone(d, e) {
+      return !this._is(O) ? this.valueOf()
+        : (!e && d == -1) ? this._try(structuredClone, () => this._clone(d, 1))
+          : this._len() ? this._map(v => v && d ? v._clone(d - 1) : v)
+            : this.map ? this : new this[C](this)
+    },
 
-  join(...a) {
-    let r = A({}, this)
-    for(let o of a) K(o)._map(k => r[k] &&= [].concat(r[k], o[k]))
-    return r
-  },
+    join(...a) {
+      let r = A({}, this)
+      for (let o of a) K(o)._map(k => r[k] &&= [].concat(r[k], o[k]))
+      return r
+    },
 
-  split(r=[]) {
-    for (let k in this) this[k]._map((v,i) => r[i] ? r[i][k] = v : r[i] = {[k]: v})
-    return r
-  },
+    split(r = []) {
+      for (let k in this) this[k]._map((v, i) => r[i] ? r[i][k] = v : r[i] = { [k]: v })
+      return r
+    },
 
-  same(o) {
-    return this._pick((v,k) => v._eq(o[k]))
-  },
+    same(o) {
+      return this._pick((v, k) => v._eq(o[k]))
+    },
 
-  diff(o) {
-    return this._pick((v,k) => !v._eq(o[k]))
-  },
+    diff(o) {
+      return this._pick((v, k) => !v._eq(o[k]))
+    },
 
-  contains(o, d) {
-    return o._every((v,k) => this[k]?._eq(v)) || d && this._some(v => v._contains(o, d-1))
-  },
+    contains(o, d) {
+      return o._every((v, k) => this[k]?._eq(v)) || d && this._some(v => v._contains(o, d - 1))
+    },
 
-  eq(o, d) {
-    return this == o || o
-    && !(this-o)
-    && this._is(o[C])
-    && this._len() == o._len()
-    && this._every((v,k) => v == o[k] || d && v?._eq(o[k],d-1))
-  },
+    eq(o, d) {
+      return this == o || o
+        && !(this - o)
+        && this._is(o[C])
+        && this._len() == o._len()
+        && this._every((v, k) => v == o[k] || d && v?._eq(o[k], d - 1))
+    },
 
-  len() {
-    return K(this).length
-  },
+    len() {
+      return K(this).length
+    },
 
-  keyBy(k, v, r={}, a) {
-    this._map(o => r[v=o._at(k)] = r[v]?.concat(o) || [o])
-    return r
-  },
+    keyBy(k, v, r = {}, a) {
+      this._map(o => r[v = o._at(k)] = r[v]?.concat(o) || [o])
+      return r
+    },
 
-  at(p) {
-    return this[p] ?? String(p).split('.').reduce((v,c) => v?.[c], this)
-  },
+    at(p) {
+      return this[p] ?? String(p).split('.').reduce((v, c) => v?.[c], this)
+    },
 
-  $(s) {
-    return s ? s._is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m,p) => this._at(p)?._$() ?? '')
-      : (s.stringify || s)(this)
-      : this._len() ? this._$(JSON).replace(/"(\w+)":/g,'$1:') : this+''
-  },
+    $(s) {
+      return s ? s._is(String) ? s.replace(/\${?([\w\.]+)}?/g, (m, p) => this._at(p)?._$() ?? '')
+        : (s.stringify || s)(this)
+        : this._len() ? this._$(JSON).replace(/"(\w+)":/g, '$1:') : this + ''
+    },
 
-  memo(e, f=this) {
-    return e ? function(...a) { return f[a._$()] ??= (f._wait(e).then(t => delete t[a._$()]), f.apply(this,a)) } : this
-  },
+    memo(e, f = this) {
+      return e ? function (...a) { return f[a._$()] ??= (f._wait(e).then(t => delete t[a._$()]), f.apply(this, a)) } : this
+    },
 
-  bind(k, f, e) {
-    def(this, k, (function(...a) { return f(...a, this)})._memo(e))
-    return this
-  },
+    bind(k, f, e) {
+      def(this, k, (function (...a) { return f(...a, this) })._memo(e))
+      return this
+    },
 
-  log(m = '', f, c = 'log') {
-    (!f || f(this)) && console[c](Date().slice(4,24),'-',m,this._$())
-    return this
-  },
+    log(m = '', f, c = 'log') {
+      (!f || f(this)) && console[c](Date().slice(4, 24), '-', m, this._$())
+      return this
+    },
 
-  try(t,c,r,_) {
-    try { _ = t(this) } catch(e) { _ = (c && c(e,this)) } return r ? this : _
-  },
+    try(t, c, r, _) {
+      try { _ = t(this) } catch (e) { _ = (c && c(e, this)) } return r ? this : _
+    },
 
-  new(o) {
-    return this._t ? new Proxy(this._t._new(o), this._h) : A(this._create(),o)
-  },
+    new(o) {
+      return this._t ? new Proxy(this._t._new(o), this._h) : A(this._create(), o)
+    },
 
-  wait(d) {
-    return new Promise((s,f) => d._is(Number) ? setTimeout(() => s(this), d*1000) : (d = d(this,s,f)) && s(d))
-  },
+    wait(d) {
+      return new Promise((s, f) => d._is(Number) ? setTimeout(() => s(this), d * 1000) : (d = d(this, s, f)) && s(d))
+    },
 
-  trap(f, e, ...p) {
-    return new Proxy(this, {
-      set(t,k,v) {
-        if ((!p[0] || p._find(k)) && !f(v,k,t) && e) throw(e+' '+[k,v]._$())
-        return (t[k] = v, true)
-      },
-      get(t,k) {
-        return k == '_t' ? t : k == '_h' ? this : t[k]
+    trap(f, e, ...p) {
+      return new Proxy(this, {
+        set(t, k, v) {
+          if ((!p[0] || p._find(k)) && !f(v, k, t) && e) throw (e + ' ' + [k, v]._$())
+          return (t[k] = v, true)
+        },
+        get(t, k) {
+          return k == '_t' ? t : k == '_h' ? this : t[k]
+        }
+      })
+    },
+
+    eval(s) {
+      const g = { Math, RegExp, Date, JSON, Number }._map(_ => O.freeze(_))
+      const f = O.getOwnPropertyDescriptor(F.prototype, C)
+      const d = _ => O.defineProperty(F.prototype, C, _)
+      const p = new Proxy(this, {
+        has() { return true },
+        get(t, k) { return [Symbol.unscopables, C, '__proto__']._has(k) ? undefined : t[k] ?? g[k] }
+      })
+      try {
+        d({ configurable: true, get() { return undefined } })
+        return /\b(import|construct)\b/.test(s) ? 'invalid' : F('p', `with (p) { return ${s} }`).call(p, p)
+      } finally {
+        d(f)
       }
-    })
-  },
-
-  eval(s) {
-    const g = { Math, RegExp, Date, JSON, Number }._map(_ => O.freeze(_))
-    const p = new Proxy(this, {
-      has() { return true },
-      get(t, k) { return [Symbol.unscopables, 'constructor', '__proto__']._has(k) ? undefined : t[k] ?? g[k] }
-    })
-    return /\b(import|constructor)\b/.test(s) ? 'invalid' : Function('p', `with (p) { return ${s} }`).call(p,p)
+    }
   }
-}
 
 for (let m of ['keys','values','entries','create','assign']) M[m] = function(...a) {
   return O[m](this, ...a)
