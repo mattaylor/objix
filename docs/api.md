@@ -642,33 +642,38 @@ An expression that throws throws out of `_eval`; wrap the call in
 ;({})._try(t => t._eval('a.b'), e => 'bad expression') // 'bad expression'
 ```
 
-Expressions containing the word `import` or `await` are refused, returning the
-string `'invalid'` rather than throwing. The check is a plain text match on whole
-words, so it also rejects one appearing in a string literal, a comment or a key
-name.
+Expressions containing the word `import`, `await` or `async` are refused,
+returning the string `'invalid'` rather than throwing. The check is a plain text
+match on whole words, so it also rejects one appearing in a string literal, a
+comment or a key name.
 
 ```javascript
 ;({})._eval('import("fs")') // 'invalid'
 ;({})._eval('"the word import here"') // 'invalid' - matched anywhere
 ;({})._eval('"important".length') // 9 - only the whole word matches
-;({})._eval('await x') // 'invalid'
+;({})._eval('(async () => 1)()') // 'invalid'
 ```
 
-`await` is a deterrent rather than a rule: the body is not an async function, so
-`await` would be a `SyntaxError` regardless, and an async expression can still be
-built — `({})._eval('(async () => 1)()')` returns a `Promise`. Prefer
-[`_wait`](#wait) for anything asynchronous.
+The guard only reads the source text, so it stops asynchronous *syntax*, not
+asynchronous values: a function held in a property still returns a `Promise`.
+Prefer [`_wait`](#wait) for anything asynchronous.
+
+```javascript
+;({ f: async () => 1 })._eval('f()') // a Promise for 1 - the word never appears
+```
 
 ### Not a security boundary
 
-For the duration of the call, every constructor that can compile code — those of
-`Function`, `AsyncFunction`, `GeneratorFunction` and `AsyncGeneratorFunction` —
-is replaced with a getter returning `undefined`, and restored afterwards. That
-closes the routes out through a value's own prototype chain:
+For the duration of the call, the constructors of `Number`, `String`, `Boolean`,
+`Symbol` and all four function kinds — `Function`, `AsyncFunction`,
+`GeneratorFunction` and `AsyncGeneratorFunction` — are replaced with a getter
+returning `undefined`, and restored afterwards. The four function constructors
+are the ones that matter: they compile code, and a value reaching its own
+prototype chain is the route the text guard above cannot see.
 
 ```javascript
 ;({})._eval('typeof (() => {})["constr" + "uctor"]') // 'undefined' - swapped out
-;({})._eval('typeof (async function * () {})["constr" + "uctor"]') // 'undefined'
+;({ f: async () => 1 })._eval('typeof f["constr" + "uctor"]') // 'undefined'
 ```
 
 It is still not a sandbox, so **do not pass untrusted input to `_eval`**. The

@@ -200,53 +200,71 @@ describe('_eval', () => {
     })
   })
 
-  describe('the import and await guard', () => {
+  describe('the import, await and async guard', () => {
     test.each([
       'import("fs")',
       '"the word import here"',
       '1 /* import */',
       'await x',
-      '"the word await here"'
+      '"the word await here"',
+      '(async () => 1)()',
+      '(async function * () {})()',
+      '1 /* async */'
     ])('refuses %s', src => {
       expect({}._eval(src)).toBe('invalid')
     })
 
-    test.each([['import', { import: 5 }], ['await', { await: 5 }]])(
-      'a key named %s is refused too', (name, o) => {
-        expect(o._eval(name)).toBe('invalid')
-      }
-    )
+    test.each([
+      ['import', { import: 5 }],
+      ['await', { await: 5 }],
+      ['async', { async: 5 }]
+    ])('a key named %s is refused too', (name, o) => {
+      expect(o._eval(name)).toBe('invalid')
+    })
 
-    test.each(['"important".length', '"unimportant".length', '"awaited".length'])(
-      'the match is whole-word, so %s is allowed', src => {
-        expect({}._eval(src)).not.toBe('invalid')
-      }
-    )
+    test.each([
+      '"important".length', '"unimportant".length',
+      '"awaited".length', '"asynchronous".length'
+    ])('the match is whole-word, so %s is allowed', src => {
+      expect({}._eval(src)).not.toBe('invalid')
+    })
 
-    // await is only a deterrent: the body is not an async function, so `await`
-    // would be a SyntaxError anyway, and an async expression can still be built.
-    test('an async expression is discouraged rather than prevented', () => {
-      expect({}._eval('(async () => 1)()')).toBeInstanceOf(Promise)
+    // The guard only sees the source text, so it cannot stop an async function
+    // that arrives as a value. The constructor swap below is what covers that
+    // route - see docs/api.md#eval.
+    test('an async function reached through a property still returns a Promise', async () => {
+      await expect({ f: async () => 1 }._eval('f()')).resolves.toBe(1)
     })
   })
 
   // _eval hides the globals but does not sandbox: the scope only governs bare
   // identifiers, so a value the expression builds still reaches its own
-  // prototype chain. Every constructor that compiles code is swapped out for
-  // the duration of the call, which is still not a boundary - documented in
-  // docs/api.md#eval so callers do not mistake it for safe. Written with
-  // computed access so the assertions are about reachability, not any one
-  // spelling.
+  // prototype chain. The constructors of every primitive wrapper and every
+  // function kind are swapped out for the duration of the call, which is still
+  // not a boundary - documented in docs/api.md#eval so callers do not mistake
+  // it for safe. Written with computed access so the assertions are about
+  // reachability, not any one spelling.
   describe('the constructor swap', () => {
-    // The four constructors that compile code, each reached from a value of its
-    // own kind rather than by name.
+    // The async kinds are reached through a property rather than written as a
+    // literal: `async` in the source is refused by the guard above, so a
+    // literal would never get as far as the swap. A value arriving this way is
+    // exactly the route the text guard cannot see.
     test.each([
-      ['Function', '(() => {})'],
-      ['AsyncFunction', '(async () => {})'],
-      ['GeneratorFunction', '(function * () {})'],
-      ['AsyncGeneratorFunction', '(async function * () {})']
-    ])('%s is not reachable from a value of its kind', (_name, literal) => {
-      expect({}._eval(literal + '["constr" + "uctor"]')).toBeUndefined()
+      ['Function', { f: () => {} }],
+      ['AsyncFunction', { f: async () => {} }],
+      ['GeneratorFunction', { f: function * () {} }],
+      ['AsyncGeneratorFunction', { f: async function * () {} }]
+    ])('%s is not reachable from a value of its kind', (_name, o) => {
+      expect(o._eval('f["constr" + "uctor"]')).toBeUndefined()
+    })
+
+    test.each([
+      ['Number', { v: 5 }],
+      ['String', { v: 'x' }],
+      ['Boolean', { v: true }],
+      ['Symbol', { v: Symbol('s') }]
+    ])('the %s wrapper is swapped out as well', (_name, o) => {
+      expect(o._eval('v["constr" + "uctor"]')).toBeUndefined()
     })
 
     test('so none of them can be called to compile code', () => {
@@ -255,8 +273,9 @@ describe('_eval', () => {
     })
 
     // Captured before any _eval below runs, so the comparison is against the
-    // untouched descriptors. Function's is writable, the other three are not.
-    const CTORS = [Function].concat(
+    // untouched descriptors. Function's is writable, the function kinds' are
+    // not, so each has to be compared against its own.
+    const CTORS = [Number, String, Boolean, Function, Symbol].concat(
       [async function () {}, function * () {}, async function * () {}]
         .map(f => Object.getPrototypeOf(f).constructor)
     )
