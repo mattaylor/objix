@@ -141,6 +141,31 @@ describe('_clone', () => {
       expect(copy.a()).toBe(0)
       expect(copy.b.c()).toBe(0)
     })
+
+    // Every function kind has to read as a non-plain object in _is, or _clone
+    // falls through to `new this[C](this)` and recompiles the function's source
+    // as a body: an async function would silently resolve to undefined, and a
+    // generator would throw a SyntaxError.
+    test.each([
+      ['a plain function', function () { return 1 }],
+      ['an arrow', () => 1],
+      ['an async function', async () => 1],
+      ['a generator', function * () { yield 1 }],
+      ['an async generator', async function * () { yield 1 }]
+    ])('%s is preserved by identity at every depth', (_label, f) => {
+      expect([f._clone(), { f }._clone().f, { f }._clone(-1).f, { g: { f } }._clone(-1).g.f])
+        .toEqual([f, f, f, f])
+    })
+
+    test('a cloned async function still resolves to its own value', async () => {
+      const source = { f: async () => 1 }
+      await expect(source._clone(-1).f()).resolves.toBe(1)
+    })
+
+    test('a cloned generator still yields', () => {
+      const source = { f: function * () { yield 1 } }
+      expect([...source._clone(-1).f()]).toEqual([1])
+    })
   })
 
   test('deep cloning a mixed structure preserves all values', () => {
