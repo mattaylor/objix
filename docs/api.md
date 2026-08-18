@@ -545,35 +545,51 @@ var o = { a: 1, b: 2 }
 o._eval('a + b') // 3
 o._eval('a > 0 ? "positive" : "negative"') // 'positive'
 o._eval('`a is ${a}`') // 'a is 1'
-{ a: { b: { c: 3 } } }._eval('a.b.c') // 3
+;({ a: { b: { c: 3 } } })._eval('a.b.c') // 3
 ```
 
 Keys are resolved on `this`, so nested paths, method calls and objix's own
 methods all work — including on an array receiver:
 
 ```javascript
-{ a: 1 })._eval('_map(v => v + 1)') // { a: 2 }
+;({ a: 1 })._eval('_map(v => v + 1)') // { a: 2 }
 ;[1, 2, 3]._eval('length') // 3
 ;[1, 2, 3]._eval('map(v => v * 2)') // [2, 4, 6]
 ```
 
-The scope is a `Proxy` around `this`, and a bare method call is made with that
+### A copy, not the object
+
+The expression runs against a deep [`_clone`](#clone) of `this`, so it cannot
+modify the receiver. Assignment and `delete` are expressions and still return
+their value, but the original is untouched:
+
+```javascript
+var o = { a: 1 }
+o._eval('a = 5') // 5
+o._eval('delete a') // true
+o // { a: 1 } - unchanged either way
+```
+
+Only own, cloneable properties survive the copy, and the receiver has to be an
+object — a primitive clones to itself, and cannot be proxied:
+
+```javascript
+;({ a: 1 })._new({ b: 2 })._eval('typeof a') // 'undefined' - own keys only
+;'abc'._try(t => t._eval('length'), e => e.message)
+// "Cannot create proxy with a non-object as target or handler"
+```
+
+The scope is a `Proxy` around that copy, and a bare method call is made with the
 proxy as its receiver. Generic methods do not mind — the array methods above only
 read `length` and indexed properties, which the proxy forwards. Methods that need
 an *internal slot* do mind, and throw:
 
 ```javascript
-'abc'._eval('length') // 3 - a plain property read
-'abc'._eval('_len()') // 3 - objix methods are generic too
-'abc'._try(t => t._eval('toUpperCase()'), e => e.message)
-// "String.prototype.toString requires that 'this' be a String"
-(5)._try(t => t._eval('toFixed(2)'), e => e.message)
-// "Number.prototype.toFixed requires that 'this' be a Number"
+new Date(0)._try(t => t._eval('getTime()'), e => e.message)
+// "this is not a Date object."
 ```
 
-The same applies to `Date` and `Map` methods. Call these on the object rather
-than through the scope — `'abc'._eval('length')` then `.toUpperCase()` outside,
-or pass the value in as a property: `({ s: 'abc' })._eval('s.toUpperCase()')`
+Pass the value in as a property instead: `({ s: 'abc' })._eval('s.toUpperCase()')`
 works, because `s` is read off the proxy and the call receiver is the real string.
 
 ### Scope
@@ -584,11 +600,11 @@ reachable by name — `process`, `require`, `globalThis`, `console`, `Function`,
 `eval`, `Array`, `Object` and every other global read as `undefined`.
 
 ```javascript
-{ a: 4 }._eval('Math.sqrt(a)') // 2
-{}._eval('typeof process') // 'undefined'
-{}._eval('typeof require') // 'undefined'
-{ a: 1 }._eval('__proto__') // undefined - not resolved from the scope
-{ Math: 9 }._eval('Math') // 9 - an own key shadows the built-in
+;({ a: 4 })._eval('Math.sqrt(a)') // 2
+;({})._eval('typeof process') // 'undefined'
+;({})._eval('typeof require') // 'undefined'
+;({ a: 1 })._eval('__proto__') // undefined - not resolved from the scope
+;({ Math: 9 })._eval('Math') // 9 - an own key shadows the built-in
 ```
 
 The fallback is `??`, so a key holding `null` or `undefined` falls through to the
@@ -598,8 +614,8 @@ built-in of the same name while a falsy-but-defined value like `0` shadows it.
 host global is not reachable through it:
 
 ```javascript
-{ a: 1 }._eval('this.a') // 1
-{}._eval('typeof this.process') // 'undefined'
+;({ a: 1 })._eval('this.a') // 1
+;({})._eval('typeof this.process') // 'undefined'
 ```
 
 Note that the built-ins are frozen with `Object.freeze` on first use, and these
@@ -611,23 +627,15 @@ mode) anywhere in the program. Existing behaviour is unaffected — `Math.max`,
 ### Expressions only
 
 The body is evaluated as a single expression, so statements are a `SyntaxError`:
-`var x = 1`, `return 1` and `throw 1` all fail. Assignment is an expression,
-though, and writes through to `this`:
-
-```javascript
-var o = { a: 1 }
-o._eval('a = 5') // 5
-o // { a: 5 } - the object was modified
-o._eval('delete a') // true, and o is now {}
-```
+`var x = 1`, `return 1` and `throw 1` all fail.
 
 An expression that throws throws out of `_eval`; wrap the call in
 [`_try`](#try) if you want a value instead:
 
 ```javascript
-{}._try(t => t._eval('a.b'), e => e.message)
+;({})._try(t => t._eval('a.b'), e => e.message)
 // "Cannot read properties of undefined (reading 'b')" - it threw
-{}._try(t => t._eval('a.b'), e => 'bad expression') // 'bad expression'
+;({})._try(t => t._eval('a.b'), e => 'bad expression') // 'bad expression'
 ```
 
 Strings containing the word `import` are refused, returning the string
@@ -635,20 +643,24 @@ Strings containing the word `import` are refused, returning the string
 rejects an `import` appearing in a string literal, a comment or a key name.
 
 ```javascript
-{}._eval('import("fs")') // 'invalid'
-{}._eval('"the word import here"') // 'invalid' - matched anywhere
-{}._eval('"important".length') // 9 - only the whole word matches
+;({})._eval('import("fs")') // 'invalid'
+;({})._eval('"the word import here"') // 'invalid' - matched anywhere
+;({})._eval('"important".length') // 9 - only the whole word matches
 ```
 
 ### Not a security boundary
 
-Hiding the globals raises the bar but does not close it, so **do not pass
-untrusted input to `_eval`**. The scope only governs bare identifiers; a value
-the expression builds for itself still reaches its own prototype chain, and
-`Function` from there runs anything:
+For the duration of the call `Function.prototype.constructor` is replaced with a
+getter returning `undefined`, which closes the shortest route out. It is not a
+sandbox, though, so **do not pass untrusted input to `_eval`**: the scope only
+governs bare identifiers, so a value the expression builds still reaches its own
+prototype chain, and the generator and async function constructors are not
+swapped:
 
 ```javascript
-{}._eval('(() => {})["constr" + "uctor"]("return 1 + 1")()') // 2
+;({})._eval('(() => {})["constr" + "uctor"]') // undefined - swapped out
+;({})._eval('(function * () {})["constr" + "uctor"]("return 1 + 1")().next()')
+// { value: 2, done: true } - still compiles code
 ```
 
 Treat `_eval` as a convenience for expressions you control — configuration,

@@ -35,8 +35,9 @@ describe('_eval', () => {
       expect({ a: 0 }._eval('a')).toBe(0)
     })
 
-    test('inherited properties are in scope', () => {
-      expect({ a: 1 }._new({ b: 2 })._eval('a + b')).toBe(3)
+    test('inherited properties are not in scope - the clone copies own keys', () => {
+      const o = { a: 1 }._new({ b: 2 })
+      expect([o._eval('typeof a'), o._eval('b')]).toEqual(['undefined', 2])
     })
 
     test('objix methods are callable', () => {
@@ -57,23 +58,19 @@ describe('_eval', () => {
       expect([1, 2, 3]._eval('map(v => v * 2)')).toEqual([2, 4, 6])
     })
 
-    test('works on a string', () => {
-      expect('abc'._eval('length')).toBe(3)
-    })
+    // _clone returns valueOf() for a non-object, and a primitive cannot be the
+    // target of a Proxy - documented in docs/api.md#eval. The wording of the
+    // TypeError is engine-specific, so only its name is asserted.
+    test.each([['a string', 'abc'], ['a number', 5], ['a boolean', true]])(
+      '%s receiver throws, having nothing to proxy', (_label, receiver) => {
+        expect({}._try(() => receiver._eval('1 + 1'), e => e.name)).toBe('TypeError')
+      }
+    )
 
-    test('objix methods are generic enough for a primitive receiver', () => {
-      expect('abc'._eval('_len()')).toBe(3)
-    })
-
-    // The scope is a Proxy around `this`, and a bare method call uses that proxy
-    // as its receiver. Methods needing an internal slot reject it - documented in
-    // docs/api.md#eval.
-    test.each([
-      ['a string', 'abc', 'toUpperCase()'],
-      ['a number', 5, 'toFixed(2)'],
-      ['a date', new Date(0), 'getTime()']
-    ])('a method of %s needing an internal slot throws', (_label, receiver, src) => {
-      expect(() => receiver._eval(src)).toThrow(TypeError)
+    // The scope is a Proxy around the clone, and a bare method call uses that
+    // proxy as its receiver. Methods needing an internal slot reject it.
+    test('a method needing an internal slot throws', () => {
+      expect(new Date(0)._try(t => t._eval('getTime()'), e => e.name)).toBe('TypeError')
     })
 
     test('the same method works when reached through a property', () => {
@@ -139,20 +136,27 @@ describe('_eval', () => {
       }
     )
 
-    test('an assignment writes through to this', () => {
+    // Evaluation is against this._clone(-1), so a write lands on the copy.
+    test('an assignment returns its value but leaves the receiver alone', () => {
       const o = { a: 1 }
-      expect([o._eval('a = 5'), o]).toEqual([5, { a: 5 }])
+      expect([o._eval('a = 5'), o]).toEqual([5, { a: 1 }])
     })
 
-    test('an assignment can add a key', () => {
+    test('an assignment does not add a key', () => {
       const o = {}
       o._eval('z = 9')
-      expect(o).toEqual({ z: 9 })
+      expect(o).toEqual({})
     })
 
-    test('delete removes a key', () => {
+    test('delete does not remove a key', () => {
       const o = { a: 1, b: 2 }
-      expect([o._eval('delete a'), o]).toEqual([true, { b: 2 }])
+      expect([o._eval('delete a'), o]).toEqual([true, { a: 1, b: 2 }])
+    })
+
+    test('a nested write does not reach the original either', () => {
+      const inner = { x: 1 }
+      ;({ inner })._eval('inner.x = 99')
+      expect(inner).toEqual({ x: 1 })
     })
 
     test('a sequence expression returns its first value', () => {
@@ -209,20 +213,44 @@ describe('_eval', () => {
 
   // _eval hides the globals but does not sandbox: the scope only governs bare
   // identifiers, so a value the expression builds still reaches its own
-  // prototype chain and Function from there. Documented in docs/api.md#eval so
-  // callers do not mistake it for safe. Written with computed access so the
-  // assertion is about the reachability, not about any one spelling.
-  describe('is not a security boundary', () => {
-    test('a literal reaches its own constructor', () => {
+  // prototype chain. Function.prototype.constructor is swapped out for the
+  // duration of the call, which is not the whole story - documented in
+  // docs/api.md#eval so callers do not mistake it for safe. Written with
+  // computed access so the assertions are about reachability, not any one
+  // spelling.
+  describe('the constructor swap', () => {
+    test('a function value no longer reaches Function', () => {
+      expect({ f: () => 1 }._eval('f["constr" + "uctor"]')).toBeUndefined()
+    })
+
+    test('Function cannot be reached to compile code', () => {
+      expect(() => ({})._eval('(() => {})["constr" + "uctor"]("return 1")'))
+        .toThrow(TypeError)
+    })
+
+    test.each([
+      ['restores Function.prototype.constructor', '1'],
+      ['restores it even when the expression throws', 'a.b']
+    ])('%s', (_label, src) => {
+      ({})._try(t => t._eval(src))
+      expect(Function.prototype.constructor).toBe(Function)
+      expect(Object.getOwnPropertyDescriptor(Function.prototype, 'constructor'))
+        .toEqual({ value: Function, writable: true, enumerable: false, configurable: true })
+    })
+
+    // Only Function.prototype is swapped, so this is not a security boundary.
+    test('a non-function literal still reaches its own constructor', () => {
       expect({}._eval('[]["constr" + "uctor"]')).toBe(Array)
     })
 
-    test('a property value reaches Function', () => {
-      expect({ f: () => 1 }._eval('f["constr" + "uctor"]')).toBe(Function)
+    test('the generator function constructor still compiles code', () => {
+      expect({}._eval('(function * () {})["constr" + "uctor"]("return 1 + 1")().next()'))
+        .toEqual({ value: 2, done: true })
     })
 
-    test('Function reached that way runs arbitrary code', () => {
-      expect({}._eval('(() => {})["constr" + "uctor"]("return 1 + 1")()')).toBe(2)
+    test('the async function constructor still compiles code', async () => {
+      expect(await ({})._eval('(async () => {})["constr" + "uctor"]("return 1 + 1")()'))
+        .toBe(2)
     })
   })
 
