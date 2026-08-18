@@ -156,16 +156,16 @@ const
     },
 
     eval(s) {
-      const g = { Math, RegExp, Date, JSON, Number }//._map(_ => O.freeze(_))
+      const g = { Math, RegExp, Date, JSON, Number }._map(_ => O.freeze(_))
       const f = O.getOwnPropertyDescriptor(F.prototype, C)
       const d = _ => O.defineProperty(F.prototype, C, _)
-      const p = new Proxy(this, {
+      const p = new Proxy(this._clone(-1), {
         has() { return true },
         get(t, k) { return [Symbol.unscopables, C, '__proto__']._has(k) ? undefined : t[k] ?? g[k] }
       })
       try {
         d({ configurable: true, get() { return undefined } })
-        return /\b(import|constructor)\b/.test(s) ? 'invalid' : F('p', `with (p) { return ${s} }`).call(p, p)
+        return /\b(import)\b/.test(s) ? 'invalid' : F('p', `with (p) { return ${s} }`).call(p, p)
       } finally {
         d(f)
       }

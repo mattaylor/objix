@@ -533,9 +533,9 @@ var s = (await 'https://objix.dev'._wait(fetch)).status // 200
 ```
 
 <a id="eval"></a>
-## `this._eval(expression)`
+## `this._eval(exp)`
 
-Evaluates `expression` as a JavaScript expression in which the properties of
+Evaluates `exp` as a JavaScript expression in which the properties of
 `this` are in scope as bare identifiers, and returns the result. It is the
 expression counterpart to [`_$`](#fmt)'s `'$a'` interpolation: where `_$` builds a
 string, `_eval` computes a value.
@@ -545,14 +545,14 @@ var o = { a: 1, b: 2 }
 o._eval('a + b') // 3
 o._eval('a > 0 ? "positive" : "negative"') // 'positive'
 o._eval('`a is ${a}`') // 'a is 1'
-;({ a: { b: { c: 3 } } })._eval('a.b.c') // 3
+{ a: { b: { c: 3 } } }._eval('a.b.c') // 3
 ```
 
 Keys are resolved on `this`, so nested paths, method calls and objix's own
 methods all work — including on an array receiver:
 
 ```javascript
-;({ a: 1 })._eval('_map(v => v + 1)') // { a: 2 }
+{ a: 1 })._eval('_map(v => v + 1)') // { a: 2 }
 ;[1, 2, 3]._eval('length') // 3
 ;[1, 2, 3]._eval('map(v => v * 2)') // [2, 4, 6]
 ```
@@ -563,11 +563,11 @@ read `length` and indexed properties, which the proxy forwards. Methods that nee
 an *internal slot* do mind, and throw:
 
 ```javascript
-;'abc'._eval('length') // 3 - a plain property read
-;'abc'._eval('_len()') // 3 - objix methods are generic too
-;'abc'._try(t => t._eval('toUpperCase()'), e => e.message)
+'abc'._eval('length') // 3 - a plain property read
+'abc'._eval('_len()') // 3 - objix methods are generic too
+'abc'._try(t => t._eval('toUpperCase()'), e => e.message)
 // "String.prototype.toString requires that 'this' be a String"
-;(5)._try(t => t._eval('toFixed(2)'), e => e.message)
+(5)._try(t => t._eval('toFixed(2)'), e => e.message)
 // "Number.prototype.toFixed requires that 'this' be a Number"
 ```
 
@@ -584,11 +584,11 @@ reachable by name — `process`, `require`, `globalThis`, `console`, `Function`,
 `eval`, `Array`, `Object` and every other global read as `undefined`.
 
 ```javascript
-;({ a: 4 })._eval('Math.sqrt(a)') // 2
-;({})._eval('typeof process') // 'undefined'
-;({})._eval('typeof require') // 'undefined'
-;({ a: 1 })._eval('__proto__') // undefined - not resolved from the scope
-;({ Math: 9 })._eval('Math') // 9 - an own key shadows the built-in
+{ a: 4 }._eval('Math.sqrt(a)') // 2
+{}._eval('typeof process') // 'undefined'
+{}._eval('typeof require') // 'undefined'
+{ a: 1 }._eval('__proto__') // undefined - not resolved from the scope
+{ Math: 9 }._eval('Math') // 9 - an own key shadows the built-in
 ```
 
 The fallback is `??`, so a key holding `null` or `undefined` falls through to the
@@ -598,8 +598,8 @@ built-in of the same name while a falsy-but-defined value like `0` shadows it.
 host global is not reachable through it:
 
 ```javascript
-;({ a: 1 })._eval('this.a') // 1
-;({})._eval('typeof this.process') // 'undefined'
+{ a: 1 }._eval('this.a') // 1
+{}._eval('typeof this.process') // 'undefined'
 ```
 
 Note that the built-ins are frozen with `Object.freeze` on first use, and these
@@ -625,9 +625,9 @@ An expression that throws throws out of `_eval`; wrap the call in
 [`_try`](#try) if you want a value instead:
 
 ```javascript
-;({})._try(t => t._eval('a.b'), e => e.message)
+{}._try(t => t._eval('a.b'), e => e.message)
 // "Cannot read properties of undefined (reading 'b')" - it threw
-;({})._try(t => t._eval('a.b'), e => 'bad expression') // 'bad expression'
+{}._try(t => t._eval('a.b'), e => 'bad expression') // 'bad expression'
 ```
 
 Strings containing the word `import` are refused, returning the string
@@ -635,9 +635,9 @@ Strings containing the word `import` are refused, returning the string
 rejects an `import` appearing in a string literal, a comment or a key name.
 
 ```javascript
-;({})._eval('import("fs")') // 'invalid'
-;({})._eval('"the word import here"') // 'invalid' - matched anywhere
-;({})._eval('"important".length') // 9 - only the whole word matches
+{}._eval('import("fs")') // 'invalid'
+{}._eval('"the word import here"') // 'invalid' - matched anywhere
+{}._eval('"important".length') // 9 - only the whole word matches
 ```
 
 ### Not a security boundary
@@ -648,7 +648,7 @@ the expression builds for itself still reaches its own prototype chain, and
 `Function` from there runs anything:
 
 ```javascript
-;({})._eval('(() => {})["constr" + "uctor"]("return 1 + 1")()') // 2
+{}._eval('(() => {})["constr" + "uctor"]("return 1 + 1")()') // 2
 ```
 
 Treat `_eval` as a convenience for expressions you control — configuration,
