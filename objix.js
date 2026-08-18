@@ -4,16 +4,19 @@ const
   F = Function,
   K = O.keys,
   A = O.assign,
+  P = [Number, String, Boolean, Function, Symbol],
   I = Symbol.iterator,
   M = {
 
     every(f) {
+      if (this.every) return this.every(f)
       for (let k in this) if (!f(this[k], k)) return false
       return true
     },
 
     some(f) {
-      for (let k in this) if (f(this[k], k)) return true
+      if (this.some) return this.some(f)
+      for(let k in this) if(f(this[k], k)) return true
       return false
     },
 
@@ -34,6 +37,7 @@ const
     },
 
     flatMap(f, r = {}) {
+      if (this.flatMap) return this.flatMap(f)
       for (let i of K(this)) for (let [k, v] of f(i, this[i])) r[k] = v
       return r
     },
@@ -43,7 +47,7 @@ const
     },
 
     is(t, i) {
-      return (!i && t == O) ? ![Number, String, Boolean, Function, Symbol]._has(this[C])
+      return (!i && t == O) ? !P.some(c => this instanceof c)
         : this[C] == t || !i && this instanceof t
     },
 
@@ -157,18 +161,16 @@ const
 
     eval(s) {
       const g = { Math, RegExp, Date, JSON, Number }._map(_ => O.freeze(_))
-      const f = O.getOwnPropertyDescriptor(F.prototype, C)
-      const d = _ => O.defineProperty(F.prototype, C, _)
-      const p = new Proxy(this._clone(-1), {
+      const f = [F, (async function () { })[C], (function* () { })[C], (async function* () { })[C]]
+      const o = f.map(_ => O.getOwnPropertyDescriptor(_.prototype, C))
+      const d = (c, p) => O.defineProperty(c.prototype, C, p)
+      const p = new Proxy(O(this._clone(-1)), {
         has() { return true },
         get(t, k) { return [Symbol.unscopables, C, '__proto__']._has(k) ? undefined : t[k] ?? g[k] }
       })
-      try {
-        d({ configurable: true, get() { return undefined } })
-        return /\b(import)\b/.test(s) ? 'invalid' : F('p', `with (p) { return ${s} }`).call(p, p)
-      } finally {
-        d(f)
-      }
+      f.map(v => d(v, { configurable: true, get() { return undefined } }))
+      try { return /\b(import|await|async)\b/.test(s) ? 'invalid' : F('p', `with (p) { return ${s} }`).call(p, p) }
+      finally { f.map((v,k) => d(v, o[k])) }
     }
   }
 

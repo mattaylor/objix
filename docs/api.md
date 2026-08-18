@@ -671,8 +671,8 @@ closes the route the text guard above cannot see: a value reaching its own
 prototype chain.
 
 ```javascript
-;({})._eval('typeof (() => {})["constr" + "uctor"]') // 'undefined' - swapped out
-;({ f: async () => 1 })._eval('typeof f["constr" + "uctor"]') // 'undefined'
+;({})._eval('typeof (() => {})["constructor"]') // 'undefined' - swapped out
+;({ f: async () => 1 })._eval('typeof f["constructor"]') // 'undefined'
 ```
 
 It is still not a sandbox, so **do not pass untrusted input to `_eval`**. The
@@ -681,8 +681,8 @@ swap is process-wide but only lasts for the call, so a function the expression
 untouched:
 
 ```javascript
-;({})._eval('() => (() => {})["constr" + "uctor"]')().name // 'Function' - restored by then
-;({})._eval('[]["constr" + "uctor"]').name // 'Array' - it does not compile code
+;({})._eval('() => (() => {})["constructor"]')().name // 'Function' - restored by then
+;({})._eval('[]["constructor"]').name // 'Array' - it does not compile code
 ```
 
 Treat `_eval` as a convenience for expressions you control — configuration,
