@@ -1,9 +1,8 @@
 const
   O = Object,
-  N = Number,
   S = String,
-  C = 'constructor',
   F = Function,
+  C = 'constructor',
   K = O.keys,
   A = O.assign,
   P = 'prototype',
@@ -49,7 +48,7 @@ const
 
     is(t) {
       return (t == O)
-        ? !(this instanceof N || this instanceof S || this instanceof Boolean || this instanceof F || this instanceof Symbol)
+        ? !(this instanceof Number || this instanceof S || this instanceof Boolean || this instanceof F || this instanceof Symbol)
         : this instanceof t
       },
 
@@ -70,8 +69,8 @@ const
     clone(d, e) {
       return !this._is(O) ? this.valueOf()
         : (!e && d == -1) ? this._try(structuredClone, () => this._clone(d, 1))
-          : this._len() ? this._map(v => v && d ? v._clone(d - 1) : v)
-            : this.map ? this : new this[C](this)
+        : this._len() ? this._map(v => v && d ? v._clone(d - 1) : v)
+        : this.map ? this : new this[C](this)
     },
 
     join(...a) {
@@ -121,7 +120,7 @@ const
     $(s) {
       return s ? s._is(S) ? s.replace(/\${?([\w\.]+)}?/g, (m, p) => this._at(p)?._$() ?? '')
         : (s.stringify || s)(this)
-        : this._len() ? this._$(JSON).replace(/"(\w+)":/g, '$1:') : this + ''
+        : this._len() ? this._$(JSON).replace(/"(\w+)":/g, '$1:') : this+''
     },
 
     memo(e, f = this) {
@@ -147,7 +146,7 @@ const
     },
 
     wait(d) {
-      return new Promise((s, f) => d._is(N) ? setTimeout(() => s(this), d * 1000) : (d = d(this, s, f)) && s(d))
+      return new Promise((s, f) => d._is(Number) ? setTimeout(() => s(this), d * 1000) : (d = d(this, s, f)) && s(d))
     },
 
     trap(f, e, ...p) {
@@ -164,7 +163,7 @@ const
 
     eval(s, ) {
       const
-        g = { Math, RegExp, Date, JSON, N }._map(_ => O.freeze(_)),
+        g = { Math, RegExp, Date, JSON, Number }._map(O.freeze),
         f = [F, (async function () {})[C], (function* () {})[C], (async function* () {})[C]],
         o = f.map(_ => O.getOwnPropertyDescriptor(_[P], C)),
         p = new Proxy(O(this._clone(-1)), {
@@ -186,6 +185,6 @@ const def = (o,k,v) => O.defineProperty(o, k, v)
 O[P][I] = function() { return this._values()[I]() }
 
 for (let m in M) {
-  def(O[P], '_' + m, { value: M[m] })
+  def(O[P], '_'+m, { value: M[m] })
   try { module.exports[m] = (o, ...a) => o['_'+m](...a) } catch {}
 }
