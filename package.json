@@ -10,7 +10,8 @@
     "test:bun": "bun test",
     "test:legacy": "node ./objix.test",
     "perf": "node ./bench",
-    "perf:bun": "bun ./bench.js"
+    "perf:bun": "bun ./bench.js",
+    "mini": "terser objix.js --compress --output objix.min.js"
   },
   "repository": {
     "type": "git",
@@ -56,6 +57,7 @@
     "hdr-histogram-js": "^3.0.1",
     "jest": "^30.4.2",
     "lodash": "^4.17.23",
-    "reflect-metadata": "^0.2.2"
+    "reflect-metadata": "^0.2.2",
+    "terser": "^5.50.0"
   }
 }
