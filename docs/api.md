@@ -114,10 +114,6 @@ outer._contains({ c: { x: 3 } }, 1) // true - _contains compares values
 outer._find({ x: 3 }) // 'c' - so does _find
 ```
 
-The leading `;` above is needed because a statement cannot begin with `[` or `{`
-without being read as an array index or a block. Assigning to a variable first,
-or wrapping the literal in parentheses, avoids it.
-
 <a id="iter"></a>
 ## `this._[@@iterator]`
 
@@ -144,10 +140,10 @@ this reason, so objix's own test setup detaches the iterator under Jest.
 <a id="clean"></a>
 ## `this._clean()`
 
-Return a new object like `this` with falsy entry values removed
+Return a new object like `this` with null or undefined property values removed
 
 ```javascript
-var o = { a: 1, b: null, c: false, d: 0, e: '' }._clean() // { a: 1 }
+var o = { a: 1, b: null, c: false, d: 0, e: '' }._clean() // { a: 1, c: false, d: 0 }
 ```
 
 <a id="pick"></a>
@@ -190,7 +186,7 @@ var o = { a: 0, b: 0 }._assign({ a: 1, b: 1 }, { b: 2, c: 2 }) // { a: 1, b: 2, 
 <a id="extend"></a>
 ## `this._extend(...objects)`
 
-Assigns properties into `this` from the arguments in ascending priority order. Properties of `this` are assigned only if null or undefined in `this`.
+Assigns properties into `this` from the arguments in descending priority order. Properties of `this` are assigned only if null or undefined in `this`.
 Returns `this`
 
 ```javascript

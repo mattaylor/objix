@@ -53,21 +53,16 @@ const
         : this[C] == t || !i && this instanceof t
     },
 
-    _extend(...a) {
-      let m = A({}, ...a)
-      for (let k in m) this[k] ??= m[k]
-      return this
-    },
-
     */
 
     is(t, i) {
-      return (!i && t == O) ? ![Number, String, Boolean, Function, Symbol].some(c => this instanceof c)
+      return (!i && t == O) ? ![String, Number, Boolean, Function, Symbol].some(c => this instanceof c)
         : this[C] == t || !i && this instanceof t
     },
 
     extend(...a) {
-      return A({}, ...a)._map((v, k) => this[k] ?? v, this)
+      for (let v of a) for (let k in v) this[k] ??= v[k]
+      return this
     },
 
     find(t) {

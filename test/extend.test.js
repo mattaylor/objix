@@ -17,8 +17,8 @@ describe('_extend', () => {
     expect(o).toEqual({ a: 0, b: 2 })
   })
 
-  test('later arguments win among themselves', () => {
-    expect({}._extend({ a: 1 }, { a: 2 })).toEqual({ a: 2 })
+  test('early arguments have priority over later ones', () => {
+    expect({}._extend({ a: 1 }, { a: 2 })).toEqual({ a: 1 })
   })
 
   test('preserves falsy own values such as 0 and empty string', () => {
