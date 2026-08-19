@@ -26,6 +26,10 @@ _is(t, i) {
     ? !(this instanceof Number || this instanceof String || this instanceof Boolean || this instanceof Function || this instanceof Symbol)
     : this[C] == t || !i && this instanceof t
 },
+_is(t, i) {
+  return (!i && t == O) ? ![Number, String, Boolean, Function, Symbol].some(c => this instanceof c)
+    : this[C] == t || !i && this instanceof t
+},
 */
 
 /*

@@ -91,7 +91,7 @@ describe('_is', () => {
       expect(new Class1()._is(Class2)).toBe(false)
     })
   })
-
+/*
   describe('exact matching (second argument)', () => {
     test('exact matches the direct constructor', () => {
       expect(new Class2()._is(Class2, 1)).toBe(true)
@@ -110,4 +110,5 @@ describe('_is', () => {
       expect({}._is(Object, 1)).toBe(true)
     })
   })
+*/
 })

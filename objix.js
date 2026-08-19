@@ -45,10 +45,11 @@ const
       return this._pick(v => v || !(v ?? true))
     },
 
-    is(t, i) {
-      return (!i && t == O) ? ![Number, String, Boolean, Function, Symbol].some(c => this instanceof c)
-        : this[C] == t || !i && this instanceof t
-    },
+    is(t) {
+      return (t == O)
+        ? !(this instanceof Number || this instanceof String || this instanceof Boolean || this instanceof Function || this instanceof Symbol)
+        : this instanceof t
+      },
 
     extend(...a) {
       for (let v of a) for (let k in v) this[k] ??= v[k]
