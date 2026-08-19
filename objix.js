@@ -127,8 +127,7 @@ const
   },
 
   bind(k, f, e) {
-    def(this, k, { value: function (...a) { return f(...a, this) }._memo(e) })
-    return this
+    return def(this, k, { value: function (...a) { return f(...a, this) }._memo(e) })
   },
 
   log(m = '', f, c = 'log') {
