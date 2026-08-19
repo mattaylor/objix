@@ -108,7 +108,6 @@ const
   },
 
   keyBy(k, v, r = {}) {
-    //for (let e of this) r[v = e._at(k)] = (r[v]?.concat(e) || [e])
     for (let e of this) r[v = k.call ? k(e) : e[k]] = r[v]?.concat(e) || [e]
     return r
   },
