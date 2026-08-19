@@ -595,7 +595,7 @@ the proxy and the call receiver is the real string.
 ### Scope
 
 Identifiers resolve to properties of `this` first, then to a small set of
-built-ins: `Math`, `RegExp`, `Date`, `JSON` and `Number`. Nothing else is
+built-ins: `Math`, `RegExp`, `Date`, and `JSON`. Nothing else is
 reachable by name — `process`, `require`, `globalThis`, `console`, `Function`,
 `eval`, `Array`, `Object` and every other global read as `undefined`.
 
@@ -603,7 +603,6 @@ reachable by name — `process`, `require`, `globalThis`, `console`, `Function`,
 ;({ a: 4 })._eval('Math.sqrt(a)') // 2
 ;({})._eval('typeof process') // 'undefined'
 ;({})._eval('typeof require') // 'undefined'
-;({ a: 1 })._eval('__proto__') // undefined - not resolved from the scope
 ;({ Math: 9 })._eval('Math') // 9 - an own key shadows the built-in
 ```
 

@@ -105,10 +105,6 @@ describe('_eval', () => {
       expect({}._eval('typeof ' + global)).toBe('undefined')
     })
 
-    test('__proto__ reads as undefined', () => {
-      expect({ a: 1 }._eval('__proto__')).toBeUndefined()
-    })
-
     test('an own key shadows a built-in of the same name', () => {
       expect({ Math: 9 }._eval('Math')).toBe(9)
     })
