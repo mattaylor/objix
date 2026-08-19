@@ -42,20 +42,36 @@ const
     },
 
     clean() {
-      return this._pick(v => v)
+      return this._pick(v => v || !(v ?? true))
     },
+
+
+    /*
+    _is(t, i) {
+      return (!i && t == O)
+        ? !(this instanceof Number || this instanceof String || this instanceof Boolean || this instanceof Function || this instanceof Symbol)
+        : this[C] == t || !i && this instanceof t
+    },
+
+    _extend(...a) {
+      let m = A({}, ...a)
+      for (let k in m) this[k] ??= m[k]
+      return this
+    },
+
+    */
 
     is(t, i) {
       return (!i && t == O) ? ![Number, String, Boolean, Function, Symbol].some(c => this instanceof c)
         : this[C] == t || !i && this instanceof t
     },
 
-    find(t) {
-      for (let k in this) if (t.call ? t(this[k], k) : this[k]._eq(t)) return k
-    },
-
     extend(...a) {
       return A({}, ...a)._map((v, k) => this[k] ?? v, this)
+    },
+
+    find(t) {
+      for (let k in this) if (t.call ? t(this[k], k) : this[k]._eq(t)) return k
     },
 
     delete(...a) {
@@ -178,6 +194,7 @@ for (let m of ['keys','values','entries','create','assign']) M[m] = function(...
 }
 
 const def = (o,k,v) => O.defineProperty(o, k, v)
+const iof = function (c, i) { return (i ?? this) instanceof c }
 
 O[P][I] = function() { return this._values()[I]() }
 

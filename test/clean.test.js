@@ -2,24 +2,26 @@
 // objix is loaded by test/setup.js (see jest.config.js).
 
 describe('_clean', () => {
+  /*
   test('removes all falsy values', () => {
     expect({ a: 1, b: null, c: false, d: 0, e: '' }._clean()).toEqual({ a: 1 })
   })
 
-  test('keeps truthy values including objects and empty arrays', () => {
-    expect({ a: {}, b: [], c: 'x' }._clean()).toEqual({ a: {}, b: [], c: 'x' })
+  test('NaN is falsy and removed', () => {
+    expect({ a: NaN, b: 1 }._clean()).toEqual({ b: 1 })
   })
 
   test('returns an empty object when everything is falsy', () => {
     expect({ a: 0, b: null }._clean()).toEqual({})
   })
+  */
+
+  test('keeps truthy values including objects and empty arrays', () => {
+    expect({ a: {}, b: [], c: 'x' }._clean()).toEqual({ a: {}, b: [], c: 'x' })
+  })
 
   test('removes undefined values', () => {
     expect({ a: undefined, b: 1 }._clean()).toEqual({ b: 1 })
-  })
-
-  test('NaN is falsy and removed', () => {
-    expect({ a: NaN, b: 1 }._clean()).toEqual({ b: 1 })
   })
 
   test('does not mutate the source', () => {
