@@ -170,7 +170,10 @@ const
           get(t, k) { return t[k] ?? g[k] }
         })
       f.map(v => def(v[P], C, { configurable: true, get() { return undefined } }))
-      try { return /\b(import|await|async)\b/.test(s) ? 'invalid' : F('p', `with (p) { return ${s} }`).call(p, p) }
+      try {
+        if (/\b(import|await|async)\b/.test(s)) throw EvalError('invalid')
+        return F('p', `with (p) { return ${s} }`).call(p, p)
+      }
       finally { f.map((v,k) => def(v[P], C, o[k])) }
     }
   }

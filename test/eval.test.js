@@ -207,7 +207,7 @@ describe('_eval', () => {
       '(async function * () {})()',
       '1 /* async */'
     ])('refuses %s', src => {
-      expect({}._eval(src)).toBe('invalid')
+      expect(() => ({})._eval(src)).toThrow(EvalError)
     })
 
     test.each([
@@ -215,14 +215,14 @@ describe('_eval', () => {
       ['await', { await: 5 }],
       ['async', { async: 5 }]
     ])('a key named %s is refused too', (name, o) => {
-      expect(o._eval(name)).toBe('invalid')
+      expect(() => o._eval(name)).toThrow(EvalError)
     })
 
     test.each([
       '"important".length', '"unimportant".length',
       '"awaited".length', '"asynchronous".length'
     ])('the match is whole-word, so %s is allowed', src => {
-      expect({}._eval(src)).not.toBe('invalid')
+      expect(() => ({})._eval(src)).not.toThrow(EvalError)
     })
 
     // The guard only sees the source text, so it cannot stop an async function
