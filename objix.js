@@ -111,6 +111,7 @@ const
       this._map(o => r[v = o._at(k)] = r[v]?.concat(o) || [o])
       return r
     },
+
     at(p) {
       return this[p] ?? S(p).split('.').reduce((v, c) => v?.[c], this)
     },
