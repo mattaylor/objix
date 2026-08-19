@@ -9,7 +9,7 @@ const
   M = {
 
     every(f) {
-      for (let k in this) if (!f(this[k], k)) return false
+     for (let k in this) if (!f(this[k], k)) return false
       return true
     },
 
@@ -45,18 +45,8 @@ const
       return this._pick(v => v || !(v ?? true))
     },
 
-
-    /*
-    _is(t, i) {
-      return (!i && t == O)
-        ? !(this instanceof Number || this instanceof String || this instanceof Boolean || this instanceof Function || this instanceof Symbol)
-        : this[C] == t || !i && this instanceof t
-    },
-
-    */
-
     is(t, i) {
-      return (!i && t == O) ? ![String, Number, Boolean, Function, Symbol].some(c => this instanceof c)
+      return (!i && t == O) ? ![Number, String, Boolean, Function, Symbol].some(c => this instanceof c)
         : this[C] == t || !i && this instanceof t
     },
 
@@ -189,7 +179,6 @@ for (let m of ['keys','values','entries','create','assign']) M[m] = function(...
 }
 
 const def = (o,k,v) => O.defineProperty(o, k, v)
-const iof = function (c, i) { return (i ?? this) instanceof c }
 
 O[P][I] = function() { return this._values()[I]() }
 

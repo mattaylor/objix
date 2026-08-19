@@ -20,6 +20,15 @@ const nDeep = process.argv[5] || 1    // Number of complex object entries
 const round = (v, p = 2) => Math.round(v * (10 ** p)) / (10 ** p)
 
 /*
+// optimised _is
+_is(t, i) {
+  return (!i && t == O)
+    ? !(this instanceof Number || this instanceof String || this instanceof Boolean || this instanceof Function || this instanceof Symbol)
+    : this[C] == t || !i && this instanceof t
+},
+*/
+
+/*
 Calculate run time for *heats* batches of *iters* executions of each function, with a randomised execution order for each batch.
 Each batch run also includes a 100 iteration warmup verifying the results of the function against objix
 */
