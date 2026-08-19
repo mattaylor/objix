@@ -9,15 +9,14 @@ const
   I = Symbol.iterator,
   M = {
 
-    every(f) {
-     for (let k in this) if (!f(this[k], k)) return false
-      return true
-    },
-
     some(f) {
       if (this.some) return this.some(f)
       for(let k in this) if(f(this[k], k)) return true
       return false
+    },
+
+    every(f) {
+      return !this._some((...a) => !f(...a))
     },
 
     map(f, r = {}) {
