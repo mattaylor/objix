@@ -11,7 +11,7 @@ const
 
   some(f) {
     if (this.some) return this.some(f)
-    for(let k in this) if(f(this[k], k)) return true
+    for (let k in this) if (f(this[k], k)) return true
     return false
   },
 
@@ -49,7 +49,7 @@ const
     return (t == O)
       ? !(this instanceof Number || this instanceof S || this instanceof Boolean || this instanceof F || this instanceof Symbol)
       : this instanceof t
-    },
+  },
 
   extend(...a) {
     for (let v of a) for (let k in v) this[k] ??= v[k]
@@ -68,8 +68,8 @@ const
   clone(d, e) {
     return !this._is(O) ? this.valueOf()
       : (!e && d == -1) ? this._try(structuredClone, () => this._clone(d, 1))
-      : this._len() ? this._map(v => v && d ? v._clone(d - 1) : v)
-      : this.map ? this : new this[C](this)
+        : this._len() ? this._map(v => v && d ? v._clone(d - 1) : v)
+          : this.map ? this : new this[C](this)
   },
 
   join(...a) {
@@ -107,8 +107,9 @@ const
     return K(this).length
   },
 
-  keyBy(k, v, r = {}, a) {
-    this._map(o => r[v = o._at(k)] = r[v]?.concat(o) || [o])
+  keyBy(k, v, r = {}) {
+    //for (let e of this) r[v = e._at(k)] = (r[v]?.concat(e) || [e])
+    for (let e of this) r[v = k.call ? k(e) : e[k]] = r[v]?.concat(e) || [e]
     return r
   },
 

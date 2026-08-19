@@ -12,8 +12,8 @@ describe('_keyBy', () => {
       .toEqual({ o1: [{ a: 'o1' }], o2: [{ a: 'o2' }, { a: 'o2', b: 1 }] })
   })
 
-  test('indexes by a dotted path', () => {
-    expect([{ a: { b: { c: 'o1' } } }, { a: { b: { c: 'o2' } } }]._keyBy('a.b.c'))
+  test('indexes by a function', () => {
+    expect([{ a: { b: { c: 'o1' } } }, { a: { b: { c: 'o2' } } }]._keyBy(o => o.a.b.c))
       .toEqual({
         o1: [{ a: { b: { c: 'o1' } } }],
         o2: [{ a: { b: { c: 'o2' } } }]

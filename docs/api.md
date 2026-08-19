@@ -348,16 +348,17 @@ var o = { a: 1, b: 2 }._len() // 2
 ```
 
 <a id="keyBy"></a>
-## `this._keyBy(path)`
+## `this._keyBy(name||function)`
 
-Re-Index values of `this` using the given key path, and return a new object keyed by the value found at that path. Values sharing a key are collected into an array, most recently seen first. 
+Re-Index values of `this` using the given name or function. If the argument is a function it is applied to each member of `this` and value returned is used to index it on the returned object. If the argument is a string the new index is the value of that property of each member. 
+All values are collected into an array for each key in the returned object. 
 
 ```javascript
 var o = [{ a: 'o1' }, { a: 'o2' }, { a: 'o2', b: 1 }]
 o._keyBy('a') // { o1: [{ a: 'o1' }], o2: [{ a: 'o2', b: 1 }, { a: 'o2' }] }
 
 var o = [{ a: { b: { c:'o1' }}}, { a: { b: { c: 'o2' }}}]
-o._keyBy('a.b.c') // { o1: [{ a: { b: { c:'o1' }}}], o2: [{ a: { b: { c: 'o2' }}}]}
+o._keyBy(_ => _.a.b.c) // { o1: [{ a: { b: { c:'o1' }}}], o2: [{ a: { b: { c: 'o2' }}}]}
 
 var o = { o1: { a: 'a1', b: 'group1'}, o2: { a: 'o2', b: 'group1'}, o3: { a: 'o3', b: 'group2'} }
 o._keyBy('b') // { group1: [ { a: 'a1', b: 'group1' }, { a: 'o2', b: 'group1' } ], group2: [ { a: 'o3', b: 'group2' } ] }
