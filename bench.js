@@ -7,7 +7,8 @@
 // probing prototype methods and branching on `Symbol.iterator in result`, which
 // objix's @@iterator on Object.prototype sends down a path that throws. Loading
 // it first sidesteps that; lodash and hdr-histogram-js are not order sensitive.
-const assert = require('node:assert/strict')
+//const assert = require('node:assert/strict')
+const assert = require('node:assert')
 
 require('./objix')
 const _ = require('lodash')
@@ -103,6 +104,7 @@ function report(title, ob) {
     KeyBy: {
       objix: () => [{ a: 1 }, { a: 2 }, { a: 3 }]._keyBy('a')._map(v => v),
       lodash: () => _.keyBy([{ a: 1 }, { a: 2 }, { a: 3 }], 'a')._map(v => [v]),
+      vanilla: () => Object.assign({}, Object.groupBy([{ a: 1 }, { a: 2 }, { a: 3 }], _ => _.a))
     },
     Equals: {
       objix: () => ob._eq(ob._clone(), -1),
