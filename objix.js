@@ -171,7 +171,7 @@ const
       })
     f.map(v => def(v[P], C, { configurable: true, get() { return undefined } }))
     try {
-      if (/\b(import|await|async)\b/.test(s)) throw EvalError('invalid')
+      if (/\b(import|await|async)\b/.test(s)) throw EvalError()
       return F('p', `with (p) { return ${s} }`).call(p, p)
     }
     finally { f.map((v,k) => def(v[P], C, o[k])) }
