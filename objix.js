@@ -21,9 +21,9 @@ const
     return !this._some((...a) => !f(...a))
   },
 
-  map(f, r = {}) {
-    if (this.map) return this.map(f)
-    for (let k in this) r[k] = f(this[k], k)
+  map(f, r={}, d) {
+    if (!d && this.map) return this.map(f)
+    for (let k in this) r[k] = d && this[k]?._is(O) ? this[k]?._map(f, {}, d-1) : f(this[k], k)
     return r
   },
 
