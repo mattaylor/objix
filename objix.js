@@ -168,7 +168,7 @@ const
         has() { return true },
         get(t, k) { return t[k] ?? g[k] }
       })
-    f.map(v => def(v[P], C, { configurable: true, get() { return undefined } }))
+    f.map(v => def(v[P], C, { configurable: true, get() {} }))
     try {
       if (/\b(import|await|async)\b/.test(s)) throw EvalError()
       return F('p', `with (p) { return ${s} }`).call(p, p)
