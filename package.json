@@ -1,7 +1,7 @@
 {
   "name": "objix",
-  "version": "2.1.1",
-  "description": "A powerfull, high performance, lightweight library to injecs many usefull methods into the Object prototype to sugar many use cases working with common Javascript object.",
+  "version": "2.1.2",
+  "description": "A powerfull, high performance, lightweight library to inject many usefull methods into the Object prototype to simplify and sugar many common use cses.",
   "main": "objix.js",
   "scripts": {
     "test": "jest",
@@ -50,7 +50,8 @@
     "trap",
     "observe",
     "memoize",
-    "proxy"
+    "proxy",
+    "eval"
   ],
   "devDependencies": {
     "@ungap/structured-clone": "^1.3.0",
