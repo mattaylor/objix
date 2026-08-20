@@ -46,7 +46,7 @@ const
   },
 
   is(t) {
-    return (t == O)
+    return (t === O)
       ? !(this instanceof Number || this instanceof S || this instanceof Boolean || this instanceof F || this instanceof Symbol)
       : this instanceof t
   },
@@ -68,8 +68,8 @@ const
   clone(d, e) {
     return !this._is(O) ? this.valueOf()
       : (!e && d == -1) ? this._try(structuredClone, () => this._clone(d, 1))
-        : this._len() ? this._map(v => v && d ? v._clone(d - 1) : v)
-          : this.map ? this : new this[C](this)
+      : this._len() ? this._map(v => v && d ? v._clone(d - 1) : v)
+      : this.map ? this : new this[C](this)
   },
 
   join(...a) {
