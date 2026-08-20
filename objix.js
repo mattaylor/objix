@@ -3,11 +3,12 @@ const
   S = String,
   F = Function,
   N = Number,
-  C = 'constructor',
   K = O.keys,
   A = O.assign,
   P = 'prototype',
+  C = 'constructor',
   I = Symbol.iterator,
+  D = O.defineProperty
   M = {
 
   some(f) {
@@ -131,7 +132,7 @@ const
   },
 
   bind(k, f, e) {
-    return def(this, k, { value: function (...a) { return f(...a, this) }._memo(e) })
+    return D(this, k, { value: function (...a) { return f(...a, this) }._memo(e) })
   },
 
   log(m = '', f, c = 'log') {
@@ -172,12 +173,12 @@ const
         has() { return true },
         get(t, k) { return t[k] ?? g[k] }
       })
-    f.map(v => def(v[P], C, { configurable: true, get() {} }))
+    f.map(v => D(v[P], C, { configurable: true, get() {} }))
     try {
       if (/\b(import|await|async)\b/.test(s)) throw EvalError()
       return F('p', `with (p) { return ${s} }`).call(p, p)
     }
-    finally { f.map((v,k) => def(v[P], C, o[k])) }
+    finally { f.map((v,k) => D(v[P], C, o[k])) }
   }
 }
 
@@ -185,11 +186,9 @@ for (let m of ['keys','values','entries','create','assign','freeze']) M[m] = fun
   return O[m](this, ...a)
 }
 
-const def = (o,k,v) => O.defineProperty(o, k, v)
-
 O[P][I] = function() { return this._values()[I]() }
 
 for (let m in M) {
-  def(O[P], '_'+m, { value: M[m] })
+  D(O[P], '_'+m, { value: M[m] })
   try { module.exports[m] = (o, ...a) => o['_'+m](...a) } catch {}
 }
