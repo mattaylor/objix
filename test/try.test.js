@@ -24,6 +24,7 @@ describe('_try', () => {
     expect(seen).toEqual(['x', { a: 1 }])
   })
 
+  /*
   test('a truthy third argument returns this instead of the result', () => {
     const o = { a: 1 }
     expect(o._try(() => 'ignored', null, true)).toBe(o)
@@ -33,6 +34,12 @@ describe('_try', () => {
     const o = { a: 1 }
     expect(o._try(() => { throw new Error('x') }, null, true)).toBe(o)
   })
+
+  test('chains when returning this', () => {
+    const o = { a: 1 }
+    expect(o._try(() => 1, null, true)._try(() => 2, null, true)).toBe(o)
+  })
+  */
 
   test('a falsy result from the try function is returned as-is', () => {
     expect({ a: 0 }._try(o => o.a)).toBe(0)
@@ -61,10 +68,5 @@ describe('_try', () => {
       () => { throw new Error('first') },
       () => { throw new Error('second') }
     )).toThrow('second')
-  })
-
-  test('chains when returning this', () => {
-    const o = { a: 1 }
-    expect(o._try(() => 1, null, true)._try(() => 2, null, true)).toBe(o)
   })
 })

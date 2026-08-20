@@ -139,8 +139,8 @@ const
     return this
   },
 
-  try(t, c, r, _) {
-    try { _ = t(this) } catch (e) { _ = (c && c(e, this)) } return r ? this : _
+  try(t, c) {
+    try { return t(this) } catch (e) { return c && c(e, this) }
   },
 
   new(o) {

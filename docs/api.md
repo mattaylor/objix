@@ -430,13 +430,12 @@ var o = { a: 0, b: 1 }
 ```
 
 <a id="try"></a>
-## `this._try(function, catch, return)`
+## `this._try(function, catch)`
 
-Calls `function` with `this` as its argument in a try catch block.
+Return `function` with `this` as its argument in a try catch block.
 
-If `catch` is defined and an exception is thrown the `catch` function will be called the error and `this` as arguments. Otherwise all exceptions will be ignored.
-
-If `return` is truthy, then `this` will always be returned, otherwise the results of `function` or `catch` will be returned.
+If `catch` is defined and an exception is thrown the `catch` function will be called wth error and `this` as arguments and returned. 
+If `catch` is not defined and an error is thrown then undefined will be returned. 
 
 ```javascript
 var o = { a: 1 }
@@ -444,17 +443,13 @@ o._try(t => (t.a += 1)) // 2
 o._try(t => (t.b += 1)) // NaN
 o._try(t => (t.b.c += 1)) // Undefined
 o._try(t => (t.a++, t)) // { a: 2 }
-o._try(t => (t.a += 1), null, true) // { a : 2 }
-o._try(t => (t.b.c += 1), null, true) // { a: 1 }
+o._try(t => (t.a += 1,t) // { a : 2 }
+o._try(t => (t.b.c += 1,t), (e,t) -> t) // { a: 1 }
 o._try(
   t => (t.b.c += 1),
-  e => String(e)
+  e => e._log()
 ) // 'TypeError: Cannot read properties of undefined (reading 'c')'
 ```
-
-Log the error with `console.log` rather than [`_log`](#log). `_log` formats with
-[`_$`](#fmt), which reads enumerable keys only, so `e._log()` prints `{}` — an
-`Error` keeps its `message` and `name` on the prototype, not as own keys.
 
 <a id="trap"></a>
 ## `this._trap(function, error, ...keys)`
