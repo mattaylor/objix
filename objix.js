@@ -2,6 +2,7 @@ const
   O = Object,
   S = String,
   F = Function,
+  N = Number,
   C = 'constructor',
   K = O.keys,
   A = O.assign,
@@ -47,7 +48,7 @@ const
 
   is(t) {
     return (t === O)
-      ? !(this instanceof Number || this instanceof S || this instanceof Boolean || this instanceof F || this instanceof Symbol)
+      ? !(this instanceof N || this instanceof S || this instanceof Boolean || this instanceof F || this instanceof Symbol)
       : this instanceof t
   },
 
@@ -82,7 +83,7 @@ const
   },
 
   split(r = []) {
-    for (let k in this) this[k]._map((v, i) => r[i] ? r[i][k] = v : r[i] = { [k]: v })
+    for (let k in this) this[k]._map((v, i) => r[i] ? r[i][k] = v : r[i] = {[k]: v })
     return r
   },
 
@@ -110,8 +111,8 @@ const
     return K(this).length
   },
 
-  keyBy(k, v, r = {}) {
-    for (let e of this) r[v = k.call ? k(e) : e[k]] = r[v]?.concat(e) || [e]
+  keyBy(k, r = {}, _) {
+    for (let e of this) r[_ = k.call ? k(e) : e[k]] = r[_]?.concat(e) || [e]
     return r
   },
 
@@ -122,7 +123,7 @@ const
   $(s) {
     return s
       ? s._is(S) ? s.replace(/\${?([\w\.]+)}?/g, (m, p) => this._at(p)?._$() ?? '') : (s.stringify || s)(this)
-      : this._len() ? this._$(JSON).replace(/"(\w+)":/g, '$1:') : this+''
+      : this._len() ? this._$(JSON).replace(/"(\w+)":/g, '$1:') : S(this)
   },
 
   memo(e, f = this) {
@@ -147,7 +148,7 @@ const
   },
 
   wait(d) {
-    return new Promise((s, f) => d._is(Number) ? setTimeout(() => s(this), d * 1000) : (d = d(this, s, f)) && s(d))
+    return new Promise((s, f) => d._is(N) ? setTimeout(() => s(this), d * 1000) : (d = d(this, s, f)) && s(d))
   },
 
   trap(f, e, ...p) {
@@ -162,7 +163,7 @@ const
     })
   },
 
-  eval(s, ) {
+  eval(s) {
     const
       g = { Math, RegExp, Date, JSON, Number }._map(O.freeze),
       f = [F, (async function () {})[C], (function* () {})[C], (async function* () {})[C]],
