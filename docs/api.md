@@ -430,12 +430,13 @@ var o = { a: 0, b: 1 }
 ```
 
 <a id="try"></a>
-## `this._try(function, catch)`
+## `this._try(function, catch, final)`
 
 Return `function` with `this` as its argument in a try catch block.
 
 If `catch` is defined and an exception is thrown the `catch` function will be called wth error and `this` as arguments and returned. 
 If `catch` is not defined and an error is thrown then undefined will be returned. 
+If `final` is defined then call it with `this` as an argument and always return the result, and discard the result of the `try` or `catch`.
 
 ```javascript
 var o = { a: 1 }
@@ -444,7 +445,7 @@ o._try(t => (t.b += 1)) // NaN
 o._try(t => (t.b.c += 1)) // Undefined
 o._try(t => (t.a++, t)) // { a: 2 }
 o._try(t => (t.a += 1,t) // { a : 2 }
-o._try(t => (t.b.c += 1,t), (e,t) -> t) // { a: 1 }
+o._try(t => (t.b.c += 1), null, t => t) // { a: 1 }
 o._try(
   t => (t.b.c += 1),
   e => e._log()
