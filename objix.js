@@ -75,16 +75,6 @@ const
           : this.map ? this : new this[C](this)
   },
 
-  clone(d, e) {
-    return !this._is(O)
-      ? this.valueOf()
-      : (!e && d == -1)
-        ? this._try(structuredClone, () => this._clone(d, 1))
-        : this._len()
-          ? this._map(v => v && d ? v._clone(d - 1) : v)
-          : this.map ? this : new this[C](this)
-  },
-
   join(...a) {
     let r = A({}, this)
     for (let o of a) K(o)._map(k => r[k] &&= [].concat(r[k], o[k]))
