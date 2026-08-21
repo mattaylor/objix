@@ -9,7 +9,7 @@ const
   C = 'constructor',
   I = Symbol.iterator,
   D = O.defineProperty
-  M = {
+M = {
 
   some(f) {
     if (this.some) return this.some(f)
@@ -21,14 +21,17 @@ const
     return !this._some((...a) => !f(...a))
   },
 
-  map(f, r={}, d) {
+  map(f, r = {}, d) {
     if (!d && this.map) return this.map(f)
-    for (let k in this) r[k] = d && this[k]?._is(O) ? this[k]?._map(f, {}, d-1) : f(this[k], k)
+    for (let k in this) r[k] = d && this[k]?._is(O) ? this[k]?._map(f, {}, d - 1) : f(this[k], k)
     return r
   },
 
   has(v) {
+    //return O.values(this).includes(v)
     for (let k in this) if (this[k] === v) return true
+    //for (let k of K(this)) if (this[k] === v) return true
+    //for (let _ of this) if (_ === v) return true
     return false
   },
 
@@ -84,7 +87,7 @@ const
   },
 
   split(r = []) {
-    for (let k in this) this[k]._map((v, i) => r[i] ? r[i][k] = v : r[i] = {[k]: v })
+    for (let k in this) this[k]._map((v, i) => r[i] ? r[i][k] = v : r[i] = { [k]: v })
     return r
   },
 
@@ -167,26 +170,31 @@ const
   eval(s) {
     const
       g = { Math, RegExp, Date, JSON, Number }._map(O.freeze),
-      f = [F, (async function () {})[C], (function* () {})[C], (async function* () {})[C]],
+      f = [F, (async function () { })[C], (function* () { })[C], (async function* () { })[C]],
       o = f.map(_ => O.getOwnPropertyDescriptor(_[P], C)),
       p = new Proxy(O(this._clone(-1)), {
         has() { return true },
         get(t, k) { return t[k] ?? g[k] }
       })
-    f.map(v => D(v[P], C, { configurable: true, get() {} }))
+    f.map(v => D(v[P], C, { configurable: true, get() { } }))
     try {
       if (/\b(import|await|async)\b/.test(s)) throw EvalError()
       return F('p', `with (p) { return ${s} }`).call(p, p)
     }
-    finally { f.map((v,k) => D(v[P], C, o[k])) }
+    finally { f.map((v, k) => D(v[P], C, o[k])) }
   }
 }
 
-for (let m of ['keys','values','entries','create','assign','freeze']) M[m] = function(...a) {
-  return O[m](this, ...a)
+for (let m of ['keys', 'create', 'values', 'entries', 'freeze']) M[m] = function () {
+  return O[m](this)
 }
 
+//['create', 'assign'].map(m => M[m] = function (...a) { return O[m](this, ...a) })
+
+for (let m of ['create', 'assign']) M[m] = function (...a) { return O[m](this, ...a) }
+
 O[P][I] = function() { return this._values()[I]() }
+//D(O[P], I, { value: function () { return this._values()[I]() } })
 
 for (let m in M) {
   D(O[P], '_'+m, { value: M[m] })
