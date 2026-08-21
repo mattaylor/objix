@@ -28,15 +28,18 @@ M = {
   },
 
   has(v) {
-    //return O.values(this).includes(v)
-    for (let k in this) if (this[k] === v) return true
+    return O.values(this).includes(v)
+    //return { ...O.values(this) }[v]
+    //for (let k in this) if (this[k] === v) return true
     //for (let k of K(this)) if (this[k] === v) return true
     //for (let _ of this) if (_ === v) return true
-    return false
+    //return false
   },
 
   pick(f, r = {}) {
-    for (let k in this) if (f.call ? f(this[k], k) : f._has(k)) r[k] = this[k]
+    //for (let k in this) if (f.call ? f(this[k], k) : f._has(k)) r[k] = this[k]
+    if (f.map) for (let k of f) r[k] = this[k]
+    else for (let k in this) if (f(this[k],k)) r[k] = this[k]
     return r
   },
 
@@ -188,8 +191,6 @@ M = {
 for (let m of ['keys', 'create', 'values', 'entries', 'freeze']) M[m] = function () {
   return O[m](this)
 }
-
-//['create', 'assign'].map(m => M[m] = function (...a) { return O[m](this, ...a) })
 
 for (let m of ['create', 'assign']) M[m] = function (...a) { return O[m](this, ...a) }
 

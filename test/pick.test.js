@@ -30,10 +30,8 @@ describe('_pick', () => {
     expect({ a: 1 }._pick([])).toEqual({})
   })
 
-  test('any non-function is matched by value membership via _has', () => {
-    // The non-function branch calls `f._has(k)`, so an object whose *values*
-    // include the key name also selects that key.
-    expect({ a: 1, b: 2 }._pick({ someKey: 'b' })).toEqual({ b: 2 })
+  test('any non-function is matched by key membersship', () => {
+    expect({ a: 1, b: 2, c: 3 }._pick(['a', 'b'])).toEqual({ a: 1, b: 2 })
   })
 
   test('merges into a supplied target', () => {
