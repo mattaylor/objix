@@ -191,7 +191,6 @@ for (let m of ['keys', 'create', 'values', 'entries', 'freeze']) M[m] = function
 }
 
 O[P][I] = function () { return O.values(this)[I]() }
-//D(O[P], I, { value: function () { return O.values(this)[I]() } })
 
 for (let m in M) {
   D(O[P], '_'+m, { value: M[m] })
