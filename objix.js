@@ -99,7 +99,7 @@ const
   },
 
   contains(o, d) {
-    return o._every((v, k) => this[k]?._eq(v)) || d && this._some(v => v._contains(o, d - 1))
+    return !o._some((v, k) => !this[k]?._eq(v)) || d && this._some(v => v._contains(o, d - 1))
   },
 
   eq(o, d) {
@@ -107,8 +107,8 @@ const
       && !(this - o)
       && this._is(o[C])
       && this._len() == o._len()
-      && this._every((v, k) => v == o[k] || d && v?._eq(o[k], d - 1))
-  },
+      && !this._some((v, k) => !(v == o[k] || d && v?._eq(o[k], d - 1)))
+ },
 
   len() {
     return K(this).length
@@ -185,14 +185,17 @@ const
     finally { f.map((v, k) => D(v[P], C, o[k])) }
   },
 
-  assign(...a) {
-    return A(this, ...a)
-  }
+  assign(...a) { return A(this, ...a) },
+
+  keys() { return K(this) },
+
 }
 
-for (let m of ['keys', 'create', 'values', 'entries', 'freeze']) M[m] = function (a) {
+
+for (let m of ['_keys', 'create', 'values', 'entries', 'freeze']) M[m] = function (a) {
   return O[m](this, a)
 }
+
 
 O[P][I] = function () { return V(this)[I]() }
 
