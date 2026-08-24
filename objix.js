@@ -79,8 +79,9 @@ const
   },
 
   join(...a) {
-    let r = { ...this }
-    for (let o of a) for (let k in o) r[k] &&= [].concat(r[k], o[k])
+    let r,o,k
+    r = { ...this }
+    for (o of a) for (k in o) r[k] &&= [].concat(r[k], o[k])
     return r
   },
 
