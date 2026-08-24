@@ -79,8 +79,8 @@ const
   },
 
   join(...a) {
-    let r = A({}, this)
-    for (let o of a) K(o)._map(k => r[k] &&= [].concat(r[k], o[k]))
+    let r = { ...this }
+    for (let o of a) for (let k in o) r[k] &&= [].concat(r[k], o[k])
     return r
   },
 
