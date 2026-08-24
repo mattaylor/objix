@@ -142,7 +142,7 @@ const own = v => {
 // independent implementations agree on the result, the numbers below are
 // measuring the same work three ways.
 function verify (name, funcs) {
-  const expected = own(funcs.objix())
+  const expected = own(funcs.objix()) ?? false
   for (const [key, fun] of funcs._entries()) {
     if (!fun || key === 'objix') continue
     assert.deepEqual(expected, own(fun()), `${name}: ${key} disagrees with objix`)
@@ -161,6 +161,7 @@ function compare (funcs, name) {
   for (let r = 0; r < heats; r++) {
     for (const [key, fun] of _.shuffle(funcs._entries())) {
       if (!fun) continue
+      //ob = build(size)
       ob = ot._clone()
       for (let i = 0; i < warm; i++) fun()
       const start = performance.now()
