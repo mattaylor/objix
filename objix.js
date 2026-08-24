@@ -23,7 +23,7 @@ const
 
   map(f, r = {}, d) {
     if (!d && this.map) return this.map(f)
-    for (let k in this) r[k] = d && this[k]?._is(O) ? this[k]?._map(f, {}, d - 1) : f(this[k], k)
+    for (let k in this) r[k] = d && this[k]._is(O) ? this[k]._map(f, {}, d - 1) : f(this[k], k)
     return r
   },
 
@@ -31,9 +31,9 @@ const
     return O.values(this).includes(v)
   },
 
-  pick(f, r = {}) {
-    if (f.map) for (let k of f) r[k] = this[k]
-    else for (let k in this) if (f(this[k],k)) r[k] = this[k]
+  pick(f, r = {}, k) {
+    if (f.map) for (k of f) r[k] = this[k]
+    else for (k in this) if (f(this[k], k)) r[k] = this[k]
     return r
   },
 
@@ -63,7 +63,7 @@ const
   },
 
   delete(...a) {
-    for (let k of a) delete this[k]
+    while (a.length && delete this[a.pop()]);
     return this
   },
 

@@ -11,7 +11,7 @@
     "test:legacy": "node ./objix.test",
     "perf": "node ./bench",
     "perf:bun": "bun ./bench.js",
-    "mini": "terser objix.js --compress --output objix.min.js"
+    "mini": "terser objix.js --compress --output o.min.js"
   },
   "repository": {
     "type": "git",

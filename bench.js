@@ -64,7 +64,8 @@ function build (size, depth = depthFor(size), state = { n: 0 }) {
 // enumerable keys, so walking into it would count it as nothing.
 const nodes = ob => ob._values().reduce((t, v) => t + (v?.constructor === Object ? nodes(v) : 1), 0)
 
-const ob = build(size)
+const ot = build(size)
+let ob = ot._clone()
 
 // Probe values are derived from the object rather than hardcoded, so every row
 // keeps its hit/miss behaviour as `size` changes. HIT is the last value, making
@@ -160,6 +161,7 @@ function compare (funcs, name) {
   for (let r = 0; r < heats; r++) {
     for (const [key, fun] of _.shuffle(funcs._entries())) {
       if (!fun) continue
+      ob = ot._clone()
       for (let i = 0; i < warm; i++) fun()
       const start = performance.now()
       for (let i = 0; i < iters; i++) fun()
@@ -344,13 +346,13 @@ const OPS = {
 
   // -- mutation (see the * note above) --------------------------------------
   'Assign *': {
-    objix: () => ob._clone()._assign(SRC),
-    lodash: () => _.assign(_.clone(ob), SRC),
+    objix: () => ob._assign(SRC),
+    lodash: () => _.assign(ob, SRC),
     vanilla: () => Object.assign({ ...ob }, SRC)
   },
   'Extend *': {
-    objix: () => ob._clone()._extend(SRC),
-    lodash: () => _.defaults(_.clone(ob), SRC),
+    objix: () => ob._extend(SRC),
+    lodash: () => _.defaults(ob, SRC),
     vanilla: () => {
       const r = { ...ob }
       for (const k in SRC) r[k] ??= SRC[k]
@@ -358,7 +360,7 @@ const OPS = {
     }
   },
   'Delete *': {
-    objix: () => ob._clone()._delete(...LIST),
+    objix: () => ob._delete(...LIST),
     lodash: () => _.omit(ob, LIST), // already returns a copy, so no clone needed
     vanilla: () => {
       const r = { ...ob }
