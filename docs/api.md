@@ -444,7 +444,6 @@ o._try(t => (t.a += 1)) // 2
 o._try(t => (t.b += 1)) // NaN
 o._try(t => (t.b.c += 1)) // Undefined
 o._try(t => (t.a++, t)) // { a: 2 }
-o._try(t => (t.a += 1,t) // { a : 2 }
 o._try(t => (t.b.c += 1), null, t => t) // { a: 1 }
 o._try(
   t => (t.b.c += 1),
