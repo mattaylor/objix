@@ -4,6 +4,7 @@ const
   F = Function,
   N = Number,
   K = O.keys,
+  V = O.values,
   A = O.assign,
   P = 'prototype',
   C = 'constructor',
@@ -28,7 +29,7 @@ const
   },
 
   has(v) {
-    return O.values(this).includes(v)
+    return V(this).includes(v)
   },
 
   pick(f, r = {}, k) {
@@ -192,7 +193,7 @@ for (let m of ['keys', 'create', 'values', 'entries', 'freeze']) M[m] = function
   return O[m](this, a)
 }
 
-O[P][I] = function () { return O.values(this)[I]() }
+O[P][I] = function () { return V(this)[I]() }
 
 for (let m in M) {
   D(O[P], '_'+m, { value: M[m] })
