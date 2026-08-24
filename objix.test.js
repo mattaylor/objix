@@ -62,8 +62,8 @@ console.assert(o3._assign({d:4})._eq(o4) && o3._eq(o4), '_Assign')
 //console.assert(o3.patch({d:4}) && o3._eq(o4), 'Patch')
 //console.assert(o3._patch({d:4}) && o3._eq(o4), '_Patch')
 
-console.assert(o3._delete('d','c','b') && o3._eq({a:2}), '_Delete')
-console.assert(o3._delete('d','c','b') && !o3._eq({d:2}), '!Delete')
+console.assert(o3._del('d','c','b') && o3._eq({a:2}), '_Delete')
+console.assert(o3._del('d','c','b') && !o3._eq({d:2}), '!Delete')
 
 let c0 = {a:1, b:{c:{d:1}}}._clone(-1)
 console.assert(c0._eq({a:1,b:{c:{ d:1}}}, -1), 'Clone 2', c0)
@@ -234,9 +234,3 @@ console.assert(o2.a() == 0, 'Clone 2 (Funcion)', o2.a())
 console.assert(o2.b.c() == 1, 'Clone 3 (Funcion)', o2.b.c())
 console.assert(o3.a() == 0, 'Clone 4 (Funcion)', o3.a())
 console.assert(o3.b.c() == 0, 'Clone 5 (Funcion)', o3.b.c())
-
-
-
-
-
-

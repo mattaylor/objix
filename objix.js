@@ -62,7 +62,7 @@ const
     for (let k in this) if (t.call ? t(this[k], k) : this[k]._eq(t)) return k
   },
 
-  delete(...a) {
+  del(...a) {
     while (a.length && delete this[a.pop()]);
     return this
   },
@@ -128,7 +128,9 @@ const
   },
 
   memo(e, f = this) {
-    return e ? function (...a) { return f[a._$()] ??= (f._wait(e).then(t => delete t[a._$()]), f.apply(this, a)) } : this
+    return e ? function (...a) {
+      return f[a._$()] ??= (f._wait(e).then(t => delete t[a._$()]), f.apply(this, a))
+    } : this
   },
 
   bind(k, f, e) {

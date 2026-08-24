@@ -11,7 +11,7 @@ const objix = require('../objix')
 
 const NAMES = [
   'every', 'some', 'map', 'has', 'pick', 'flatMap', 'clean', 'is', 'find',
-  'extend', 'delete', 'clone', 'join', 'split', 'same', 'diff', 'contains',
+  'extend', 'del', 'clone', 'join', 'split', 'same', 'diff', 'contains',
   'eq', 'len', 'keyBy', 'at', '$', 'memo', 'bind', 'log', 'try', 'new', 'wait',
   'trap', 'eval', 'keys', 'values', 'entries', 'create', 'assign', 'freeze'
 ]
@@ -71,9 +71,9 @@ describe('module exports', () => {
       expect(objix.clone(source)).not.toBe(source)
     })
 
-    test('delete removes keys and returns the object', () => {
+    test('del removes keys and returns the object', () => {
       const target = { a: 1, b: 2 }
-      expect(objix.delete(target, 'a')).toBe(target)
+      expect(objix.del(target, 'a')).toBe(target)
       expect(target).toEqual({ b: 2 })
     })
 

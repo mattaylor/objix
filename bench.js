@@ -360,7 +360,7 @@ const OPS = {
     }
   },
   'Delete *': {
-    objix: () => ob._delete(...LIST),
+    objix: () => ob._del(...LIST),
     lodash: () => _.omit(ob, LIST), // already returns a copy, so no clone needed
     vanilla: () => {
       const r = { ...ob }

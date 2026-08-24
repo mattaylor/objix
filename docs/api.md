@@ -212,12 +212,12 @@ var o = { a: 1, b: 2 }._diff({ a: 2, b: 2 }) // { a: 1 }
 ```
 
 <a id="delete"></a>
-## `this._delete(...keys)`
+## `this._del(...keys)`
 
 Return `this` with entries deleted where the key is included in arguemnts.
 
 ```javascript
-var o = { a: 1, b: 2, c: 3 }._delete('a', 'b') // { c: 3 }
+var o = { a: 1, b: 2, c: 3 }._del('a', 'b') // { c: 3 }
 ```
 
 <a id="some"></a>
