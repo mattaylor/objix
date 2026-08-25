@@ -19,7 +19,7 @@ const
   },
 
   every(f) {
-    return !this._some((v,k) => !f(v,k))
+    return !this._some((v, k) => !f(v, k))
   },
 
   map(f, r = {}, d) {
@@ -68,12 +68,21 @@ const
     return this
   },
 
+  test() {
+     return _clone()
+    },
+
   clone(d, e) {
-    return !this._is(O) ? this.valueOf()
-      : !e && d === -1 ? this._try(structuredClone, () => this._clone(d, 1))
-      : !this._len() ? this.map ? this : new this[C](this)
-      : d ? this._map(v => v?._clone(d - 1) ?? v)
-      : this.map ? [...this] : { ...this }
+    let t = this
+    return !t._is(O)
+      ? t.valueOf()
+      : !e && d === -1
+        ? t._try(structuredClone, () => t._clone(d, 1))
+        : !t._len()
+          ? t.map ? this : new t[C](t)
+          : d
+            ? t._map(v => v?._clone(d - 1) ?? v)
+            : t.map ? [...t] : { ...t }
   },
 
   join(...a) {
