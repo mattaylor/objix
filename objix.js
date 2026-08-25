@@ -88,8 +88,8 @@ const
     return r
   },
 
-  same(o) {
-    return o?._pick((v, k) => v._eq(this[k]))
+  same(o, d) {
+    return o?._pick((v, k) => v._eq(this[k], d))
   },
 
   diff(o) {
