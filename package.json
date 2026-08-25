@@ -8,7 +8,6 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:bun": "bun test",
-    "test:legacy": "node ./objix.test",
     "perf": "node ./bench",
     "perf:bun": "bun ./bench.js",
     "mini": "terser objix.js --compress --output o.min.js"
