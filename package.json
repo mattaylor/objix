@@ -1,6 +1,6 @@
 {
   "name": "objix",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "A powerfull, high performance, lightweight library to inject many usefull methods into the Object prototype to simplify and sugar many common use cses.",
   "main": "objix.js",
   "scripts": {
