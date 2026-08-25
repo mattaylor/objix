@@ -68,21 +68,17 @@ const
     return this
   },
 
-  test() {
-     return _clone()
-    },
-
   clone(d, e) {
     let t = this
-    return !t._is(O)
-      ? t.valueOf()
-      : !e && d === -1
-        ? t._try(structuredClone, () => t._clone(d, 1))
-        : !t._len()
-          ? t.map ? this : new t[C](t)
-          : d
+    return t._is(O)
+      ? e || d !== -1
+        ? t._len()
+          ? d
             ? t._map(v => v?._clone(d - 1) ?? v)
             : t.map ? [...t] : { ...t }
+          : t.map ? t : new t[C](t)
+        : t._try(structuredClone, () => t._clone(d, 1))
+      : t.valueOf()
   },
 
   join(...a) {
