@@ -35,9 +35,9 @@ describe('_eval', () => {
       expect({ a: 0 }._eval('a')).toBe(0)
     })
 
-    test('inherited properties are not in scope - the clone copies own keys', () => {
+    test('inherited properties are in scope', () => {
       const o = { a: 1 }._new({ b: 2 })
-      expect([o._eval('typeof a'), o._eval('b')]).toEqual(['undefined', 2])
+      expect([o._eval('typeof a'), o._eval('b')]).toEqual(['number', 2])
     })
 
     test('objix methods are callable', () => {

@@ -71,13 +71,11 @@ const
   clone(d, e) {
     let t = this
     return t._is(O)
-      ? e || d !== -1
-        ? t._len()
-          ? d
-            ? t._map(v => v?._clone(d - 1) ?? v)
-            : t.map ? [...t] : { ...t }
-          : t.map ? t : new t[C](t)
-        : t._try(structuredClone, () => t._clone(d, 1))
+      ? t._is(Date)
+        ? new t[C](t)
+        : d
+          ? t._map(v => v?._clone(d-1) ?? v)
+          : t.map ? [...t] : { ...t }
       : t.valueOf()
   },
 
@@ -147,7 +145,9 @@ const
   },
 
   try(t, c, f, r) {
-    try { r = t(this) } catch (e) { r = c?.(e, this) } return f ? f(this) : r
+    try { r = t(this) }
+    catch (e) { r = c?.(e, this) }
+    return f ? f(this) : r
   },
 
   new(o) {

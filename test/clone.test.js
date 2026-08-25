@@ -31,10 +31,12 @@ describe('_clone', () => {
       expect(copy.d).toEqual([1])
     })
 
-    test('an empty object is returned as-is', () => {
+    test('an empty object is returned as a copy', () => {
       // With no keys there is nothing to copy, so the same reference is used.
       const source = {}
-      expect(source._clone()).toBe(source)
+      const copy = source._clone()
+      source.a = 1
+      expect(copy.a).toBe(undefined)
     })
   })
 
@@ -96,9 +98,11 @@ describe('_clone', () => {
       expect(copy).toEqual([1, 2, 3])
     })
 
-    test('an empty array is returned as-is', () => {
+    test('an empty array is returned as a copy', () => {
       const source = []
-      expect(source._clone()).toBe(source)
+      const copy = source._clone()
+      source.push(1)
+      expect(copy.length).toBe(0)
     })
 
     test('a Date is cloned into an independent Date', () => {

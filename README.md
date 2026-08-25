@@ -4,7 +4,7 @@ Objix is a delightfully convienient, high performance, zero dependency and super
 
 The functions are all non enumerable and include copies of Object class methods and Array prototype methods applied to the values of the object as well others to delete keys, stringify, promisify, memoize, compare, split/join objects, check types, log messages and trapping/observing property assignments.
 
-This library is highly optimised with zero copy operations where possible. The source is under 5kb (3.2kb minified) which allows for fast loading and easy integration without additional compilation or tree shaking. Performance in most cases is significantly faster than `lodash` equivalents especially when working with small objects. For example `ob._map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` and some operations such as `pick` can be several thousand times quicker according to simple [benchmarks](docs/bench.md).
+This library is highly optimised with zero copy operations where possible. The source is under 4.8kb (3.4kb minified) which allows for fast loading and easy integration without additional compilation or tree shaking. Performance in pretty much all cases is significantly faster than `lodash` equivalents especially when working with small objects. For example `ob._map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` and some operations such as `pick` can be several thousand times quicker according to simple [benchmarks](docs/bench.md).
 
 Interactive docs and demos are availble on https://objix.dev/#/docs/api, where
 every example is runnable and editable in the page.
