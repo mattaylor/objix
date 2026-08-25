@@ -2,7 +2,7 @@
 
 ![logo](/docs/objix.png)
 
-# objix <small>2.0.1</small>
+# objix <small>2.2.0</small>
 
 > Enchanted Javascript.
 
