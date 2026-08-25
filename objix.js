@@ -191,7 +191,7 @@ const
 }
 
 
-for (let m of ['create', 'values', 'entries', 'freeze']) M[m] = function (a) {
+for (let m of ['create', 'values', 'entries']) M[m] = function (a) {
   return O[m](this, a)
 }
 

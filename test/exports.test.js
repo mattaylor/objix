@@ -13,7 +13,7 @@ const NAMES = [
   'every', 'some', 'map', 'has', 'pick', 'flatMap', 'clean', 'is', 'find',
   'extend', 'del', 'clone', 'join', 'split', 'same', 'diff', 'contains',
   'eq', 'len', 'keyBy', 'at', '$', 'memo', 'bind', 'log', 'try', 'new', 'wait',
-  'trap', 'eval', 'keys', 'values', 'entries', 'create', 'assign', 'freeze'
+  'trap', 'eval', 'keys', 'values', 'entries', 'create', 'assign'
 ]
 
 describe('module exports', () => {
