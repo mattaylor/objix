@@ -142,8 +142,7 @@ const
   },
 
   try(t, c, f, r) {
-    try { r = t(this) }
-    catch (e) { r = c?.(e, this) }
+    try { r = t(this) } catch (e) { r = c?.(e, this) }
     return f ? f(this) : r
   },
 
@@ -176,18 +175,17 @@ const
         has() { return true },
         get(t, k) { return t[k] ?? g[k] }
       })
+    if (/\b(import|await|async)\b/.test(s)) throw EvalError()
     f.map(v => D(v[P], C, { configurable: true, get() { } }))
     try {
-      if (/\b(import|await|async)\b/.test(s)) throw EvalError()
       return F('p', `with (p) { return ${s} }`).call(p, p)
+    } finally {
+      f.map((v, k) => D(v[P], C, o[k]))
     }
-    finally { f.map((v, k) => D(v[P], C, o[k])) }
   },
 
   assign(...a) { return A(this, ...a) },
-
   keys() { return K(this) }
-
 }
 
 for (let m of ['create', 'values', 'entries']) M[m] = function (a) {
