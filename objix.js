@@ -70,13 +70,10 @@ const
 
   clone(d, e) {
     let t = this
-    return !t._is(O)
-      ? t.valueOf()
-      : t._is(Date)
-        ? new t[C](t)
-        : d
-          ? t._map(v => v?._clone(d-1) ?? v)
-          : t.map ? [...t] : { ...t }
+    return !t._is(O) ? t.valueOf()
+      : t._is(Date) ? new t[C](t)
+      : d ? t._map(v => v?._clone(d-1) ?? v)
+      : t.map ? [...t] : { ...t }
   },
 
   join(...a) {
