@@ -19,7 +19,7 @@ const
   },
 
   every(f) {
-    return !this._some((...a) => !f(...a))
+    return !this._some((v,k) => !f(v,k))
   },
 
   map(f, r = {}, d) {
@@ -38,9 +38,9 @@ const
     return r
   },
 
-  flatMap(f, r = {}) {
+  flatMap(f, r = {}, i, k, v) {
     if (this.flatMap) return this.flatMap(f)
-    for (let i of K(this)) for (let [k, v] of f(i, this[i])) r[k] = v
+    for (i of K(this)) for ([k, v] of f(i, this[i])) r[k] = v
     return r
   },
 
@@ -186,12 +186,12 @@ const
 
   assign(...a) { return A(this, ...a) },
 
-  keys() { return K(this) },
+  keys() { return K(this) }
 
 }
 
 
-for (let m of ['_keys', 'create', 'values', 'entries', 'freeze']) M[m] = function (a) {
+for (let m of ['create', 'values', 'entries', 'freeze']) M[m] = function (a) {
   return O[m](this, a)
 }
 
