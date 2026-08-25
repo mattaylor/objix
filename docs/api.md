@@ -562,16 +562,6 @@ o._eval('delete a') // true
 o // { a: 1 } - unchanged either way
 ```
 
-Only own, cloneable properties survive the copy — an inherited key is not in
-scope. A primitive receiver copies to itself and is wrapped with `Object`, so it
-works too:
-
-```javascript
-;({ a: 1 })._new({ b: 2 })._eval('typeof a') // 'undefined' - own keys only
-;'abc'._eval('length') // 3 - a plain property read
-;'abc'._eval('_len()') // 3 - objix methods are generic too
-```
-
 The scope is a `Proxy` around that copy, and a bare method call is made with the
 proxy as its receiver. Generic methods do not mind — the array methods above only
 read `length` and indexed properties, which the proxy forwards. Methods that need
@@ -612,12 +602,6 @@ host global is not reachable through it:
 ;({ a: 1 })._eval('this.a') // 1
 ;({})._eval('typeof this.process') // 'undefined'
 ```
-
-Note that the built-ins are frozen with `Object.freeze` on first use, and these
-are the **real** objects rather than copies, so the freeze applies process-wide:
-after any `_eval` call, `Math.myHelper = fn` silently fails (or throws in strict
-mode) anywhere in the program. Existing behaviour is unaffected — `Math.max`,
-`Date.now`, `new RegExp(...)` and subclassing all continue to work.
 
 ### Expressions only
 
