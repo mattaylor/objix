@@ -73,10 +73,12 @@ const
       ? this.valueOf()
       : (!e && d == -1)
         ? this._try(structuredClone, () => this._clone(d, 1))
-        : this._len()
-          ? this._map(v => v && d ? v._clone(d - 1) : v)
-          : this.map ? this : new this[C](this)
-  },
+        : !this._len()
+          ? this.map ? this : new this[C](this)
+          : d
+            ? this._map(v => v?._clone(d - 1) ?? v)
+            : this.map ? [ ...this ] : { ...this }
+    },
 
   join(...a) {
     let r,o,k
@@ -190,11 +192,9 @@ const
 
 }
 
-
 for (let m of ['create', 'values', 'entries']) M[m] = function (a) {
   return O[m](this, a)
 }
-
 
 O[P][I] = function () { return V(this)[I]() }
 
