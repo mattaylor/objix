@@ -103,12 +103,11 @@ const
   },
 
   eq(o, d) {
-    return this == o || o
+    return this == o || this._len() == o?._len()
       && !(this - o)
       && this._is(o[C])
-      && this._len() == o._len()
       && !this._some((v, k) => !(v == o[k] || d && v?._eq(o[k], d - 1)))
- },
+  },
 
   len() {
     return K(this).length
