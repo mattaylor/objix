@@ -47,6 +47,10 @@ describe('Symbol.iterator on Object.prototype', () => {
     expect(Array.from({ a: 1, b: 2 })).toEqual([['a', 1], ['b', 2]])
   })
 
+  test('works with Object.fromEntries', () => {
+    expect(Object.fromEntries({ a: 1, b: 2 })).toEqual({ a: 1, b: 2 })
+  })
+
   test('yields nothing for an empty object', () => {
     expect([...{}]).toEqual([])
   })
@@ -55,8 +59,8 @@ describe('Symbol.iterator on Object.prototype', () => {
     expect([...{ b: 1, a: 2 }]).toEqual([['b',1], ['a',2]])
   })
 
-  test('excludes inherited values', () => {
-    expect([...{ a: 1 }._new({ b: 2 })]).toEqual([['b', 2]])
+  test('includes inherited values', () => {
+    expect([...{ a: 1 }._new({ b: 2 })]).toEqual([['b',2],['a', 1]])
   })
 
   test('excludes the objix methods themselves', () => {

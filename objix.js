@@ -185,16 +185,13 @@ const
       f.map((v, k) => D(v[P], C, o[k]))
     }
   },
-
   assign(...a) { return A(this, ...a) },
   keys() { return K(this) }
 }
 
-for (let m of ['create', 'values', 'entries']) M[m] = function (a) {
-  return O[m](this, a)
-}
+for (let m of ['create', 'values', 'entries']) M[m] = function (a) { return O[m](this, a) }
 
-O[P][I] = function () { return O.entries(this)[I]() }
+O[P][I] = function* () { for (let k in this) yield [k, this[k]] }
 
 for (let m in M) {
   D(O[P], '_'+m, { value: M[m] })
