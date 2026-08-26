@@ -105,6 +105,14 @@ describe('_clone', () => {
       expect(copy.length).toBe(0)
     })
 
+    test('a Set is cloned into an independent Set', () => {
+      const source = new Set([1])
+      const copy = source._clone()
+      source.add(2)
+      expect(copy.has(1)).toBe(true)
+      expect(copy.has(2)).toBe(false)
+    })
+
     test('a Date is cloned into an independent Date', () => {
       const source = new Date(0)
       const copy = source._clone()
