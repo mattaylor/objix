@@ -72,6 +72,13 @@ describe('Symbol.iterator on Object.prototype', () => {
     expect([...{ a: nested }][0]).toBe(['a', nested])
   })
 */
+  test('objects keep their native spread operator', () => {
+    const source = { a: 1 }
+    expect({ ...source }).toEqual({ a: 1 })
+    expect({ ...source }).not.toBe(source)
+    expect({ ...{ a: 1 } }).toEqual({ a: 1 })
+  })
+
   test('arrays keep their native iterator', () => {
     expect([...[1, 2]]).toEqual([1, 2])
   })
@@ -89,7 +96,7 @@ describe('Symbol.iterator on Object.prototype', () => {
   })
 
   test('works with Math.max applied to an object of numbers', () => {
-    expect(Math.max(...[...{ a: 1, b: 5, c: 3 }].map(([k,v]) =>  v))).toBe(5)
+    expect(Math.max(...[...{ a: 1, b: 5, c: 3 }].map(e =>  e[1]))).toBe(5)
   })
 
   test('the iterator is reusable across iterations', () => {
