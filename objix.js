@@ -192,7 +192,8 @@ for (let m of ['create', 'values', 'entries']) M[m] = function (a) {
   return O[m](this, a)
 }
 
-O[P][I] = function () { return V(this)[I]() }
+O[P][I] = function () { return O.entries(this)[I]() }
+//O[P][I] = function () { return V(this)[I]() }
 
 for (let m in M) {
   D(O[P], '_'+m, { value: M[m] })

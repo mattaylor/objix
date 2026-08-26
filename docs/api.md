@@ -117,20 +117,18 @@ outer._find({ x: 3 }) // 'c' - so does _find
 <a id="iter"></a>
 ## `this._[@@iterator]`
 
-Iterate through the values of `this`.
+Iterate through the entries of `this`.
 
 objix installs `Symbol.iterator` on `Object.prototype`, so every object is
 iterable and therefore spreadable — anywhere JavaScript accepts an iterable, it
-now accepts a plain object, yielding its **values**.
+now accepts a plain object, yielding its **entries** as [**key**, **value**]
 
 ```javascript
-for (var v of { a: 1 }) console.log(v) // 1
-;[...{ a: 1, b: 2 }] // [1, 2]
-Array.from({ a: 1, b: 2 }) // [1, 2]
+for (var v of { a: 1 }) console.log(v) // [a,1]
+;[...{ a: 1, b: 2 }] // [[a,1], [b,2]]
+Array.from({ a: 1, b: 2 }) // [[a,1], [b,2]]
 Math.max(...{ a: 1, b: 5, c: 3 }) // 5
 ```
-
-Use [`_keys`](#keys) or [`_entries`](#entries) when you want the keys as well.
 
 This is worth knowing about when objix shares a process with other tooling: a
 library that branches on whether a value is iterable will treat every object as a
