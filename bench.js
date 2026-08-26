@@ -169,8 +169,8 @@ function compare (funcs, name) {
   for (let r = 0; r < heats; r++) {
     for (const [key, fun] of _.shuffle(funcs._entries())) {
       if (!fun) continue
-      let ot = build(size)
-      let ob = ot._clone()
+      //let ot = build(size)
+      //let ob = ot._clone()
       for (let i = 0; i < warm; i++) fun()
       const start = performance.now()
       for (let i = 0; i < iters; i++) fun()
