@@ -97,7 +97,8 @@ const
   },
 
   contains(o, d) {
-    return !o._some((v, k) => !this[k]?._eq(v)) || d && this._some(v => v._contains(o, d - 1))
+    for (let k in o) if (!this[k]?._eq(o[k])) return d  && this._some(v => v._contains(o, d - 1))
+    return true
   },
 
   eq(o, d) {
