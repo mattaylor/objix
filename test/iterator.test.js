@@ -66,17 +66,12 @@ describe('Symbol.iterator on Object.prototype', () => {
   test('excludes the objix methods themselves', () => {
     expect([...{ a: 1 }].length).toBe(1)
   })
-/*
-  test('yields nested objects by reference', () => {
-    const nested = { c: 1 }
-    expect([...{ a: nested }][0]).toBe(['a', nested])
-  })
-*/
+
   test('objects keep their native spread operator', () => {
     const source = { a: 1 }
     expect({ ...source }).toEqual({ a: 1 })
     expect({ ...source }).not.toBe(source)
-    expect({ ...{ a: 1 } }).toEqual({ a: 1 })
+    expect({ ...{ a: 1 }}).toEqual({ a: 1 })
   })
 
   test('arrays keep their native iterator', () => {
