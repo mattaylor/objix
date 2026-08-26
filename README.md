@@ -4,16 +4,11 @@ Objix is a delightfully convienient, high performance, zero dependency and super
 
 The functions are all non enumerable and include copies of Object class methods and Array prototype methods applied to the values of the object as well others to delete keys, stringify, promisify, memoize, compare, split/join objects, check types, log messages and trapping/observing property assignments.
 
-This library is highly optimised with zero copy operations where possible. The source is under 4.8kb (3.4kb minified) which allows for fast loading and easy integration without additional compilation or tree shaking. Performance in pretty much all cases is significantly faster than `lodash` equivalents especially when working with small objects. For example `ob._map(fn)` is typically over 65% faster than `_.mapValues(ob, fn)` and some operations such as `pick` can be several thousand times quicker according to simple [benchmarks](docs/bench.md).
+This library is highly optimised with zero copy operations where possible. The source is under 4.7kb (3.4kb minified) which allows for fast loading and easy integration without additional compilation or tree shaking. Performance in pretty much all cases is significantly faster than `lodash` equivalents especially when working with small objects. For example `ob._map(fn)` is typically over 70% faster than `_.mapValues(ob, fn)` nder node and over 150% faster using bun. See [benchmarks](docs/bench.md) for sample comparisons.
 
 Interactive docs and demos are availble on https://objix.dev/#/docs/api, where
 every example is runnable and editable in the page.
 
-## Upgrading from 1.0
-
-Objix 2.0 now prefixes all prototype methods with '_'. This avoids name clashes with built in methods and reduces unwanted side effects and compatibility issues inherent in the 1.x releases. 
-
-The `_size()` method is now renamied to `_len()`.
 
 ## Getting Started - Node
 
@@ -54,7 +49,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`_entries`](docs/api.md#entries)       | Return `[key,value]` entry pairs of `this`                                                  |
 | [`_is`](docs/api.md#is)                 | Check type of `this`                                                                        |
 | [`_has`](docs/api.md#has)               | Check if `this` includes some value                                                         |
-| [`_[@@iterator]`](docs/api.md#iterator) | Iterate through values of `this`                                                            |
+| [`_[@@iterator]`](docs/api.md#iterator) | Iterate through entries of `this`                                                            |
 | [`_clean`](docs/api.md#clean)           | Return a copy of `this` without falsey entries                                              |
 | [`_pick`](docs/api.md#pick)         | Create a copy of `this` with only entries with specific keys or values that that match a filter function                    |
 | [`_find`](docs/api.md#find)             | Find keys of `this` which match a function or value                                                  |
@@ -81,7 +76,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`_trap`](docs/api.md#trap)            | Create a proxy around `this` to intercept property assignments                              |
 | [`_new`](docs/api.md#new)               | Create a new object from another using `this` as a prototype, including traps               |
 | [`_wait`](docs/api.md#wait)             | Create a Promise which resolves `this` after a timeout or as determined by another function |
-| [`_eval`](docs/api.md#eval)             | Evaluate an expression with the properties of `this` in scope                                |
+| [`_eval`](docs/api.md#eval)             | Safely evaluate an expression scoped to `this`                                |
 
 ## Fluent Method Chaining
 

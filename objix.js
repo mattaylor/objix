@@ -48,10 +48,11 @@ const
     return this._pick(v => v || !(v ?? true))
   },
 
-  is(t) {
-    return (t === O)
-      ? !(this instanceof N || this instanceof S || this instanceof Boolean || this instanceof F || this instanceof Symbol)
-      : this instanceof t
+  is(c) {
+    let t = this
+    return c == O
+      ? t[C] == O || !(t instanceof N || t instanceof S || t instanceof F || t instanceof Boolean || t instanceof Symbol)
+      : t instanceof c
   },
 
   extend(...a) {
