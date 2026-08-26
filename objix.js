@@ -169,14 +169,14 @@ const
   eval(s) {
     const
       g = { Math, RegExp, Date, JSON, Number }._map(O.freeze),
-      f = [F, (async function () { })[C], (function* () { })[C], (async function* () { })[C]],
+      f = [F, (async function () {})[C], (function* () {})[C], (async function* () {})[C]],
       o = f.map(_ => O.getOwnPropertyDescriptor(_[P], C)),
       p = new Proxy(O(this._clone(-1)), {
         has() { return true },
         get(t, k) { return t[k] ?? g[k] }
       })
     if (/\b(import|await|async)\b/.test(s)) throw EvalError()
-    f.map(v => D(v[P], C, { configurable: true, get() { } }))
+    f.map(v => D(v[P], C, { configurable: true, get() {} }))
     try {
       return F('p', `with (p) { return ${s} }`).call(p, p)
     } finally {
