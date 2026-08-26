@@ -312,10 +312,10 @@ var o = { a: [ 1, 2 ], b: [ 1, 3 ] }._split() // [{ a: 1, b: 1 }, { a: 2, b: 3 }
 <a id="contains"></a>
 ## `this._contains(object, depth)`
 
-Truthy if all entries of argument are also in `this`. May recurse to a given depth (-1 = any depth). Returns `undefined` rather than `false` when an entry is missing, so test the result for truthiness.
+Truthy if all entries of argument are also in `this`. May recurse to a given depth (-1 = any depth). 
 
 ```javascript
-var o = { a: 1 }._contains({ a: 1, b: 2 }) // undefined (falsy)
+var o = { a: 1 }._contains({ a: 1, b: 2 }) // false
 var o = { a: 1, b: 2 }._contains({ a: 1 }) // true
 var o = { a: 1, b: [{ c: 1 }] }._contains({ c: 1 }, 1) // false
 var o = { a: 1, b: [{ c: 1 }] }._contains({ c: 1 }, 2) // true
