@@ -49,13 +49,21 @@ const LEAVES = [
 
 const depthFor = size => Math.max(0, Math.round(Math.log2(size) / 2))
 
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1))
+    [a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 function build (size, depth = depthFor(size), state = { n: 0 }) {
   const r = {}
   const stride = Math.max(2, Math.ceil(size / 4)) // at most 4 nested keys per level
   for (let i = 0; i < size; i++) {
     r['k' + i] = depth > 0 && i % stride === 0
       ? build(Math.max(1, size >> 2), depth - 1, state)
-      : LEAVES[state.n % LEAVES.length](state.n++)
+      : shuffle(LEAVES[state.n % LEAVES.length])(state.n++)
   }
   return r
 }
