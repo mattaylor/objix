@@ -96,7 +96,7 @@ const
   },
 
   contains(o, d) {
-    for (let k in o) if (!this[k]?._eq(o[k])) return d && this._some(v => v._contains(o, d - 1))
+    for (let k in o) if (!O(this[k])._eq(o[k])) return d && this._some(v => v._contains(o, d - 1))
     return true
   },
 
@@ -183,6 +183,7 @@ const
       f.map((v, k) => D(v[P], C, o[k]))
     }
   },
+
   assign(...a) { return A(this, ...a) },
   keys() { return K(this) }
 }

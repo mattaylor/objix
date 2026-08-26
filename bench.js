@@ -72,7 +72,7 @@ function build (size, depth = depthFor(size), state = { n: 0 }) {
 // enumerable keys, so walking into it would count it as nothing.
 const nodes = ob => ob._values().reduce((t, v) => t + (v?.constructor === Object ? nodes(v) : 1), 0)
 
-const ot = build(size)
+let ot = build(size)
 let ob = ot._clone()
 
 // Probe values are derived from the object rather than hardcoded, so every row
@@ -169,8 +169,8 @@ function compare (funcs, name) {
   for (let r = 0; r < heats; r++) {
     for (const [key, fun] of _.shuffle(funcs._entries())) {
       if (!fun) continue
-      //ob = build(size)
-      ob = ot._clone()
+      let ot = build(size)
+      let ob = ot._clone()
       for (let i = 0; i < warm; i++) fun()
       const start = performance.now()
       for (let i = 0; i < iters; i++) fun()
