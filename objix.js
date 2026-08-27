@@ -8,7 +8,6 @@ const
   P = 'prototype',
   C = 'constructor',
   D = O.defineProperty,
-  H = O.hasOwn
   M = {
 
   some(f) {
@@ -24,7 +23,6 @@ const
   map(f, r = {}, d) {
     if (!d && this.map) return this.map(f)
     for (let k in this) r[k] = d && this[k]._is(O) ? this[k]._map(f, {}, d - 1) : f(this[k], k)
-    //for (let k in this) if (H(this, k)) r[k] = d && this[k]._is(O) ? this[k]._map(f, {}, d - 1) : f(this[k], k)
     return r
   },
 
