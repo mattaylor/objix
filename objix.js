@@ -23,7 +23,7 @@ const
 
   map(f, r = {}, d, t=this) {
     if (!d && t.map) return t.map(f)
-    for (let k in t) r[k] = d && t[k]._is(O) ? this[k]._map(f, {}, d - 1) : f(t[k], k)
+    for (let k in t) r[k] = d && t[k]._is(O) ? t[k]._map(f, {}, d - 1) : f(t[k], k)
     return r
   },
 

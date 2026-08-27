@@ -72,8 +72,8 @@ function build (size, depth = depthFor(size), state = { n: 0 }) {
 // enumerable keys, so walking into it would count it as nothing.
 const nodes = ob => ob._values().reduce((t, v) => t + (v?.constructor === Object ? nodes(v) : 1), 0)
 
-let ot = build(size)
-let ob = ot._clone()
+let ob = build(size)
+//let ob = { ...ot } //ot._clone()
 
 // Probe values are derived from the object rather than hardcoded, so every row
 // keeps its hit/miss behaviour as `size` changes. HIT is the last value, making
