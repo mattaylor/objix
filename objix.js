@@ -67,7 +67,8 @@ const
     return this
   },
 
-  clone(d, t=this) {
+  clone(d) {
+    let t = this
     return !t._is(O) ? t.valueOf()
       : !t._len() ? t.map ? [] : t[C] == O ? {} : new t[C](t)
       : d ? t._map(v => v?._clone(d - 1) ?? v)
