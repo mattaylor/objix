@@ -8,6 +8,7 @@ const
   P = 'prototype',
   C = 'constructor',
   D = O.defineProperty,
+  H = O.hasOwn
   M = {
 
   some(f) {
@@ -23,6 +24,7 @@ const
   map(f, r = {}, d) {
     if (!d && this.map) return this.map(f)
     for (let k in this) r[k] = d && this[k]._is(O) ? this[k]._map(f, {}, d - 1) : f(this[k], k)
+    //for (let k in this) if (H(this, k)) r[k] = d && this[k]._is(O) ? this[k]._map(f, {}, d - 1) : f(this[k], k)
     return r
   },
 
@@ -190,9 +192,9 @@ const
 
 for (let m of ['create', 'values', 'entries']) M[m] = function (a) { return O[m](this, a) }
 
-O[P][Symbol.iterator] = function* () { for (let k in this) yield [k, this[k]] }
+D(O[P], Symbol.iterator, { value: function* () { for (let k in this) yield [k, this[k]] }})
 
 for (let m in M) {
-  D(O[P], '_'+m, { value: M[m] })
-  try { module.exports[m] = (o, ...a) => o['_'+m](...a) } catch {}
+  D(O[P], '_' + m, { value: M[m] })
+  try { module.exports[m] = (o, ...a) => o['_' + m](...a) } catch { }
 }

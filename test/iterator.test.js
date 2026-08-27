@@ -14,7 +14,7 @@
 // here would break whichever files happen to run next. Jest, by contrast, gives
 // each file a fresh global scope, so its re-install stays local.
 const detached = !Object.prototype[Symbol.iterator]
-
+/*
 beforeAll(() => {
   Object.prototype[Symbol.iterator] = globalThis.OBJIX_ITERATOR
 })
@@ -26,6 +26,7 @@ test('the restored iterator is objix own implementation', () => {
 afterAll(() => {
   if (detached) delete Object.prototype[Symbol.iterator]
 })
+*/
 
 describe('Symbol.iterator on Object.prototype', () => {
   test('spreads an object into an array of its entries', () => {

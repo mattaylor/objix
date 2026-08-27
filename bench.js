@@ -64,7 +64,7 @@ function build (size, depth = depthFor(size), state = { n: 0 }) {
     r['k' + i] = depth > 0 && i % stride === 0
       ? build(Math.max(1, size >> 2), depth - 1, state)
       : shuffle(LEAVES[state.n % LEAVES.length])(state.n++)
-  }
+    }
   return r
 }
 
