@@ -59,7 +59,7 @@ const
   },
 
   find(f, t=this) {
-    for (let k in t) if (f.call ? f(t[k], k) : t[k]._eq(t)) return k
+    for (let k in t) if (f.call ? f(t[k], k) : t[k]._eq(f)) return k
   },
 
   del(...a) {
