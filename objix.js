@@ -11,9 +11,9 @@ const
   D = O.defineProperty,
   M = {
 
-  some(f) {
-    if (this.some) return this.some(f)
-    for (let k in this) if (f(this[k], k)) return true
+  some(f, t=this) {
+    if (t.some) return t.some(f)
+    for (let k in t) if (f(t[k], k)) return true
     return false
   },
 
@@ -21,9 +21,9 @@ const
     return !this._some((v, k) => !f(v, k))
   },
 
-  map(f, r = {}, d) {
-    if (!d && this.map) return this.map(f)
-    for (let k in this) r[k] = d && this[k]._is(O) ? this[k]._map(f, {}, d - 1) : f(this[k], k)
+  map(f, r = {}, d, t=this) {
+    if (!d && t.map) return t.map(f)
+    for (let k in t) r[k] = d && t[k]._is(O) ? this[k]._map(f, {}, d - 1) : f(t[k], k)
     return r
   },
 
@@ -31,15 +31,15 @@ const
     return V(this).includes(v)
   },
 
-  pick(f, r = {}, k) {
-    if (f.map) for (k of f) r[k] = this[k]
-    else for (k in this) if (f(this[k], k)) r[k] = this[k]
+  pick(f, r = {}, t=this, k) {
+    if (f.map) for (k of f) r[k] = t[k]
+    else for (k in t) if (f(t[k], k)) r[k] = t[k]
     return r
   },
 
-  flatMap(f, r = {}, i, k, v) {
-    if (this.flatMap) return this.flatMap(f)
-    for (i of K(this)) for ([k, v] of f(i, this[i])) r[k] = v
+  flatMap(f, r = {}, t=this, i, k, v) {
+    if (t.flatMap) return t.flatMap(f)
+    for (i of K(t)) for ([k, v] of f(i, this[i])) r[k] = v
     return r
   },
 
@@ -47,8 +47,7 @@ const
     return this._pick(v => v || !(v ?? true))
   },
 
-  is(c) {
-    let t = this
+  is(c, t=this) {
     return c == O
       ? t[C] == O || !(t instanceof N || t instanceof S || t instanceof F || t instanceof Boolean || t instanceof Symbol)
       : t instanceof c
@@ -59,8 +58,8 @@ const
     return this
   },
 
-  find(t) {
-    for (let k in this) if (t.call ? t(this[k], k) : this[k]._eq(t)) return k
+  find(f, t=this) {
+    for (let k in t) if (f.call ? f(t[k], k) : t[k]._eq(t)) return k
   },
 
   del(...a) {
@@ -68,8 +67,7 @@ const
     return this
   },
 
-  clone(d, e) {
-    let t = this
+  clone(d, t=this) {
     return !t._is(O) ? t.valueOf()
       : !t._len() ? t.map ? [] : t[C] == O ? {} : new t[C](t)
       : d ? t._map(v => v?._clone(d - 1) ?? v)
@@ -83,8 +81,8 @@ const
     return r
   },
 
-  split(r = []) {
-    for (let k in this) this[k]._map((v, i) => r[i] ? r[i][k] = v : r[i] = { [k]: v })
+  split(r = [], t=this) {
+    for (let k in t) t[k]._map((v, i) => r[i] ? r[i][k] = v : r[i] = { [k]: v })
     return r
   },
 
@@ -96,24 +94,24 @@ const
     return this._pick((v, k) => !v._eq(o[k]))
   },
 
-  contains(o, d) {
-    for (let k in o) if (!this[k]?._eq(o[k])) return !!d && this._some(v => v._contains(o, d - 1))
+  contains(o, d, t=this) {
+    for (let k in o) if (!t[k]?._eq(o[k])) return !!d && t._some(v => v._contains(o, d - 1))
     return true
   },
 
-  eq(o, d) {
-    return this == o || this._len() == o?._len()
-      && !(this - o)
-      && this._is(o[C])
-      && !this._some((v, k) => !(v == o[k] || d && v?._eq(o[k], d - 1)))
+  eq(o, d, t=this) {
+    return t == o || t._len() == o?._len()
+      && !(t - o)
+      && t._is(o[C])
+      && !t._some((v, k) => !(v == o[k] || d && v?._eq(o[k], d - 1)))
   },
 
   len() {
     return K(this).length
   },
 
-  keyBy(f, r = {}, k, v) {
-    for (v of this.map ? this : V(this)) r[k = f.call ? f(v) : v[f]] = r[k]?.concat(v) || [v]
+  keyBy(f, r={}, t=this, k, v) {
+    for (v of t.map ? t : V(t)) r[k = f.call ? f(v) : v[f]] = r[k]?.concat(v) || [v]
     return r
   },
 
@@ -121,10 +119,10 @@ const
     return this[p] ?? S(p).split('.').reduce((v, c) => v?.[c], this)
   },
 
-  $(s) {
+  $(s, t=this) {
     return s
-      ? s._is(S) ? s.replace(/\${?([\w\.]+)}?/g, (m, p) => this._at(p)?._$() ?? '') : (s.stringify || s)(this)
-      : this._len() ? this._$(JSON).replace(/"(\w+)":/g, '$1:') : S(this)
+      ? s._is(S) ? s.replace(/\${?([\w\.]+)}?/g, (m, p) => t._at(p)?._$() ?? '') : (s.stringify || s)(t)
+      : t._len() ? t._$(JSON).replace(/"(\w+)":/g, '$1:') : S(t)
   },
 
   memo(e, f = this) {
@@ -137,9 +135,9 @@ const
     return D(this, k, { value: function (...a) { return f(...a, this) }._memo(e) })
   },
 
-  log(m = '', f, c = 'log') {
-    (!f || f(this)) && console[c](Date().slice(4, 24), '-', m, this._$())
-    return this
+  log(m = '', f, c = 'log',t=this) {
+    (!f || f(t)) && console[c](Date().slice(4, 24), '-', m, t._$())
+    return t
   },
 
   try(t, c, f, r) {
