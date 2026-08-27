@@ -209,7 +209,7 @@ Return new object with entries of `this` that are not present in the supplied ob
 var o = { a: 1, b: 2 }._diff({ a: 2, b: 2 }) // { a: 1 }
 ```
 
-<a id="delete"></a>
+<a id="del"></a>
 ## `this._del(...keys)`
 
 Return `this` with entries deleted where the key is included in arguemnts.

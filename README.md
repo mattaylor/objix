@@ -57,7 +57,7 @@ The following methods are availble to all Objects via protoype inheritence, unle
 | [`_extend`](docs/api.md#extend)         | Assign default properties to `this`                                                         |
 | [`_same`](docs/api.md#same)             | Return new object like `this` with properties shared with another                           |
 | [`_diff`](docs/api.md#diff)             | Return new object like `this` with properties not shared with another                       |
-| [`_delete`](docs/api.md#delete)         | Remove keys from `this`                                                                     |
+| [`_del`](docs/api.md#del)         | Remove keys from `this` and return `this`                                                                    |
 | [`_some`](docs/api.md#some)             | Test a function against at least one entry of `this`                                        |
 | [`_every`](docs/api.md#every)           | Test a function against all entries of `this`                                               |
 | [`_at`](docs/api.md#at)                 | Lookup value by key path                                                                    |
