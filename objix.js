@@ -31,8 +31,8 @@ const
     return V(this).includes(v)
   },
 
-  pick(f, r = {}, t=this, k) {
-    if (f.map) for (k of f) r[k] = t[k]
+  pick(f, r = {}, t = this, k) {
+    if (f.map) { for (k of f) if (t[k] ?? 0) r[k] = t[k] }
     else for (k in t) if (f(t[k], k)) r[k] = t[k]
     return r
   },
@@ -44,7 +44,7 @@ const
   },
 
   clean() {
-    return this._pick(v => v || !(v ?? true))
+    return this._pick(v => v || !(v ?? 1))
   },
 
   is(c, t=this) {

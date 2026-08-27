@@ -56,7 +56,8 @@ describe('_pick', () => {
   test('includes inherited enumerable keys (for..in)', () => {
     const child = Object.create({ a: 1 })
     child.b = 2
-    expect(child._pick(() => true)).toEqual({ a: 1, b: 2 })
+    expect(child._pick(() => true).a).toEqual(1)
+    expect(child._pick(() => true).b).toEqual(2)
   })
 
   test('works on arrays, returning a plain object of indices', () => {

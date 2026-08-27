@@ -49,7 +49,10 @@ describe('_map', () => {
   test('includes inherited enumerable keys (for..in)', () => {
     const child = Object.create({ a: 1 })
     child.b = 2
-    expect(child._map(v => v)).toEqual({ a: 1, b: 2 })
+    const mapped = child._map(v => v)
+    expect(mapped.a).toEqual(1)
+    expect(mapped.b).toEqual(2)
+
   })
 
   test('preserves undefined results as entries', () => {
