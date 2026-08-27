@@ -4,6 +4,7 @@ const
   F = Function,
   N = Number,
   K = O.keys,
+  V = O.values,
   A = O.assign,
   P = 'prototype',
   C = 'constructor',
@@ -27,7 +28,7 @@ const
   },
 
   has(v) {
-    return O.values(this).includes(v)
+    return V(this).includes(v)
   },
 
   pick(f, r = {}, k) {
@@ -111,8 +112,8 @@ const
     return K(this).length
   },
 
-  keyBy(k, r = {}, _) {
-    for (let e of this) r[_ = k.call ? k(e) : e[k]] = r[_]?.concat(e) || [e]
+  keyBy(f, r = {}, k, v) {
+    for (v of this.map ? this : V(this)) r[k = f.call ? f(v) : v[f]] = r[k]?.concat(v) || [v]
     return r
   },
 
@@ -190,7 +191,7 @@ const
 
 for (let m of ['create', 'values', 'entries']) M[m] = function (a) { return O[m](this, a) }
 
-D(O[P], Symbol.iterator, { value: function* () { for (let k in this) yield [k, this[k]] }})
+D(O[P], Symbol.iterator, { writable: true, value: function* () { for (let k in this) yield [k, this[k]] }})
 
 for (let m in M) {
   D(O[P], '_' + m, { value: M[m] })

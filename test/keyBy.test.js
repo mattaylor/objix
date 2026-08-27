@@ -44,10 +44,12 @@ describe('_keyBy', () => {
     expect([{ id: 1 }]._keyBy('id')).toEqual({ 1: [{ id: 1 }]})
   })
 
-  /*
-  test('requires a mappable receiver such as an array', () => {
-    // _keyBy calls this.map, which plain objects do not have.
-    expect(() => ({ x: { a: 'o1' } })._keyBy('a')).toThrow(TypeError)
+  test('works on object values', () => {
+    const a = [{ k: 'one', v: 1 }, { k: 'two', v: 2 }]
+    const o = { a: { k: 'one', v: 1 }, b: { k: 'two', v: 2 } }
+    const r = { one: [ { k: 'one', v: 1 } ], two: [ { k: 'two', v: 2 } ] }
+    expect(a._keyBy('k')).toEqual(r)
+    expect(o._keyBy('k')).toEqual(r)
   })
-  */
+
 })
