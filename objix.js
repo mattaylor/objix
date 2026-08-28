@@ -32,7 +32,7 @@ const
   },
 
   pick(f, r = {}, t = this, k) {
-    if (f.map) { for (k of f) if (t[k] ?? 0) r[k] = t[k] }
+    if (f.map) { for (k of f) if (t[k] != void 0) r[k] = t[k] }
     else for (k in t) if (f(t[k], k)) r[k] = t[k]
     return r
   },

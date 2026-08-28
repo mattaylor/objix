@@ -42,7 +42,7 @@ const LEAVES = [
   i => i,
   i => 's' + i,
   i => i % 4 === 0,
-  i => null,
+  i => [],
   i => new Date(i * 86400000),
   i => [i, i + 1, i + 2]
 ]
@@ -72,8 +72,8 @@ function build (size, depth = depthFor(size), state = { n: 0 }) {
 // enumerable keys, so walking into it would count it as nothing.
 const nodes = ob => ob._values().reduce((t, v) => t + (v?.constructor === Object ? nodes(v) : 1), 0)
 
-let ob = build(size)
-//let ob = { ...ot } //ot._clone()
+let ot = build(size)
+let ob = ot
 
 // Probe values are derived from the object rather than hardcoded, so every row
 // keeps its hit/miss behaviour as `size` changes. HIT is the last value, making
@@ -169,8 +169,7 @@ function compare (funcs, name) {
   for (let r = 0; r < heats; r++) {
     for (const [key, fun] of _.shuffle(funcs._entries())) {
       if (!fun) continue
-      //let ot = build(size)
-      //let ob = ot._clone()
+      ob = { ...ot }
       for (let i = 0; i < warm; i++) fun()
       const start = performance.now()
       for (let i = 0; i < iters; i++) fun()
